@@ -43,7 +43,7 @@
 						<b class="arrow"></b>
 					</li>
 
-					<!--<li class="">
+					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -275,7 +275,7 @@
 					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-pencil-square-o"></i>
-							<span class="menu-text"> Forms </span>
+							<span class="menu-text"> Colegios </span>
 
 							<b class="arrow fa fa-angle-down"></b>
 						</a>
@@ -286,7 +286,7 @@
 							<li class="">
 								<a href="form-elements.html">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Form Elements
+									Ver colegios
 								</a>
 
 								<b class="arrow"></b>
@@ -295,7 +295,7 @@
 							<li class="">
 								<a href="form-elements-2.html">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Form Elements 2
+									Agregar Colegios
 								</a>
 
 								<b class="arrow"></b>
@@ -337,7 +337,7 @@
 						</a>
 
 						<b class="arrow"></b>
-					</li>-->
+					</li>
 
 					<li class="">
 						<a href="calendar.php">
@@ -355,7 +355,7 @@
 						<b class="arrow"></b>
 					</li>
 
-					<!--<li class="">
+					<li class="">
 						<a href="gallery.html">
 							<i class="menu-icon fa fa-picture-o"></i>
 							<span class="menu-text"> Gallery </span>
@@ -510,7 +510,7 @@
 								<b class="arrow"></b>
 							</li>
 						</ul>
-					</li>-->
+					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

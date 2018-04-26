@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Form Elements - Ace Admin</title>
+		<title>Agregar Colegios</title>
 
 		<meta name="description" content="Common form elements and layouts" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -990,10 +990,10 @@
 
 						<div class="page-header">
 							<h1>
-								Form Elements
+								Colegios
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Common form elements and layouts
+									Agregar Colegios
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -1001,15 +1001,466 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" role="form">
+								<form role="form">
 									<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Text Field </label>
+										<label class="control-label no-padding-right" for="colegio"> Nombre: </label>
 
-										<div class="col-sm-9">
-											<input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5" />
-										</div>
+										
+											<input type="text" name="colegio" id="colegio" placeholder="Nombre del colegio" class="form-control" />
+										
 									</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="codigo"> Código interno: </label>
 
+										
+											<input type="text" name="codigo" id="codigo" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="direccion"> Dirección: </label>
+
+										
+											<input type="text" name="direccion" id="direccion" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="barrio"> Barrio: </label>
+
+										
+											<input type="text" name="barrio" id="barrio" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="representate"> Representante: </label>
+
+										
+											<input type="text" name="representate" id="representate" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="telefono"> Teléfono: </label>
+
+										
+											<input type="tel" name="telefono" id="telefono" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="web"> Página Web: </label>
+
+										
+											<input type="text" name="web" id="web" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumple_colegio"> Cumpleaños del colegio: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumple_colegio" id="cumple_colegio" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+						<hr>
+
+						<b>Propietario</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre"> Nombre: </label>
+
+										
+											<input type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular"> Celular: </label>
+
+										
+											<input type="tel" name="celular" id="celular" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre"> Email: </label>
+
+										
+											<input type="email" name="email" id="email" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños" id="cumpleaños" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+						<b>Rector</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre1"> Nombre: </label>
+
+										
+											<input type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular1"> Celular: </label>
+
+										
+											<input type="tel" name="celular1" id="celular1" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email1"> Email: </label>
+
+										
+											<input type="email" name="email1" id="email1" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños1"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños1" id="cumpleaños1" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+						<b>Coordinador académico</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre2"> Nombre: </label>
+
+										
+											<input type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular2"> Celular: </label>
+
+										
+											<input type="tel" name="celular2" id="celular2" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email2"> Email: </label>
+
+										
+											<input type="email" name="email2" id="email2" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños2"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños2" id="cumpleaños2" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+						<b>Jefe área español</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre3"> Nombre: </label>
+
+										
+											<input type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular3"> Celular: </label>
+
+										
+											<input type="tel" name="celular3" id="celular3" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email3"> Email: </label>
+
+										
+											<input type="email" name="email3" id="email3" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños3"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños3" id="cumpleaños3" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+						<b>Jefe área matemáticas</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre4"> Nombre: </label>
+
+										
+											<input type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular4"> Celular: </label>
+
+										
+											<input type="tel" name="celular4" id="celular4" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email4"> Email: </label>
+
+										
+											<input type="email" name="email4" id="email4" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños4"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños4" id="cumpleaños4" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+						<b>Jefe área sociales</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre5"> Nombre: </label>
+
+										
+											<input type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular5"> Celular: </label>
+
+										
+											<input type="tel" name="celular5" id="celular5" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email5"> Email: </label>
+
+										
+											<input type="email" name="email5" id="email5" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños5"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños5" id="cumpleaños5" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+						<b>Jefe área inglés</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre6"> Nombre: </label>
+
+										
+											<input type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular6"> Celular: </label>
+
+										
+											<input type="tel" name="celular6" id="celular6" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email6"> Email: </label>
+
+										
+											<input type="email" name="email6" id="email6" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños6"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños6" id="cumpleaños6" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+							</div>
+						</div>
+
+
+
+
+
+						
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> Full Length </label>
 
@@ -2647,14 +3098,26 @@
 			
 				//datepicker plugin
 				//link
+				$.fn.datepicker.dates['es'] = {
+			        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			        daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+			        daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+			        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+    			};
+
 				$('.date-picker').datepicker({
 					autoclose: true,
-					todayHighlight: true
+					todayHighlight: true,
+					language: 'es'
 				})
+
 				//show datepicker when clicking on the icon
 				.next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
+
+
 			
 				//or change it into a date range picker
 				$('.input-daterange').datepicker({autoclose:true});
