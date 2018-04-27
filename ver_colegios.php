@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>jqGrid - Ace Admin</title>
+		<title>Ver colegios</title>
 
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -1040,11 +1040,52 @@
                                                $barrio = $colegio['barrio'];
                                                $telefono = $colegio['telefono'];
                                                 echo'<tr class="odd gradeX">';
-                                                echo'<td class="center"><a href="con_pendiente.php?codigo='.$id.'">'.$codigo.'</a></td>';
+                                                echo'<td class="center">'.$codigo.'</td>';
                                                 echo'<td class="center">'.$nombre.'</td>';
                                                 echo'<td class="center">'.$direccion.'</td>';
                                                 echo'<td class="center">'.$barrio.'</td>';
                                                 echo'<td class="center">'.$telefono.'</td>';
+                                                echo '<td>
+														<div class="hidden-sm hidden-xs btn-group">
+															
+
+															<a class="btn btn-xs btn-info" href="colegio.php?codigo='.$codigo.'">
+																<i class="ace-icon fa fa-pencil bigger-120"></i>
+															</a>
+
+															<button class="btn btn-xs btn-danger">
+																<i class="ace-icon fa fa-trash-o bigger-120"></i>
+															</button>
+
+														</div>
+
+														<div class="hidden-md hidden-lg">
+															<div class="inline pos-rel">
+																<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+																	<i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+																</button>
+
+																<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+																	<li>
+																		<a href="colegio.php?codigo='.$codigo.'" class="tooltip-success" data-rel="tooltip" title="Edit">
+																			<span class="green">
+																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																			</span>
+																		</a>
+																	</li>
+
+																	<li>
+																		<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																			<span class="red">
+																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																			</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</td>';
                                             }
                                          ?>
                                         

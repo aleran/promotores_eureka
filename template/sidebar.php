@@ -286,16 +286,17 @@
 							<li class="">
 								<a href="form-elements.html">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Ver colegios
+									Agregar Colegios
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 
 							<li class="">
-								<a href="form-elements-2.html">
+								<a href="ver_colegios.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Agregar Colegios
+									Ver colegios
+									
 								</a>
 
 								<b class="arrow"></b>
