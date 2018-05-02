@@ -1050,6 +1050,50 @@ $events = $req->fetchAll();
 					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor">
 					</div>
 				  </div>
+					
+					<div class="form-group">
+						<label for="materia" class="col-sm-2 control-label">Materia</label>
+						<div class="col-sm-10">
+					 		<select name="materia" id="materia" class="form-control">
+					 			<option value="">Seleccionar</option>
+								 	<?php 
+								 		$sql = "SELECT id, materia FROM materias";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+										$materias = $req->fetchAll();
+
+										foreach($materias as $materia) {
+										    $id = $materia['id'];
+										    $nom = $materia['materia'];
+										    echo '<option value="'.$id.'">'.$nom.'</option>';
+										}
+								 	?>
+					 		</select>
+						</div>
+				  </div>
+
+				  <div class="form-group">
+						<label for="grado" class="col-sm-2 control-label">Grado</label>
+						<div class="col-sm-10">
+					 		<select name="grado" id="grado" class="form-control">
+					 			<option value="">Seleccionar</option>
+								 	<?php 
+								 		$sql = "SELECT id, grado FROM grados";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+										$grados = $req->fetchAll();
+
+										foreach($grados as $grado) {
+										    $id = $grado['id'];
+										    $nom = $grado['grado'];
+										    echo '<option value="'.$id.'">'.$nom.'</option>';
+										}
+								 	?>
+					 		</select>
+						</div>
+				  </div>
 
 				  <div class="form-group">
 					<label for="objetivo" class="col-sm-2 control-label">Objetivo</label>
@@ -1317,6 +1361,7 @@ $events = $req->fetchAll();
 					start: '<?php echo $start; ?>',
 					end: '<?php echo $end; ?>',
 					color: '<?php echo $event['color']; ?>',
+					url: 'evento.php?evento=<?php echo $event['id']; ?>'
 				},
 			<?php endforeach; ?>
 			]

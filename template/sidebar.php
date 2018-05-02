@@ -43,7 +43,7 @@
 						<b class="arrow"></b>
 					</li>
 
-					<li class="">
+					<!--<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -270,7 +270,7 @@
 								<b class="arrow"></b>
 							</li>
 						</ul>
-					</li>
+					</li>-->
 
 					<li class="">
 						<a href="#" class="dropdown-toggle">
@@ -284,7 +284,7 @@
 
 						<ul class="submenu">
 							<li class="">
-								<a href="form-elements.html">
+								<a href="agregar_colegio.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Agregar Colegios
 								</a>
@@ -302,7 +302,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="">
+							<!--<li class="">
 								<a href="form-wizard.html">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Wizard &amp; Validation
@@ -327,18 +327,18 @@
 								</a>
 
 								<b class="arrow"></b>
-							</li>
+							</li>-->
 						</ul>
 					</li>
 
-					<li class="">
+					<!--<li class="">
 						<a href="widgets.html">
 							<i class="menu-icon fa fa-list-alt"></i>
 							<span class="menu-text"> Widgets </span>
 						</a>
 
 						<b class="arrow"></b>
-					</li>
+					</li>-->
 
 					<li class="">
 						<a href="calendar.php">
@@ -356,7 +356,7 @@
 						<b class="arrow"></b>
 					</li>
 
-					<li class="">
+					<!--<li class="">
 						<a href="gallery.html">
 							<i class="menu-icon fa fa-picture-o"></i>
 							<span class="menu-text"> Gallery </span>
@@ -511,7 +511,7 @@
 								<b class="arrow"></b>
 							</li>
 						</ul>
-					</li>
+					</li>-->
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
