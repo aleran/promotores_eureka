@@ -1048,7 +1048,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .fc-time-grid-event .fc-time {
-	font-size: .85em;
+	font-size: .90em;
 	white-space: nowrap;
 }
 
@@ -1079,7 +1079,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .fc-time-grid-event.fc-short .fc-title {
-	font-size: .85em; /* make the title text the same size as the time */
+	font-size: .92em; /* make the title text the same size as the time */
 	padding: 0; /* undo padding from above */
 }
 

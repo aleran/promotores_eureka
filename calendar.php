@@ -910,7 +910,7 @@ $events = $req->fetchAll();
 								<i class="ace-icon fa fa-home home-icon"></i>
 								<a href="#">Home</a>
 							</li>
-							<li class="active">Calendar</li>
+							<li class="active">Plan de trabajo</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -1295,6 +1295,7 @@ $events = $req->fetchAll();
     		allDaySlot: false,
 
     		nowIndicator: true,
+    		slotDuration: '01:00:00',
 			header: {
 				 language: 'es',
 				left: 'prev,next today',
