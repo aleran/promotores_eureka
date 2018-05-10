@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Visitas</title>
+		<title>Crear Zonas</title>
 
 		<meta name="description" content="Common form elements and layouts" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -70,9 +70,9 @@
 							</li>
 
 							<li>
-								<a href="#">Plan de trabajo</a>
+								<a href="#">Zonas</a>
 							</li>
-							<li class="active">Visitas</li>
+							<li class="active">Crear Zonas</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -152,177 +152,59 @@
 								</div><!-- /.pull-left -->
 							</div><!-- /.ace-settings-box -->
 						</div><!-- /.ace-settings-container -->
-						<?php
-							include("conexion/bdd.php");	
-							$sql = "SELECT * FROM plan_trabajo WHERE id='".$_GET["evento"]."'";
 
-								$req = $bdd->prepare($sql);
-								$req->execute();
-								$visita = $req->fetch();
-
-								list($fecha, $hora)=explode(" ", $visita['start']);
-
-								list($a,$m,$d)=explode("-", $fecha);
-								$fecha= $d."/".$m."/".$a;
-								
-
-							$sql_colegio = "SELECT colegio FROM colegios WHERE id='".$visita["id_colegio"]."'";
-
-								$req_colegio = $bdd->prepare($sql_colegio);
-								$req_colegio->execute();
-								$colegio = $req_colegio->fetch();
-
-
-							$sql_objetivo = "SELECT objetivo FROM objetivos WHERE id='".$visita["id_objetivo"]."'";
-
-								$req_objetivo = $bdd->prepare($sql_objetivo);
-								$req_objetivo->execute();
-								$objetivo = $req_objetivo->fetch();
-
-							$sql_profesor = "SELECT nombre FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
-
-								$req_profesor = $bdd->prepare($sql_profesor);
-								$req_profesor->execute();
-								$profesor = $req_profesor->fetch();
-
-							$sql_grado = "SELECT grado FROM grados a JOIN grados_materias b ON a.id=b.id_grado WHERE cod_profesor='".$visita["cod_profesor"]."'";
-
-								$req_grado = $bdd->prepare($sql_grado);
-								$req_grado->execute();
-								$grado = $req_grado->fetch();
-
-							$sql_materia = "SELECT materia FROM materias a JOIN grados_materias b ON a.id=b.id_materia WHERE cod_profesor='".$visita["cod_profesor"]."'";
-
-								$req_materia = $bdd->prepare($sql_materia);
-								$req_materia->execute();
-								$materia = $req_materia->fetch();
-
-								echo $materia["materia"];
-								
-						?>
 						<div class="page-header">
 							<h1>
-								Visita
+								Zonas
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									<?php echo $colegio["colegio"]; ?>
+									Crear zonas
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
 
+						<div class="row">
+							<div class="col-sm-6">
+								<!-- PAGE CONTENT BEGINS -->
+								<form name="" role="form" action="php/crear_zona.php" method="POST">
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="zona">Zona: </label>
+
+										
+											<input required type="text" name="zona" id="zona" placeholder="Nombre de la zona" class="form-control" />
+										
+									</div>
+							</div>
+
+							<div class="col-sm-6">
+								<label for="">Colegios:</label><br>
+								<?php
+									require_once('conexion/bdd.php'); 
+									$sql = "SELECT id,colegio FROM colegios WHERE cod_zona='' ";
+									$req = $bdd->prepare($sql);
+									$req->execute();
+
+
+									$colegios = $req->fetchAll();
+
+									foreach($colegios as $colegio) {
+									    $id = $colegio['id'];
+									    $nom = $colegio['colegio'];
+									    echo '<label class="checkbox-inline">
+												 <input type="checkbox" name="colegios[]" id="" value="'.$id.'"> '.$nom.' |
+												</label>';
+									}
+								?>
+
+
+
+							</div>
+						</div>
 						
-						<div class="row">
-							<h4>Datos de la Visita:</h4>
-
-							<table class="table table-bordered table-hover">
-                        		
-                        		<tr>
-                        			<td>Colegio: <?php echo $colegio['colegio']; ?></td>
-                        		</tr>
-                        		<tr>
-                        			<td>Fecha: <?php echo $fecha; ?></td>
-                        			<td>Hora: <?php echo $hora; ?></td>
-                        		</tr>
-                        			
-                        	</table>
-
-						</div>
-
-						<div class="row">
-							<h4>Datos del Profesor:</h4>
-
-							<table class="table table-bordered table-hover">
-                        		
-                        		<tr>
-                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
-                        		</tr>
-                        		<tr>
-                        			<td>Grado: <?php echo $grado['grado']; ?></td>
-                        			<td>Materia: <?php echo $materia['materia']; ?></td>
-                        		</tr>
-                        			
-                        	</table>
-
-						</div>
-
-						<div class="row">
-							<h4>Objetivo de la Visita: <?php echo $objetivo["objetivo"] ?></h4>
-
-
-							
-
-						</div>
-						<?php if ($visita["resultado"] ==0 && $visita['start'] >= date("Y-m-d 00:00:00")) {
-						?>
-						<center><a href="ajax/deleteEvent.php?evento=<?php echo $visita["id"] ?>" class="btn btn-danger">Eliminar</a> <button class='btn btn-success' data-toggle="modal" data-target="#ModalEjecutar">Ejecutar</button></center>
-						<?php }else if($visita["resultado"]==1){ ?>
-							<center><p class="text-success bg-success" style="font-size: 20px;">Efectiva</p></center>
-						<?php } ?>
-						<div class="modal fade" id="ModalEjecutar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-			<div class="modal-content">
-			<form class="form-horizontal" method="POST" action="php/ejecutar_visita.php">
-			
-			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Ejecutar Visita</h4>
-			  </div>
-			  <div class="modal-body">
-				<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
-					?>
-				  <div class="form-group">
-					<label for="colegio" class="col-sm-2 control-label">Materia</label>
-					<div class="col-sm-10">
-					 <select name="colegio" id="colegio" class="form-control">
-					 	<option value="">Seleccionar</option>
-					 	<?php 
-					 		$sql = "SELECT id, materia FROM materias";
-
-							$req = $bdd->prepare($sql);
-							$req->execute();
-							$colegios = $req->fetchAll();
-
-							foreach($colegios as $colegio) {
-							    $id = $colegio['id'];
-							    $nom = $colegio['materia'];
-							    echo '<option value="'.$id.'">'.$nom.'</option>';
-							}
-					 	?>
-					 </select>
-					</div>
-				  </div>
-				  <div class="form-group">
-					<label for="libro" class="col-sm-2 control-label">Libro</label>
-					<div class="col-sm-10">
-					  <input type="text" name="libro" class="form-control" id="libro" placeholder="Nombre del profesor">
-					</div>
-				  </div>
-				  <?php } ?>
-
-				<div class="form-group">
-					<label for="comentarios" class="col-sm-2 control-label">Comentarios</label>
-					<div class="col-sm-10">
-					<textarea class="form-control" rows="3" name="comentarios" id="comentarios"></textarea>
-					</div>
-				  </div>
-				  Latitud: <INPUT TYPE='text' readonly='readonly' ID='latitud' NAME='latitud'>
-			Longitud: <INPUT TYPE='text' readonly='readonly' ID='longitud' NAME='longitud'>
-
-			<input type="hidden" name="id_visita" value="<?php echo $_GET["evento"] ?>">
-
-						  
-				  
-				
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			  </div>
-			</form>
-			</div>
-		  </div>
-		</div>
-						
+							<br><br>
+						<center><button class="btn btn-primary">Crear Zona</button></center>
+						</form>
+						<hr>
 
 						
 
@@ -855,20 +737,6 @@
 			
 			});
 		</script>
-		<?php if ($visita["resultado"] ==0) { ?>
-		<script type="text/javascript">
-		function success(position) {
-			var lat = document.getElementById("latitud");
-			var lon = document.getElementById("longitud");
-			lat.value  = position.coords.latitude;
-			lon.value = position.coords.longitude;
-		};
-		function error() {
-			alert ("verifique la configuración de Ubicación y vuelva a intentarlo ...");
-		};
-	navigator.geolocation.getCurrentPosition(success, error);
-	<?php } ?>
-	</script>
 		
 	</body>
 </html>

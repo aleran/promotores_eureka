@@ -55,6 +55,27 @@ $events = $req->fetchAll();
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+		.suggest-element{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
+		</style>
 	</head>
 
 	<body class="no-skin">
@@ -1047,14 +1068,15 @@ $events = $req->fetchAll();
 				  <div class="form-group">
 					<label for="profesor" class="col-sm-2 control-label">Profesor</label>
 					<div class="col-sm-10">
-					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor">
+					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="busc_ms();bus_h()">
+					  <input type="hidden" name="profe" id="profe"><div id="suggestions"></div>
 					</div>
 				  </div>
 					
 					<div class="form-group">
-						<label for="materia" class="col-sm-2 control-label">Materia</label>
+						<label for="materia" class="col-sm-2 control-label materia">Materia</label>
 						<div class="col-sm-10">
-					 		<select name="materia" id="materia" class="form-control">
+					 		<select name="materia" id="materia" class="form-control materia">
 					 			<option value="">Seleccionar</option>
 								 	<?php 
 								 		$sql = "SELECT id, materia FROM materias";
@@ -1074,9 +1096,9 @@ $events = $req->fetchAll();
 				  </div>
 
 				  <div class="form-group">
-						<label for="grado" class="col-sm-2 control-label">Grado</label>
+						<label for="grado" class="col-sm-2 control-label grado">Grado</label>
 						<div class="col-sm-10">
-					 		<select name="grado" id="grado" class="form-control">
+					 		<select name="grado" id="grado" class="form-control grado">
 					 			<option value="">Seleccionar</option>
 								 	<?php 
 								 		$sql = "SELECT id, grado FROM grados";
@@ -1399,6 +1421,57 @@ $events = $req->fetchAll();
 		
 	});
 
+</script>
+<script>
+	function bus_h(){
+		var prof= document.getElementById('profesor').value;
+		var colegio= document.getElementById('colegio').value;
+		var dataString = 'profesor='+prof+"/"+colegio;
+		$.ajax({
+			type: "POST",
+			url: "ajax/buscar_profesor.php",
+			data: dataString,
+			success: function(resp) {
+
+				$("#profesor").blur(function(){
+					$('#suggestions').fadeOut(1000);
+				})
+				if (resp !="") {
+					$('#suggestions').fadeIn(1000).html(resp);
+					$(".grado").addClass("hidden");
+					$(".materia").addClass("hidden");
+				}
+
+				if (resp =="") {
+					$('#suggestions').fadeOut(1000).html(resp);
+					$('#profe').val("no");
+					$(".grado").removeClass("hidden");
+					$(".materia").removeClass("hidden");
+				}
+				
+				$('.suggest-element a').on('click', function(){
+					var id = $(this).attr('id');
+					var profe= $(this).attr('data-profe');
+					$('#profesor').val(profe);
+					$('#profe').val(id);
+					$('#suggestions').fadeOut(1000);
+
+					return false;
+				});
+
+
+			}
+		});
+	}
+
+
+	function busc_ms(){
+		$('#suggestions').addClass("aparecer");
+		$('#suggestions').fadeIn(0);
+		if ($("#comp").val()=="") {
+			$("#comp").val("");
+		}
+	}
 </script>
 		
 	</body>
