@@ -226,12 +226,12 @@
                        <div class="row">
 							<div class="col-sm-7">
 								<!-- PAGE CONTENT BEGINS -->
-								<form action="php/actualizar_trabajadores.php" method="POST">
+								<form action="php/actualizar_zona.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Zona: </label>
+										<label class="control-label no-padding-right" for="zona"> Zona: </label>
 
 										
-											<input required required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" value="<?php echo $zona["zona"]?>"/>
+											<input required required type="text" name="zona" id="zona" placeholder="Nombre completo" class="form-control" value="<?php echo $zona["zona"]?>"/>
 										
 									</div>
 							</div>
@@ -276,6 +276,10 @@
 								?>
 							</div>
 						</div>
+						<input type="hidden" name="id_zona" value='<?php echo $zona["id"]; ?>'>
+						<input type="hidden" name="cod_zona" value='<?php echo $zona["codigo"]; ?>'>
+						<br><br><center><button class="btn btn-success">Actualizar</button></center>
+						</form>
                         
 
 						

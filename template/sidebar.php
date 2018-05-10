@@ -283,7 +283,7 @@
 
 						<ul class="submenu">
 							<li class="">
-								<a href="agregar_colegio.php">
+								<a href="agregar_zonas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Agregar Zonas
 								</a>
@@ -292,9 +292,9 @@
 							</li>
 
 							<li class="">
-								<a href="ver_colegios.php">
+								<a href="ver_zonas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Asignar Zona
+									Ver Zonas
 									
 								</a>
 
