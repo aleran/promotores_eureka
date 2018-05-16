@@ -44,6 +44,17 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+			.poblacion{
+				width:30px;
+			}
+			input[type=number] { -moz-appearance:textfield; }
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+  				-webkit-appearance: none; 
+  				margin: 0; 
+			}
+		</style>
 	</head>
 
 	<body class="no-skin">
@@ -999,7 +1010,250 @@
 							<?php } ?>
 
 						</div>
+						<br><center><h4>Información de población</h4></center>
+						<?php 
+							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."'";
+
+							$req = $bdd->prepare($sql);
+							$req->execute();
+
+							$num = $req->rowCount();
+									
+							if ($num < 1) {
+						 ?>
+						<form action="php/poblacion.php" method="POST" >
+						<div class="row">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<th>Grados:</th>
+										<th>PRE</th>
+										<th>JAR</th>
+										<th>TRA</th>
+										<th>1</th>
+										<th>2</th>
+										<th>3</th>
+										<th>4</th>
+										<th>5</th>
+										<th>6</th>
+										<th>7</th>
+										<th>8</th>
+										<th>9</th>
+										<th>10</th>
+										<th>11</th>
+										<!--<th>Total pri</th>
+										<th>Total bach</th>
+										<th>Global</th>-->
+									</thead>
+									<tbody>
+										<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre"></td><td><input type="number" class="poblacion" name="p_jar"></td><td><input type="number" class="poblacion" name="p_tra"></td><td><input type="number" class="poblacion" name="p_1"></td><td><input type="number" class="poblacion" name="p_2"></td><td><input type="number" class="poblacion" name="p_3"></td><td><input type="number" class="poblacion" name="p_4"></td><td><input type="number" class="poblacion" name="p_5"></td><td><input type="number" class="poblacion" name="p_6"></td><td><input type="number" class="poblacion" name="p_7"></td><td><input type="number" class="poblacion" name="p_8"></td><td><input type="number" class="poblacion" name="p_9"></td><td><input type="number" class="poblacion" name="p_10"></td><td><input type="number" class="poblacion" name="p_11"></td></tr>
+										<tr><td>Alumnos reales</td><td><input type="number" class="poblacion" name="a_pre"></td><td><input type="number" class="poblacion" name="a_jar"></td><td><input type="number" class="poblacion" name="a_tra"></td><td><input type="number" class="poblacion" name="a_1"></td><td><input type="number" class="poblacion" name="a_2"></td><td><input type="number" class="poblacion" name="a_3"></td><td><input type="number" class="poblacion" name="a_4"></td><td><input type="number" class="poblacion" name="a_5"></td><td><input type="number" class="poblacion" name="a_6"></td><td><input type="number" class="poblacion" name="a_7"></td><td><input type="number" class="poblacion" name="a_8"></td><td><input type="number" class="poblacion" name="a_9"></td><td><input type="number" class="poblacion" name="a_10"></td><td><input type="number" class="poblacion" name="a_11"></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+						<center><button class="btn btn-success">Guardar</button></center>
+						</form>
+						<?php }else{
+
+							$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=1";
+							$req_pre = $bdd->prepare($sql_pre);
+							$req_pre->execute();
+							$gp_pre = $req_pre->fetch();
+
+							$sql_jar = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=2";
+							$req_jar = $bdd->prepare($sql_jar);
+							$req_jar->execute();
+							$gp_jar = $req_jar->fetch();
+
+							$sql_tra = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=3";
+							$req_tra = $bdd->prepare($sql_tra);
+							$req_tra->execute();
+							$gp_tra = $req_tra->fetch();
+
+							$sql_1 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=4";
+							$req_1 = $bdd->prepare($sql_1);
+							$req_1->execute();
+							$gp_1 = $req_1->fetch();
+
+							$sql_2 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=5";
+							$req_2 = $bdd->prepare($sql_2);
+							$req_2->execute();
+							$gp_2 = $req_2->fetch();
+
+							$sql_3 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=6";
+							$req_3 = $bdd->prepare($sql_3);
+							$req_3->execute();
+							$gp_3 = $req_3->fetch();
+
+							$sql_4 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=7";
+							$req_4 = $bdd->prepare($sql_4);
+							$req_4->execute();
+							$gp_4 = $req_4->fetch();
+
+							$sql_5 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=8";
+							$req_5 = $bdd->prepare($sql_5);
+							$req_5->execute();
+							$gp_5 = $req_5->fetch();
+
+							$sql_6 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=9";
+							$req_6 = $bdd->prepare($sql_6);
+							$req_6->execute();
+							$gp_6 = $req_6->fetch();
+
+							$sql_7 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=10";
+							$req_7 = $bdd->prepare($sql_7);
+							$req_7->execute();
+							$gp_7 = $req_7->fetch();
+
+							$sql_8 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=11";
+							$req_8 = $bdd->prepare($sql_8);
+							$req_8->execute();
+							$gp_8 = $req_8->fetch();
+
+							$sql_9 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=12";
+							$req_9 = $bdd->prepare($sql_9);
+							$req_9->execute();
+							$gp_9 = $req_9->fetch();
+
+							$sql_10 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=13";
+							$req_10 = $bdd->prepare($sql_10);
+							$req_10->execute();
+							$gp_10 = $req_10->fetch();
+
+							$sql_11 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=14";
+							$req_11 = $bdd->prepare($sql_11);
+							$req_11->execute();
+							$gp_11 = $req_11->fetch();
+
+							$paralelos_pre=$gp_pre["paralelos"];
+
+							$paralelos_jyt=$gp_jar["paralelos"] + $gp_tra["paralelos"];
+
+							$paralelos_pri=$gp_1["paralelos"] + $gp_2["paralelos"] + $gp_3["paralelos"] + $gp_4["paralelos"] + $gp_5["paralelos"];
+
+							$paralelos_bach=$gp_6["paralelos"] + $gp_7["paralelos"] + $gp_8["paralelos"] + $gp_9["paralelos"] + $gp_10["paralelos"] + $gp_11["paralelos"];
+
+							$paralelos_global= $paralelos_pri + $paralelos_bach + + $paralelos_pre + $paralelos_jyt;
+
+							$alumnos_pre=$gp_pre["alumnos"];
+
+							$alumnos_jyt=$gp_jar["alumnos"] + $gp_tra["alumnos"];
+
+							$alumnos_pre=$gp_pre["paralelos"];
+
+							$alumnos_pri=$gp_1["alumnos"] + $gp_2["alumnos"] + $gp_3["alumnos"] + $gp_4["alumnos"] + $gp_5["alumnos"];
+
+							$alumnos_bach=$gp_6["alumnos"] + $gp_7["alumnos"] + $gp_8["alumnos"] + $gp_9["alumnos"] + $gp_10["alumnos"] + $gp_11["alumnos"];
+
+							$alumnos_global= $alumnos_pri + $alumnos_bach+ $alumnos_pre + $alumnos_jyt;
+
+
+							
+							
+						?>
+						<form action="php/actualizar_poblacion.php" method="POST" >
+						<div class="row">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<th>Grados:</th>
+										<th>PRE</th>
+										<th>JAR</th>
+										<th>TRA</th>
+										<th>1</th>
+										<th>2</th>
+										<th>3</th>
+										<th>4</th>
+										<th>5</th>
+										<th>6</th>
+										<th>7</th>
+										<th>8</th>
+										<th>9</th>
+										<th>10</th>
+										<th>11</th>
+										<th>Total pre</th>
+										<th>Total jar y tra</th>
+										<th>Total pri</th>
+										<th>Total bach</th>
+										<th>Global</th>
+									</thead>
+									<tbody>
+										<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre" value="<?php echo $gp_pre["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_jar" value="<?php echo $gp_jar["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_tra" value="<?php echo $gp_tra["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_1" value="<?php echo $gp_1["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_2" value="<?php echo $gp_2["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_3" value="<?php echo $gp_3["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_4" value="<?php echo $gp_4["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_5" value="<?php echo $gp_5["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_6" value="<?php echo $gp_6["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_7" value="<?php echo $gp_7["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_8" value="<?php echo $gp_8["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_9" value="<?php echo $gp_9["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_10" value="<?php echo $gp_10["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_11" value="<?php echo $gp_11["paralelos"]; ?>"></td><td><?php echo $paralelos_pre ?></td><td><?php echo $paralelos_jyt ?></td><td><?php echo $paralelos_pri ?></td></td><td><?php echo $paralelos_bach ?></td><td><?php echo $paralelos_global ?></td></tr>
+
+										<tr><td>Alumnos</td><td><input type="number" class="poblacion" name="a_pre" value="<?php echo $gp_pre["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_jar" value="<?php echo $gp_jar["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_tra" value="<?php echo $gp_tra["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_1" value="<?php echo $gp_1["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_2" value="<?php echo $gp_2["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_3" value="<?php echo $gp_3["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_4" value="<?php echo $gp_4["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_5" value="<?php echo $gp_5["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_6" value="<?php echo $gp_6["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_7" value="<?php echo $gp_7["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_8" value="<?php echo $gp_8["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_9" value="<?php echo $gp_9["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_10" value="<?php echo $gp_10["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_11" value="<?php echo $gp_11["alumnos"]; ?>"></td></td></td><td><?php echo $alumnos_pre ?></td><td><?php echo $alumnos_jyt ?></td><td><?php echo $alumnos_pri ?></td></td><td><?php echo $alumnos_bach ?></td><td><?php echo $alumnos_global ?></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+						<center><button class="btn btn-success">Actualizar</button></center>
+						</form>
+						<?php } ?>
+						<br><br><center><h4>Mercado editorial</h4></center>
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="nombre"> Materia: </label>
+
+									<select name="materia" id="materia" class="form-control materia">
+					 			<option value="">Seleccionar</option>
+								 	<?php 
+								 		$sql = "SELECT id, materia FROM materias";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+										$materias = $req->fetchAll();
+
+										foreach($materias as $materia) {
+										    $id = $materia['id'];
+										    $nom = $materia['materia'];
+										    echo '<option value="'.$id.'">'.$nom.'</option>';
+										}
+								 	?>
+					 		</select>
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="grado" class="control-label no-padding-right">Grado</label>
 						
+								 		<select name="grado" id="grado" class="form-control grado">
+								 			<option value="">Seleccionar</option>
+											 	<?php 
+											 		$sql = "SELECT id, grado FROM grados";
+
+													$req = $bdd->prepare($sql);
+													$req->execute();
+													$grados = $req->fetchAll();
+
+													foreach($grados as $grado) {
+													    $id = $grado['id'];
+													    $nom = $grado['grado'];
+													    echo '<option value="'.$id.'">'.$nom.'</option>';
+													}
+											 	?>
+								 		</select>
+								</div>
+				  			</div>
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="" class="control-label no-padding-right">Editorial</label>
+				  					<input type="text" class="form-control">
+				  				</div>
+				  			</div>
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="" class="control-label no-padding-right">Título</label>
+				  					<input type="text" class="form-control">
+				  				</div>
+				  			</div>
+
+						</div>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
