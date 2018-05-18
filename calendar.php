@@ -1068,7 +1068,7 @@ $events = $req->fetchAll();
 				  <div class="form-group">
 					<label for="profesor" class="col-sm-2 control-label">Profesor</label>
 					<div class="col-sm-10">
-					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="busc_ms();bus_h()">
+					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_h()">
 					  <input type="hidden" name="profe" id="profe"><div id="suggestions"></div>
 					</div>
 				  </div>
@@ -1434,16 +1434,16 @@ $events = $req->fetchAll();
 			success: function(resp) {
 
 				$("#profesor").blur(function(){
-					$('#suggestions').fadeOut(1000);
+					$('#suggestions').fadeOut();
 				})
 				if (resp !="") {
-					$('#suggestions').fadeIn(1000).html(resp);
+					$('#suggestions').fadeIn().html(resp);
 					$(".grado").addClass("hidden");
 					$(".materia").addClass("hidden");
 				}
 
 				if (resp =="") {
-					$('#suggestions').fadeOut(1000).html(resp);
+					$('#suggestions').fadeOut().html(resp);
 					$('#profe').val("no");
 					$(".grado").removeClass("hidden");
 					$(".materia").removeClass("hidden");
@@ -1454,7 +1454,7 @@ $events = $req->fetchAll();
 					var profe= $(this).attr('data-profe');
 					$('#profesor').val(profe);
 					$('#profe').val(id);
-					$('#suggestions').fadeOut(1000);
+					$('#suggestions').fadeOut();
 
 					return false;
 				});
@@ -1465,13 +1465,7 @@ $events = $req->fetchAll();
 	}
 
 
-	function busc_ms(){
-		$('#suggestions').addClass("aparecer");
-		$('#suggestions').fadeIn(0);
-		if ($("#comp").val()=="") {
-			$("#comp").val("");
-		}
-	}
+	
 </script>
 		
 	</body>

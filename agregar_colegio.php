@@ -1,3 +1,4 @@
+<?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -86,7 +87,7 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
+						<div class="ace-settings-container hidden" id="ace-settings-container">
 							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 								<i class="ace-icon fa fa-cog bigger-130"></i>
 							</div>
@@ -162,13 +163,22 @@
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
+						<?php 
+							require_once('conexion/bdd.php');
+									
+							$sql = "SELECT zona, codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
 
+							$req = $bdd->prepare($sql);
+							$req->execute();
+							$zona = $req->fetch();
+							echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
+						?>
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								<form name="crear_colegio" role="form" action="php/crear_colegio.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="colegio"> Nombre: </label>
+										<label class="control-label no-padding-right" for="colegio"> Nombre:<small style="color:red;"> *</small> </label>
 
 										
 											<input required type="text" name="colegio" id="colegio" placeholder="Nombre del colegio" class="form-control" />
@@ -178,56 +188,38 @@
 						</div>
 						
 						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-7">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="codigo"> Código interno: </label>
-
-										
-											<input required type="text" name="codigo" id="codigo" placeholder="" class="form-control" />
-										
-									</div>
-							</div>
-							<div class="col-sm-8">
-								<!-- PAGE CONTENT BEGINS -->
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="direccion"> Dirección: </label>
+										<label class="control-label no-padding-right" for="direccion"> Dirección:<small style="color:red;"> *</small> </label>
 
 										
 											<input required type="text" name="direccion" id="direccion" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
-						</div>
 
-						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-5">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="barrio"> Barrio: </label>
+										<label class="control-label no-padding-right" for="barrio"> Barrio:<small style="color:red;"> *</small> </label>
 
 										
 											<input required type="text" name="barrio" id="barrio" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
-							<div class="col-sm-8">
-								<!-- PAGE CONTENT BEGINS -->
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="representate"> Representante: </label>
-
-										
-											<input required type="text" name="representate" id="representate" placeholder="" class="form-control" />
-										
-									</div>
-							</div>
 						</div>
+
+						
+							
+						
 
 						<div class="row">
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="telefono"> Teléfono: </label>
+										<label class="control-label no-padding-right" for="telefono"> Teléfono:<small style="color:red;"> *</small> </label>
 
 										
 											<input required type="tel" name="telefono" id="telefono" placeholder="" class="form-control" />
@@ -240,7 +232,7 @@
 										<label class="control-label no-padding-right" for="web"> Página Web: </label>
 
 										
-											<input required type="text" name="web" id="web" placeholder="" class="form-control" />
+											<input type="text" name="web" id="web" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -253,7 +245,7 @@
 										<label class="control-label no-padding-right" for="cumple_colegio"> Cumpleaños del colegio: </label>
 											
 											<div class="input-group">
-												<input required type="text" class="form-control date-picker" name="cumple_colegio" id="cumple_colegio" required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumple_colegio" id="cumple_colegio" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -262,6 +254,7 @@
 									</div>
 							</div>
 						</div>
+						<input type="hidden" name="cod_zona" value="<?php echo $zona["codigo"] ?>">
 						<center><button class="btn btn-primary">Crear colegio</button></center>
 						</form>
 						<hr>

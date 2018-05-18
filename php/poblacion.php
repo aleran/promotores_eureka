@@ -253,6 +253,6 @@
 
 	}
 
-	header('Location: ../ver_colegios.php');
+	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
 	
 ?>

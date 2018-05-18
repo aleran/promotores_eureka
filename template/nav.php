@@ -14,7 +14,7 @@
 					<a href="index.php" class="navbar-brand">
 						<small>
 							<i class=""></i>
-							Eureka
+							<img src="assets/images/logo_eureka.png" alt="" class="" height="50px" width="100px">
 						</small>
 					</a>
 				</div>
@@ -275,13 +275,23 @@
 								</li>
 							</ul>
 						</li>-->
-
+						
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<!--<img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />-->
 								<!--<span class="user-info">-->
+								<?php 
+									require_once('conexion/bdd.php');
+									
+									$sql = "SELECT nombres,apellidos FROM usuarios WHERE id='".$_SESSION['id']."'";
+
+									$req = $bdd->prepare($sql);
+									$req->execute();
+									$usuario = $req->fetch();
+									$nombre_completo=$usuario["nombres"]." ".$usuario["apellidos"];
+								?>
 									<small>Bienvenido,</small>
-									Nombre Usuario
+									<?php echo $nombre_completo; ?>
 								<!--</span>-->
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -295,17 +305,17 @@
 									</a>
 								</li>-->
 
-								<li>
+								<!--<li>
 									<a href="profile.html">
 										<i class="ace-icon fa fa-user"></i>
 										Perfil
 									</a>
-								</li>
+								</li>-->
 
 								<li class="divider"></li>
 
 								<li>
-									<a href="#">
+									<a href="php/cerrar_sesion.php">
 										<i class="ace-icon fa fa-power-off"></i>
 										Salir
 									</a>

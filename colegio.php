@@ -1,3 +1,4 @@
+<?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -54,6 +55,86 @@
   				-webkit-appearance: none; 
   				margin: 0; 
 			}
+
+			.prescolar {
+				background-color: #E4F61F;
+				color: #000;
+				text-align: center;
+			}
+			.primaria {
+				background-color: #2AB510;
+				color: #000;
+				text-align: center;
+			}
+			.bachillerato {
+				background-color: #438EB9;
+				color: #000;
+				text-align: center;
+			}
+			.poblacion tr td {
+				text-align: center;
+			}
+		</style>
+		<style>
+		.suggest-element{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
+
+		.suggest-element1{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions1 {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
+
+		.suggest-element1{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions1 {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
 		</style>
 	</head>
 
@@ -93,7 +174,7 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
+						<div class="ace-settings-container hidden" id="ace-settings-container">
 							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 								<i class="ace-icon fa fa-cog bigger-130"></i>
 							</div>
@@ -165,7 +246,7 @@
 								Colegio
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									tal
+									Colegio
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -185,7 +266,7 @@
 								<?php 
 	                                include("conexion/bdd.php");
 
-	                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, representante, web, telefono, cumpleaños FROM colegios WHERE codigo='".$_GET["codigo"]."'";
+	                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, web, telefono, cumpleaños FROM colegios WHERE codigo='".$_GET["codigo"]."'";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
@@ -201,15 +282,14 @@
                         		
                         		<tr>
                         			<td>Nombre de la institución: <?php echo $colegio['colegio']; ?></td>
-                        		</tr>
-                        		<tr>
                         			<td>Código interno: <?php echo $colegio['codigo']; ?></td>
-                        			<td>Dirección: <?php echo $colegio['direccion']; ?></td>
                         		</tr>
                         		<tr>
+                        			
+                        			<td>Dirección: <?php echo $colegio['direccion']; ?></td>
                         			<td>Barrio: <?php echo $colegio['barrio']; ?></td>
-                        			<td>Representante: <?php echo $colegio['representante']; ?></td>
                         		</tr>
+                        
                         		<tr>
                         			<td>Teléfono: <?php echo $colegio['telefono']; ?></td>
                         			<td>Pagina Web: <?php echo $colegio['web']; ?></td>
@@ -239,20 +319,20 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form action="php/trabajadores_colegio.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular"> Celular:<small style="color:red;"> *</small> </label>
 
 										
-											<input required required type="tel" name="celular" id="celular" placeholder="" class="form-control" />
+											<input required type="tel" name="celular" id="celular" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -262,10 +342,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Email: </label>
+										<label class="control-label no-padding-right" for="nombre"> Email:<small style="color:red;"> *</small> </label>
 
 										
-											<input required required type="email" name="email" id="email" placeholder="" class="form-control" />
+											<input required  type="email" name="email" id="email" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -275,7 +355,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños" id="cumpleaños" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños" id="cumpleaños" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -290,20 +370,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre1"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre1"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular1"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular1"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular1" id="celular1" placeholder="" class="form-control" />
+											<input required type="tel" name="celular1" id="celular1" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -313,10 +393,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email1"> Email: </label>
+										<label class="control-label no-padding-right" for="email1"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email1" id="email1" placeholder="" class="form-control" />
+											<input required type="email" name="email1" id="email1" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -326,7 +406,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños1"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños1" id="cumpleaños1" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños1" id="cumpleaños1" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -341,20 +421,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre2"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre2"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular2"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular2"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular2" id="celular2" placeholder="" class="form-control" />
+											<input required type="tel" name="celular2" id="celular2" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -364,10 +444,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email2"> Email: </label>
+										<label class="control-label no-padding-right" for="email2"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email2" id="email2" placeholder="" class="form-control" />
+											<input required type="email" name="email2" id="email2" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -377,7 +457,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños2"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños2" id="cumpleaños2" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños2" id="cumpleaños2" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -392,20 +472,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre3"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre3"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular3"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular3"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular3" id="celular3" placeholder="" class="form-control" />
+											<input required type="tel" name="celular3" id="celular3" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -415,10 +495,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email3"> Email: </label>
+										<label class="control-label no-padding-right" for="email3"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email3" id="email3" placeholder="" class="form-control" />
+											<input required type="email" name="email3" id="email3" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -428,7 +508,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños3"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños3" id="cumpleaños3" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños3" id="cumpleaños3" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -443,20 +523,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre4"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre4"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular4"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular4"> Celular:<small style="color:red;"> *</small> </label>
 
 										
-											<input required required type="tel" name="celular4" id="celular4" placeholder="" class="form-control" />
+											<input required type="tel" name="celular4" id="celular4" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -466,10 +546,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email4"> Email: </label>
+										<label class="control-label no-padding-right" for="email4"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email4" id="email4" placeholder="" class="form-control" />
+											<input required type="email" name="email4" id="email4" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -479,7 +559,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños4"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños4" id="cumpleaños4" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños4" id="cumpleaños4" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -494,20 +574,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre5"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre5"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular5"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular5"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular5" id="celular5" placeholder="" class="form-control" />
+											<input required type="tel" name="celular5" id="celular5" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -517,10 +597,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email5"> Email: </label>
+										<label class="control-label no-padding-right" for="email5"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email5" id="email5" placeholder="" class="form-control" />
+											<input required type="email" name="email5" id="email5" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -530,7 +610,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños5"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños5" id="cumpleaños5" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños5" id="cumpleaños5" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -545,20 +625,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre6"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre6"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control" />
+											<input required type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular6"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular6"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular6" id="celular6" placeholder="" class="form-control" />
+											<input required type="tel" name="celular6" id="celular6" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -568,10 +648,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email6"> Email: </label>
+										<label class="control-label no-padding-right" for="email6"> Email:<small style="color:red;"> *</small> </label>
 
 										
-											<input required required type="email" name="email6" id="email6" placeholder="" class="form-control" />
+											<input required type="email" name="email6" id="email6" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -581,7 +661,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños6"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños6" id="cumpleaños6" required required type="text" data-date-format="yyyy-mm-dd"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños6" id="cumpleaños6" type="text" data-date-format="yyyy-mm-dd"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -644,20 +724,20 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form action="php/actualizar_trabajadores.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores["nombre"]?>"/>
+											<input required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular" id="celular" placeholder="" class="form-control"  value="<?php echo $trabajadores["telefono"]?>" />
+											<input required type="tel" name="celular" id="celular" placeholder="" class="form-control"  value="<?php echo $trabajadores["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -667,10 +747,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Email: </label>
+										<label class="control-label no-padding-right" for="nombre"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email" id="email" placeholder="" class="form-control"  value="<?php echo $trabajadores["email"]?>"/>
+											<input required type="email" name="email" id="email" placeholder="" class="form-control"  value="<?php echo $trabajadores["email"]?>"/>
 										
 									</div>
 							</div>
@@ -680,7 +760,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños" id="cumpleaños" required required type="text" data-date-format="yyyy-mm-dd"/  value="<?php echo $trabajadores["cumpleaños"]?>">
+												<input type="text" class="form-control date-picker" name="cumpleaños" id="cumpleaños" type="text" data-date-format="yyyy-mm-dd"/  value="<?php echo $trabajadores["cumpleaños"]?>">
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -696,20 +776,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre1"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre1"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores1["nombre"]?>" />
+											<input required type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores1["nombre"]?>" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular1"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular1"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular1" id="celular1" placeholder="" class="form-control" value="<?php echo $trabajadores1["telefono"]?>" />
+											<input required type="tel" name="celular1" id="celular1" placeholder="" class="form-control" value="<?php echo $trabajadores1["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -719,10 +799,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email1"> Email: </label>
+										<label class="control-label no-padding-right" for="email1"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email1" id="email1" placeholder="" class="form-control" value="<?php echo $trabajadores1["email"]?>" />
+											<input required type="email" name="email1" id="email1" placeholder="" class="form-control" value="<?php echo $trabajadores1["email"]?>" />
 										
 									</div>
 							</div>
@@ -732,7 +812,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños1"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños1" id="cumpleaños1" required required type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores1["cumpleaños"]?>"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños1" id="cumpleaños1" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores1["cumpleaños"]?>"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -748,20 +828,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre2"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre2"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores2["nombre"]?>"/>
+											<input required type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores2["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular2"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular2"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular2" id="celular2" placeholder="" class="form-control" value="<?php echo $trabajadores2["telefono"]?>" />
+											<input required type="tel" name="celular2" id="celular2" placeholder="" class="form-control" value="<?php echo $trabajadores2["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -771,10 +851,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email2"> Email: </label>
+										<label class="control-label no-padding-right" for="email2"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email2" id="email2" placeholder="" class="form-control" value="<?php echo $trabajadores2["email"]?>"/>
+											<input required type="email" name="email2" id="email2" placeholder="" class="form-control" value="<?php echo $trabajadores2["email"]?>"/>
 										
 									</div>
 							</div>
@@ -784,7 +864,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños2"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños2" id="cumpleaños2" required required type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores2["cumpleaños"]?>"/>
+												<input  type="text" class="form-control date-picker" name="cumpleaños2" id="cumpleaños2" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores2["cumpleaños"]?>"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -800,20 +880,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre3"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre3"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores3["nombre"]?>"/>
+											<input required type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores3["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular3"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular3"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular3" id="celular3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["telefono"]?>" />
+											<input required type="tel" name="celular3" id="celular3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -823,10 +903,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email3"> Email: </label>
+										<label class="control-label no-padding-right" for="email3"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email3" id="email3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["email"]?>"/>
+											<input required type="email" name="email3" id="email3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["email"]?>"/>
 										
 									</div>
 							</div>
@@ -836,7 +916,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños3"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños3" id="cumpleaños3" required required type="text" data-date-format="yyyy-mm-dd"  value="<?php echo $trabajadores3["cumpleaños"]?>"/>
+												<input type="text" class="form-control date-picker" name="cumpleaños3" id="cumpleaños3" type="text" data-date-format="yyyy-mm-dd"  value="<?php echo $trabajadores3["cumpleaños"]?>"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -852,20 +932,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre4"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre4"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores4["nombre"]?>"/>
+											<input required type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores4["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular4"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular4"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular4" id="celular4" placeholder="" class="form-control"    value="<?php echo $trabajadores4["telefono"]?>" />
+											<input required type="tel" name="celular4" id="celular4" placeholder="" class="form-control"    value="<?php echo $trabajadores4["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -875,20 +955,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email4"> Email: </label>
+										<label class="control-label no-padding-right" for="email4"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email4" id="email4" placeholder="" class="form-control"  value="<?php echo $trabajadores4["email"]?>"/>
+											<input required type="email" name="email4" id="email4" placeholder="" class="form-control"  value="<?php echo $trabajadores4["email"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="cumpleaños4"> Fecha de cumpleaños: </label>
+										<label class="control-label no-padding-right" for="cumpleaños4"> Fecha de cumpleaños:</label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños4" id="cumpleaños4" required required type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores4["cumpleaños"]?>" />
+												<input type="text" class="form-control date-picker" name="cumpleaños4" id="cumpleaños4" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores4["cumpleaños"]?>" />
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -904,20 +984,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre5"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre5"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores5["nombre"]?>"/>
+											<input required type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores5["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular5"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular5"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular5" id="celular5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["telefono"]?>" />
+											<input required type="tel" name="celular5" id="celular5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -927,10 +1007,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email5"> Email: </label>
+										<label class="control-label no-padding-right" for="email5"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email5" id="email5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["email"]?>" />
+											<input required type="email" name="email5" id="email5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["email"]?>" />
 										
 									</div>
 							</div>
@@ -940,7 +1020,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños5"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños5" id="cumpleaños5" required required type="text" data-date-format="yyyy-mm-dd"  value="<?php echo $trabajadores5["cumpleaños"]?>" />
+												<input type="text" class="form-control date-picker" name="cumpleaños5" id="cumpleaños5" type="text" data-date-format="yyyy-mm-dd"  value="<?php echo $trabajadores5["cumpleaños"]?>" />
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -956,20 +1036,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre6"> Nombre: </label>
+										<label class="control-label no-padding-right" for="nombre6"> Nombre:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores6["nombre"]?>" />
+											<input required type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores6["nombre"]?>" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular6"> Celular: </label>
+										<label class="control-label no-padding-right" for="celular6"> Celular:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="tel" name="celular6" id="celular6" placeholder="" class="form-control" value="<?php echo $trabajadores6["telefono"]?>" />
+											<input required type="tel" name="celular6" id="celular6" placeholder="" class="form-control" value="<?php echo $trabajadores6["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -979,10 +1059,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email6"> Email: </label>
+										<label class="control-label no-padding-right" for="email6"> Email:<small style="color:red;"> *</small></label>
 
 										
-											<input required required type="email" name="email6" id="email6" placeholder="" class="form-control" value="<?php echo $trabajadores6["email"]?>" />
+											<input required type="email" name="email6" id="email6" placeholder="" class="form-control" value="<?php echo $trabajadores6["email"]?>" />
 										
 									</div>
 							</div>
@@ -992,7 +1072,7 @@
 										<label class="control-label no-padding-right" for="cumpleaños6"> Fecha de cumpleaños: </label>
 											
 											<div class="input-group">
-												<input required required type="text" class="form-control date-picker" name="cumpleaños6" id="cumpleaños6" required required type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores6["cumpleaños"]?>"/>
+												<input  type="text" class="form-control date-picker" name="cumpleaños6" id="cumpleaños6" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores6["cumpleaños"]?>"/>
 												<span class="input-group-addon">
 													<i class="fa fa-calendar bigger-110"></i>
 												</span>
@@ -1022,37 +1102,41 @@
 							if ($num < 1) {
 						 ?>
 						<form action="php/poblacion.php" method="POST" >
-						<div class="row">
-							<div class="table-responsive">
-								<table class="table table-bordered table-hover">
-									<thead>
-										<th>Grados:</th>
-										<th>PRE</th>
-										<th>JAR</th>
-										<th>TRA</th>
-										<th>1</th>
-										<th>2</th>
-										<th>3</th>
-										<th>4</th>
-										<th>5</th>
-										<th>6</th>
-										<th>7</th>
-										<th>8</th>
-										<th>9</th>
-										<th>10</th>
-										<th>11</th>
-										<!--<th>Total pri</th>
-										<th>Total bach</th>
-										<th>Global</th>-->
-									</thead>
-									<tbody>
-										<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre"></td><td><input type="number" class="poblacion" name="p_jar"></td><td><input type="number" class="poblacion" name="p_tra"></td><td><input type="number" class="poblacion" name="p_1"></td><td><input type="number" class="poblacion" name="p_2"></td><td><input type="number" class="poblacion" name="p_3"></td><td><input type="number" class="poblacion" name="p_4"></td><td><input type="number" class="poblacion" name="p_5"></td><td><input type="number" class="poblacion" name="p_6"></td><td><input type="number" class="poblacion" name="p_7"></td><td><input type="number" class="poblacion" name="p_8"></td><td><input type="number" class="poblacion" name="p_9"></td><td><input type="number" class="poblacion" name="p_10"></td><td><input type="number" class="poblacion" name="p_11"></td></tr>
-										<tr><td>Alumnos reales</td><td><input type="number" class="poblacion" name="a_pre"></td><td><input type="number" class="poblacion" name="a_jar"></td><td><input type="number" class="poblacion" name="a_tra"></td><td><input type="number" class="poblacion" name="a_1"></td><td><input type="number" class="poblacion" name="a_2"></td><td><input type="number" class="poblacion" name="a_3"></td><td><input type="number" class="poblacion" name="a_4"></td><td><input type="number" class="poblacion" name="a_5"></td><td><input type="number" class="poblacion" name="a_6"></td><td><input type="number" class="poblacion" name="a_7"></td><td><input type="number" class="poblacion" name="a_8"></td><td><input type="number" class="poblacion" name="a_9"></td><td><input type="number" class="poblacion" name="a_10"></td><td><input type="number" class="poblacion" name="a_11"></td></tr>
-									</tbody>
-								</table>
+						<center>
+							<div class="row">
+								<div class="table-responsive">
+									<table class="table table-bordered table-hover poblacion">
+										<thead>
+											<th>Grados:</th>
+											<th class="prescolar">PRE</th>
+											<th class="prescolar">JAR</th>
+											<th class="prescolar">TRA</th>
+											<th class="primaria">1</th>
+											<th class="primaria">2</th>
+											<th class="primaria">3</th>
+											<th class="primaria">4</th>
+											<th class="primaria">5</th>
+											<th class="bachillerato">6</th>
+											<th class="bachillerato">7</th>
+											<th class="bachillerato">8</th>
+											<th class="bachillerato">9</th>
+											<th class="bachillerato">10</th>
+											<th class="bachillerato">11</th>
+											<!--<th class="prescolar">Total prescolar</th>
+											<th class="primaria">Total primaria</th>
+											<th class="bachillerato">Total bachillerato</th>
+											<th>Global</th>-->
+										</thead>
+										<tbody>
+											<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre"></td><td><input type="number" class="poblacion" name="p_jar"></td><td><input type="number" class="poblacion" name="p_tra"></td><td><input type="number" class="poblacion" name="p_1"></td><td><input type="number" class="poblacion" name="p_2"></td><td><input type="number" class="poblacion" name="p_3"></td><td><input type="number" class="poblacion" name="p_4"></td><td><input type="number" class="poblacion" name="p_5"></td><td><input type="number" class="poblacion" name="p_6"></td><td><input type="number" class="poblacion" name="p_7"></td><td><input type="number" class="poblacion" name="p_8"></td><td><input type="number" class="poblacion" name="p_9"></td><td><input type="number" class="poblacion" name="p_10"></td><td><input type="number" class="poblacion" name="p_11"></td></tr>
+											<tr><td>Alumnos reales</td><td><input type="number" class="poblacion" name="a_pre"></td><td><input type="number" class="poblacion" name="a_jar"></td><td><input type="number" class="poblacion" name="a_tra"></td><td><input type="number" class="poblacion" name="a_1"></td><td><input type="number" class="poblacion" name="a_2"></td><td><input type="number" class="poblacion" name="a_3"></td><td><input type="number" class="poblacion" name="a_4"></td><td><input type="number" class="poblacion" name="a_5"></td><td><input type="number" class="poblacion" name="a_6"></td><td><input type="number" class="poblacion" name="a_7"></td><td><input type="number" class="poblacion" name="a_8"></td><td><input type="number" class="poblacion" name="a_9"></td><td><input type="number" class="poblacion" name="a_10"></td><td><input type="number" class="poblacion" name="a_11"></td></tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
-						</div>
+						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<center><button class="btn btn-success">Guardar</button></center>
 						</form>
 						<?php }else{
@@ -1127,27 +1211,23 @@
 							$req_11->execute();
 							$gp_11 = $req_11->fetch();
 
-							$paralelos_pre=$gp_pre["paralelos"];
+							$paralelos_prescolar=$gp_pre["paralelos"] + $gp_jar["paralelos"] + $gp_tra["paralelos"];
 
-							$paralelos_jyt=$gp_jar["paralelos"] + $gp_tra["paralelos"];
 
 							$paralelos_pri=$gp_1["paralelos"] + $gp_2["paralelos"] + $gp_3["paralelos"] + $gp_4["paralelos"] + $gp_5["paralelos"];
 
 							$paralelos_bach=$gp_6["paralelos"] + $gp_7["paralelos"] + $gp_8["paralelos"] + $gp_9["paralelos"] + $gp_10["paralelos"] + $gp_11["paralelos"];
 
-							$paralelos_global= $paralelos_pri + $paralelos_bach + + $paralelos_pre + $paralelos_jyt;
+							$paralelos_global= $paralelos_pri + $paralelos_bach + $paralelos_prescolar;
 
-							$alumnos_pre=$gp_pre["alumnos"];
 
-							$alumnos_jyt=$gp_jar["alumnos"] + $gp_tra["alumnos"];
-
-							$alumnos_pre=$gp_pre["paralelos"];
+							$alumnos_prescolar=$gp_pre["alumnos"] + $gp_jar["alumnos"] + $gp_tra["alumnos"];
 
 							$alumnos_pri=$gp_1["alumnos"] + $gp_2["alumnos"] + $gp_3["alumnos"] + $gp_4["alumnos"] + $gp_5["alumnos"];
 
 							$alumnos_bach=$gp_6["alumnos"] + $gp_7["alumnos"] + $gp_8["alumnos"] + $gp_9["alumnos"] + $gp_10["alumnos"] + $gp_11["alumnos"];
 
-							$alumnos_global= $alumnos_pri + $alumnos_bach+ $alumnos_pre + $alumnos_jyt;
+							$alumnos_global= $alumnos_pri + $alumnos_bach + $alumnos_prescolar;
 
 
 							
@@ -1156,46 +1236,47 @@
 						<form action="php/actualizar_poblacion.php" method="POST" >
 						<div class="row">
 							<div class="table-responsive">
-								<table class="table table-bordered table-hover">
+								<table class="table table-bordered table-hover poblacion">
 									<thead>
 										<th>Grados:</th>
-										<th>PRE</th>
-										<th>JAR</th>
-										<th>TRA</th>
-										<th>1</th>
-										<th>2</th>
-										<th>3</th>
-										<th>4</th>
-										<th>5</th>
-										<th>6</th>
-										<th>7</th>
-										<th>8</th>
-										<th>9</th>
-										<th>10</th>
-										<th>11</th>
-										<th>Total pre</th>
-										<th>Total jar y tra</th>
-										<th>Total pri</th>
-										<th>Total bach</th>
+										<th class="prescolar">PRE</th>
+										<th class="prescolar">JAR</th>
+										<th class="prescolar">TRA</th>
+										<th class="primaria">1</th>
+										<th class="primaria">2</th>
+										<th class="primaria">3</th>
+										<th class="primaria">4</th>
+										<th class="primaria">5</th>
+										<th class="bachillerato">6</th>
+										<th class="bachillerato">7</th>
+										<th class="bachillerato">8</th>
+										<th class="bachillerato">9</th>
+										<th class="bachillerato">10</th>
+										<th class="bachillerato">11</th>
+										<th class="prescolar">Total prescolar</th>
+										<th class="primaria">Total primaria</th>
+										<th class="bachillerato">Total bachillerato</th>
 										<th>Global</th>
 									</thead>
 									<tbody>
-										<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre" value="<?php echo $gp_pre["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_jar" value="<?php echo $gp_jar["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_tra" value="<?php echo $gp_tra["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_1" value="<?php echo $gp_1["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_2" value="<?php echo $gp_2["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_3" value="<?php echo $gp_3["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_4" value="<?php echo $gp_4["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_5" value="<?php echo $gp_5["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_6" value="<?php echo $gp_6["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_7" value="<?php echo $gp_7["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_8" value="<?php echo $gp_8["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_9" value="<?php echo $gp_9["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_10" value="<?php echo $gp_10["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_11" value="<?php echo $gp_11["paralelos"]; ?>"></td><td><?php echo $paralelos_pre ?></td><td><?php echo $paralelos_jyt ?></td><td><?php echo $paralelos_pri ?></td></td><td><?php echo $paralelos_bach ?></td><td><?php echo $paralelos_global ?></td></tr>
+										<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre" value="<?php echo $gp_pre["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_jar" value="<?php echo $gp_jar["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_tra" value="<?php echo $gp_tra["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_1" value="<?php echo $gp_1["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_2" value="<?php echo $gp_2["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_3" value="<?php echo $gp_3["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_4" value="<?php echo $gp_4["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_5" value="<?php echo $gp_5["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_6" value="<?php echo $gp_6["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_7" value="<?php echo $gp_7["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_8" value="<?php echo $gp_8["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_9" value="<?php echo $gp_9["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_10" value="<?php echo $gp_10["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_11" value="<?php echo $gp_11["paralelos"]; ?>"></td><td><?php echo $paralelos_prescolar?></td><td><?php echo $paralelos_pri ?></td></td><td><?php echo $paralelos_bach ?></td><td><?php echo $paralelos_global ?></td></tr>
 
-										<tr><td>Alumnos</td><td><input type="number" class="poblacion" name="a_pre" value="<?php echo $gp_pre["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_jar" value="<?php echo $gp_jar["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_tra" value="<?php echo $gp_tra["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_1" value="<?php echo $gp_1["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_2" value="<?php echo $gp_2["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_3" value="<?php echo $gp_3["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_4" value="<?php echo $gp_4["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_5" value="<?php echo $gp_5["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_6" value="<?php echo $gp_6["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_7" value="<?php echo $gp_7["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_8" value="<?php echo $gp_8["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_9" value="<?php echo $gp_9["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_10" value="<?php echo $gp_10["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_11" value="<?php echo $gp_11["alumnos"]; ?>"></td></td></td><td><?php echo $alumnos_pre ?></td><td><?php echo $alumnos_jyt ?></td><td><?php echo $alumnos_pri ?></td></td><td><?php echo $alumnos_bach ?></td><td><?php echo $alumnos_global ?></td></tr>
+										<tr><td>Alumnos</td><td><input type="number" class="poblacion" name="a_pre" value="<?php echo $gp_pre["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_jar" value="<?php echo $gp_jar["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_tra" value="<?php echo $gp_tra["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_1" value="<?php echo $gp_1["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_2" value="<?php echo $gp_2["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_3" value="<?php echo $gp_3["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_4" value="<?php echo $gp_4["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_5" value="<?php echo $gp_5["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_6" value="<?php echo $gp_6["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_7" value="<?php echo $gp_7["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_8" value="<?php echo $gp_8["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_9" value="<?php echo $gp_9["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_10" value="<?php echo $gp_10["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_11" value="<?php echo $gp_11["alumnos"]; ?>"></td></td></td><td><?php echo $alumnos_prescolar ?></td><td><?php echo $alumnos_pri ?></td></td><td><?php echo $alumnos_bach ?></td><td><?php echo $alumnos_global ?></td></tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<center><button class="btn btn-success">Actualizar</button></center>
 						</form>
 						<?php } ?>
 						<br><br><center><h4>Mercado editorial</h4></center>
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
+								<form action="php/mercado_editorial.php" method="POST">
 								<div class="form-group">
-									<label class="control-label no-padding-right" for="nombre"> Materia: </label>
+									<label class="control-label no-padding-right" for="materia"> Materia:<small style="color:red;"> *</small></label>
 
 									<select name="materia" id="materia" class="form-control materia">
 					 			<option value="">Seleccionar</option>
@@ -1220,39 +1301,85 @@
 						<div class="row">
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label for="grado" class="control-label no-padding-right">Grado</label>
+									<label for="grado" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
 						
 								 		<select name="grado" id="grado" class="form-control grado">
-								 			<option value="">Seleccionar</option>
-											 	<?php 
-											 		$sql = "SELECT id, grado FROM grados";
-
-													$req = $bdd->prepare($sql);
-													$req->execute();
-													$grados = $req->fetchAll();
-
-													foreach($grados as $grado) {
-													    $id = $grado['id'];
-													    $nom = $grado['grado'];
-													    echo '<option value="'.$id.'">'.$nom.'</option>';
-													}
-											 	?>
+								 			
+											
 								 		</select>
 								</div>
 				  			</div>
 				  			<div class="col-sm-4">
 				  				<div class="form-group">
-				  					<label for="" class="control-label no-padding-right">Editorial</label>
-				  					<input type="text" class="form-control">
+				  					<label for="editorial" class="control-label no-padding-right">Editorial<small style="color:red;"> *</small></label>
+				  					 <input type="text" required name="editorial" id="editorial" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h()">
+					  				<div id="suggestions"></div>
 				  				</div>
 				  			</div>
 				  			<div class="col-sm-4">
 				  				<div class="form-group">
-				  					<label for="" class="control-label no-padding-right">Título</label>
-				  					<input type="text" class="form-control">
+				  					<label for="libro" class="control-label no-padding-right">Título<small style="color:red;"> *</small></label>
+				  					<input type="text" name="libro" required id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
+					  				<div id="suggestions1"></div>
 				  				</div>
-				  			</div>
 
+				  			</div>
+				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<center><button class="btn btn-success">Guardar</button></center>
+							</form>
+						</div>
+
+						<br><br><center><h4>Areas objetivas</h4></center>
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<form action="php/areas_objetivas.php" method="POST">
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
+
+									<select name="materia1" id="materia1" class="form-control materia">
+					 			<option value="">Seleccionar</option>
+								 	<?php 
+								 		$sql = "SELECT id, materia FROM materias";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+										$materias = $req->fetchAll();
+
+										foreach($materias as $materia) {
+										    $id = $materia['id'];
+										    $nom = $materia['materia'];
+										    echo '<option value="'.$id.'">'.$nom.'</option>';
+										}
+								 	?>
+					 		</select>
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
+						
+								 		<select name="grado1" required id="grado1" class="form-control grado">
+								 			
+											
+								 		</select>
+								</div>
+				  			</div>
+				  			<div class="col-sm-6">
+				  				<div class="form-group">
+				  					<label for="libro2" class="control-label no-padding-right">Título<small style="color:red;"> *</small></label>
+				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h2()">
+					  				<div id="suggestions2"></div>
+				  				</div>
+
+				  			</div>
+				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<br><br><center><button class="btn btn-success">Guardar</button></center>
+							</form>
 						</div>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
@@ -1333,6 +1460,171 @@
 				.next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
+		</script>
+		<script>
+			$('#materia').on('change',function(){
+            var valor = $(this).val();
+             //alert(valor);
+            var dataString = 'materia='+valor;
+            $.ajax({
+
+                url: "ajax/grados.php",
+                type: "POST",
+                data: dataString,
+                success: function (resp) {
+               
+                    $("#grado").html(resp);                        
+                    //console.log(resp);
+                    if(valor =="") {
+            		$("#grado").html("");
+            }
+                },
+                error: function (jqXHR,estado,error){
+                    alert("error");
+                    console.log(estado);
+                    console.log(error);
+                },
+                complete: function (jqXHR,estado){
+                    console.log(estado);
+                }
+
+                        
+            })
+                
+        });
+
+			$('#materia1').on('change',function(){
+            var valor = $(this).val();
+             //alert(valor);
+            var dataString = 'materia='+valor;
+            $.ajax({
+
+                url: "ajax/grados1.php",
+                type: "POST",
+                data: dataString,
+                success: function (resp) {
+               
+                    $("#grado1").html(resp);                        
+                    //console.log(resp);
+                    if(valor =="") {
+            		$("#grado1").html("");
+            }
+                },
+                error: function (jqXHR,estado,error){
+                    alert("error");
+                    console.log(estado);
+                    console.log(error);
+                },
+                complete: function (jqXHR,estado){
+                    console.log(estado);
+                }
+
+                        
+            })
+                
+        });
+
+		function bus_h1(){	
+			var lib= document.getElementById('libro').value;
+			var dataString = 'libro='+lib;
+			$.ajax({
+				type: "POST",
+				url: "ajax/buscar_libro.php",
+				data: dataString,
+				success: function(resp) {
+
+					$("#libro").blur(function(){
+						$('#suggestions1').fadeOut();
+					})
+					if (resp !="") {
+						$('#suggestions1').fadeIn().html(resp);
+					}
+
+					if (resp =="") {
+						$('#suggestions1').fadeOut().html(resp);
+						
+					}
+					
+					$('.suggest-element1 a').on('click', function(){
+						var libro= $(this).attr('data-libro');
+						$('#libro').val(libro);
+						$('#suggestions1').fadeOut();
+
+						return false;
+					});
+
+
+				}
+			});
+		}
+
+		function bus_h2(){	
+			var lib= document.getElementById('libro').value;
+			var dataString = 'libro='+lib;
+			$.ajax({
+				type: "POST",
+				url: "ajax/buscar_libro2.php",
+				data: dataString,
+				success: function(resp) {
+
+					$("#libro2").blur(function(){
+						$('#suggestions2').fadeOut();
+					})
+					if (resp !="") {
+						$('#suggestions2').fadeIn().html(resp);
+					}
+
+					if (resp =="") {
+						$('#suggestions2').fadeOut().html(resp);
+						
+					}
+					
+					$('.suggest-element2 a').on('click', function(){
+						var libro= $(this).attr('data-libro');
+						$('#libro2').val(libro);
+						$('#suggestions2').fadeOut();
+
+						return false;
+					});
+
+
+				}
+			});
+		}
+
+		function bus_h(){	
+			var edit= document.getElementById('editorial').value;
+			var dataString = 'editorial='+edit;
+			$.ajax({
+				type: "POST",
+				url: "ajax/buscar_editorial.php",
+				data: dataString,
+				success: function(resp) {
+
+					$("#editorial").blur(function(){
+						$('#suggestions').fadeOut();
+					})
+					if (resp !="") {
+						$('#suggestions').fadeIn().html(resp);
+					}
+
+					if (resp =="") {
+						$('#suggestions').fadeOut().html(resp);
+						
+					}
+					
+					$('.suggest-element a').on('click', function(){
+						var editorial= $(this).attr('data-editorial');
+						$('#editorial').val(editorial);
+						$('#suggestions').fadeOut();
+
+						return false;
+					});
+
+
+				}
+			});
+		}
 		</script>
 		<!-- inline scripts related to this page -->
 	</body>
