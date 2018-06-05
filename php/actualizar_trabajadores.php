@@ -69,6 +69,5 @@
 		
 	}
 
-
+	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
 ?>
-<script>alert('Datos actualizados correctamente');window.location="../ver_colegios.php";</script>;

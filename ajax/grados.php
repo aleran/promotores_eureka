@@ -1,6 +1,7 @@
 <?php
-	require_once('../conexion/bdd.php'); 
-	$sql = "SELECT id, grado FROM grados a WHERE NOT EXISTS (SELECT id FROM mercado_editorial b WHERE a.id=b.id_grado AND b.id_materia='".$_POST["materia"]."')";
+	require_once('../conexion/bdd.php');
+	list($materia,$colegio)=explode("/", $_POST["materia"]);
+	$sql = "SELECT id, grado FROM grados a WHERE NOT EXISTS (SELECT id FROM mercado_editorial b WHERE a.id=b.id_grado AND b.id_materia='".$materia."' AND b.id_colegio='".$colegio."')";
 
 	$req = $bdd->prepare($sql);
 	$req->execute();

@@ -174,7 +174,7 @@
 							echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
 						?>
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-xs-8">
 								<!-- PAGE CONTENT BEGINS -->
 								<form name="crear_colegio" role="form" action="php/crear_colegio.php" method="POST">
 									<div class="form-group">
@@ -226,7 +226,7 @@
 										
 									</div>
 							</div>
-							<div class="col-sm-8">
+							<div class="col-sm-6">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="web"> Página Web: </label>

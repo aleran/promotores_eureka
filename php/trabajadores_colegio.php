@@ -54,6 +54,6 @@
 		$req->execute();
 		
 	}
+
+	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
 ?>
-<script>alert('Datos guardados correctamente');window.location="../ver_colegios.php";
-</script>;

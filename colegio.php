@@ -319,20 +319,20 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form action="php/trabajadores_colegio.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular"> Celular:<small style="color:red;"> *</small> </label>
+										<label class="control-label no-padding-right" for="celular"> Celular:</label>
 
 										
-											<input required type="tel" name="celular" id="celular" placeholder="" class="form-control" />
+											<input type="tel" name="celular" id="celular" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -342,10 +342,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Email:<small style="color:red;"> *</small> </label>
+										<label class="control-label no-padding-right" for="nombre"> Email: </label>
 
 										
-											<input required  type="email" name="email" id="email" placeholder="" class="form-control" />
+											<input type="email" name="email" id="email" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -370,20 +370,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre1"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre1"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular1"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular1"> Celular:</label>
 
 										
-											<input required type="tel" name="celular1" id="celular1" placeholder="" class="form-control" />
+											<input type="tel" name="celular1" id="celular1" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -393,10 +393,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email1"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email1"> Email:</label>
 
 										
-											<input required type="email" name="email1" id="email1" placeholder="" class="form-control" />
+											<input type="email" name="email1" id="email1" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -421,20 +421,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre2"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre2"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular2"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular2"> Celular:</label>
 
 										
-											<input required type="tel" name="celular2" id="celular2" placeholder="" class="form-control" />
+											<input type="tel" name="celular2" id="celular2" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -444,10 +444,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email2"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email2"> Email:</label>
 
 										
-											<input required type="email" name="email2" id="email2" placeholder="" class="form-control" />
+											<input type="email" name="email2" id="email2" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -472,20 +472,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre3"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre3"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular3"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular3"> Celular:</label>
 
 										
-											<input required type="tel" name="celular3" id="celular3" placeholder="" class="form-control" />
+											<input type="tel" name="celular3" id="celular3" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -495,10 +495,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email3"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email3"> Email:</label>
 
 										
-											<input required type="email" name="email3" id="email3" placeholder="" class="form-control" />
+											<input type="email" name="email3" id="email3" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -523,20 +523,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre4"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre4"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular4"> Celular:<small style="color:red;"> *</small> </label>
+										<label class="control-label no-padding-right" for="celular4"> Celular: </label>
 
 										
-											<input required type="tel" name="celular4" id="celular4" placeholder="" class="form-control" />
+											<input type="tel" name="celular4" id="celular4" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -546,10 +546,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email4"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email4"> Email:</label>
 
 										
-											<input required type="email" name="email4" id="email4" placeholder="" class="form-control" />
+											<input type="email" name="email4" id="email4" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -574,20 +574,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre5"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre5"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular5"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular5"> Celular:</label>
 
 										
-											<input required type="tel" name="celular5" id="celular5" placeholder="" class="form-control" />
+											<input type="tel" name="celular5" id="celular5" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -597,10 +597,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email5"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email5"> Email:</label>
 
 										
-											<input required type="email" name="email5" id="email5" placeholder="" class="form-control" />
+											<input type="email" name="email5" id="email5" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -625,20 +625,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre6"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre6"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control" />
+											<input type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular6"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular6"> Celular:</label>
 
 										
-											<input required type="tel" name="celular6" id="celular6" placeholder="" class="form-control" />
+											<input type="tel" name="celular6" id="celular6" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -648,10 +648,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email6"> Email:<small style="color:red;"> *</small> </label>
+										<label class="control-label no-padding-right" for="email6"> Email: </label>
 
 										
-											<input required type="email" name="email6" id="email6" placeholder="" class="form-control" />
+											<input type="email" name="email6" id="email6" placeholder="" class="form-control" />
 										
 									</div>
 							</div>
@@ -673,6 +673,7 @@
 
 							<center><button class="btn btn-primary">Guardar</button></center>
 							<input required required type="hidden" name="id_colegio" value='<?php echo $colegio["id"] ?>'>
+							<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 							</form>
 							<?php } else { 
 								$sql = "SELECT id, cargo, nombre, telefono, email, cumpleaños FROM trabajadores_colegios WHERE id_colegio='".$colegio['id']."' AND cargo=1";
@@ -724,20 +725,20 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form action="php/actualizar_trabajadores.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores["nombre"]?>"/>
+											<input type="text" name="nombre" id="nombre" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular"> Celular:</label>
 
 										
-											<input required type="tel" name="celular" id="celular" placeholder="" class="form-control"  value="<?php echo $trabajadores["telefono"]?>" />
+											<input type="tel" name="celular" id="celular" placeholder="" class="form-control"  value="<?php echo $trabajadores["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -747,10 +748,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre"> Email:</label>
 
 										
-											<input required type="email" name="email" id="email" placeholder="" class="form-control"  value="<?php echo $trabajadores["email"]?>"/>
+											<input type="email" name="email" id="email" placeholder="" class="form-control"  value="<?php echo $trabajadores["email"]?>"/>
 										
 									</div>
 							</div>
@@ -776,20 +777,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre1"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre1"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores1["nombre"]?>" />
+											<input type="text" name="nombre1" id="nombre1" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores1["nombre"]?>" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular1"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular1"> Celular:</label>
 
 										
-											<input required type="tel" name="celular1" id="celular1" placeholder="" class="form-control" value="<?php echo $trabajadores1["telefono"]?>" />
+											<input type="tel" name="celular1" id="celular1" placeholder="" class="form-control" value="<?php echo $trabajadores1["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -799,10 +800,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email1"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email1"> Email:</label>
 
 										
-											<input required type="email" name="email1" id="email1" placeholder="" class="form-control" value="<?php echo $trabajadores1["email"]?>" />
+											<input type="email" name="email1" id="email1" placeholder="" class="form-control" value="<?php echo $trabajadores1["email"]?>" />
 										
 									</div>
 							</div>
@@ -828,20 +829,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre2"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre2"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores2["nombre"]?>"/>
+											<input type="text" name="nombre2" id="nombre2" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores2["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular2"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular2"> Celular:</label>
 
 										
-											<input required type="tel" name="celular2" id="celular2" placeholder="" class="form-control" value="<?php echo $trabajadores2["telefono"]?>" />
+											<input type="tel" name="celular2" id="celular2" placeholder="" class="form-control" value="<?php echo $trabajadores2["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -851,10 +852,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email2"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email2"> Email:</label>
 
 										
-											<input required type="email" name="email2" id="email2" placeholder="" class="form-control" value="<?php echo $trabajadores2["email"]?>"/>
+											<input type="email" name="email2" id="email2" placeholder="" class="form-control" value="<?php echo $trabajadores2["email"]?>"/>
 										
 									</div>
 							</div>
@@ -880,20 +881,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre3"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre3"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores3["nombre"]?>"/>
+											<input type="text" name="nombre3" id="nombre3" placeholder="Nombre completo" class="form-control" value="<?php echo $trabajadores3["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular3"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular3"> Celular:</label>
 
 										
-											<input required type="tel" name="celular3" id="celular3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["telefono"]?>" />
+											<input type="tel" name="celular3" id="celular3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -903,10 +904,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email3"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email3"> Email:
 
 										
-											<input required type="email" name="email3" id="email3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["email"]?>"/>
+											<input type="email" name="email3" id="email3" placeholder="" class="form-control"  value="<?php echo $trabajadores3["email"]?>"/>
 										
 									</div>
 							</div>
@@ -932,20 +933,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre4"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre4"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores4["nombre"]?>"/>
+											<input type="text" name="nombre4" id="nombre4" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores4["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular4"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular4"> Celular:</label>
 
 										
-											<input required type="tel" name="celular4" id="celular4" placeholder="" class="form-control"    value="<?php echo $trabajadores4["telefono"]?>" />
+											<input type="tel" name="celular4" id="celular4" placeholder="" class="form-control"    value="<?php echo $trabajadores4["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -955,10 +956,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email4"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email4"> Email:</label>
 
 										
-											<input required type="email" name="email4" id="email4" placeholder="" class="form-control"  value="<?php echo $trabajadores4["email"]?>"/>
+											<input type="email" name="email4" id="email4" placeholder="" class="form-control"  value="<?php echo $trabajadores4["email"]?>"/>
 										
 									</div>
 							</div>
@@ -984,20 +985,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre5"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre5"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores5["nombre"]?>"/>
+											<input type="text" name="nombre5" id="nombre5" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores5["nombre"]?>"/>
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular5"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular5"> Celular:</label>
 
 										
-											<input required type="tel" name="celular5" id="celular5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["telefono"]?>" />
+											<input  type="tel" name="celular5" id="celular5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -1007,10 +1008,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email5"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email5"> Email:</label>
 
 										
-											<input required type="email" name="email5" id="email5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["email"]?>" />
+											<input type="email" name="email5" id="email5" placeholder="" class="form-control"  value="<?php echo $trabajadores5["email"]?>" />
 										
 									</div>
 							</div>
@@ -1036,20 +1037,20 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="nombre6"> Nombre:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="nombre6"> Nombre:</label>
 
 										
-											<input required type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores6["nombre"]?>" />
+											<input type="text" name="nombre6" id="nombre6" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores6["nombre"]?>" />
 										
 									</div>
 							</div>
 							<div class="col-sm-4">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="celular6"> Celular:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="celular6"> Celular:</label>
 
 										
-											<input required type="tel" name="celular6" id="celular6" placeholder="" class="form-control" value="<?php echo $trabajadores6["telefono"]?>" />
+											<input type="tel" name="celular6" id="celular6" placeholder="" class="form-control" value="<?php echo $trabajadores6["telefono"]?>" />
 										
 									</div>
 							</div>
@@ -1059,10 +1060,10 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email6"> Email:<small style="color:red;"> *</small></label>
+										<label class="control-label no-padding-right" for="email6"> Email:</label>
 
 										
-											<input required type="email" name="email6" id="email6" placeholder="" class="form-control" value="<?php echo $trabajadores6["email"]?>" />
+											<input type="email" name="email6" id="email6" placeholder="" class="form-control" value="<?php echo $trabajadores6["email"]?>" />
 										
 									</div>
 							</div>
@@ -1085,6 +1086,7 @@
 
 							<center><button class="btn btn-primary">Actualizar</button></center>
 							<input required required type="hidden" name="id_colegio" value='<?php echo $colegio["id"] ?>'>
+							<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 							</form>
 
 							<?php } ?>
@@ -1234,38 +1236,40 @@
 							
 						?>
 						<form action="php/actualizar_poblacion.php" method="POST" >
-						<div class="row">
-							<div class="table-responsive">
-								<table class="table table-bordered table-hover poblacion">
-									<thead>
-										<th>Grados:</th>
-										<th class="prescolar">PRE</th>
-										<th class="prescolar">JAR</th>
-										<th class="prescolar">TRA</th>
-										<th class="primaria">1</th>
-										<th class="primaria">2</th>
-										<th class="primaria">3</th>
-										<th class="primaria">4</th>
-										<th class="primaria">5</th>
-										<th class="bachillerato">6</th>
-										<th class="bachillerato">7</th>
-										<th class="bachillerato">8</th>
-										<th class="bachillerato">9</th>
-										<th class="bachillerato">10</th>
-										<th class="bachillerato">11</th>
-										<th class="prescolar">Total prescolar</th>
-										<th class="primaria">Total primaria</th>
-										<th class="bachillerato">Total bachillerato</th>
-										<th>Global</th>
-									</thead>
-									<tbody>
-										<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre" value="<?php echo $gp_pre["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_jar" value="<?php echo $gp_jar["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_tra" value="<?php echo $gp_tra["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_1" value="<?php echo $gp_1["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_2" value="<?php echo $gp_2["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_3" value="<?php echo $gp_3["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_4" value="<?php echo $gp_4["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_5" value="<?php echo $gp_5["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_6" value="<?php echo $gp_6["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_7" value="<?php echo $gp_7["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_8" value="<?php echo $gp_8["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_9" value="<?php echo $gp_9["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_10" value="<?php echo $gp_10["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_11" value="<?php echo $gp_11["paralelos"]; ?>"></td><td><?php echo $paralelos_prescolar?></td><td><?php echo $paralelos_pri ?></td></td><td><?php echo $paralelos_bach ?></td><td><?php echo $paralelos_global ?></td></tr>
-
-										<tr><td>Alumnos</td><td><input type="number" class="poblacion" name="a_pre" value="<?php echo $gp_pre["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_jar" value="<?php echo $gp_jar["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_tra" value="<?php echo $gp_tra["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_1" value="<?php echo $gp_1["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_2" value="<?php echo $gp_2["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_3" value="<?php echo $gp_3["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_4" value="<?php echo $gp_4["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_5" value="<?php echo $gp_5["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_6" value="<?php echo $gp_6["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_7" value="<?php echo $gp_7["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_8" value="<?php echo $gp_8["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_9" value="<?php echo $gp_9["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_10" value="<?php echo $gp_10["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_11" value="<?php echo $gp_11["alumnos"]; ?>"></td></td></td><td><?php echo $alumnos_prescolar ?></td><td><?php echo $alumnos_pri ?></td></td><td><?php echo $alumnos_bach ?></td><td><?php echo $alumnos_global ?></td></tr>
-									</tbody>
-								</table>
+						<center>
+							<div class="row">
+								<div class="table-responsive">
+									<table class="table table-bordered table-hover poblacion">
+										<thead>
+											<th>Grados:</th>
+											<th class="prescolar">PRE</th>
+											<th class="prescolar">JAR</th>
+											<th class="prescolar">TRA</th>
+											<th class="primaria">1</th>
+											<th class="primaria">2</th>
+											<th class="primaria">3</th>
+											<th class="primaria">4</th>
+											<th class="primaria">5</th>
+											<th class="bachillerato">6</th>
+											<th class="bachillerato">7</th>
+											<th class="bachillerato">8</th>
+											<th class="bachillerato">9</th>
+											<th class="bachillerato">10</th>
+											<th class="bachillerato">11</th>
+											<th class="prescolar">Total prescolar</th>
+											<th class="primaria">Total primaria</th>
+											<th class="bachillerato">Total bachillerato</th>
+											<th>Global</th>
+										</thead>
+										<tbody>
+											<tr><td>Paralelos</td><td><input type="number" class="poblacion" name="p_pre" value="<?php echo $gp_pre["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_jar" value="<?php echo $gp_jar["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_tra" value="<?php echo $gp_tra["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_1" value="<?php echo $gp_1["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_2" value="<?php echo $gp_2["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_3" value="<?php echo $gp_3["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_4" value="<?php echo $gp_4["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_5" value="<?php echo $gp_5["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_6" value="<?php echo $gp_6["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_7" value="<?php echo $gp_7["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_8" value="<?php echo $gp_8["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_9" value="<?php echo $gp_9["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_10" value="<?php echo $gp_10["paralelos"]; ?>"></td><td><input type="number" class="poblacion" name="p_11" value="<?php echo $gp_11["paralelos"]; ?>"></td><td><?php echo $paralelos_prescolar?></td><td><?php echo $paralelos_pri ?></td></td><td><?php echo $paralelos_bach ?></td><td><?php echo $paralelos_global ?></td></tr>
+							
+											<tr><td>Alumnos</td><td><input type="number" class="poblacion" name="a_pre" value="<?php echo $gp_pre["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_jar" value="<?php echo $gp_jar["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_tra" value="<?php echo $gp_tra["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_1" value="<?php echo $gp_1["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_2" value="<?php echo $gp_2["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_3" value="<?php echo $gp_3["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_4" value="<?php echo $gp_4["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_5" value="<?php echo $gp_5["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_6" value="<?php echo $gp_6["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_7" value="<?php echo $gp_7["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_8" value="<?php echo $gp_8["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_9" value="<?php echo $gp_9["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_10" value="<?php echo $gp_10["alumnos"]; ?>"></td><td><input type="number" class="poblacion" name="a_11" value="<?php echo $gp_11["alumnos"]; ?>"></td></td></td><td><?php echo $alumnos_prescolar ?></td><td><?php echo $alumnos_pri ?></td></td><td><?php echo $alumnos_bach ?></td><td><?php echo $alumnos_global ?></td></tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
-						</div>
+						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<center><button class="btn btn-success">Actualizar</button></center>
@@ -1318,17 +1322,24 @@
 				  			</div>
 				  			<div class="col-sm-4">
 				  				<div class="form-group">
-				  					<label for="libro" class="control-label no-padding-right">Título<small style="color:red;"> *</small></label>
-				  					<input type="text" name="libro" required id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
+				  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>
+				  					<input type="text" name="libro" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
 					  				<div id="suggestions1"></div>
 				  				</div>
 
 				  			</div>
+				  			<div class="row">
+								<div class="col-sm-4 col-sm-offset-4">
+									<label for="vigencia" class="control-label no-padding-right">Vigencia</label>
+					  				<input type="text" name="vigencia" id="vigencia" class="form-control" placeholder="" >
+								</div>
+							</div><br>
 				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 				  			<center><button class="btn btn-success">Guardar</button></center>
 							</form>
 						</div>
+						
 
 						<br><br><center><h4>Areas objetivas</h4></center>
 						<div class="row">
@@ -1370,13 +1381,13 @@
 				  			</div>
 				  			<div class="col-sm-6">
 				  				<div class="form-group">
-				  					<label for="libro2" class="control-label no-padding-right">Título<small style="color:red;"> *</small></label>
+				  					<label for="libro2" class="control-label no-padding-right">Título o paquete<small style="color:red;"> *</small></label>
 				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h2()">
 					  				<div id="suggestions2"></div>
 				  				</div>
 
 				  			</div>
-				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+				  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 				  			<br><br><center><button class="btn btn-success">Guardar</button></center>
 							</form>
@@ -1464,8 +1475,9 @@
 		<script>
 			$('#materia').on('change',function(){
             var valor = $(this).val();
+            var colegio=$("#cole").val();
              //alert(valor);
-            var dataString = 'materia='+valor;
+            var dataString = 'materia='+valor+"/"+colegio;
             $.ajax({
 
                 url: "ajax/grados.php",
@@ -1476,8 +1488,8 @@
                     $("#grado").html(resp);                        
                     //console.log(resp);
                     if(valor =="") {
-            		$("#grado").html("");
-            }
+            			$("#grado").html("");
+            		}
                 },
                 error: function (jqXHR,estado,error){
                     alert("error");
@@ -1495,8 +1507,9 @@
 
 			$('#materia1').on('change',function(){
             var valor = $(this).val();
+            var colegio=$("#cole").val();
              //alert(valor);
-            var dataString = 'materia='+valor;
+            var dataString = 'materia='+valor+"/"+colegio;
             $.ajax({
 
                 url: "ajax/grados1.php",

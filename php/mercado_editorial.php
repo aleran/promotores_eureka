@@ -1,7 +1,7 @@
 <?php 
 	require_once('../conexion/bdd.php');
 	
-		$sql_p="INSERT INTO mercado_editorial(id_periodo,id_colegio,id_materia,id_grado,editorial,libro) VALUES('1','".$_POST["id_colegio"]."', '".$_POST["materia"]."', '".$_POST["grado"]."', '".$_POST["editorial"]."','".$_POST["libro"]."')";
+		$sql_p="INSERT INTO mercado_editorial(id_periodo,id_colegio,id_materia,id_grado,editorial,libro,vigencia) VALUES('1','".$_POST["id_colegio"]."', '".$_POST["materia"]."', '".$_POST["grado"]."', '".$_POST["editorial"]."','".$_POST["libro"]."','".$_POST["vigencia"]."')";
 
 		$query_p = $bdd->prepare( $sql_p );
 		if ($query_p == false) {
