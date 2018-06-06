@@ -1092,6 +1092,104 @@
 							<?php } ?>
 
 						</div>
+						<form action="php/crear_profesor.php" method="POST">
+						<div class="row">
+							<br><center><h4>Directorio de profesores</h4></center>
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="profesor" class="control-label no-padding-right">Nombre Profesor<small style="color:red;"> *</small></label>
+				  					 <input type="text" required name="profesor" id="profesor" class="form-control" placeholder="">
+				  				</div>
+				  			</div>
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="telefono_p" class="control-label no-padding-right">Telefono<small style="color:red;"> *</small></label>
+				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" >
+				  				</div>
+
+				  			</div>
+				  			
+							<div class="col-sm-4">
+								<label for="email_p" class="control-label no-padding-right">Email</label>
+					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" >
+							</div>
+							<br>
+				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+						</div>
+						<div class="otro_p">
+							<div class="row profesor">
+								<div class="col-sm-6">
+									<form action="php/mercado_editorial.php" method="POST">
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="materia_p"> Materia:<small style="color:red;"> *</small></label>
+							
+										<select name="materia[]" id="materia_p" class="form-control materia" required=>
+												 					<option value="">Seleccionar</option>
+											 	<?php 
+											 		$sql = "SELECT id, materia FROM materias";
+							
+													$req = $bdd->prepare($sql);
+													$req->execute();
+													$materias = $req->fetchAll();
+							
+													foreach($materias as $materia) {
+													    $id = $materia['id'];
+													    $nom = $materia['materia'];
+													    echo '<option value="'.$id.'">'.$nom.'</option>';
+													}
+											 	?>
+												 				</select>
+											
+									</div>
+							
+								</div>
+								<div class="col-sm-6">
+									<form action="php/mercado_editorial.php" method="POST">
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="grado_p"> Grado:<small style="color:red;"> *</small></label>
+							
+										<select name="grado[]" id="grado_p" class="form-control materia" re>
+												 					<option value="">Seleccionar</option>
+											 	<?php 
+											 		$sql = "SELECT id, grado FROM grados";
+							
+													$req = $bdd->prepare($sql);
+													$req->execute();
+													$grados = $req->fetchAll();
+							
+													foreach($grados as $grado) {
+													    $id = $grado['id'];
+													    $nom = $grado['grado'];
+													    echo '<option value="'.$id.'">'.$nom.'</option>';
+													}
+											 	?>
+												 				</select>
+											
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<a id="agregar_materia">Agregar materia +</a>
+
+						<center><button class="btn btn-success">Guardar</button></center>
+						</form>
+						<div class="row">
+							<?php 
+								$sql = "SELECT a.*, b.materia, c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
+							
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$grados = $req->fetchAll();
+							
+								foreach($grados as $grado) {
+									$id = $grado['id'];
+									$nom = $grado['grado'];
+									echo '<option value="'.$id.'">'.$nom.'</option>';
+								}
+							?>
+						</div>
 						<br><center><h4>Información de población</h4></center>
 						<?php 
 							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."'";
@@ -1638,6 +1736,10 @@
 				}
 			});
 		}
+
+		$("#agregar_materia").click(function(){
+			$(".profesor").clone().appendTo(".otro_p");
+		});
 		</script>
 		<!-- inline scripts related to this page -->
 	</body>
