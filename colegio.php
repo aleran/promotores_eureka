@@ -1125,7 +1125,7 @@
 										<label class="control-label no-padding-right" for="materia_p"> Materia:<small style="color:red;"> *</small></label>
 							
 										<select name="materia[]" id="materia_p" class="form-control materia" required=>
-												 					<option value="">Seleccionar</option>
+											<option value="">Seleccionar</option>
 											 	<?php 
 											 		$sql = "SELECT id, materia FROM materias";
 							
@@ -1139,7 +1139,7 @@
 													    echo '<option value="'.$id.'">'.$nom.'</option>';
 													}
 											 	?>
-												 				</select>
+										</select>
 											
 									</div>
 							
@@ -1175,21 +1175,67 @@
 
 						<center><button class="btn btn-success">Guardar</button></center>
 						</form>
+						
 						<div class="row">
 							<?php 
-								$sql = "SELECT a.*, b.materia, c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
+								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
-								$grados = $req->fetchAll();
+								$profes = $req->fetchAll();
 							
-								foreach($grados as $grado) {
-									$id = $grado['id'];
-									$nom = $grado['grado'];
-									echo '<option value="'.$id.'">'.$nom.'</option>';
+								foreach($profes as $profe) {
+
+									echo'<form action="php/modificar_profesor.php" method="POST">
+									<div class="row">
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="profesor" class="control-label no-padding-right">Nombre Profesor<small style="color:red;"> *</small></label>
+				  					 <input type="text" required name="profesor" id="profesor" class="form-control" value="'.$profe["nombre"].'">
+				  				</div>
+				  			</div>
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="telefono_p" class="control-label no-padding-right">Telefono<small style="color:red;"> *</small></label>
+				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" value="'.$profe["telefono"].'">
+				  				</div>
+
+				  			</div>
+				  			
+							<div class="col-sm-4">
+								<label for="email_p" class="control-label no-padding-right">Email</label>
+					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" value="'.$profe["email"].'">
+							</div>
+							<br>
+				  			<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
+				  			<input type="hidden" name="cod_profesor" value="'.$profe["cod_profesor"].'">	
+						</div>';
+
+									echo'<div class="row profesor">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="materia_p"> Materia: '.$profe["materia"].'</label>
+							
+										
+											
+									</div>
+							
+								</div>
+								<div class="col-sm-6">
+									
+									<label class="control-label no-padding-right" for="grado_p"> Grado: '.$profe["grado"].'</label>
+							
+									
+								</div>
+							</div>
+							<center><button class="btn btn-success">Actualizar</button></center>
+							</form>';
+
 								}
 							?>
 						</div>
+
 						<br><center><h4>Información de población</h4></center>
 						<?php 
 							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."'";
@@ -1436,9 +1482,51 @@
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 				  			<center><button class="btn btn-success">Guardar</button></center>
 							</form>
-						</div>
-						
+						</div><br><br>
+						<?php 
+						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."'";
+							
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$mercados = $req->fetchAll();
 
+								foreach ($mercados as $mercado) {
+									echo '<form action="php/modificar_mercado.php" method="POST">
+									<div class="row">
+						 	<div class="col-sm-4">
+						 		<label>Materia: '.$mercado["materia"].'</label>
+						 	</div>
+						 	<div class="col-sm-4">
+						 		<label>Grado: '.$mercado["grado"].'</label>
+						 	</div>
+						 	<div class="col-sm-4">
+						 		<div class="form-group">
+				  					<label>Editorial: '.$mercado["editorial"].'</label>
+				  				</div>
+				  			</div>
+						 </div>
+						 <div class="row">
+						 	
+				  			<div class="col-sm-6">
+				  				<div class="form-group">
+				  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>
+				  					<input type="text" name="libro" id="libro" class="form-control" placeholder="" value="'.$mercado["libro"].'">
+				  				</div>
+
+				  			</div>
+							<div class="col-sm-6">
+								<label for="vigencia" class="control-label no-padding-right">Vigencia</label>
+					  			<input type="text" name="vigencia" id="vigencia" class="form-control" placeholder="" value="'.$mercado["vigencia"].'">
+							</div>
+						 </div>
+						 <center><button class="btn btn-success">Actualizar</button></center>
+						 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
+				  			<input type="hidden" name="id_mercado" value="'.$mercado["aid"].'">						 </form>';
+								}
+						 ?>
+
+						 
 						<br><br><center><h4>Areas objetivas</h4></center>
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
@@ -1489,7 +1577,41 @@
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 				  			<br><br><center><button class="btn btn-success">Guardar</button></center>
 							</form>
-						</div>
+						</div><br><br>
+						<?php 
+							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.libro, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."'";
+							
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$areas = $req->fetchAll();
+
+								foreach ($areas as $area) {
+									echo '
+									<form action="php/modificar_areas.php" method="POST"><div class="row">
+						 			<div class="col-sm-6">
+						 				<label>Materia: '.$area["materia"].'</label>
+						 			</div>
+						 			<div class="col-sm-6">
+						 				<label>Grado: '.$area["grado"].'</label>
+						 			</div>
+						 		</div>
+						 		<div class="col-sm-6 col-sm-offset-3">
+						 			<div class="form-group">
+				  					<label for="libro2" class="control-label no-padding-right">Título o paquete<small style="color:red;"> *</small></label>
+				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" value="'.$area["libro"].'">
+					  				
+				  				</div>
+				  				<center><button class="btn btn-success">Actualizar</button></center>
+				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
+				  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
+				  				</form>';
+
+								}
+
+						 ?>
+						 		
+						 		</div>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
