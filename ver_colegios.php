@@ -160,6 +160,14 @@
 							</h1>
 						</div><!-- /.page-header -->
 
+							<?php
+								$sql_z = "SELECT codigo, zona FROM zonas WHERE id='".$_SESSION['zona']."'";
+								$req_z = $bdd->prepare($sql_z);
+								$req_z->execute();
+								$zona = $req_z->fetch();
+								echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
+							?>
+							
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
@@ -174,15 +182,28 @@
 
 								<?php 
                                 include("conexion/bdd.php");
+                                if ($_SESSION["tipo"]==1) {
+                                	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios ";
+									$req = $bdd->prepare($sql);
+									$req->execute();
+                                }
 
-                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios ";
+                                else {
 
-								$req = $bdd->prepare($sql);
-								$req->execute();
+                                	$sql_z = "SELECT codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
+									$req_z = $bdd->prepare($sql_z);
+									$req_z->execute();
+									$zona = $req_z->fetch();
+
+                                	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios WHERE cod_zona='".$zona["codigo"]."'";
+									$req = $bdd->prepare($sql);
+									$req->execute();
+
+                                }
+                                
 
 								$colegios = $req->fetchAll();
                                 
-
                             ?>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -220,9 +241,9 @@
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 
-															<button class="btn btn-xs btn-danger">
+															<a class="btn btn-xs btn-danger" href="php/eliminar_colegio.php?codigo='.$codigo.'">
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
-															</button>
+															</a>
 
 														</div>
 
@@ -243,7 +264,7 @@
 																	</li>
 
 																	<li>
-																		<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																		<a href="php/eliminar_colegio.php?codigo='.$codigo.'" class="tooltip-error" data-rel="tooltip" title="Delete">
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>

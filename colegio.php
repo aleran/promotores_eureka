@@ -273,6 +273,11 @@
 
 									$colegio = $req->fetch();
 
+									$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+
+									$req_periodo = $bdd->prepare($sql_periodo);
+									$req_periodo->execute();
+									$gp_periodo = $req_periodo->fetch();
 
                             	?>
                         	</div>
@@ -301,7 +306,20 @@
                         			
                         	</table>
                         </div>
-                        <?php 
+                        <div id="accordion" class="accordion-style1 panel-group">
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+															<i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;Información básica
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse in" id="collapseOne">
+													<div class="panel-body">
+														<?php 
                         	$sql = "SELECT id FROM trabajadores_colegios WHERE id_colegio='".$colegio['id']."'";
 
 							$req = $bdd->prepare($sql);
@@ -1092,7 +1110,23 @@
 							<?php } ?>
 
 						</div>
-						<form action="php/crear_profesor.php" method="POST">
+													</div>
+												</div>
+											</div>
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;Directorio de profesores
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapseTwo">
+													<div class="panel-body">
+														<form action="php/crear_profesor.php" method="POST">
 						<div class="row">
 							<br><center><h4>Directorio de profesores</h4></center>
 				  			<div class="col-sm-4">
@@ -1178,7 +1212,7 @@
 						
 						<div class="row">
 							<?php 
-								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
+								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' AND a.id_periodo='".$gp_periodo["id"]."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -1212,7 +1246,7 @@
 				  			<input type="hidden" name="cod_profesor" value="'.$profe["cod_profesor"].'">	
 						</div>';
 
-									echo'<div class="row profesor">
+									echo'<div class="row">
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="materia_p"> Materia: '.$profe["materia"].'</label>
@@ -1236,9 +1270,26 @@
 							?>
 						</div>
 
+													</div>
+												</div>
+											</div>
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;Información de población
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapseThree">
+													<div class="panel-body">
+														
 						<br><center><h4>Información de población</h4></center>
 						<?php 
-							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."'";
+							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 
 							$req = $bdd->prepare($sql);
 							$req->execute();
@@ -1287,72 +1338,72 @@
 						</form>
 						<?php }else{
 
-							$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=1";
+							$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=1 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_pre = $bdd->prepare($sql_pre);
 							$req_pre->execute();
 							$gp_pre = $req_pre->fetch();
 
-							$sql_jar = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=2";
+							$sql_jar = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=2 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_jar = $bdd->prepare($sql_jar);
 							$req_jar->execute();
 							$gp_jar = $req_jar->fetch();
 
-							$sql_tra = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=3";
+							$sql_tra = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=3  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_tra = $bdd->prepare($sql_tra);
 							$req_tra->execute();
 							$gp_tra = $req_tra->fetch();
 
-							$sql_1 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=4";
+							$sql_1 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=4  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_1 = $bdd->prepare($sql_1);
 							$req_1->execute();
 							$gp_1 = $req_1->fetch();
 
-							$sql_2 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=5";
+							$sql_2 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=5  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_2 = $bdd->prepare($sql_2);
 							$req_2->execute();
 							$gp_2 = $req_2->fetch();
 
-							$sql_3 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=6";
+							$sql_3 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=6 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_3 = $bdd->prepare($sql_3);
 							$req_3->execute();
 							$gp_3 = $req_3->fetch();
 
-							$sql_4 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=7";
+							$sql_4 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=7  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_4 = $bdd->prepare($sql_4);
 							$req_4->execute();
 							$gp_4 = $req_4->fetch();
 
-							$sql_5 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=8";
+							$sql_5 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=8  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_5 = $bdd->prepare($sql_5);
 							$req_5->execute();
 							$gp_5 = $req_5->fetch();
 
-							$sql_6 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=9";
+							$sql_6 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=9  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_6 = $bdd->prepare($sql_6);
 							$req_6->execute();
 							$gp_6 = $req_6->fetch();
 
-							$sql_7 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=10";
+							$sql_7 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=10 AND  id_periodo='".$gp_periodo["id"]."'";
 							$req_7 = $bdd->prepare($sql_7);
 							$req_7->execute();
 							$gp_7 = $req_7->fetch();
 
-							$sql_8 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=11";
+							$sql_8 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=11 AND  id_periodo='".$gp_periodo["id"]."'";
 							$req_8 = $bdd->prepare($sql_8);
 							$req_8->execute();
 							$gp_8 = $req_8->fetch();
 
-							$sql_9 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=12";
+							$sql_9 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=12 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_9 = $bdd->prepare($sql_9);
 							$req_9->execute();
 							$gp_9 = $req_9->fetch();
 
-							$sql_10 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=13";
+							$sql_10 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=13 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_10 = $bdd->prepare($sql_10);
 							$req_10->execute();
 							$gp_10 = $req_10->fetch();
 
-							$sql_11 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=14";
+							$sql_11 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=14 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_11 = $bdd->prepare($sql_11);
 							$req_11->execute();
 							$gp_11 = $req_11->fetch();
@@ -1419,7 +1470,23 @@
 						<center><button class="btn btn-success">Actualizar</button></center>
 						</form>
 						<?php } ?>
-						<br><br><center><h4>Mercado editorial</h4></center>
+													</div>
+												</div>
+											</div>
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefour">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;Mercado editorial
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapsefour">
+													<div class="panel-body">
+														<br><br><center><h4>Mercado editorial</h4></center>
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
 								<form action="php/mercado_editorial.php" method="POST">
@@ -1484,7 +1551,7 @@
 							</form>
 						</div><br><br>
 						<?php 
-						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."'";
+						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -1525,9 +1592,23 @@
 				  			<input type="hidden" name="id_mercado" value="'.$mercado["aid"].'">						 </form>';
 								}
 						 ?>
+													</div>
+												</div>
+											</div>
 
-						 
-						<br><br><center><h4>Areas objetivas</h4></center>
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefive">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;Areas obejetivas
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapsefive">
+													<div class="panel-body">
+														<br><br><center><h4>Areas objetivas</h4></center>
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
 								<form action="php/areas_objetivas.php" method="POST">
@@ -1538,11 +1619,9 @@
 					 			<option value="">Seleccionar</option>
 								 	<?php 
 								 		$sql = "SELECT id, materia FROM materias";
-
 										$req = $bdd->prepare($sql);
 										$req->execute();
 										$materias = $req->fetchAll();
-
 										foreach($materias as $materia) {
 										    $id = $materia['id'];
 										    $nom = $materia['materia'];
@@ -1579,12 +1658,11 @@
 							</form>
 						</div><br><br>
 						<?php 
-							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.libro, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."'";
+							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.libro, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$areas = $req->fetchAll();
-
 								foreach ($areas as $area) {
 									echo '
 									<form action="php/modificar_areas.php" method="POST"><div class="row">
@@ -1605,13 +1683,19 @@
 				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
 				  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
-				  				</form>';
-
+				  				</form></div>';
 								}
-
 						 ?>
-						 		
-						 		</div>
+													</div>
+												</div>
+											</div>
+
+                        
+						
+						
+
+						 
+						
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->

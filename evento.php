@@ -1,3 +1,4 @@
+<?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -48,6 +49,27 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+		.suggest-element1{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions1 {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
+		</style>
 	</head>
 
 	<body class="no-skin">
@@ -271,9 +293,9 @@
 				<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 					?>
 				  <div class="form-group">
-					<label for="colegio" class="col-sm-2 control-label">Materia</label>
+					<label for="materia" class="col-sm-2 control-label">Materia:<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					 <select name="colegio" id="colegio" class="form-control">
+					 <select name="materia" id="materia" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<?php 
 					 		$sql = "SELECT id, materia FROM materias";
@@ -292,15 +314,38 @@
 					</div>
 				  </div>
 				  <div class="form-group">
-					<label for="libro" class="col-sm-2 control-label">Libro</label>
+					<label for="grado" class="col-sm-2 control-label">Grado:<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					  <input type="text" name="libro" class="form-control" id="libro" placeholder="Nombre del profesor">
+					 <select name="grado" id="grado" class="form-control" required>
+					 	<option value="">Seleccionar</option>
+					 	<?php 
+					 		$sql = "SELECT id, grado FROM grados";
+
+							$req = $bdd->prepare($sql);
+							$req->execute();
+							$grados = $req->fetchAll();
+
+							foreach($grados as $grado) {
+							    $id = $grado['id'];
+							    $nom = $grado['grado'];
+							    echo '<option value="'.$id.'">'.$nom.'</option>';
+							}
+					 	?>
+					 </select>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label for="libro" class="col-sm-2 control-label">Libro:<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					  <input type="text" name="libro" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
+					  <input type="hidden" name="libro2" id="libro2" class="form-control" placeholder="" value="no">
+					  <div id="suggestions1"></div>
 					</div>
 				  </div>
 				  <?php } ?>
 
 				<div class="form-group">
-					<label for="comentarios" class="col-sm-2 control-label">Comentarios</label>
+					<label for="comentarios" class="col-sm-2 control-label">Comentarios:</label>
 					<div class="col-sm-10">
 					<textarea class="form-control" rows="3" name="comentarios" id="comentarios"></textarea>
 					</div>
@@ -868,6 +913,45 @@
 		};
 	navigator.geolocation.getCurrentPosition(success, error);
 	<?php } ?>
+
+	function bus_h1(){	
+			var lib= document.getElementById('libro').value;
+			var dataString = 'libro='+lib;
+			$("#libro").change(function(){
+				$("#libro2").val("no");
+			});
+			$.ajax({
+				type: "POST",
+				url: "ajax/buscar_libro3.php",
+				data: dataString,
+				success: function(resp) {
+
+					$("#libro").blur(function(){
+						$('#suggestions1').fadeOut();
+					})
+					if (resp !="") {
+						$('#suggestions1').fadeIn().html(resp);
+					}
+
+					if (resp =="") {
+						$('#suggestions1').fadeOut().html(resp);
+						
+					}
+					
+					$('.suggest-element1 a').on('click', function(){
+						var libro= $(this).attr('data-libro');
+						var libro_id=$(this).attr('id');
+						$('#libro').val(libro);
+						$('#libro2').val(libro_id);
+						$('#suggestions1').fadeOut();
+
+						return false;
+					});
+
+
+				}
+			});
+		}
 	</script>
 		
 	</body>

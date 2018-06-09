@@ -3,10 +3,16 @@
 	 	require_once("../php/aut.php");
 		include("../conexion/bdd.php");
 
+		$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+
+		$req_periodo = $bdd->prepare($sql_periodo);
+		$req_periodo->execute();
+		$gp_periodo = $req_periodo->fetch();
+
 		do {
 	    $caracteres = "1234567890"; //posibles caracteres a usar
 	    $numerodeletras=8; //numero de letras para generar el texto
-	    $cod_colegio ="1-".""; //variable para almacenar la cadena generada
+	    $cod_colegio =$gp_periodo["id"]."-".""; //variable para almacenar la cadena generada
 	    for($i=0;$i<$numerodeletras;$i++)
 	    {
 	       $cod_colegio .=substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres 

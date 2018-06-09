@@ -39,10 +39,16 @@
 				 die ('Erreur execute');
 				}
 
+	$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+
+	$req_periodo = $bdd->prepare($sql_periodo);
+	$req_periodo->execute();
+	$gp_periodo = $req_periodo->fetch();
+
 	foreach ($_POST["materia"] as $materias => $materia) {
 
 		foreach ($_POST["grado"] as $grados => $grado) {
-			$sql_z = "INSERT INTO grados_materias(id_periodo,cod_profesor, id_grado, id_materia) values ('1','".$cod_profesor."','".$grado."', '".$materia."')";
+			$sql_z = "INSERT INTO grados_materias(id_periodo,cod_profesor, id_grado, id_materia) values ('".$gp_periodo["id"]."','".$cod_profesor."','".$grado."', '".$materia."')";
 				
 			//echo $sql_z;
 				

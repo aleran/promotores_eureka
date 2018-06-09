@@ -1,8 +1,13 @@
+<?php require_once("php/aut.php"); ?>
 <?php
 require_once('conexion/bdd.php');
 
+$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+$req_periodo = $bdd->prepare($sql_periodo);
+$req_periodo->execute();
+$gp_periodo = $req_periodo->fetch();
 
-$sql = "SELECT id, id_colegio, color, start,end FROM plan_trabajo ";
+$sql = "SELECT id, id_colegio, color, start,end FROM plan_trabajo WHERE id_promotor='".$_SESSION['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 
 $req = $bdd->prepare($sql);
 $req->execute();
@@ -1046,7 +1051,7 @@ $events = $req->fetchAll();
 				  <div class="form-group">
 					<label for="colegio" class="col-sm-2 control-label">Colegio</label>
 					<div class="col-sm-10">
-					 <select name="colegio" id="colegio" class="form-control">
+					 <select name="colegio" id="colegio" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<?php 
 					 		$sql = "SELECT id, colegio FROM colegios";
@@ -1073,54 +1078,12 @@ $events = $req->fetchAll();
 					</div>
 				  </div>
 					
-					<div class="form-group">
-						<label for="materia" class="col-sm-2 control-label materia">Materia</label>
-						<div class="col-sm-10">
-					 		<select name="materia" id="materia" class="form-control materia">
-					 			<option value="">Seleccionar</option>
-								 	<?php 
-								 		$sql = "SELECT id, materia FROM materias";
-
-										$req = $bdd->prepare($sql);
-										$req->execute();
-										$materias = $req->fetchAll();
-
-										foreach($materias as $materia) {
-										    $id = $materia['id'];
-										    $nom = $materia['materia'];
-										    echo '<option value="'.$id.'">'.$nom.'</option>';
-										}
-								 	?>
-					 		</select>
-						</div>
-				  </div>
-
-				  <div class="form-group">
-						<label for="grado" class="col-sm-2 control-label grado">Grado</label>
-						<div class="col-sm-10">
-					 		<select name="grado" id="grado" class="form-control grado">
-					 			<option value="">Seleccionar</option>
-								 	<?php 
-								 		$sql = "SELECT id, grado FROM grados";
-
-										$req = $bdd->prepare($sql);
-										$req->execute();
-										$grados = $req->fetchAll();
-
-										foreach($grados as $grado) {
-										    $id = $grado['id'];
-										    $nom = $grado['grado'];
-										    echo '<option value="'.$id.'">'.$nom.'</option>';
-										}
-								 	?>
-					 		</select>
-						</div>
-				  </div>
+					
 
 				  <div class="form-group">
 					<label for="objetivo" class="col-sm-2 control-label">Objetivo</label>
 					<div class="col-sm-10">
-					 <select name="objetivo" id="objetivo" class="form-control">
+					 <select name="objetivo" id="objetivo" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<?php 
 					 		$sql = "SELECT id, objetivo FROM objetivos";
@@ -1438,15 +1401,11 @@ $events = $req->fetchAll();
 				})
 				if (resp !="") {
 					$('#suggestions').fadeIn().html(resp);
-					$(".grado").addClass("hidden");
-					$(".materia").addClass("hidden");
 				}
 
 				if (resp =="") {
 					$('#suggestions').fadeOut().html(resp);
 					$('#profe').val("no");
-					$(".grado").removeClass("hidden");
-					$(".materia").removeClass("hidden");
 				}
 				
 				$('.suggest-element a').on('click', function(){
