@@ -241,7 +241,7 @@
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 
-															<a class="btn btn-xs btn-danger" href="php/eliminar_colegio.php?codigo='.$codigo.'">
+															<a class="btn btn-xs btn-danger eliminar" href="#" data-codigo='.$codigo.'>
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
 															</a>
 
@@ -264,7 +264,8 @@
 																	</li>
 
 																	<li>
-																		<a href="php/eliminar_colegio.php?codigo='.$codigo.'" class="tooltip-error" data-rel="tooltip" title="Delete">
+																		<a href="#" class="tooltip-error eliminar" data-rel="tooltip 
+																		" title="Delete" data-codigo='.$codigo.'>
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>
@@ -366,6 +367,16 @@
         			}
                 });
             });
+
+            $(".eliminar").click(function(e){
+
+	            e.preventDefault();
+	            var cod= $(this).attr('data-codigo');
+	            if (confirm("¿Seguro que desea eliminar este colegio")) {
+	                window.location="php/eliminar_colegio.php?codigo="+cod
+	            }
+
+        	})
     </script>
 	</body>
 </html>
