@@ -1198,7 +1198,7 @@
 													    echo '<option value="'.$id.'">'.$nom.'</option>';
 													}
 											 	?>
-												 				</select>
+										</select>
 											
 									</div>
 									

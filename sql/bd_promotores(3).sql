@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 09, 2018 at 01:23 AM
+-- Generation Time: Jun 10, 2018 at 12:27 AM
 -- Server version: 5.5.60-0+deb8u1
 -- PHP Version: 5.6.33-0+deb8u1
 
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `colegios` (
   `cod_zona` varchar(8) COLLATE utf8_spanish_ci NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Dumping data for table `colegios`
@@ -270,9 +270,7 @@ INSERT INTO `colegios` (`id`, `codigo`, `colegio`, `direccion`, `barrio`, `telef
 (158, '1-04610962', 'Instituto Pedagógico Federico Balart', 'Cra 96 Bis #18-03', 'Patio Bonito', '2994954', '', '0000-00-00', '12345678', 2, '2018-06-01 14:41:22'),
 (159, '1-2732755', 'Pilar del Sur', 'Cll 11 Sur # 9- 11', 'Ciudad Jardin', '2330117', '', '0000-00-00', '12345678', 2, '2018-06-01 15:00:50'),
 (160, '1-6476405', 'Parroquial San Andres', 'Trav. 68 G #31- 44 Sur ', 'San andres', '2382113', '', '0000-00-00', '12345678', 2, '2018-06-01 15:07:59'),
-(161, '1-0371611', 'Colegio Santo Domingo', 'Cll 38B Sur # 72P 10', 'La Oneida', '4502504', '', '0000-00-00', '12345678', 2, '2018-06-01 15:18:40'),
 (162, '1-35815', 'Instituto Comercial Restrepo', 'Crr 22A 7-43 Sur', 'Restrepo', '2330014', '', '0000-00-00', '12345678', 2, '2018-06-01 15:34:39'),
-(163, '1-01768281', 'Colegio Hermanas Misioneras de la Consolata', 'Crr 24B # 1D -12', 'La Fragua', '2667862', '', '0000-00-00', '12345678', 2, '2018-06-01 15:49:02'),
 (164, '1-04052256', 'Liceo Nuestra Señora de Torcoroma', 'Trav. 68G 35A 15 Sur ', 'Nueva Marcella', '2040940', '', '0000-00-00', '12345678', 2, '2018-06-01 16:08:40'),
 (165, '1-6419265', 'Colegio Mixto de Integracion Moderna', 'Cll. 4 #71A 41', 'MarcellaNueva', '2901653', '', '0000-00-00', '12345678', 2, '2018-06-01 16:18:15'),
 (166, '1-52155975', 'Colegio Santa Luisa', 'Cra. 73 # 42G -25 Sur', 'Timiza', '4502882', '', '0000-00-00', '12345678', 2, '2018-06-01 16:25:33'),
@@ -290,26 +288,19 @@ INSERT INTO `colegios` (`id`, `codigo`, `colegio`, `direccion`, `barrio`, `telef
 (178, '1-5311321', 'GIMNASIO SANTA ANA', 'carrera  6 # 1A-51', 'soacha', '7228933', ' ', '0000-00-00', '02038200', 6, '2018-06-01 17:28:26'),
 (179, '1-85347884', 'COMPARTIR TINTAL', 'Carrera  91 # 43 - 98 Sur', 'Bosa Porvenir', '7851349', '', '0000-00-00', '02038200', 6, '2018-06-01 17:29:58'),
 (180, '1-8176678', 'Colegio Moderno Americano', 'Calle 69 # 15-40', 'Cocepcion Norte', '2126495', '', '0000-00-00', '03736282', 7, '2018-06-01 17:31:54'),
-(181, '1-84411043', 'Gimnasio PsicoPedagógico Maria Isabel', 'Diagonal 5# 70C -12', 'Las Americas', '2608602', '', '0000-00-00', '12345678', 2, '2018-06-01 17:34:30'),
 (182, '1-43515361', 'Colegio Jean de la Fontaine', 'Carrera 75 # 25D-05', 'Modelia', '5470692', '', '0000-00-00', '03736282', 7, '2018-06-01 17:36:24'),
 (183, '1-862603', 'Instituto Santa Ines', 'Carrera 46 # 71-85', 'San Fernado', '2319669', '', '0000-00-00', '03736282', 7, '2018-06-01 17:39:35'),
 (184, '1-0893622', 'Liceo El Encuentro', 'Carrera 20 # 81-55', 'Los Heroes', '4555530 ext 1016', '', '0000-00-00', '03736282', 7, '2018-06-01 17:42:29'),
 (185, '1-40240417', 'Gimnasio Infantil Creciendo y Aprendiendo', 'Crr 18 Sur # 16 -15', 'Palenque', '4484315', '', '0000-00-00', '12345678', 2, '2018-06-01 17:44:05'),
 (186, '1-160381', 'Liceo Catolico', 'Carrera 22 # 77A-32', 'Colombia', '2352956 / 2170612', '', '0000-00-00', '03736282', 7, '2018-06-01 17:46:01'),
 (187, '1-902725', 'Colegio nuevo gimnasio', 'Carrera 23 # 76-43', 'Colombia', '2578444', '', '0000-00-00', '03736282', 7, '2018-06-01 17:50:12'),
-(188, '1-23621499', 'Unidad Educativa Jean Piaget', 'Cll 2B # 70A 57', 'Americas Occidental', '260 75 61', '', '0000-00-00', '12345678', 2, '2018-06-01 17:52:46'),
 (189, '1-0174408', 'Colegio de los Andes', 'Carrera 102 # 21A-12', 'Fontibon', '2670551', 'www.colegiodelosandes.edu.co', '0000-00-00', '03736282', 7, '2018-06-01 17:56:45'),
 (190, '1-0971663', 'LICEO MARIA INMACULADA', 'Carrera 6A Este # 32a-03', 'San Mateo', '7291025', '', '0000-00-00', '02038200', 6, '2018-06-01 18:00:27'),
-(191, '1-63918128', 'Gimnasio Moderno San Francisco  ', 'Cll 6A # 90- 51', 'Tintal', '8052542', '', '0000-00-00', '12345678', 2, '2018-06-01 18:01:10'),
 (192, '1-2714544', 'MARIA MAGDALENA ', 'Carrera 9 Este # 30A-23', 'San Mateo', '72214 21', '', '0000-00-00', '02038200', 6, '2018-06-01 18:01:47'),
 (193, '1-54751493', 'CENTRO EDUCATIVO SAN LUIS', 'Carrera. 72k # 38 - 47 Sur', 'soacha', '7213360', '', '0000-00-00', '02038200', 6, '2018-06-01 18:05:19'),
 (194, '1-703807', 'COLRGIO. MUNECOS Y FIGURAS', 'Carrera. 72k # 38 - 47 Sur', 'Carvajal', ' 2651836', '', '0000-00-00', '02038200', 6, '2018-06-01 18:07:29'),
-(195, '1-42554991', 'Liceo Manantial de Vida Eterna', 'Cll 37 Sur # 52 -60', 'Alqueria', '7119325', '', '0000-00-00', '12345678', 2, '2018-06-01 18:13:30'),
-(196, '1-2629560', 'Ginnasio Infantil Julio Simón Benavides', 'Cll 36 Sur 51D 47', 'Alcala', '2307548', '', '0000-00-00', '12345678', 2, '2018-06-01 18:28:52'),
-(197, '1-9808479', 'Colegio El Duque de Rivas ', 'Crr 80 # 50A 09 Sur', 'Britalia', '4502425', '', '0000-00-00', '12345678', 2, '2018-06-01 18:40:56'),
 (198, '1-49621975', 'Gimnasio Modelia Real', 'Carrera 82 # 24C 75', 'Modelia', '4106916', '', '0000-00-00', '03736282', 7, '2018-06-01 18:52:00'),
 (200, '1-94646456', 'LICEO OCTAVIO PAZ', 'Carrera.88I Bis Nº 58A-14', 'Bosa  Recreo', '7837665', '', '0000-00-00', '02038200', 6, '2018-06-01 21:28:39'),
-(201, '1-3831471', 'pruebae', 'pruebae', 'pruebae', 'pruebae', '', '0000-00-00', '12345678', 1, '2018-06-01 21:30:11'),
 (202, '1-63707067', '	COLEGIO LAUSANA', 'CALLE 182No.  69 - 30', 'San Jose de Bavaria', '6784641/ 6699416', 'www.colegiolausana.edu.co', '0000-00-00', '83028202', 5, '2018-06-02 16:33:49'),
 (203, '1-96147242', 'COL SANTO TORIBIO DE MONGROVEJO', 'CARRERA 107 B NO.143 - 34', 'Suba las flores', '	6891618', 'www.colegiosantotoribio.edu.co', '0000-00-00', '83028202', 5, '2018-06-02 16:50:01'),
 (204, '1-2882178', 'GIMNASIO FRAY MARTÍN DE PORRES', 'CL 86 BIS 89 B 28', 'Quirigua', '2524448 -- 5365235 -', 'informacion@fraymartindeporres.edu.co', '0000-00-00', '83028202', 5, '2018-06-02 17:19:01'),
@@ -443,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `grados_paralelos` (
   `id_grado` int(11) NOT NULL,
   `paralelos` int(11) NOT NULL,
   `alumnos` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2311 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2325 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Dumping data for table `grados_paralelos`
@@ -2746,7 +2737,21 @@ INSERT INTO `grados_paralelos` (`id`, `id_periodo`, `id_colegio`, `id_grado`, `p
 (2307, 2, 24, 11, 8, 8),
 (2308, 2, 24, 12, 7, 7),
 (2309, 2, 24, 13, 6, 6),
-(2310, 2, 24, 14, 5, 5);
+(2310, 2, 24, 14, 5, 5),
+(2311, 2, 164, 1, 1, 1),
+(2312, 2, 164, 2, 2, 2),
+(2313, 2, 164, 3, 3, 3),
+(2314, 2, 164, 4, 4, 4),
+(2315, 2, 164, 5, 5, 5),
+(2316, 2, 164, 6, 6, 6),
+(2317, 2, 164, 7, 7, 7),
+(2318, 2, 164, 8, 8, 8),
+(2319, 2, 164, 9, 9, 9),
+(2320, 2, 164, 10, 10, 10),
+(2321, 2, 164, 11, 11, 11),
+(2322, 2, 164, 12, 12, 12),
+(2323, 2, 164, 13, 13, 13),
+(2324, 2, 164, 14, 14, 14);
 
 -- --------------------------------------------------------
 
@@ -2941,7 +2946,7 @@ CREATE TABLE IF NOT EXISTS `plan_trabajo` (
   `color` varchar(7) COLLATE utf8_spanish_ci NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Dumping data for table `plan_trabajo`
@@ -2976,12 +2981,11 @@ INSERT INTO `plan_trabajo` (`id`, `id_periodo`, `id_promotor`, `id_colegio`, `co
 (38, 1, 1, 24, '848133', 2, 1, '#008000', '2018-06-08 07:00:00', '2018-06-08 08:00:00'),
 (39, 1, 1, 24, '848133', 2, 1, '#008000', '2018-06-08 06:00:00', '2018-06-08 07:00:00'),
 (40, 2, 1, 24, '848133', 1, 0, '#0071c5', '2018-06-07 03:00:00', '2018-06-07 04:00:00'),
-(41, 2, 0, 24, '0', 1, 0, '#0071c5', '2018-06-08 08:00:00', '2018-06-08 09:00:00'),
-(42, 2, 1, 24, '0', 1, 1, '#008000', '2018-06-08 05:00:00', '2018-06-08 06:00:00'),
 (43, 2, 1, 24, '848133', 3, 0, '#0071c5', '2018-06-07 10:00:00', '2018-06-07 11:00:00'),
 (44, 2, 1, 24, '848133', 2, 0, '#0071c5', '2018-06-08 23:00:00', '2018-06-09 00:00:00'),
 (45, 2, 1, 24, '848133', 1, 0, '#0071c5', '2018-06-09 06:00:00', '2018-06-09 07:00:00'),
-(46, 2, 1, 24, '848133', 2, 1, '#008000', '2018-06-08 08:00:00', '2018-06-08 09:00:00');
+(46, 2, 1, 24, '848133', 2, 1, '#008000', '2018-06-08 08:00:00', '2018-06-08 09:00:00'),
+(47, 2, 1, 24, '848133', 1, 0, '#0071c5', '2018-06-03 01:00:00', '2018-06-03 02:00:00');
 
 -- --------------------------------------------------------
 
@@ -4404,23 +4408,23 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `direccion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `correo` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `clave` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `id_zona` int(11) NOT NULL
+  `cod_zona` varchar(10) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `tipo`, `cedula`, `nombres`, `apellidos`, `telefono`, `direccion`, `correo`, `clave`, `id_zona`) VALUES
-(1, 3, '12345678', 'pruebas', 'pruebas', '3115274827', '', 'oltoledo@hotmail.com', 'b7c65a9e08ddd8c4aa65a40c248fbd65', 1),
-(2, 3, '', 'Ruben Dario\r\n', 'Cruz Perez', '', '', 'rcruz@eurekalibros.com.co', '000a769aa0d6c93ce5945066c1f7bef9', 1),
-(3, 3, '', 'Andres Mauricio', 'Serna Moreno', '', '', 'aserna@eurekalibros.com.co', '629c348fbe0e98b143bb66c0656cee10', 2),
-(4, 3, '', 'Gloria Patricia', 'Camacho Garzon', '', '', 'pcamacho@eurekalibros.com.co', 'd8353f308b2b1efd856e28e33018dd3a', 3),
-(5, 3, '', 'Cecilia', 'Velazco Perez', '', '', 'cvelazco@eurekalibros.com.co', '1afe15ff5a2d126388ca47b36265f3f5', 5),
-(6, 3, '', 'Wilson Eduardo', 'Peñaloza', '', '', 'wpenaloza@eurekalibros.com.co', 'bf5605a8ec2a9eeb24f7560abb6e56be', 6),
-(7, 3, '', 'Julio Hernando', 'Benavides Cabrera', '', '', 'jbenavides@eurekalibros.com.co', '8c71478dbe0803e8c0e0847a63de8529', 4),
-(8, 3, '', 'Yeimy Katherine', 'Montenegro Hernandez', '', '', 'ymontenegro@eurekalibros.com.co', '0419ee1c69e56a69fe7babd98d19155d', 7),
-(9, 3, '', 'Alexander', 'Neira Conde', '', '', 'gerenciapyv@eurekalibros.com.co', '211da92144e736d24b8d87f6f1d49f8a', 8);
+INSERT INTO `usuarios` (`id`, `tipo`, `cedula`, `nombres`, `apellidos`, `telefono`, `direccion`, `correo`, `clave`, `cod_zona`) VALUES
+(1, 3, '12345678', 'pruebas', 'pruebas', '3115274827', '', 'oltoledo@hotmail.com', 'b7c65a9e08ddd8c4aa65a40c248fbd65', '12345678'),
+(2, 3, '', 'Ruben Dario\r\n', 'Cruz Perez', '', '', 'rcruz@eurekalibros.com.co', '000a769aa0d6c93ce5945066c1f7bef9', '12345678'),
+(3, 3, '', 'Andres Mauricio', 'Serna Moreno', '', '', 'aserna@eurekalibros.com.co', '629c348fbe0e98b143bb66c0656cee10', '87654321'),
+(4, 3, '', 'Gloria Patricia', 'Camacho Garzon', '', '', 'pcamacho@eurekalibros.com.co', 'd8353f308b2b1efd856e28e33018dd3a', '3463252'),
+(5, 3, '', 'Cecilia', 'Velazco Perez', '', '', 'cvelazco@eurekalibros.com.co', '1afe15ff5a2d126388ca47b36265f3f5', '83028202'),
+(6, 3, '', 'Wilson Eduardo', 'Peñaloza', '', '', 'wpenaloza@eurekalibros.com.co', 'bf5605a8ec2a9eeb24f7560abb6e56be', '02038200'),
+(7, 3, '', 'Julio Hernando', 'Benavides Cabrera', '', '', 'jbenavides@eurekalibros.com.co', '8c71478dbe0803e8c0e0847a63de8529', '03736282'),
+(8, 3, '', 'Yeimy Katherine', 'Montenegro Hernandez', '', '', 'ymontenegro@eurekalibros.com.co', '0419ee1c69e56a69fe7babd98d19155d', '4589030'),
+(9, 3, '', 'Alexander', 'Neira Conde', '', '', 'gerenciapyv@eurekalibros.com.co', '211da92144e736d24b8d87f6f1d49f8a', '72636282');
 
 -- --------------------------------------------------------
 
@@ -4453,7 +4457,7 @@ INSERT INTO `visitas` (`id`, `id_periodo`, `id_plan_trabajo`, `observaciones`, `
 (8, 1, 38, '', '', '2018-06-08 23:27:55', '4.7210746', '-74.1183681'),
 (9, 1, 39, '', '7452118', '2018-06-08 23:29:02', '', ''),
 (10, 2, 42, 'hola', '', '2018-06-09 04:47:38', '4.7210555', '-74.1182441'),
-(11, 2, 46, '', '0039502', '2018-06-09 04:49:48', '4.7210433', '-74.1182337');
+(11, 2, 46, 'hola', '0039502', '2018-06-10 04:17:57', '4.7210433', '-74.1182337');
 
 -- --------------------------------------------------------
 
@@ -4611,7 +4615,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- AUTO_INCREMENT for table `colegios`
 --
 ALTER TABLE `colegios`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=229;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=228;
 --
 -- AUTO_INCREMENT for table `events`
 --
@@ -4631,7 +4635,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=93;
 -- AUTO_INCREMENT for table `grados_paralelos`
 --
 ALTER TABLE `grados_paralelos`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2311;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2325;
 --
 -- AUTO_INCREMENT for table `libros`
 --
@@ -4666,7 +4670,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `plan_trabajo`
 --
 ALTER TABLE `plan_trabajo`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `trabajadores_colegios`
 --
