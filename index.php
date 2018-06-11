@@ -152,6 +152,243 @@
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
+						<div class="row">
+									<div class="space-6"></div>
+									
+									<?php 
+
+										$sql = "SELECT id FROM zonas";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+
+										$zonas = $req->rowCount();
+
+										$sql = "SELECT id FROM colegios";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+
+										$colegios = $req->rowCount();
+
+										$sql = "SELECT id FROM usuarios WHERE tipo=3";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+
+										$promotores = $req->rowCount();
+									?>
+
+									<div class="col-sm-12 infobox-container">
+										<div class="infobox infobox-green">
+											<div class="infobox-icon">
+												<i class="ace-icon glyphicon glyphicon-road"></i>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-data-number"><?php echo $zonas ?></span>
+												<div class="infobox-content">Zonas</div>
+											</div>
+
+											<!--<div class="stat stat-success">8%</div>-->
+										</div>
+
+										<div class="infobox infobox-blue">
+											<div class="infobox-icon">
+												<i class="ace-icon fa fa-book"></i>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-data-number"><?php echo $colegios ?></span>
+												<div class="infobox-content">Colegios</div>
+											</div>
+
+											<!--<div class="badge badge-success">
+												+32%
+												<i class="ace-icon fa fa-arrow-up"></i>
+											</div>-->
+										</div>
+
+										<div class="infobox infobox-pink">
+											<div class="infobox-icon">
+												<i class="ace-icon fa fa-users"></i>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-data-number"><?php echo $promotores ?></span>
+												<div class="infobox-content">Promotores</div>
+											</div>
+											<!--<div class="stat stat-important">4%</div>-->
+										</div>
+
+										<!--<div class="infobox infobox-red">
+											<div class="infobox-icon">
+												<i class="ace-icon fa fa-flask"></i>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-data-number">7</span>
+												<div class="infobox-content">experiments</div>
+											</div>
+										</div>
+
+										<div class="infobox infobox-orange2">
+											<div class="infobox-chart">
+												<span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-data-number">6,251</span>
+												<div class="infobox-content">pageviews</div>
+											</div>
+
+											<div class="badge badge-success">
+												7.2%
+												<i class="ace-icon fa fa-arrow-up"></i>
+											</div>
+										</div>
+
+										<div class="infobox infobox-blue2">
+											<div class="infobox-progress">
+												<div class="easy-pie-chart percentage" data-percent="42" data-size="46">
+													<span class="percent">42</span>%
+												</div>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-text">traffic used</span>
+
+												<div class="infobox-content">
+													<span class="bigger-110">~</span>
+													58GB remaining
+												</div>
+											</div>
+										</div>-->
+
+										<div class="space-6"></div>
+
+										<!--<div class="infobox infobox-green infobox-small infobox-dark">
+											<div class="infobox-progress">
+												<div class="easy-pie-chart percentage" data-percent="61" data-size="39">
+													<span class="percent">61</span>%
+												</div>
+											</div>
+
+											<div class="infobox-data">
+												<div class="infobox-content">Task</div>
+												<div class="infobox-content">Completion</div>
+											</div>
+										</div>
+
+										<div class="infobox infobox-blue infobox-small infobox-dark">
+											<div class="infobox-chart">
+												<span class="sparkline" data-values="3,4,2,3,4,4,2,2"></span>
+											</div>
+
+											<div class="infobox-data">
+												<div class="infobox-content">Earnings</div>
+												<div class="infobox-content">$32,000</div>
+											</div>
+										</div>
+
+										<div class="infobox infobox-grey infobox-small infobox-dark">
+											<div class="infobox-icon">
+												<i class="ace-icon fa fa-download"></i>
+											</div>
+
+											<div class="infobox-data">
+												<div class="infobox-content">Downloads</div>
+												<div class="infobox-content">1,205</div>
+											</div>
+										</div>-->
+									</div>
+
+									<div class="vspace-12-sm"></div>
+
+									<div class="row"><div class="col-sm-6 col-sm-offset-3">
+											<br><div class="widget-box">
+												<div class="widget-header widget-header-flat widget-header-small">
+													<h5 class="widget-title">
+														<i class="ace-icon fa fa-signal"></i>
+														Visitas
+													</h5>
+										
+													<!--<div class="widget-toolbar no-border">
+														<div class="inline dropdown-hover">
+															<button class="btn btn-minier btn-primary">
+																This Week
+																<i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
+															</button>
+										
+															<ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">
+																<li class="active">
+																	<a href="#" class="blue">
+																		<i class="ace-icon fa fa-caret-right bigger-110">&nbsp;</i>
+																		This Week
+																	</a>
+																</li>
+										
+																<li>
+																	<a href="#">
+																		<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>
+																		Last Week
+																	</a>
+																</li>
+										
+																<li>
+																	<a href="#">
+																		<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>
+																		This Month
+																	</a>
+																</li>
+										
+																<li>
+																	<a href="#">
+																		<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>
+																		Last Month
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</div>-->
+												</div>
+										
+												<div class="widget-body">
+													<div class="widget-main">
+														<div id="piechart-placeholder"></div>
+										
+														<!--<div class="hr hr8 hr-double"></div>
+										
+														<div class="clearfix">
+															<div class="grid3">
+																<span class="grey">
+																	<i class="ace-icon fa fa-facebook-square fa-2x blue"></i>
+																	&nbsp; likes
+																</span>
+																<h4 class="bigger pull-right">1,255</h4>
+															</div>
+										
+															<div class="grid3">
+																<span class="grey">
+																	<i class="ace-icon fa fa-twitter-square fa-2x purple"></i>
+																	&nbsp; tweets
+																</span>
+																<h4 class="bigger pull-right">941</h4>
+															</div>
+										
+															<div class="grid3">
+																<span class="grey">
+																	<i class="ace-icon fa fa-pinterest-square fa-2x red"></i>
+																	&nbsp; pins
+																</span>
+																<h4 class="bigger pull-right">1,050</h4>
+															</div>
+														</div>-->
+													</div><!-- /.widget-main -->
+												</div><!-- /.widget-body -->
+											</div><!-- /.widget-box -->
+										</div><!-- /.col --></div>
+								</div><!-- /.row -->
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
@@ -255,13 +492,89 @@
 			  //but sometimes it brings up errors with normal resize event handlers
 			  $.resize.throttleWindow = false;
 			
+
+			  <?php
+			  		include("conexion/bdd.php");
+
+			  		$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+
+					$req_periodo = $bdd->prepare($sql_periodo);
+					$req_periodo->execute();
+					$gp_periodo = $req_periodo->fetch();
+
+			  		$sql = "SELECT p.id_objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=1 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$objetivos = $req->rowCount();
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=1 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$contacto = $req->rowCount();
+					$contacto= ($contacto / $objetivos) * 100;
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=2 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$muestreo = $req->rowCount();
+					$muestreo= ($muestreo / $objetivos) * 100;
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=3 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$presentacion = $req->rowCount();
+					$presentacion= ($presentacion / $objetivos) * 100;
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=4 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$seguimiento = $req->rowCount();
+					$seguimiento= ($seguimiento / $objetivos) * 100;
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=5 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$definicion_a = $req->rowCount();
+					$definicion_a= ($definicion_a / $objetivos) * 100;
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=6 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$definicion_f = $req->rowCount();
+					$definicion_f= ($definicion_f / $objetivos) * 100;
+
+					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=7 AND v.id_periodo='".$gp_periodo["id"]."'";
+
+					$req = $bdd->prepare($sql);
+					$req->execute();
+
+					$otro = $req->rowCount();
+					$otro= ($otro / $objetivos) * 100;
+			  ?>
+
 			  var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
 			  var data = [
-				{ label: "social networks",  data: 38.7, color: "#68BC31"},
-				{ label: "search engines",  data: 24.5, color: "#2091CF"},
-				{ label: "ad campaigns",  data: 8.2, color: "#AF4E96"},
-				{ label: "direct traffic",  data: 18.6, color: "#DA5430"},
-				{ label: "other",  data: 10, color: "#FEE074"}
+				{ label: "Contacto",  data: <?php echo $contacto; ?>, color: "#68BC31"},
+				{ label: "Muestreo",  data: <?php echo $muestreo; ?>, color: "#2091CF"},
+				{ label: "Presentación",  data: <?php echo $presentacion; ?>, color: "#AF4E96"},
+				{ label: "Seguimiento",  data: <?php echo $seguimiento; ?>, color: "#F71206"},
+				{ label: "Definición anticipada",  data: <?php echo $definicion_a; ?>, color: "#EFF80E"},
+				{ label: "Definición final",  data: <?php echo $definicion_f; ?>, color: "#FF5D0F"},
+				{ label: "Otro",  data: <?php echo $otro; ?>, color: "#FEE074"}
 			  ]
 			  function drawPieChart(placeholder, data, position) {
 			 	  $.plot(placeholder, data, {
@@ -283,7 +596,7 @@
 						show: true,
 						position: position || "ne", 
 						labelBoxBorderColor: null,
-						margin:[-30,15]
+						margin:[-30,4]
 					}
 					,
 					grid: {

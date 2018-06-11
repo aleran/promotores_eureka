@@ -415,6 +415,37 @@
 						<b class="arrow"></b>
 					</li>
 
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-folder"></i>
+							<span class="menu-text"> Reportes </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="reporte_cubrimiento.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Reporte de cubrimiento
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="reporte_visitas.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Reporte de visitas
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</li>
+
 					<!--<li class="">
 						<a href="gallery.html">
 							<i class="menu-icon fa fa-picture-o"></i>
