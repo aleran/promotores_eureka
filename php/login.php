@@ -22,7 +22,8 @@
 
 			$_SESSION['id']=$usuario['id'];
 			$_SESSION['tipo']=$usuario['tipo'];
-			$_SESSION['zona']=$usuario['id_zona'];
+			$_SESSION['zona']=$usuario['cod_zona'];
+			$_SESSION['pais']=$usuario['id_pais'];
 
 			header("location:../index.php");
 	}

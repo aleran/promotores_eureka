@@ -1054,7 +1054,7 @@ $events = $req->fetchAll();
 					 <select name="colegio" id="colegio" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<?php 
-					 		$sql = "SELECT id, colegio FROM colegios";
+					 		$sql = "SELECT id, colegio FROM colegios WHERE cod_zona='".$_SESSION["zona"]."'";
 
 							$req = $bdd->prepare($sql);
 							$req->execute();

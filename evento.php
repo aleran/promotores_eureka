@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Visitas</title>
+		<title>Visitas Planificadas</title>
 
 		<meta name="description" content="Common form elements and layouts" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -94,7 +94,7 @@
 							<li>
 								<a href="#">Plan de trabajo</a>
 							</li>
-							<li class="active">Visitas</li>
+							<li class="active">Colegio</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -219,12 +219,12 @@
 								$req_materia->execute();
 								$materia = $req_materia->fetch();
 
-								echo $materia["materia"];
+							
 								
 						?>
 						<div class="page-header">
 							<h1>
-								Visita
+								Plan de trabajo
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
 									<?php echo $colegio["colegio"]; ?>
@@ -234,7 +234,7 @@
 
 						
 						<div class="row">
-							<h4>Datos de la Visita:</h4>
+							<h4>Datos del colegio:</h4>
 
 							<table class="table table-bordered table-hover">
                         		
@@ -251,7 +251,7 @@
 						</div>
 
 						<div class="row">
-							<h4>Datos del Profesor:</h4>
+							<h4>Datos del profesor:</h4>
 
 							<table class="table table-bordered table-hover">
                         		

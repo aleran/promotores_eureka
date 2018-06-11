@@ -166,7 +166,7 @@
 						<?php 
 							require_once('conexion/bdd.php');
 									
-							$sql = "SELECT zona, codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
+							$sql = "SELECT zona, codigo FROM zonas WHERE codigo='".$_SESSION['zona']."'";
 
 							$req = $bdd->prepare($sql);
 							$req->execute();

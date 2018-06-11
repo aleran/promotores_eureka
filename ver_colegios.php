@@ -161,11 +161,12 @@
 						</div><!-- /.page-header -->
 
 							<?php
-								$sql_z = "SELECT codigo, zona FROM zonas WHERE id='".$_SESSION['zona']."'";
+								$sql_z = "SELECT zona FROM zonas WHERE codigo='".$_SESSION['zona']."'";
 								$req_z = $bdd->prepare($sql_z);
 								$req_z->execute();
 								$zona = $req_z->fetch();
 								echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
+
 							?>
 							
 						<div class="row">
@@ -190,12 +191,7 @@
 
                                 else {
 
-                                	$sql_z = "SELECT codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
-									$req_z = $bdd->prepare($sql_z);
-									$req_z->execute();
-									$zona = $req_z->fetch();
-
-                                	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios WHERE cod_zona='".$zona["codigo"]."'";
+                                	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios WHERE cod_zona='".$_SESSION['zona']."'";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 

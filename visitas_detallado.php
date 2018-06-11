@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reporte de visitas</title>
+		<title>Visitas</title>
 
 		<meta name="description" content="Common form elements and layouts" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -21,7 +21,6 @@
 		<link rel="stylesheet" href="assets/css/daterangepicker.min.css" />
 		<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css" />
 		<link rel="stylesheet" href="assets/css/bootstrap-colorpicker.min.css" />
-		<link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
@@ -50,28 +49,14 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-		<style>
-		.suggest-element{
-			margin-left:5px;
-			margin-top:5px;
-			width:350px;
-			cursor:pointer;
-		}
-		#suggestions {
-			text-align:left;
-			margin: 0 auto;
-			position:absolute;
-			min-width:120px;
-			height:70px;
-			border:ridge 2px;
-			border-radius: 3px;
-			overflow: auto;
-			background: white;
-			display: none;
-			z-index: 2;
-		}
-		</style>
-		</style>
+		 <style>
+       /* Set the size of the div element that contains the map */
+	      #map {
+	        height: 500px;  /* The height is 400 pixels */
+	        width: 100%;  /* The width is the width of the web page */
+	       }
+    </style>
+
 	</head>
 
 	<body class="no-skin">
@@ -96,7 +81,10 @@
 							<li>
 								<a href="#">Reportes</a>
 							</li>
-							<li class="active">Reporte de visitas</li>
+							<li>
+								<a href="#">Reportes de visitas</a>
+							</li>
+							<li class="active">Reporte detallado</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -110,7 +98,7 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container hidden" id="ace-settings-container">
+						<div class="ace-settings-container" id="ace-settings-container">
 							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 								<i class="ace-icon fa fa-cog bigger-130"></i>
 							</div>
@@ -176,159 +164,180 @@
 								</div><!-- /.pull-left -->
 							</div><!-- /.ace-settings-box -->
 						</div><!-- /.ace-settings-container -->
+						<?php
+							include("conexion/bdd.php");	
+							$sql = "SELECT * FROM plan_trabajo WHERE id='".$_GET["planid"]."'";
 
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$visita = $req->fetch();
+
+								list($fecha, $hora)=explode(" ", $visita['start']);
+
+								list($a,$m,$d)=explode("-", $fecha);
+								$fecha= $d."/".$m."/".$a;
+								
+
+							$sql_colegio = "SELECT colegio FROM colegios WHERE id='".$visita["id_colegio"]."'";
+
+								$req_colegio = $bdd->prepare($sql_colegio);
+								$req_colegio->execute();
+								$colegio = $req_colegio->fetch();
+
+
+							$sql_objetivo = "SELECT objetivo FROM objetivos WHERE id='".$visita["id_objetivo"]."'";
+
+								$req_objetivo = $bdd->prepare($sql_objetivo);
+								$req_objetivo->execute();
+								$objetivo = $req_objetivo->fetch();
+
+							$sql_profesor = "SELECT nombre FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
+
+								$req_profesor = $bdd->prepare($sql_profesor);
+								$req_profesor->execute();
+								$profesor = $req_profesor->fetch();
+
+							$sql_grado = "SELECT grado FROM grados a JOIN grados_materias b ON a.id=b.id_grado WHERE cod_profesor='".$visita["cod_profesor"]."'";
+
+								$req_grado = $bdd->prepare($sql_grado);
+								$req_grado->execute();
+								$grado = $req_grado->fetch();
+
+							$sql_materia = "SELECT materia FROM materias a JOIN grados_materias b ON a.id=b.id_materia WHERE cod_profesor='".$visita["cod_profesor"]."'";
+
+								$req_materia = $bdd->prepare($sql_materia);
+								$req_materia->execute();
+								$materia = $req_materia->fetch();
+
+								
+						?>
 						<div class="page-header">
 							<h1>
-								Reportes
+								Plan de trabajo
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Reporte de visitas
+									<?php echo $colegio["colegio"]; ?>
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
+
+						
+						<div class="row">
+							<h4>Datos del colegio:</h4>
+
+							<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Colegio: <?php echo $colegio['colegio']; ?></td>
+                        		</tr>
+                        		<tr>
+                        			<td>Fecha: <?php echo $fecha; ?></td>
+                        			<td>Hora: <?php echo $hora; ?></td>
+                        		</tr>
+                        			
+                        	</table>
+
+						</div>
+
+						<div class="row">
+							<h4>Datos del profesor:</h4>
+
+							<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        		</tr>
+                        		<tr>
+                        			<td>Grado: <?php echo $grado['grado']; ?></td>
+                        			<td>Materia: <?php echo $materia['materia']; ?></td>
+                        		</tr>
+                        			
+                        	</table>
+
+						</div>
+
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-4">
+								<h4>Objetivo de la Visita: <?php echo $objetivo["objetivo"] ?></h4>
+							</div>
+
+						</div>
+
 						<?php 
-							require_once('conexion/bdd.php');
-									
-							$sql = "SELECT zona, codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
+							if ($visita["resultado"]==1) {
 
-							$req = $bdd->prepare($sql);
-							$req->execute();
-							$zona = $req->fetch();
-							//echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
-						?>
-						<div id="accordion" class="accordion-style1 panel-group">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-											<i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-												&nbsp;Detallado
-										</a>
-									</h4>
-								</div>
+								$sql = "SELECT observaciones, cod_libro,fecha,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
 
-								<div class="panel-collapse collapse in" id="collapseOne">
-									<div class="panel-body">
-								<?php 
-                                include("conexion/bdd.php");
-
-                                $sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
-
-								$req_periodo = $bdd->prepare($sql_periodo);
-								$req_periodo->execute();
-								$gp_periodo = $req_periodo->fetch();
-
-                                $sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, t.nombre as profesor, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN trabajadores_colegios  t ON p.cod_profesor=t.codigo JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE p.id_periodo='".$gp_periodo["id"]."'";
 								$req = $bdd->prepare($sql);
 								$req->execute();
-								$planes = $req->fetchAll();
-								
-                                
-                                
-                            ?>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Zona</th>
-                                            <th>Promotor</th>
-                                            <th>Fecha planificada</th>
-                                            <th>Colegio</th>
-                                            <th>Profesor</th>
-                                            <th>Objetivo</th>
-                                            <th>Resultado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php 
-                                        	foreach($planes as $plan) {
-
-                                        		$promotor=$plan["nombres"]." ".$plan["apellidos"];
-                                           
-                                                echo'<tr class="odd gradeX">';
-                                                echo'<td class="center">'.$plan["zona"].'</td>';
-                                                echo'<td class="center">'.$promotor.'</td>';
-                                                echo'<td class="center">'.$plan["start"].'</td>';
-                                                echo'<td class="center">'.$plan["colegio"].'</td>';
-                                                echo'<td class="center">'.$plan["profesor"].'</td>';
-                                                echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';
-                                                echo'<td class="center">'.$plan["resultado"].'</td>';
-                                                
-                                            }
-                                         ?>
-                                        
-                                        </tr>
-                                       
-                                    </tbody>
-                                </table>
-                            </div>
-									</div>
-								</div>
-							</div>
-
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-											<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-												&nbsp;General
-										</a>
-									</h4>
-								</div>
-
-								<div class="panel-collapse collapse" id="collapseTwo">
-									<div class="panel-body">
-										<div class="row">
-							<div class="col-sm-6">
-								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/visitas_general.php" method="POST">
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-										<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
-											<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
-										
-										<center><button class="btn btn-primary">Exportar excel</button></center>
-									</div>
-									</form>
-							</div>
-
-							<div class="col-sm-6">
-								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/visitas_general.php" method="POST">
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
-
-										<select name="zona" id="zona" class="form-control materia" required>
-											<option value="">Seleccionar</option>
-											 <?php 
-											 	$sql = "SELECT codigo, zona FROM zonas";
+								$visita_e = $req->fetch();
 							
-												$req = $bdd->prepare($sql);
-												$req->execute();
-												$zonas = $req->fetchAll();
+						 ?>
 							
-												foreach($zonas as $zona) {
-													$codigo = $zona['codigo'];
-													$nom = $zona['zona'];
-													echo '<option value="'.$codigo.'">'.$nom.'</option>';
-												}
-											 ?>
-										</select><br>
-										<center><button class="btn btn-primary">Exportar excel</button></center>
-									</div>
-									</form>
-							</div>
-						</div>
-									</div>
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-4">
+									<h5>Fecha de ejecución: <?php echo $visita_e["fecha"] ?></h5>
 								</div>
+
 							</div>
 
-											
-						</div>
-						
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-4">
+									<h5>Comentarios: <?php echo $visita_e["observaciones"] ?></h5>
+								</div>
 
+							</div>
+							<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 
-						
+								$sql_libro = "SELECT id_materia, id_grado, libro FROM libros WHERE codigo='".$visita_e["cod_libro"]."'";
+
+								$req_libro = $bdd->prepare($sql_libro);
+								$req_libro->execute();
+								$libro = $req_libro->fetch();
+
+								$sql_materia = "SELECT materia FROM materias WHERE id='".$libro["id_materia"]."'";
+
+								$req_materia = $bdd->prepare($sql_materia);
+								$req_materia->execute();
+								$materia = $req_materia->fetch();
+
+								$sql_materia = "SELECT grado FROM grados WHERE id='".$libro["id_materia"]."'";
+
+								$req_grado = $bdd->prepare($sql_grado);
+								$req_grado->execute();
+								$grado = $req_grado->fetch();
+							?>
+							
+							
+
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-4">
+									<h5><?php echo $objetivo["objetivo"] ?></h5>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6">
+									Libro: <?php  echo $libro["libro"];?>
+								</div>
+
+								<div class="col-sm-6">
+									Materia: <?php  echo $materia["materia"];?> Grado: <?php  echo $grado["grado"];?>
+								</div>
+
+							</div>
+							<?php } ?>
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-4">
+									<h4>Geolocalización</h4>
+								</div>
+								<div id="map"></div>
+							</div>
+							
+
+						<?php } ?>
+												
 									
 					</div><!-- /.page-content -->
 				</div>
@@ -404,40 +413,6 @@
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
-		<script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    	<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#dataTables-example').dataTable({
-                	"language": {
-			            "lengthMenu": "Display _MENU_ registros por página",
-			            "zeroRecords": "Nada encontrado, lo siento",
-			            "info": "Mostrando página _PAGE_ de _PAGES_",
-			            "infoEmpty": "No hay registros disponibles",
-			            "infoFiltered": "(filtrado de _MAX_ registros en total )",
-			            "search": "Buscar&nbsp;:",
-			             paginate: {
-				            first:"Primero",
-				            previous:"Anterior",
-				            next:"Siguiente",
-				            last:"Último"
-				        }
-        			}
-                });
-            });
-
-            $(".eliminar").click(function(e){
-
-	            e.preventDefault();
-	            var cod= $(this).attr('data-codigo');
-	            if (confirm("¿Seguro que desea eliminar este colegio")) {
-	                window.location="php/eliminar_colegio.php?codigo="+cod
-	            }
-
-        	})
-    </script>
-
-
 
 		<!-- inline scripts related to this page -->
 		<script required type="text/javascript">
@@ -888,47 +863,26 @@
 			});
 		</script>
 		<script>
-			function bus_h(){
-				var prom= document.getElementById('promotor').value;
-				//var colegio= document.getElementById('colegio').value;
-				var dataString = 'promotor='+prom;
-				$.ajax({
-					type: "POST",
-					url: "ajax/buscar_promotor.php",
-					data: dataString,
-					success: function(resp) {
+// Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: <?php echo $visita_e["latitud"] ?>, lng: <?php echo $visita_e["longitud"] ?>};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 17, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+}
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCfKRWI7AB_psEMbo4_Yd9ssbeMk9RU7c&callback=initMap">
+    </script>
 
-						$("#profesor").blur(function(){
-							$('#suggestions').fadeOut(1000);
-						})
-						if (resp !="") {
-							$('#suggestions').fadeIn(1000).html(resp);
-						}
-
-						
-						$('.suggest-element a').on('click', function(){
-							var id = $(this).attr('id');
-							var promot= $(this).attr('data-promo');
-							$('#promotor').val(promot);
-							$('#promo').val(id);
-							$('#suggestions').fadeOut(1000);
-
-							return false;
-						});
-
-
-					}
-				});
-			}
-
-
-			function busc_ms(){
-				$('#suggestions').addClass("aparecer");
-				$('#suggestions').fadeIn(0);
-				if ($("#comp").val()=="") {
-					$("#comp").val("");
-				}
-			}
-		</script>
+		
 	</body>
 </html>
