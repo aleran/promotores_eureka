@@ -1,3 +1,4 @@
+<?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -196,14 +197,14 @@
 								<?php 
 	                                include("conexion/bdd.php");
 
-	                                $sql = "SELECT id, codigo, zona FROM zonas WHERE id='".$_GET["id_zona"]."'";
+	                                $sql = "SELECT id, codigo, zona FROM zonas WHERE codigo='".$_GET["cod_zona"]."'";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
 									$zona = $req->fetch();
 
-									$sql = "SELECT nombres, apellidos FROM usuarios WHERE tipo='2' AND id_zona='".$_GET["id_zona"]."'";
+									$sql = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$_GET["cod_zona"]."'";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
@@ -212,7 +213,7 @@
 
 									$nombre_c=$promotor["nombres"]." ".$promotor["apellidos"];
 
-									$sql = "SELECT id, colegio FROM colegios WHERE id_zona='".$_GET["id_zona"]."'";
+									$sql = "SELECT id, colegio FROM colegios WHERE cod_zona='".$_GET["cod_zona"]."'";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
@@ -241,7 +242,7 @@
 										<label class="control-label no-padding-right" for="promotor"> Promotor: </label>
 
 										
-											<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control"  value="<?php echo $nombre_c?>" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
+											<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control"  value="<?php echo $nombre_c?>" autocomplete="off" onkeyup="bus_h()"/>
 											<input type="hidden" name="promo" id="promo"><div id="suggestions"></div>
 										
 									</div>
@@ -375,11 +376,16 @@
 					data: dataString,
 					success: function(resp) {
 
-						$("#profesor").blur(function(){
-							$('#suggestions').fadeOut(1000);
+						$("#promotor").blur(function(){
+							$('#suggestions').fadeOut();
 						})
 						if (resp !="") {
-							$('#suggestions').fadeIn(1000).html(resp);
+							$('#suggestions').fadeIn().html(resp);
+						}
+
+						if (resp =="") {
+							$('#suggestions1').fadeOut().html(resp);
+						
 						}
 
 						
@@ -396,15 +402,6 @@
 
 					}
 				});
-			}
-
-
-			function busc_ms(){
-				$('#suggestions').addClass("aparecer");
-				$('#suggestions').fadeIn(0);
-				if ($("#comp").val()=="") {
-					$("#comp").val("");
-				}
 			}
 		</script>
 		<!-- inline scripts related to this page -->

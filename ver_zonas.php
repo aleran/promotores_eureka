@@ -210,7 +210,7 @@
 														<div class="hidden-sm hidden-xs btn-group">
 															
 
-															<a class="btn btn-xs btn-info" href="zona.php?id_zona='.$zona["id"].'">
+															<a class="btn btn-xs btn-info" href="zona.php?cod_zona='.$zona["codigo"].'">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 

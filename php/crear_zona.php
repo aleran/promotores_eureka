@@ -39,10 +39,8 @@
 		 die ('Erreur execute');
 		}
 
-	
-	foreach ($_POST["colegios"] as $colegio => $valor) {
 
-		$sql_z = "UPDATE colegios SET cod_zona='".$cod_zona."' WHERE id='".$valor."'";
+		$sql_z = "UPDATE usuarios SET cod_zona='".$cod_zona."' WHERE id='".$_POST["promo"]."'";
 		
 		//echo $sql_z;
 		
@@ -56,7 +54,6 @@
 		 print_r($query_z->errorInfo());
 		 die ('Erreur execute');
 		}
-	}
 
 ?>
 <script>alert('Zona creada correctamente');window.location="../agregar_zonas.php";</script>;

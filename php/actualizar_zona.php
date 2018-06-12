@@ -18,7 +18,7 @@
 		
 		if ($_POST["promo"] !="") {
 
-			$sql = "UPDATE usuarios SET id_zona='".$_POST["id_zona"]."' WHERE id='".$_POST["promo"]."'";
+			$sql = "UPDATE usuarios SET cod_zona='".$_POST["cod_zona"]."' WHERE id='".$_POST["promo"]."'";
 
 
 			$query = $bdd->prepare( $sql );
@@ -33,24 +33,20 @@
 				}
 		}
 
-		foreach ($_POST["colegios"] as $colegio => $valor) {
-			
-			echo $valor;
-			$sql = "UPDATE colegios SET cod_zona='".$_POST["cod_zona"]."' WHERE id='".$valor."'";
 
 
-			$req = $bdd->prepare($sql);
-			$req->execute();
-
-			$sql = "SELECT id FROM colegios WHERE cod_zona='".$_POST["cod_zona"]."'";
+		$sql = "SELECT id, cod_zona FROM colegios WHERE cod_zona='".$_POST["cod_zona"]."'";
 
 			$req = $bdd->prepare($sql);
 			$req->execute();
 
 			$colegios = $req->fetchAll();
 
+			
 			foreach($colegios as $cole) {
-				if ($valor != $cole["id"]) {
+				if (!in_array($cole, $_POST["colegios"])) {
+    			
+				if ($_POST["cod_zona"]==$cole["cod_zona"]) {
 					$sql = "UPDATE colegios SET cod_zona='' WHERE id='".$cole["id"]."'";
 
 					$query = $bdd->prepare( $sql );
@@ -65,15 +61,26 @@
 					}
 					//echo "entro";
 				}
-
-
-				
+					
+				}
 			}
+
+		foreach ($_POST["colegios"] as $colegio => $valor) {
 
 			
 
-		
-		}
+			echo $valor;
+			$sql = "UPDATE colegios SET cod_zona='".$_POST["cod_zona"]."' WHERE id='".$valor."'";
+
+
+			$req = $bdd->prepare($sql);
+			$req->execute();
+
+				
+			}
+			
+			
+
 		
 
 

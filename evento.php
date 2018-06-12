@@ -914,7 +914,9 @@
 	navigator.geolocation.getCurrentPosition(success, error);
 	<?php } ?>
 
-	function bus_h1(){	
+	</script>
+	<script>
+		function bus_h1(){	
 			var lib= document.getElementById('libro').value;
 			var dataString = 'libro='+lib;
 			$("#libro").change(function(){

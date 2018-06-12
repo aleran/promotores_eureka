@@ -49,6 +49,28 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+
+		<style>
+		.suggest-element{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
+		</style>
 	</head>
 
 	<body class="no-skin">
@@ -176,28 +198,14 @@
 										
 									</div>
 							</div>
-
+							
 							<div class="col-sm-6">
-								<label for="">Colegios:</label><br>
-								<?php
-									require_once('conexion/bdd.php'); 
-									$sql = "SELECT id,colegio FROM colegios WHERE cod_zona='' ";
-									$req = $bdd->prepare($sql);
-									$req->execute();
-
-
-									$colegios = $req->fetchAll();
-
-									foreach($colegios as $colegio) {
-									    $id = $colegio['id'];
-									    $nom = $colegio['colegio'];
-									    echo '<label class="checkbox-inline">
-												 <input type="checkbox" name="colegios[]" id="" value="'.$id.'"> '.$nom.' |
-												</label>';
-									}
-								?>
-
-
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="promotor"> Promotor: </label>
+									<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="bus_h()"/>
+									<input type="hidden" name="promo" id="promo"><div id="suggestions"></div>
+										
+								</div>
 
 							</div>
 						</div>
@@ -737,6 +745,45 @@
 				});
 			
 			});
+		</script>
+		<script>
+			function bus_h(){
+				var prom= document.getElementById('promotor').value;
+				//var colegio= document.getElementById('colegio').value;
+				var dataString = 'promotor='+prom;
+				$.ajax({
+					type: "POST",
+					url: "ajax/buscar_promotor2.php",
+					data: dataString,
+					success: function(resp) {
+
+						$("#promotor").blur(function(){
+							$('#suggestions').fadeOut();
+						})
+						if (resp !="") {
+							$('#suggestions').fadeIn().html(resp);
+						}
+
+						if (resp =="") {
+							$('#suggestions1').fadeOut().html(resp);
+						
+						}
+
+						
+						$('.suggest-element a').on('click', function(){
+							var id = $(this).attr('id');
+							var promot= $(this).attr('data-promo');
+							$('#promotor').val(promot);
+							$('#promo').val(id);
+							$('#suggestions').fadeOut(1000);
+
+							return false;
+						});
+
+
+					}
+				});
+			}
 		</script>
 		
 	</body>
