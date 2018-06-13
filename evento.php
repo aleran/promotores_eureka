@@ -350,8 +350,8 @@
 					<textarea class="form-control" rows="3" name="comentarios" id="comentarios"></textarea>
 					</div>
 				  </div>
-				  Latitud: <INPUT TYPE='text' readonly='readonly' ID='latitud' NAME='latitud'>
-			Longitud: <INPUT TYPE='text' readonly='readonly' ID='longitud' NAME='longitud'>
+				  <INPUT TYPE='hidden' readonly='readonly' ID='latitud' NAME='latitud'>
+			L<INPUT TYPE='hidden' readonly='readonly' ID='longitud' NAME='longitud'>
 
 			<input type="hidden" name="id_visita" value="<?php echo $_GET["evento"] ?>">
 
