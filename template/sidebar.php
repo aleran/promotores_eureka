@@ -399,21 +399,18 @@
 						<b class="arrow"></b>
 					</li>-->
 
-					<li class="">
+					<!--<li class="">
 						<a href="calendar.php">
 							<i class="menu-icon fa fa-calendar"></i>
 
 							<span class="menu-text">
 								Plan de trabajo
 
-								<!--<span class="badge badge-transparent tooltip-error" title="2 Important Events">
-									<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
-								</span>-->
 							</span>
 						</a>
 
 						<b class="arrow"></b>
-					</li>
+					</li>-->
 
 					<li class="">
 						<a href="#" class="dropdown-toggle">
