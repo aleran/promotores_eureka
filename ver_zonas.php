@@ -1,6 +1,6 @@
 <?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -197,7 +197,7 @@
                                         <?php 
                                         	foreach($zonas as $zona) {
 
-                                        		$sql = "SELECT nombres, apellidos FROM usuarios WHERE tipo='2' AND id_zona='".$zona["id"]."'";
+                                        		$sql = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$zona["codigo"]."'";
 												$req = $bdd->prepare($sql);
 												$req->execute();
 												$promotor = $req->fetch();

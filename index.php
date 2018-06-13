@@ -1,6 +1,6 @@
 <?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -156,27 +156,45 @@
 									<div class="space-6"></div>
 									
 									<?php 
+										if ($_SESSION["tipo"] !=3 ) {
+											$sql = "SELECT id FROM zonas";
 
-										$sql = "SELECT id FROM zonas";
+											$req = $bdd->prepare($sql);
+											$req->execute();
 
-										$req = $bdd->prepare($sql);
-										$req->execute();
+											$zonas = $req->rowCount();
+										}
 
-										$zonas = $req->rowCount();
+										else {
 
-										$sql = "SELECT id FROM colegios";
+											$sql = "SELECT zona FROM zonas WHERE codigo='".$_SESSION["zona"]."'";
+
+											$req = $bdd->prepare($sql);
+											$req->execute();
+
+											$zona = $req->fetch();
+										}
+
+										if ($_SESSION["tipo"] !=3 ) {
+											$sql = "SELECT id FROM colegios";
+										}
+
+										else {
+											$sql = "SELECT c.id FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON c.cod_zona=u.cod_zona WHERE u.id='".$_SESSION["id"]."' GROUP BY c.id ";
+										}
 
 										$req = $bdd->prepare($sql);
 										$req->execute();
 
 										$colegios = $req->rowCount();
+											if ($_SESSION["tipo"] !=3 ) {
+											$sql = "SELECT id FROM usuarios WHERE tipo=3";
 
-										$sql = "SELECT id FROM usuarios WHERE tipo=3";
+											$req = $bdd->prepare($sql);
+											$req->execute();
 
-										$req = $bdd->prepare($sql);
-										$req->execute();
-
-										$promotores = $req->rowCount();
+											$promotores = $req->rowCount();
+										}
 									?>
 
 									<div class="row">
@@ -185,12 +203,17 @@
 												<div class="infobox-icon">
 													<i class="ace-icon glyphicon glyphicon-road"></i>
 												</div>
-										
-												<div class="infobox-data">
-													<span class="infobox-data-number"><?php echo $zonas ?></span>
-													<div class="infobox-content">Zonas</div>
-												</div>
-										
+												<?php if ($_SESSION["tipo"] !=3) { ?>
+													<div class="infobox-data">
+														<span class="infobox-data-number"><?php echo $zonas ?></span>
+														<div class="infobox-content">Zonas</div>
+													</div>
+												<?php } else{?>
+													<div class="infobox-data">
+														<span class="infobox-data-number"><?php echo $zona["zona"]; ?></span>
+														<div class="infobox-content">Zona</div>
+													</div>
+												<?php } ?>
 												<!--<div class="stat stat-success">8%</div>-->
 											</div>
 										
@@ -209,18 +232,19 @@
 													<i class="ace-icon fa fa-arrow-up"></i>
 												</div>-->
 											</div>
-										
-											<div class="infobox infobox-pink">
-												<div class="infobox-icon">
-													<i class="ace-icon fa fa-users"></i>
+											<?php if ($_SESSION["tipo"] != 3) { ?>
+												<div class="infobox infobox-pink">
+													<div class="infobox-icon">
+														<i class="ace-icon fa fa-users"></i>
+													</div>
+											
+													<div class="infobox-data">
+														<span class="infobox-data-number"><?php echo $promotores ?></span>
+														<div class="infobox-content">Promotores</div>
+													</div>
+													<!--<div class="stat stat-important">4%</div>-->
 												</div>
-										
-												<div class="infobox-data">
-													<span class="infobox-data-number"><?php echo $promotores ?></span>
-													<div class="infobox-content">Promotores</div>
-												</div>
-												<!--<div class="stat stat-important">4%</div>-->
-											</div>
+											<?php } ?>
 										
 											<!--<div class="infobox infobox-red">
 												<div class="infobox-icon">
@@ -312,7 +336,7 @@
 													<div class="widget-header widget-header-flat widget-header-small">
 														<h5 class="widget-title">
 															<i class="ace-icon fa fa-signal"></i>
-															Visitas
+															<b>Grafica de Visitas</b>
 														</h5>
 											
 														<!--<div class="widget-toolbar no-border">
@@ -503,31 +527,61 @@
 					$req_periodo = $bdd->prepare($sql_periodo);
 					$req_periodo->execute();
 					$gp_periodo = $req_periodo->fetch();
+					if ($_SESSION["tipo"] != 3) {
 
-			  		$sql = "SELECT p.id_objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=1 AND v.id_periodo='".$gp_periodo["id"]."'";
+						$sql = "SELECT p.id_objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE v.id_periodo='".$gp_periodo["id"]."'";
 
+					}
+
+					else {
+
+						$sql = "SELECT p.id_objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
+			  		
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
 					$objetivos = $req->rowCount();
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=1 AND v.id_periodo='".$gp_periodo["id"]."'";
+					if ($_SESSION["tipo"] != 3) {
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=1 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+					else{
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=1 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+
+					}
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
 					$contacto = $req->rowCount();
 					$contacto= ($contacto / $objetivos) * 100;
+					if ($_SESSION["tipo"] != 3) {
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=2 AND v.id_periodo='".$gp_periodo["id"]."'";
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=2 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+
+					else {
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=2 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
-
 					$muestreo = $req->rowCount();
 					$muestreo= ($muestreo / $objetivos) * 100;
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=3 AND v.id_periodo='".$gp_periodo["id"]."'";
+					if ($_SESSION["tipo"] != 3) {
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=3 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+
+					else{
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=3 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
@@ -535,7 +589,14 @@
 					$presentacion = $req->rowCount();
 					$presentacion= ($presentacion / $objetivos) * 100;
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=4 AND v.id_periodo='".$gp_periodo["id"]."'";
+					if ($_SESSION["tipo"] != 3) {
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=4 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+					else {
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=4 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
@@ -543,24 +604,40 @@
 					$seguimiento = $req->rowCount();
 					$seguimiento= ($seguimiento / $objetivos) * 100;
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=5 AND v.id_periodo='".$gp_periodo["id"]."'";
+					if ($_SESSION["tipo"] != 3) {
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=5 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+					else{
+
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=5 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
 					$definicion_a = $req->rowCount();
 					$definicion_a= ($definicion_a / $objetivos) * 100;
+					if ($_SESSION["tipo"] != 3) {
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=6 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+					else{
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=6 AND v.id_periodo='".$gp_periodo["id"]."'";
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=6 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
 					$definicion_f = $req->rowCount();
 					$definicion_f= ($definicion_f / $objetivos) * 100;
+					if ($_SESSION["tipo"] != 3) {
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=7 AND v.id_periodo='".$gp_periodo["id"]."'";
+					}
+					else{
 
-					$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=7 AND v.id_periodo='".$gp_periodo["id"]."'";
-
+						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=7 AND v.id_periodo='".$gp_periodo["id"]."' AND p.id_promotor='".$_SESSION["id"]."'";
+					}
 					$req = $bdd->prepare($sql);
 					$req->execute();
 

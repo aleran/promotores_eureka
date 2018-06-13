@@ -1,6 +1,6 @@
 <?php require_once("php/aut.php"); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -1128,7 +1128,7 @@
 													<div class="panel-body">
 														<form action="php/crear_profesor.php" method="POST">
 						<div class="row">
-							<br><center><h4>Directorio de profesores</h4></center>
+							<br><center><h4>Añadir nuevo</h4></center>
 				  			<div class="col-sm-4">
 				  				<div class="form-group">
 				  					<label for="profesor" class="control-label no-padding-right">Nombre Profesor<small style="color:red;"> *</small></label>
@@ -1211,6 +1211,7 @@
 						</form>
 						
 						<div class="row">
+							<br><center><h4>Modificar</h4></center>
 							<?php 
 								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' AND a.id_periodo='".$gp_periodo["id"]."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
 							
@@ -1263,7 +1264,7 @@
 									
 								</div>
 							</div>
-							<center><button class="btn btn-success">Actualizar</button></center>
+							<center><button class="btn btn-primary">Actualizar</button></center>
 							</form>';
 
 								}
@@ -1287,7 +1288,7 @@
 												<div class="panel-collapse collapse" id="collapseThree">
 													<div class="panel-body">
 														
-						<br><center><h4>Información de población</h4></center>
+						
 						<?php 
 							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 
@@ -1496,7 +1497,7 @@
 						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
-						<center><button class="btn btn-success">Actualizar</button></center>
+						<center><button class="btn btn-primary">Actualizar</button></center>
 						</form>
 						<?php } ?>
 													</div>
@@ -1515,8 +1516,8 @@
 
 												<div class="panel-collapse collapse" id="collapsefour">
 													<div class="panel-body">
-														<br><br><center><h4>Mercado editorial</h4></center>
 						<div class="row">
+							<br><center><h4>Añadir nuevo</h4></center><br>
 							<div class="col-sm-6 col-sm-offset-3">
 								<form action="php/mercado_editorial.php" method="POST">
 								<div class="form-group">
@@ -1580,12 +1581,12 @@
 							</form>
 						</div><br><br>
 						<?php 
-						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$mercados = $req->fetchAll();
-
+								echo"<br><center><h4>Modificar</h4></center><br>";
 								foreach ($mercados as $mercado) {
 									echo '<form action="php/modificar_mercado.php" method="POST">
 									<div class="row">
@@ -1615,7 +1616,7 @@
 					  			<input type="text" name="vigencia" id="vigencia" class="form-control" placeholder="" value="'.$mercado["vigencia"].'">
 							</div>
 						 </div>
-						 <center><button class="btn btn-success">Actualizar</button></center>
+						 <center><button class="btn btn-primary">Actualizar</button></center>
 						 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
 				  			<input type="hidden" name="id_mercado" value="'.$mercado["aid"].'">						 </form>';
@@ -1637,8 +1638,8 @@
 
 												<div class="panel-collapse collapse" id="collapsefive">
 													<div class="panel-body">
-														<br><br><center><h4>Areas objetivas</h4></center>
 						<div class="row">
+							<center><h4>Añadir nuevo</h4></center><br>
 							<div class="col-sm-6 col-sm-offset-3">
 								<form action="php/areas_objetivas.php" method="POST">
 								<div class="form-group">
@@ -1687,11 +1688,12 @@
 							</form>
 						</div><br><br>
 						<?php 
-							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.libro, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.libro, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$areas = $req->fetchAll();
+								echo "<center><h4>Modificar</h4></center><br>";
 								foreach ($areas as $area) {
 									echo '
 									<form action="php/modificar_areas.php" method="POST"><div class="row">
@@ -1708,7 +1710,7 @@
 				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" value="'.$area["libro"].'">
 					  				
 				  				</div>
-				  				<center><button class="btn btn-success">Actualizar</button></center>
+				  				<center><button class="btn btn-primary">Actualizar</button></center>
 				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
 				  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
@@ -1873,6 +1875,9 @@
 		function bus_h1(){	
 			var lib= document.getElementById('libro').value;
 			var dataString = 'libro='+lib;
+			$("#libro").change(function(){
+				$("#libro").val($("#libro").val());
+			});
 			$.ajax({
 				type: "POST",
 				url: "ajax/buscar_libro.php",
@@ -1907,6 +1912,9 @@
 		function bus_h2(){	
 			var lib= document.getElementById('libro').value;
 			var dataString = 'libro='+lib;
+			$("#libro2").change(function(){
+				$("#libro2").val($("#libro2").val());
+			});
 			$.ajax({
 				type: "POST",
 				url: "ajax/buscar_libro2.php",
@@ -1941,6 +1949,9 @@
 		function bus_h(){	
 			var edit= document.getElementById('editorial').value;
 			var dataString = 'editorial='+edit;
+			$("#editorial").change(function(){
+				$("#editorial").val($("#editorial").val());
+			});
 			$.ajax({
 				type: "POST",
 				url: "ajax/buscar_editorial.php",

@@ -16,7 +16,7 @@ $events = $req->fetchAll();
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -214,7 +214,7 @@ $events = $req->fetchAll();
 			  <div class="modal-body">
 				
 				  <div class="form-group">
-					<label for="colegio" class="col-sm-2 control-label">Colegio</label>
+					<label for="colegio" class="col-sm-2 control-label">Colegio<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
 					 <select name="colegio" id="colegio" class="form-control" required>
 					 	<option value="">Seleccionar</option>
@@ -246,7 +246,7 @@ $events = $req->fetchAll();
 					
 
 				  <div class="form-group">
-					<label for="objetivo" class="col-sm-2 control-label">Objetivo</label>
+					<label for="objetivo" class="col-sm-2 control-label">Objetivo<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
 					 <select name="objetivo" id="objetivo" class="form-control" required>
 					 	<option value="">Seleccionar</option>
@@ -286,15 +286,15 @@ $events = $req->fetchAll();
 					</div>
 				  </div>-->
 				  <div class="form-group">
-					<label for="start" class="col-sm-2 control-label">Fecha Inicial</label>
+					<label for="start" class="col-sm-2 control-label">Fecha</label>
 					<div class="col-sm-10">
 					  <input type="text" name="start" class="form-control" id="start" >
 					</div>
 				  </div>
 				  <div class="form-group">
-					<label for="end" class="col-sm-2 control-label">Fecha Final</label>
+					<label for="end" class="col-sm-2 control-label hidden">Fecha Final</label>
 					<div class="col-sm-10">
-					  <input type="text" name="end" class="form-control" id="end" >
+					  <input type="hidden" name="end" class="form-control" id="end" >
 					</div>
 				  </div>
 				

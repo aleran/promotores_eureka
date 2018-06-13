@@ -427,14 +427,18 @@
 
 						<ul class="submenu">
 							<li class="">
+								<?php if ($_SESSION["tipo"]==3) {?>
+								<a href="php/cubrimiento2.php">
+								<?php }else{ ?>
 								<a href="reporte_cubrimiento.php">
+								<?php } ?>
 									<i class="menu-icon fa fa-caret-right"></i>
 									Reporte de cubrimiento
 								</a>
 
 								<b class="arrow"></b>
 							</li>
-
+							<?php if ($_SESSION["tipo"]!=3) {?>
 							<li class="">
 								<a href="reporte_visitas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -444,6 +448,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							<?php } ?>
 						</li>
 
 					<!--<li class="">
