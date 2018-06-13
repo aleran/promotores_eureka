@@ -351,7 +351,7 @@
 					</div>
 				  </div>
 				  <INPUT TYPE='hidden' readonly='readonly' ID='latitud' NAME='latitud'>
-			L<INPUT TYPE='hidden' readonly='readonly' ID='longitud' NAME='longitud'>
+			<INPUT TYPE='hidden' readonly='readonly' ID='longitud' NAME='longitud'>
 
 			<input type="hidden" name="id_visita" value="<?php echo $_GET["evento"] ?>">
 

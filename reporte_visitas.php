@@ -218,7 +218,7 @@
 								$req_periodo->execute();
 								$gp_periodo = $req_periodo->fetch();
 
-                                $sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, t.nombre as profesor, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN trabajadores_colegios  t ON p.cod_profesor=t.codigo JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE p.id_periodo='".$gp_periodo["id"]."'";
+                                $sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE p.id_periodo='".$gp_periodo["id"]."'";
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$planes = $req->fetchAll();
@@ -234,7 +234,6 @@
                                             <th>Promotor</th>
                                             <th>Fecha planificada</th>
                                             <th>Colegio</th>
-                                            <th>Profesor</th>
                                             <th>Objetivo</th>
                                             <th>Resultado</th>
                                         </tr>
@@ -250,7 +249,6 @@
                                                 echo'<td class="center">'.$promotor.'</td>';
                                                 echo'<td class="center">'.$plan["start"].'</td>';
                                                 echo'<td class="center">'.$plan["colegio"].'</td>';
-                                                echo'<td class="center">'.$plan["profesor"].'</td>';
                                                 echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';
                                                 echo'<td class="center">'.$plan["resultado"].'</td>';
                                                 
