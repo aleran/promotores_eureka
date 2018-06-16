@@ -209,7 +209,7 @@ $events = $req->fetchAll();
 			
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agendar Visita</h4>
+				<h4 class="modal-title" id="myModalLabel">Agendar visita</h4>
 			  </div>
 			  <div class="modal-body">
 				
@@ -555,6 +555,9 @@ $events = $req->fetchAll();
 		var prof= document.getElementById('profesor').value;
 		var colegio= document.getElementById('colegio').value;
 		var dataString = 'profesor='+prof+"/"+colegio;
+		$("#profesor").change(function(){
+			$("#profe").val("");
+		});
 		$.ajax({
 			type: "POST",
 			url: "ajax/buscar_profesor.php",

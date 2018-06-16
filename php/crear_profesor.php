@@ -3,7 +3,7 @@
 
 	do {
 	         $caracteres = "1234567890"; //posibles caracteres a usar
-	         $numerodeletras=8; //numero de letras para generar el texto
+	         $numerodeletras=10; //numero de letras para generar el texto
 	         $cod_profesor =""; //variable para almacenar la cadena generada
 	         for($i=0;$i<$numerodeletras;$i++)
 	         {
