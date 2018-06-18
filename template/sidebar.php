@@ -274,6 +274,66 @@
 					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
 					<li class="">
 						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon glyphicon glyphicon-time"></i>
+							<span class="menu-text"> Periodos </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="#">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Crear periodo
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="#">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Ver Periodos
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<!--<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>-->
+						</ul>
+					</li>
+					<?php } ?>
+					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
+					<li class="">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-road"></i>
 							<span class="menu-text"> Zonas </span>
 
@@ -398,8 +458,8 @@
 
 						<b class="arrow"></b>
 					</li>-->
-
-					<!--<li class="">
+					<?php if ( $_SESSION["id"] ==3 || $_SESSION["tipo"] ==1  ) {?>
+					<li class="">
 						<a href="calendar.php">
 							<i class="menu-icon fa fa-calendar"></i>
 
@@ -410,8 +470,8 @@
 						</a>
 
 						<b class="arrow"></b>
-					</li>-->
-
+					</li>
+					<?php } ?>
 					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-folder"></i>
