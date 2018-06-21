@@ -69,7 +69,7 @@
 							<li>
 								<a href="#">Colegios</a>
 							</li>
-							<li class="active">Agregar colegios</li>
+							<li class="active">Ver colegios</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">

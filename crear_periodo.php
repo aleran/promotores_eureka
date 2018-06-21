@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reporte de cubrimiento</title>
+		<title>Crear periodo</title>
 
 		<meta name="description" content="Common form elements and layouts" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -49,28 +49,6 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-		<style>
-		.suggest-element{
-			margin-left:5px;
-			margin-top:5px;
-			width:350px;
-			cursor:pointer;
-		}
-		#suggestions {
-			text-align:left;
-			margin: 0 auto;
-			position:absolute;
-			min-width:120px;
-			height:70px;
-			border:ridge 2px;
-			border-radius: 3px;
-			overflow: auto;
-			background: white;
-			display: none;
-			z-index: 2;
-		}
-		</style>
-		</style>
 	</head>
 
 	<body class="no-skin">
@@ -93,9 +71,9 @@
 							</li>
 
 							<li>
-								<a href="#">Reportes</a>
+								<a href="#">Periodos</a>
 							</li>
-							<li class="active">Reporte de cubrimiento</li>
+							<li class="active">Crear periodos</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -178,69 +156,50 @@
 
 						<div class="page-header">
 							<h1>
-								Reportes
+								Periodos
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Reporte de Cubrimiento
+									Crear periodos
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
-						<?php 
-							require_once('conexion/bdd.php');
-									
-							$sql = "SELECT zona, codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
-
-							$req = $bdd->prepare($sql);
-							$req->execute();
-							$zona = $req->fetch();
-							//echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
-						?>
-						
+						<form action="php/c_periodo.php" method="POST">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-7">
 								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/cubrimiento.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-										<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
-											<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
+										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label>
+
 										
-										<center><button class="btn btn-primary">Exportar excel</button></center>
+											<input required type="text" name="periodo" id="periodo" placeholder="" class="form-control" value="<?php echo date("Y") ?>"/>
+										
 									</div>
-									</form>
 							</div>
 
-							<div class="col-sm-6">
+							<div class="col-xs-4">
 								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/cubrimiento.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
-
-										<select name="zona" id="zona" class="form-control materia" required>
-											<option value="">Seleccionar</option>
-											 <?php 
-											 	$sql = "SELECT codigo, zona FROM zonas";
-							
-												$req = $bdd->prepare($sql);
-												$req->execute();
-												$zonas = $req->fetchAll();
-							
-												foreach($zonas as $zona) {
-													$codigo = $zona['codigo'];
-													$nom = $zona['zona'];
-													echo '<option value="'.$codigo.'">'.$nom.'</option>';
-												}
-											 ?>
-										</select><br>
-										<center><button class="btn btn-primary">Exportar excel</button></center>
+										<label class="control-label no-padding-right" for="f_cierre"> Fecha de cierre: <small style="color:red;"> *</small></label>
+											
+											<div class="input-group">
+												<input type="text" required class="form-control date-picker" name="f_cierre" id="f_cierre" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
 									</div>
-									</form>
 							</div>
 						</div>
-						<div class="row">
-							<br><center><label>General</label><br>
-								<a href="php/cubrimiento_general.php" class="btn btn-primary">Exportar excel</a></center>
-						</div>
+
+						<center><button class="btn btn-primary">Crear Perido</button></center>
+						</form>
+						<hr>
+
+						
+
+
+
 
 
 						
@@ -768,48 +727,6 @@
 			
 			});
 		</script>
-		<script>
-			function bus_h(){
-				var prom= document.getElementById('promotor').value;
-				//var colegio= document.getElementById('colegio').value;
-				var dataString = 'promotor='+prom;
-				$.ajax({
-					type: "POST",
-					url: "ajax/buscar_promotor.php",
-					data: dataString,
-					success: function(resp) {
-
-						$("#profesor").blur(function(){
-							$('#suggestions').fadeOut(1000);
-						})
-						if (resp !="") {
-							$('#suggestions').fadeIn(1000).html(resp);
-						}
-
-						
-						$('.suggest-element a').on('click', function(){
-							var id = $(this).attr('id');
-							var promot= $(this).attr('data-promo');
-							$('#promotor').val(promot);
-							$('#promo').val(id);
-							$('#suggestions').fadeOut(1000);
-
-							return false;
-						});
-
-
-					}
-				});
-			}
-
-
-			function busc_ms(){
-				$('#suggestions').addClass("aparecer");
-				$('#suggestions').fadeIn(0);
-				if ($("#comp").val()=="") {
-					$("#comp").val("");
-				}
-			}
-		</script>
+		
 	</body>
 </html>

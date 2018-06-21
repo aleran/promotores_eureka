@@ -284,7 +284,7 @@
 
 						<ul class="submenu">
 							<li class="">
-								<a href="#">
+								<a href="crear_periodo.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Crear periodo
 								</a>
@@ -293,7 +293,7 @@
 							</li>
 
 							<li class="">
-								<a href="#">
+								<a href="ver_periodos.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Ver Periodos
 									

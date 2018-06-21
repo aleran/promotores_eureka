@@ -273,7 +273,7 @@
 
 									$colegio = $req->fetch();
 
-									$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+									$sql_periodo="SELECT id, f_cierre FROM periodos ORDER BY id DESC";
 
 									$req_periodo = $bdd->prepare($sql_periodo);
 									$req_periodo->execute();
@@ -688,8 +688,10 @@
 									</div>
 							</div>
 							
-
-							<center><button class="btn btn-primary">Guardar</button></center>
+							<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+								<center><button class="btn btn-primary">Guardar</button></center>
+							<?php } ?>
+							
 							<input required required type="hidden" name="id_colegio" value='<?php echo $colegio["id"] ?>'>
 							<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 							</form>
@@ -1101,8 +1103,9 @@
 								<input required required type="hidden" name="id6" value="<?php echo $trabajadores6["id"]?>">
 							</div>
 							
-
+							<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 							<center><button class="btn btn-primary">Actualizar</button></center>
+							<?php } ?>
 							<input required required type="hidden" name="id_colegio" value='<?php echo $colegio["id"] ?>'>
 							<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 							</form>
@@ -1205,9 +1208,10 @@
 								</div>
 							</div>
 						</div>
-						<a id="agregar_materia">Agregar materia +</a>
-
+						<a id="agregar_materia" style="cursor: pointer;">Agregar materia +</a>
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-success">Guardar</button></center>
+						<?php } ?>
 						</form>
 						
 						<div class="row">
@@ -1263,9 +1267,11 @@
 							
 									
 								</div>
-							</div>
-							<center><button class="btn btn-primary">Actualizar</button></center>
+							</div>';
+							if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+							echo'<center><button class="btn btn-primary">Actualizar</button></center>
 							</form>';
+							}
 
 								}
 							?>
@@ -1339,7 +1345,9 @@
 						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-success">Guardar</button></center>
+						<?php } ?>
 						</form>
 						<?php }else{
 
@@ -1497,7 +1505,9 @@
 						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-primary">Actualizar</button></center>
+						<?php }?>
 						</form>
 						<?php } ?>
 													</div>
@@ -1577,7 +1587,9 @@
 							</div><br>
 				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 				  			<center><button class="btn btn-success">Guardar</button></center>
+				  			<?php } ?>
 							</form>
 						</div><br><br>
 						<?php 
@@ -1615,11 +1627,13 @@
 								<label for="vigencia" class="control-label no-padding-right">Vigencia</label>
 					  			<input type="text" name="vigencia" id="vigencia" class="form-control" placeholder="" value="'.$mercado["vigencia"].'">
 							</div>
-						 </div>
-						 <center><button class="btn btn-primary">Actualizar</button></center>
+						 </div>';
+						 if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+						echo'<center><button class="btn btn-primary">Actualizar</button></center>
 						 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
 				  			<input type="hidden" name="id_mercado" value="'.$mercado["aid"].'">						 </form>';
+				  		}
 								}
 						 ?>
 													</div>
@@ -1684,7 +1698,9 @@
 				  			</div>
 				  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 				  			<br><br><center><button class="btn btn-success">Guardar</button></center>
+				  			<?php }?>
 							</form>
 						</div><br><br>
 						<?php 
@@ -1709,12 +1725,14 @@
 				  					<label for="libro2" class="control-label no-padding-right">Título o paquete<small style="color:red;"> *</small></label>
 				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" value="'.$area["libro"].'">
 					  				
-				  				</div>
-				  				<center><button class="btn btn-primary">Actualizar</button></center>
+				  				</div>';
+				  				if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+				  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
 				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
 				  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
 				  				</form></div>';
+				  			}
 								}
 						 ?>
 													</div>

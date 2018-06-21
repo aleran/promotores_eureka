@@ -201,7 +201,7 @@
 								$req_objetivo->execute();
 								$objetivo = $req_objetivo->fetch();
 
-							$sql_profesor = "SELECT nombre FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
+							$sql_profesor = "SELECT nombre,cargo,area FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
 
 								$req_profesor = $bdd->prepare($sql_profesor);
 								$req_profesor->execute();
@@ -252,7 +252,36 @@
 
 						<div class="row">
 							<h4>Datos del profesor:</h4>
+							<?php if ($profesor["cargo"]== 3){ ?>
+								
+							<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        			<td>Cargo: Coordinador académico</td>
+                        		</tr>
+                        			
+                        	</table>
 
+							<?php } else if($profesor["cargo"]== 5) { 
+
+								$sql_materia = "SELECT materia FROM materias WHERE id='".$profesor["area"]."'";
+
+								$req_materia = $bdd->prepare($sql_materia);
+								$req_materia->execute();
+								$materia = $req_materia->fetch();
+							?>
+
+								<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        			<td>Jefe de area: <?php echo $materia["materia"]; ?></td>
+                        		</tr>
+                        			
+                        		</table>
+							<?php } else{?>
+							
 							<table class="table table-bordered table-hover">
                         		
                         		<tr>
@@ -264,7 +293,7 @@
                         		</tr>
                         			
                         	</table>
-
+                        	<?php }?>
 						</div>
 
 						<div class="row">
@@ -292,10 +321,11 @@
 			  <div class="modal-body">
 				<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 					?>
-				  <div class="form-group">
+				<div class="otro_l">
+				  <div class="form-group libro">
 					<label for="materia" class="col-sm-2 control-label">Materia:<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					 <select name="materia" id="materia" class="form-control" required>
+					 <select name="materia[]" id="materia" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<?php 
 					 		$sql = "SELECT id, materia FROM materias";
@@ -313,10 +343,10 @@
 					 </select>
 					</div>
 				  </div>
-				  <div class="form-group">
+				  <div class="form-group libro">
 					<label for="grado" class="col-sm-2 control-label">Grado:<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					 <select name="grado" id="grado" class="form-control" required>
+					 <select name="grado[]" id="grado" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<?php 
 					 		$sql = "SELECT id, grado FROM grados";
@@ -334,14 +364,18 @@
 					 </select>
 					</div>
 				  </div>
-				  <div class="form-group">
+				  <div class="form-group libro">
 					<label for="libro" class="col-sm-2 control-label">Libro:<small style="color:red;"> *</small></label>
+
 					<div class="col-sm-10">
-					  <input type="text" name="libro" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
+					  <input type="text" name="libro[]" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
 					  <input type="hidden" name="libro2" id="libro2" class="form-control" placeholder="" value="no">
 					  <div id="suggestions1"></div>
 					</div>
+					
 				  </div>
+				</div>
+				<a id="agregar_libro" style="cursor: pointer;">Agregar libro +</a>
 				  <?php } ?>
 
 				<div class="form-group">
@@ -954,6 +988,10 @@
 				}
 			});
 		}
+
+		$("#agregar_libro").click(function(){
+			$(".libro").clone().appendTo(".otro_l");
+		});
 	</script>
 		
 	</body>

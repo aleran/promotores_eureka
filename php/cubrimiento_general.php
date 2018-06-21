@@ -41,69 +41,25 @@ $estilo2->applyFromArray(
     )
 ));
 
-if (isset($_POST["zona"])) {
-	$sql_zona="SELECT zona FROM zonas WHERE codigo='".$_POST["zona"]."'";
-
-	$req_zona = $bdd->prepare($sql_zona);
-	$req_zona->execute();
-	$zona = $req_zona->fetch();
-
-
-	$sql = "SELECT nombres,apellidos FROM usuarios WHERE cod_zona='".$_POST["zona"]."'";
-
-	$req = $bdd->prepare($sql);
-	$req->execute();
-	$usuario = $req->fetch();
-	$nombre_completo=$usuario["nombres"]." ".$usuario["apellidos"];
-}
-
-else {
-
-
-	$sql = "SELECT nombres, apellidos, cod_zona FROM usuarios WHERE id='".$_POST["promo"]."'";
-
-	$req = $bdd->prepare($sql);
-	$req->execute();
-	$usuario = $req->fetch();
-	$nombre_completo=$usuario["nombres"]." ".$usuario["apellidos"];
-
-	$sql_zona="SELECT zona FROM zonas WHERE codigo='".$usuario["cod_zona"]."'";
-
-	$req_zona = $bdd->prepare($sql_zona);
-	$req_zona->execute();
-	$zona = $req_zona->fetch();
-
-
-	
-}
 
 
 
-//~ Ingreo de datos en la hojda de excel
-$objPHPExcel->getActiveSheet()->SetCellValue("B1", "Zona");
-$objPHPExcel->getActiveSheet()->SetCellValue("B2", "$zona[zona]");
-$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Promotor");
-$objPHPExcel->getActiveSheet()->SetCellValue("C2", "$nombre_completo");
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A4", "Código");
-$objPHPExcel->getActiveSheet()->SetCellValue("B4", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("C4", "Barrio");
-$objPHPExcel->getActiveSheet()->SetCellValue("D4", "Dirección");
-$objPHPExcel->getActiveSheet()->SetCellValue("E4", "Telefono");
-$objPHPExcel->getActiveSheet()->SetCellValue("F4", "Paralelos prescolar");
-$objPHPExcel->getActiveSheet()->SetCellValue("G4", "Paralelos primaria");
-$objPHPExcel->getActiveSheet()->SetCellValue("H4", "Paralelos bachillerato");
-$objPHPExcel->getActiveSheet()->SetCellValue("I4", "Paralelos global");
-$objPHPExcel->getActiveSheet()->SetCellValue("J4", "Alumnos preescolar");
-$objPHPExcel->getActiveSheet()->SetCellValue("K4", "Alumnos primaria");
-$objPHPExcel->getActiveSheet()->SetCellValue("L4", "Alumnos bachillerato");
-$objPHPExcel->getActiveSheet()->SetCellValue("M4", "Alumnos global");
-$objPHPExcel->getActiveSheet()->getStyle("A1:M1")->getFont()->getColor()->applyFromArray(
-	array(
-	'rgb' => '#251919'
-	)
-);
-$objPHPExcel->getActiveSheet()->getStyle("A4:M4")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->SetCellValue("A1", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("B1", "Promotor");
+$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Código");
+$objPHPExcel->getActiveSheet()->SetCellValue("D1", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("E1", "Barrio");
+$objPHPExcel->getActiveSheet()->SetCellValue("F1", "Dirección");
+$objPHPExcel->getActiveSheet()->SetCellValue("G1", "Telefono");
+$objPHPExcel->getActiveSheet()->SetCellValue("H1", "Paralelos prescolar");
+$objPHPExcel->getActiveSheet()->SetCellValue("I1", "Paralelos primaria");
+$objPHPExcel->getActiveSheet()->SetCellValue("J1", "Paralelos bachillerato");
+$objPHPExcel->getActiveSheet()->SetCellValue("K1", "Paralelos global");
+$objPHPExcel->getActiveSheet()->SetCellValue("L1", "Alumnos preescolar");
+$objPHPExcel->getActiveSheet()->SetCellValue("M1", "Alumnos primaria");
+$objPHPExcel->getActiveSheet()->SetCellValue("N1", "Alumnos bachillerato");
+$objPHPExcel->getActiveSheet()->SetCellValue("O1", "Alumnos global");
+$objPHPExcel->getActiveSheet()->getStyle("A1:O1")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
@@ -116,26 +72,20 @@ $req_periodo->execute();
 $gp_periodo = $req_periodo->fetch();
 
 
-if (isset($_POST["zona"])) {
 
-	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo WHERE z.codigo='".$_POST["zona"]."'";
+	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona,u.nombres,u.apellidos FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON z.codigo=u.cod_zona ORDER BY z.codigo";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
-}
 
-else {
 
-	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo WHERE z.codigo='".$usuario["cod_zona"]."'";
-	$req = $bdd->prepare($sql);
-	$req->execute();
-	$coles = $req->fetchAll();
-}
 
-$conta=5;
+
+$conta=2;
 
 foreach($coles as $cole) {
 
+	$promotor=$cole["nombres"]." ".$cole["apellidos"];
 
 	$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$cole['id']."' AND id_grado=1 AND id_periodo='".$gp_periodo["id"]."'";
 	$req_pre = $bdd->prepare($sql_pre);
@@ -226,20 +176,21 @@ foreach($coles as $cole) {
 	$alumnos_global= $alumnos_pri + $alumnos_bach + $alumnos_prescolar;
 
 
-
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$cole[codigo]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$cole[colegio]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$cole[barrio]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$cole[direccion]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$cole[telefono]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$paralelos_prescolar");
-	$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$paralelos_pri");
-	$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$paralelos_bach");
-	$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$paralelos_global");
-	$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$alumnos_prescolar");
-	$objPHPExcel->getActiveSheet()->SetCellValue("K$conta", "$alumnos_pri");
-	$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$alumnos_bach");
-	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$alumnos_global");
+	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$cole[zona]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$promotor");
+	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$cole[codigo]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$cole[colegio]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$cole[barrio]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$cole[direccion]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$cole[telefono]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$paralelos_prescolar");
+	$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$paralelos_pri");
+	$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$paralelos_bach");
+	$objPHPExcel->getActiveSheet()->SetCellValue("K$conta", "$paralelos_global");
+	$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$alumnos_prescolar");
+	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$alumnos_pri");
+	$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$alumnos_bach");
+	$objPHPExcel->getActiveSheet()->SetCellValue("O$conta", "$alumnos_global");
 
 
 $conta++;
@@ -252,6 +203,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="cubrimiento.xlsx"');
+header('Content-Disposition: attachment; filename="cubrimiento_general.xlsx"');
 $objWriter->save('php://output');
 ?>
