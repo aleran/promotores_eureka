@@ -5,7 +5,6 @@
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$libros = $req->fetchAll();
-
 	foreach($libros as $lib) {
 		$libro1=$lib["libro"];
 		echo "<div class='suggest-element1'><a data-libro='".$libro1."'>$libro1</a></div>";
