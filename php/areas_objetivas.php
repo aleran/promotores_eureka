@@ -7,7 +7,7 @@
 		$req_periodo->execute();
 		$gp_periodo = $req_periodo->fetch();
 
-		$sql_p="INSERT INTO areas_objetivas(id_periodo,id_colegio,id_materia,id_grado,libro) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."', '".$_POST["materia1"]."', '".$_POST["grado1"]."', '".$_POST["libro2"]."')";
+		$sql_p="INSERT INTO areas_objetivas(id_periodo,id_colegio,id_materia,id_grado,id_libro_eureka) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."', '".$_POST["materia1"]."', '".$_POST["grado1"]."', '".$_POST["libro_e1"]."')";
 
 		$query_p = $bdd->prepare( $sql_p );
 		if ($query_p == false) {

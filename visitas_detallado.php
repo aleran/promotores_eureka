@@ -178,7 +178,7 @@
 								$fecha= $d."/".$m."/".$a;
 								
 
-							$sql_colegio = "SELECT colegio FROM colegios WHERE id='".$visita["id_colegio"]."'";
+							$sql_colegio = "SELECT colegio, barrio, direccion,telefono FROM colegios WHERE id='".$visita["id_colegio"]."'";
 
 								$req_colegio = $bdd->prepare($sql_colegio);
 								$req_colegio->execute();
@@ -191,7 +191,7 @@
 								$req_objetivo->execute();
 								$objetivo = $req_objetivo->fetch();
 
-							$sql_profesor = "SELECT nombre FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
+							$sql_profesor = "SELECT nombre,cargo,area FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
 
 								$req_profesor = $bdd->prepare($sql_profesor);
 								$req_profesor->execute();
@@ -229,6 +229,11 @@
                         		
                         		<tr>
                         			<td>Colegio: <?php echo $colegio['colegio']; ?></td>
+                        			<td>Telefonos: <?php echo $colegio['telefono']; ?></td>
+                        		</tr>
+                        		<tr>
+                        			<td>Barrio: <?php echo $colegio['barrio']; ?></td>
+                        			<td>direccion: <?php echo $colegio['direccion']; ?></td>
                         		</tr>
                         		<tr>
                         			<td>Fecha: <?php echo $fecha; ?></td>
@@ -241,7 +246,36 @@
 
 						<div class="row">
 							<h4>Datos del profesor:</h4>
+							<?php if ($profesor["cargo"]== 3){ ?>
+								
+							<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        			<td>Cargo: Coordinador académico</td>
+                        		</tr>
+                        			
+                        	</table>
 
+							<?php } else if($profesor["cargo"]== 5) { 
+
+								$sql_materia = "SELECT materia FROM materias WHERE id='".$profesor["area"]."'";
+
+								$req_materia = $bdd->prepare($sql_materia);
+								$req_materia->execute();
+								$materia = $req_materia->fetch();
+							?>
+
+								<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        			<td>Jefe de area: <?php echo $materia["materia"]; ?></td>
+                        		</tr>
+                        			
+                        		</table>
+							<?php } else{?>
+							
 							<table class="table table-bordered table-hover">
                         		
                         		<tr>
@@ -253,7 +287,7 @@
                         		</tr>
                         			
                         	</table>
-
+                        	<?php }?>
 						</div>
 
 						<div class="row">
@@ -266,12 +300,13 @@
 						<?php 
 							if ($visita["resultado"]==1) {
 
-								$sql = "SELECT observaciones, cod_libro,fecha,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
+								$sql = "SELECT observaciones,fecha,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$visita_e = $req->fetch();
-							
+
+							}
 						 ?>
 							
 							<div class="row">
@@ -289,54 +324,60 @@
 							</div>
 							<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 
-								$sql_libro = "SELECT id_materia, id_grado, libro FROM libros WHERE codigo='".$visita_e["cod_libro"]."'";
+								echo'<table class="table table-bordered">
+									<thead>
+										<th>Libro</th>
+										<th>Materia</th>
+										<th>Grado</th>
+									</thead>
+									<tbody>';
+								$sql_mp = "SELECT  id_libro FROM mu_pre WHERE id_plan_trabajo='".$_GET["planid"]."'";
 
-								$req_libro = $bdd->prepare($sql_libro);
-								$req_libro->execute();
-								$libro = $req_libro->fetch();
+								$req_mp = $bdd->prepare($sql_mp);
+								$req_mp->execute();
+								$mps = $req_mp->fetchAll();
 
-								$sql_materia = "SELECT materia FROM materias WHERE id='".$libro["id_materia"]."'";
+								foreach ($mps as $mp) {
+									
+									$sql_libro = "SELECT id_materia, id_grado, libro FROM libros WHERE id='".$mp["id_libro"]."'";
 
-								$req_materia = $bdd->prepare($sql_materia);
-								$req_materia->execute();
-								$materia = $req_materia->fetch();
+									$req_libro = $bdd->prepare($sql_libro);
+									$req_libro->execute();
+									$libro = $req_libro->fetch();
 
-								$sql_materia = "SELECT grado FROM grados WHERE id='".$libro["id_materia"]."'";
+									$sql_materia = "SELECT materia FROM materias WHERE id='".$libro["id_materia"]."'";
 
-								$req_grado = $bdd->prepare($sql_grado);
-								$req_grado->execute();
-								$grado = $req_grado->fetch();
-							?>
+									$req_materia = $bdd->prepare($sql_materia);
+									$req_materia->execute();
+									$materia = $req_materia->fetch();
+
+									$sql_grado = "SELECT grado FROM grados WHERE id='".$libro["id_materia"]."'";
+
+									$req_grado = $bdd->prepare($sql_grado);
+									$req_grado->execute();
+									$grado = $req_grado->fetch();
+
+									echo "<tr>
+											<td>".$libro["libro"]."</td>
+											<td>".$materia["materia"]."</td>
+											<td>".$grado["grado"]."</td>
+										</tr>";
+
+								}
+
+								echo "</tbody></table>";
 							
 							
-
+							}?>
 							<div class="row">
-								<div class="col-sm-6 col-sm-offset-4">
-									<h5><?php echo $objetivo["objetivo"] ?></h5>
-								</div>
-
-							</div>
-
-							<div class="row">
-								<div class="col-sm-6">
-									Libro: <?php  echo $libro["libro"];?>
-								</div>
-
-								<div class="col-sm-6">
-									Materia: <?php  echo $materia["materia"];?> Grado: <?php  echo $grado["grado"];?>
-								</div>
-
-							</div>
-							<?php } ?>
-							<div class="row">
-								<div class="col-sm-6 col-sm-offset-4">
+								<div class="col-sm-6 col-sm-offset-5">
 									<h4>Geolocalización</h4>
 								</div>
 								<div id="map"></div>
 							</div>
 							
 
-						<?php } ?>
+						
 												
 									
 					</div><!-- /.page-content -->
@@ -863,16 +904,16 @@
 			});
 		</script>
 		<script>
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  var uluru = {lat: <?php echo $visita_e["latitud"] ?>, lng: <?php echo $visita_e["longitud"] ?>};
-  // The map, centered at Uluru
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 17, center: uluru});
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: uluru, map: map});
-}
+		// Initialize and add the map
+		function initMap() {
+		  // The location of Uluru
+		  var uluru = {lat: <?php echo $visita_e["latitud"] ?>, lng: <?php echo $visita_e["longitud"] ?>};
+		  // The map, centered at Uluru
+		  var map = new google.maps.Map(
+		      document.getElementById('map'), {zoom: 17, center: uluru});
+		  // The marker, positioned at Uluru
+		  var marker = new google.maps.Marker({position: uluru, map: map});
+		}
     </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads

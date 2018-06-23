@@ -1528,13 +1528,27 @@
 													<div class="panel-body">
 						<div class="row">
 							<br><center><h4>Añadir nuevo</h4></center><br>
+							<form action="php/mercado_editorial.php" method="POST">
 							<div class="col-sm-6 col-sm-offset-3">
-								<form action="php/mercado_editorial.php" method="POST">
+								<div class="form-group">
+				  					<label for="tipo_editorial" class="control-label no-padding-right">Tipo editorial<small style="color:red;"> *</small></label>
+				  					<select name="tipo_editorial" id="tipo_editorial" class="form-control" required="">
+				  						<option value="">Seleccione</option>
+				  						<option value="1">Eureka</option>
+				  						<option value="2">Otra</option>
+				  					</select>
+				  				</div>
+				  			</div>
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								
 								<div class="form-group">
 									<label class="control-label no-padding-right" for="materia"> Materia:<small style="color:red;"> *</small></label>
 
 									<select name="materia" id="materia" class="form-control materia">
-					 			<option value="">Seleccionar</option>
+					 				<option value="">Seleccionar</option>
 								 	<?php 
 								 		$sql = "SELECT id, materia FROM materias";
 
@@ -1548,13 +1562,13 @@
 										    echo '<option value="'.$id.'">'.$nom.'</option>';
 										}
 								 	?>
-					 		</select>
+					 				</select>
 										
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4">
+							
+				  			<div class="col-sm-4">
+				  				
 								<div class="form-group">
 									<label for="grado" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
 						
@@ -1563,23 +1577,45 @@
 											
 								 		</select>
 								</div>
+				  			
+
 				  			</div>
-				  			<div class="col-sm-4">
+
+				  			<div class="col-sm-4 otra_e hidden">
 				  				<div class="form-group">
 				  					<label for="editorial" class="control-label no-padding-right">Editorial<small style="color:red;"> *</small></label>
 				  					 <input type="text" required name="editorial" id="editorial" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h()">
 					  				<div id="suggestions"></div>
 				  				</div>
 				  			</div>
-				  			<div class="col-sm-4">
-				  				<div class="form-group">
-				  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>
-				  					<input type="text" name="libro" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
-					  				<div id="suggestions1"></div>
-				  				</div>
+				  			
+				  			
 
-				  			</div>
 				  			<div class="row">
+				  				<div class="col-sm-4 col-sm-offset-4 otra_e hidden">
+					  				<div class="form-group">
+					  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>
+					  					<input type="text" name="libro" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
+						  				<div id="suggestions1"></div>
+					  				</div>
+
+								</div>
+
+				  				<div class="col-sm-4 eureka hidden">
+									<div class="form-group">
+										<label for="libro_e" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+							
+									 		<select name="libro_e" id="libro_e" class="form-control grado" >
+									 			
+												
+									 		</select>
+									</div>
+				  				</div>
+								
+
+							</div>
+							<div class="row">
+
 								<div class="col-sm-4 col-sm-offset-4">
 									<label for="vigencia" class="control-label no-padding-right">Vigencia</label>
 					  				<input type="text" name="vigencia" id="vigencia" class="form-control" placeholder="" >
@@ -1593,13 +1629,24 @@
 							</form>
 						</div><br><br>
 						<?php 
-						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial, a.id_libro_eureka as lib_eureka,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$mercados = $req->fetchAll();
 								echo"<br><center><h4>Modificar</h4></center><br>";
 								foreach ($mercados as $mercado) {
+									if ($mercado["lib_eureka"] > 0) {
+										$sq_l = "SELECT libro FROM libros WHERE id='".$mercado["lib_eureka"]."'";
+							
+										$req_l = $bdd->prepare($sq_l);
+										$req_l->execute();
+										$libro_e = $req_l->fetch();
+										$libro=$libro_e["libro"];
+									}
+									else {
+										$libro=$mercado["libro"];
+									}
 									echo '<form action="php/modificar_mercado.php" method="POST">
 									<div class="row">
 						 	<div class="col-sm-4">
@@ -1618,9 +1665,14 @@
 						 	
 				  			<div class="col-sm-6">
 				  				<div class="form-group">
-				  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>
-				  					<input type="text" name="libro" id="libro" class="form-control" placeholder="" value="'.$mercado["libro"].'">
-				  				</div>
+				  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>';
+				  					if ($mercado["lib_eureka"] > 0) {
+				  					echo'<input type="text" name="libro" id="libro" class="form-control" placeholder="" value="'.$libro.'" disabled>';
+				  					}
+				  					else {
+				  						echo'<input type="text" name="libro" id="libro" class="form-control" placeholder="" value="'.$libro.'">';
+				  					}
+				  				echo'</div>
 
 				  			</div>
 							<div class="col-sm-6">
@@ -1690,10 +1742,13 @@
 				  			</div>
 				  			<div class="col-sm-6">
 				  				<div class="form-group">
-				  					<label for="libro2" class="control-label no-padding-right">Título o paquete<small style="color:red;"> *</small></label>
-				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h2()">
-					  				<div id="suggestions2"></div>
-				  				</div>
+									<label for="libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+							
+									 <select name="libro_e1" id="libro_e1" class="form-control grado" >
+									 			
+												
+									 </select>
+								</div>
 
 				  			</div>
 				  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
@@ -1704,13 +1759,19 @@
 							</form>
 						</div><br><br>
 						<?php 
-							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.libro, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$areas = $req->fetchAll();
-								echo "<center><h4>Modificar</h4></center><br>";
+								echo "<center><h4>Lista</h4></center><br>";
 								foreach ($areas as $area) {
+									$sq_l = "SELECT libro FROM libros WHERE id='".$area["lib_eureka"]."'";
+							
+										$req_l = $bdd->prepare($sq_l);
+										$req_l->execute();
+										$libro_e = $req_l->fetch();
+										$libro=$libro_e["libro"];
 									echo '
 									<form action="php/modificar_areas.php" method="POST"><div class="row">
 						 			<div class="col-sm-6">
@@ -1721,18 +1782,16 @@
 						 			</div>
 						 		</div>
 						 		<div class="col-sm-6 col-sm-offset-3">
-						 			<div class="form-group">
-				  					<label for="libro2" class="control-label no-padding-right">Título o paquete<small style="color:red;"> *</small></label>
-				  					<input type="text" required name="libro2" id="libro2" class="form-control" placeholder="" value="'.$area["libro"].'">
+						 			<label>Libro: '.$libro.'</label>
 					  				
 				  				</div>';
-				  				if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+				  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
 				  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
 				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
 				  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
 				  				</form></div>';
-				  			}
+				  			}*/
 								}
 						 ?>
 													</div>
@@ -2000,6 +2059,87 @@
 				}
 			});
 		}
+
+
+		$("#tipo_editorial").change(function(){
+			var valor = $(this).val();
+
+			if (valor==2) {
+				$(".otra_e").removeClass("hidden");
+				$(".eureka").addClass("hidden");
+				$("#editorial").attr("required","required");
+			}
+			else {
+				$(".eureka").removeClass("hidden");
+				$(".otra_e").addClass("hidden");
+				$("#editorial").removeAttr("required");
+
+				$('#grado').on('change',function(){
+		            var valor = $(this).val();
+		            var materia=$("#materia").val();
+		             //alert(valor);
+		            var dataString = 'mat_gra='+materia+"/"+valor;
+		            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#libro_e").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+       		});
+
+		}
+	});
+
+		$('#grado1').on('change',function(){
+		            var valor = $(this).val();
+		            var materia=$("#materia1").val();
+		             //alert(valor);
+		            var dataString = 'mat_gra='+materia+"/"+valor;
+		            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#libro_e1").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e1").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+       		});
 
 		$("#agregar_materia").click(function(){
 			$(".profesor").clone().appendTo(".otro_p");

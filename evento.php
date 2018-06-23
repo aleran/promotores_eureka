@@ -168,7 +168,7 @@
 								$fecha= $d."/".$m."/".$a;
 								
 
-							$sql_colegio = "SELECT colegio FROM colegios WHERE id='".$visita["id_colegio"]."'";
+							$sql_colegio = "SELECT colegio, barrio, direccion,telefono FROM colegios WHERE id='".$visita["id_colegio"]."'";
 
 								$req_colegio = $bdd->prepare($sql_colegio);
 								$req_colegio->execute();
@@ -220,6 +220,11 @@
                         		
                         		<tr>
                         			<td>Colegio: <?php echo $colegio['colegio']; ?></td>
+                        			<td>Telefonos: <?php echo $colegio['telefono']; ?></td>
+                        		</tr>
+                        		<tr>
+                        			<td>Barrio: <?php echo $colegio['barrio']; ?></td>
+                        			<td>direccion: <?php echo $colegio['direccion']; ?></td>
                         		</tr>
                         		<tr>
                         			<td>Fecha: <?php echo $fecha; ?></td>
@@ -283,6 +288,53 @@
 							
 
 						</div>
+						<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
+
+								echo'<table class="table table-bordered">
+									<thead>
+										<th>Libro</th>
+										<th>Materia</th>
+										<th>Grado</th>
+									</thead>
+									<tbody>';
+								$sql_mp = "SELECT  id_libro FROM mu_pre WHERE id_plan_trabajo='".$_GET["evento"]."'";
+
+								$req_mp = $bdd->prepare($sql_mp);
+								$req_mp->execute();
+								$mps = $req_mp->fetchAll();
+
+								foreach ($mps as $mp) {
+									
+									$sql_libro = "SELECT id_materia, id_grado, libro FROM libros WHERE id='".$mp["id_libro"]."'";
+
+									$req_libro = $bdd->prepare($sql_libro);
+									$req_libro->execute();
+									$libro = $req_libro->fetch();
+
+									$sql_materia = "SELECT materia FROM materias WHERE id='".$libro["id_materia"]."'";
+
+									$req_materia = $bdd->prepare($sql_materia);
+									$req_materia->execute();
+									$materia = $req_materia->fetch();
+
+									$sql_grado = "SELECT grado FROM grados WHERE id='".$libro["id_materia"]."'";
+
+									$req_grado = $bdd->prepare($sql_grado);
+									$req_grado->execute();
+									$grado = $req_grado->fetch();
+
+									echo "<tr>
+											<td>".$libro["libro"]."</td>
+											<td>".$materia["materia"]."</td>
+											<td>".$grado["grado"]."</td>
+										</tr>";
+
+								}
+
+								echo "</tbody></table>";
+							
+							
+							}?>
 						<?php if ($visita["resultado"] ==0 && $visita['start'] >= date("Y-m-d 00:00:00")) {
 						?>
 						<center><a href="ajax/deleteEvent.php?evento=<?php echo $visita["id"] ?>" class="btn btn-danger">Eliminar</a> <button class='btn btn-success' data-toggle="modal" data-target="#ModalEjecutar">Ejecutar</button></center>
