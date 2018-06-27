@@ -22,7 +22,7 @@ $events = $req->fetchAll();
 		<meta charset="utf-8" />
 		<title>Plan de Trabajo</title>
 
-		<meta name="description" content="with draggable and editable events" />
+		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -368,8 +368,8 @@ $events = $req->fetchAll();
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Eureka</span>
-							Applicación &copy; 2018
+							<span class="blue bolder">Aula Máxima</span>
+							 &copy; Eureka Libros SAS
 						</span>
 
 						&nbsp; &nbsp;
@@ -389,7 +389,6 @@ $events = $req->fetchAll();
 					</div>
 				</div>
 			</div>
-
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>

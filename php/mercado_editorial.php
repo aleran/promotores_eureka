@@ -8,11 +8,11 @@
 	$gp_periodo = $req_periodo->fetch();
 
 	if ($_POST["tipo_editorial"] == 1) {
-		$sql_p="INSERT INTO mercado_editorial(id_periodo,id_colegio,id_materia,id_grado,editorial,id_libro_eureka,vigencia) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."','".$_POST["materia"]."','".$_POST["grado"]."', 'Eureka', '".$_POST["libro_e"]."','".$_POST["vigencia"]."')";
+		$sql_p="INSERT INTO mercado_editorial(id_periodo,id_colegio,id_materia,id_grado,id_tipo_libro,editorial,id_libro_eureka,vigencia) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."','".$_POST["materia"]."','".$_POST["grado"]."', '".$_POST["tipo_libro"]."', 'Eureka', '".$_POST["libro_e"]."','".$_POST["vigencia"]."')";
 	}
 
 	else {
-		$sql_p="INSERT INTO mercado_editorial(id_periodo,id_colegio,id_materia,id_grado,editorial,libro,vigencia) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."', '".$_POST["materia"]."', '".$_POST["grado"]."', '".$_POST["editorial"]."','".$_POST["libro"]."','".$_POST["vigencia"]."')";
+		$sql_p="INSERT INTO mercado_editorial(id_periodo,id_colegio,id_materia,id_grado,id_tipo_libro,editorial,libro,vigencia) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."', '".$_POST["materia"]."', '".$_POST["grado"]."', '".$_POST["tipo_libro"]."', '".$_POST["editorial"]."','".$_POST["libro"]."','".$_POST["vigencia"]."')";
 
 	}
 

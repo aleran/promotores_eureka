@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<title>Ver Periodos</title>
 
-		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -250,8 +250,8 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Eureka</span>
-							Applicación &copy; 2018
+							<span class="blue bolder">Aula Máxima</span>
+							 &copy; Eureka Libros SAS
 						</span>
 
 						&nbsp; &nbsp;

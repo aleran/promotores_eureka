@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<title>Colegio</title>
 
-		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -586,7 +586,6 @@
 									</div>
 							</div>
 						</div>
-
 						<b>Jefe área sociales</b><br><br>
 						<div class="row">
 							<div class="col-sm-8">
@@ -637,7 +636,6 @@
 									</div>
 							</div>
 						</div>
-
 						<b>Jefe área inglés</b><br><br>
 						<div class="row">
 							<div class="col-sm-8">
@@ -686,7 +684,67 @@
 											</div>
 										
 									</div>
+								
 							</div>
+						</div>
+
+						<b>Jefe área informatica</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre7"> Nombre:</label>
+
+										
+											<input type="text" name="nombre7" id="nombre7" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular7"> Celular:</label>
+
+										
+											<input type="tel" name="celular7" id="celular7" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email7"> Email: </label>
+
+										
+											<input type="email" name="email7" id="email7" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños7"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños7" id="cumpleaños7" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+								
+							</div>
+
+
+
+
+
+
+
 							
 							<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 								<center><button class="btn btn-primary">Guardar</button></center>
@@ -737,6 +795,12 @@
 								$req6 = $bdd->prepare($sql6);
 								$req6->execute();
 								$trabajadores6 = $req6->fetch();
+
+								$sql7 = "SELECT id, cargo, nombre, telefono, email, cumpleaños FROM trabajadores_colegios WHERE id_colegio='".$colegio['id']."' AND cargo=5 AND area=10";
+
+								$req7 = $bdd->prepare($sql7);
+								$req7->execute();
+								$trabajadores7 = $req7->fetch();
 							?>
 
 						<b>Propietario</b><br><br>
@@ -1102,6 +1166,60 @@
 									</div>
 								<input required required type="hidden" name="id6" value="<?php echo $trabajadores6["id"]?>">
 							</div>
+						</div>
+
+						<b>Jefe área informatica</b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre7"> Nombre:</label>
+
+										
+											<input type="text" name="nombre7" id="nombre7" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores7["nombre"]?>" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular7"> Celular:</label>
+
+										
+											<input type="tel" name="celular7" id="celular7" placeholder="" class="form-control" value="<?php echo $trabajadores7["telefono"]?>" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email7"> Email:</label>
+
+										
+											<input type="email" name="email7" id="email7" placeholder="" class="form-control" value="<?php echo $trabajadores7["email"]?>" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños7"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input  type="text" class="form-control date-picker" name="cumpleaños7" id="cumpleaños7" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores7["cumpleaños"]?>"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+								<input required required type="hidden" name="id7" value="<?php echo $trabajadores7["id"]?>">
+							</div>
+
+
 							
 							<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 							<center><button class="btn btn-primary">Actualizar</button></center>
@@ -1580,30 +1698,52 @@
 				  			
 
 				  			</div>
+				  			<div class="col-sm-4">
+								
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="tipo_libro"> Tipo:<small style="color:red;"> *</small></label>
 
-				  			<div class="col-sm-4 otra_e hidden">
-				  				<div class="form-group">
-				  					<label for="editorial" class="control-label no-padding-right">Editorial<small style="color:red;"> *</small></label>
-				  					 <input type="text" required name="editorial" id="editorial" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h()">
-					  				<div id="suggestions"></div>
-				  				</div>
-				  			</div>
-				  			
-				  			
+									<select name="tipo_libro" id="tipo_libro" class="form-control materia">
+					 				<option value="">Seleccionar</option>
+								 	<?php 
+								 		$sql = "SELECT id, tipo FROM tipos_libro";
 
+										$req = $bdd->prepare($sql);
+										$req->execute();
+										$materias = $req->fetchAll();
+
+										foreach($materias as $materia) {
+										    $id = $materia['id'];
+										    $nom = $materia['tipo'];
+										    echo '<option value="'.$id.'">'.$nom.'</option>';
+										}
+								 	?>
+					 				</select>
+										
+								</div>
+							</div>	
+						</div>
 				  			<div class="row">
-				  				<div class="col-sm-4 col-sm-offset-4 otra_e hidden">
+				  				<div class="col-sm-4 otra_e hidden">
 					  				<div class="form-group">
-					  					<label for="libro" class="control-label no-padding-right">Título o paquete</label>
+					  					<label for="editorial" class="control-label no-padding-right">Editorial<small style="color:red;"> *</small></label>
+					  					 <input type="text" required name="editorial" id="editorial" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h()">
+						  				<div id="suggestions"></div>
+					  				</div>
+				  				</div>
+				  				<div class="col-sm-4 otra_e hidden">
+					  				<div class="form-group">
+					  					<label for="libro" class="control-label no-padding-right">Título</label>
 					  					<input type="text" name="libro" id="libro" class="form-control" placeholder="" autocomplete="off" onkeyup="bus_h1()">
 						  				<div id="suggestions1"></div>
 					  				</div>
 
 								</div>
-
-				  				<div class="col-sm-4 eureka hidden">
+							</div>
+							<div class="row">
+				  				<div class="col-sm-4 col-sm-offset-4 eureka hidden">
 									<div class="form-group">
-										<label for="libro_e" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+										<label for="libro_e" class="control-label no-padding-right">Título<small style="color:red;"> *</small></label>
 							
 									 		<select name="libro_e" id="libro_e" class="form-control grado" >
 									 			
@@ -1614,6 +1754,8 @@
 								
 
 							</div>
+							<div class="row">
+							
 							<div class="row">
 
 								<div class="col-sm-4 col-sm-offset-4">
@@ -1629,7 +1771,7 @@
 							</form>
 						</div><br><br>
 						<?php 
-						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial, a.id_libro_eureka as lib_eureka,a.libro,a.vigencia, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial, a.id_libro_eureka as lib_eureka,a.libro,a.vigencia, a.id_tipo_libro as tipolibro, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -1647,17 +1789,29 @@
 									else {
 										$libro=$mercado["libro"];
 									}
+
+									$sq_t = "SELECT tipo FROM tipos_libro WHERE id='".$mercado["tipolibro"]."'";
+							
+										$req_t = $bdd->prepare($sq_t);
+										$req_t->execute();
+										$tipo_l = $req_t->fetch();
+
 									echo '<form action="php/modificar_mercado.php" method="POST">
 									<div class="row">
-						 	<div class="col-sm-4">
+						 	<div class="col-sm-3">
 						 		<label>Materia: '.$mercado["materia"].'</label>
 						 	</div>
-						 	<div class="col-sm-4">
+						 	<div class="col-sm-3">
 						 		<label>Grado: '.$mercado["grado"].'</label>
 						 	</div>
-						 	<div class="col-sm-4">
+						 	<div class="col-sm-3">
 						 		<div class="form-group">
 				  					<label>Editorial: '.$mercado["editorial"].'</label>
+				  				</div>
+				  			</div>
+				  			<div class="col-sm-3">
+						 		<div class="form-group">
+				  					<label>Tipo: '.$tipo_l["tipo"].'</label>
 				  				</div>
 				  			</div>
 						 </div>
@@ -1815,8 +1969,8 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Eureka</span>
-							Applicación &copy; 2018
+							<span class="blue bolder">Aula Máxima</span>
+							 &copy; Eureka Libros SAS
 						</span>
 
 						&nbsp; &nbsp;

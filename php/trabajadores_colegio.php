@@ -217,5 +217,36 @@
 		
 	}
 
+	if (isset($_POST["nombre7"])) {
+
+		do {
+	         $caracteres = "1234567890"; //posibles caracteres a usar
+	         $numerodeletras=8; //numero de letras para generar el texto
+	         $cod_profesor =""; //variable para almacenar la cadena generada
+	         for($i=0;$i<$numerodeletras;$i++)
+	         {
+	            $cod_profesor .=substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres 
+	            entre el rango 0 a Numero de letras que tiene la cadena */
+	         }
+	        $sql = "SELECT codigo FROM trabajadores_colegios";
+
+			$req = $bdd->prepare($sql);
+			$req->execute();
+			$codigos = $req->fetchAll();
+
+	         foreach($codigos as $codigo) {
+				if ($cod_profesor !="") {
+					if (($codigo["codigo"]==$cod_profesor)) $cod_profesor="";
+				}
+			}
+	   
+	      } while ($cod_profesor=="");
+
+		$sql = "INSERT INTO trabajadores_colegios(codigo,id_colegio,cargo,nombre,area,telefono,email,cumpleaños) VALUES('".$cod_profesor."','".$_POST["id_colegio"]."', '5', '".$_POST["nombre7"]."', '10', '".$_POST["celular7"]."', '".$_POST["email7"]."', '".$_POST["cumpleaños7"]."')";
+		$req = $bdd->prepare($sql);
+		$req->execute();
+		
+	}
+
 	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
 ?>
