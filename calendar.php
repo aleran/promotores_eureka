@@ -80,6 +80,26 @@ $events = $req->fetchAll();
 			display: none;
 			z-index: 2;
 		}
+
+		.suggest-element_c{
+			margin-left:5px;
+			margin-top:5px;
+			width:350px;
+			cursor:pointer;
+		}
+		#suggestions_c {
+			text-align:left;
+			margin: 0 auto;
+			position:absolute;
+			min-width:120px;
+			height:70px;
+			border:ridge 2px;
+			border-radius: 3px;
+			overflow: auto;
+			background: white;
+			display: none;
+			z-index: 2;
+		}
 		</style>
 	</head>
 
@@ -213,25 +233,11 @@ $events = $req->fetchAll();
 			  </div>
 			  <div class="modal-body">
 				
-				  <div class="form-group">
+				   <div class="form-group">
 					<label for="colegio" class="col-sm-2 control-label">Colegio<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					 <select name="colegio" id="colegio" class="form-control" required>
-					 	<option value="">Seleccionar</option>
-					 	<?php 
-					 		$sql = "SELECT id, colegio FROM colegios WHERE cod_zona='".$_SESSION["zona"]."'";
-
-							$req = $bdd->prepare($sql);
-							$req->execute();
-							$colegios = $req->fetchAll();
-
-							foreach($colegios as $colegio) {
-							    $id = $colegio['id'];
-							    $nom = $colegio['colegio'];
-							    echo '<option value="'.$id.'">'.$nom.'</option>';
-							}
-					 	?>
-					 </select>
+					  <input type="text" name="colegio" id="colegio" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_c()" required=>
+					  <input type="hidden" name="cole" id="cole"><div id="suggestions_c"></div>
 					</div>
 				  </div>
 					
@@ -449,7 +455,7 @@ $events = $req->fetchAll();
 				 language: 'es',
 				left: 'prev,next today',
 				center: 'title',
-				right: 'month,basicWeek,basicDay',
+				right: '',
 
 			},
 			defaultDate: yyyy+"-"+mm+"-"+dd,
@@ -457,6 +463,8 @@ $events = $req->fetchAll();
 			eventLimit: true, // allow "more" link when too many events
 			selectable: true,
 			selectHelper: true,
+			minTime: "07:00:00",
+			maxTime: "20:00:00",
 			select: function(start, end) {
 				
 				$('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
@@ -581,6 +589,45 @@ $events = $req->fetchAll();
 					$('#profesor').val(profe);
 					$('#profe').val(id);
 					$('#suggestions').fadeOut();
+
+					return false;
+				});
+
+
+			}
+		});
+	}
+
+	function bus_c(){
+		var colegio= document.getElementById('colegio').value;
+		var dataString = 'colegio='+colegio;
+		$("#colegio").change(function(){
+			$("#cole").val("");
+		});
+		$.ajax({
+			type: "POST",
+			url: "ajax/buscar_colegio.php",
+			data: dataString,
+			success: function(resp) {
+
+				$("#colegio").blur(function(){
+					$('#suggestions_c').fadeOut();
+				})
+				if (resp !="") {
+					$('#suggestions_c').fadeIn().html(resp);
+				}
+
+				if (resp =="") {
+					$('#suggestions_c').fadeOut().html(resp);
+					$('#cole').val("no");
+				}
+				
+				$('.suggest-element_c a').on('click', function(){
+					var id = $(this).attr('id');
+					var cole= $(this).attr('data-colegio');
+					$('#colegio').val(cole);
+					$('#cole').val(id);
+					$('#suggestions_c').fadeOut();
 
 					return false;
 				});

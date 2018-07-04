@@ -206,244 +206,65 @@
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
-						<?php 
-							require_once('conexion/bdd.php');
-									
-							$sql = "SELECT zona, codigo FROM zonas WHERE id='".$_SESSION['zona']."'";
+						<h5>Visitas desde: <?php echo $_POST["desde"]; ?> Hasta: <?php echo $_POST["hasta"]; ?></h5>
+							<?php 
+                                include("conexion/bdd.php");
 
-							$req = $bdd->prepare($sql);
-							$req->execute();
-							$zona = $req->fetch();
-							//echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
-						?>
-						<div id="accordion" class="accordion-style1 panel-group">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-											<i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-												&nbsp;Detallado
-										</a>
-									</h4>
-								</div>
+                                $sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
 
-								<div class="panel-collapse collapse in" id="collapseOne">
-									<div class="panel-body">
-									<div class="row">
-										<div class="col-sm-4">
-									<!-- PAGE CONTENT BEGINS -->
-											<form action="lista_visitas_detallado.php" method="POST">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-												<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
-													<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
-												
-												<center><button class="btn btn-primary">Buscar</button></center>
-											</div>
-											
-										</div>
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde"> Desde: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta"> Hasta: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-										</form>
-										</div>
-										<div class="row">
-										<div class="col-sm-4">
-											<!-- PAGE CONTENT BEGINS -->
-												<form action="lista_visitas_detallado.php" method="POST">
-												<div class="form-group">
-													<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
+								$req_periodo = $bdd->prepare($sql_periodo);
+								$req_periodo->execute();
+								$gp_periodo = $req_periodo->fetch();
 
-													<select name="zona" id="zona" class="form-control materia" required>
-														<option value="">Seleccionar</option>
-														 <?php 
-														 	$sql = "SELECT codigo, zona FROM zonas";
-										
-															$req = $bdd->prepare($sql);
-															$req->execute();
-															$zonas = $req->fetchAll();
-										
-															foreach($zonas as $zona) {
-																$codigo = $zona['codigo'];
-																$nom = $zona['zona'];
-																echo '<option value="'.$codigo.'">'.$nom.'</option>';
-															}
-														 ?>
-													</select><br>
-													<center><button class="btn btn-primary">Exportar excel</button></center>
-												</div>
-												
-										</div>
+								$desde=$_POST["desde"]." "."00:00:00";
+								$hasta=$_POST["hasta"]." "."23:59:59";
+								if (isset($_POST["promo"])) {
+									$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE u.id='".$_POST["promo"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+								}
+								else {
+									$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE z.codigo='".$_POST["zona"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+								}
+                                
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$planes = $req->fetchAll();
+								
+                                
+                                
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Zona</th>
+                                            <th>Promotor</th>
+                                            <th>Fecha planificada</th>
+                                            <th>Colegio</th>
+                                            <th>Objetivo</th>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        	foreach($planes as $plan) {
 
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde1"> Desde: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde1" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta1"> Hasta: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta1" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-										</form>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-											<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-												&nbsp;General
-										</a>
-									</h4>
-								</div>
-
-								<div class="panel-collapse collapse" id="collapseTwo">
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-sm-4">
-												<!-- PAGE CONTENT BEGINS -->
-													<form action="php/visitas_general.php" method="POST">
-													<div class="form-group">
-														<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-														<input required required type="tel" name="promotor" id="promotor1" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms1();bus_h1()"/>
-															<input type="hidden" name="promo" id="promo1"><div id="suggestions1"></div><br>
-														
-														<center><button class="btn btn-primary">Exportar excel</button></center>
-													</div>
-													
-											</div>
-
-											<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde"> Desde: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta"> Hasta: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-									</form>
-											
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-											<!-- PAGE CONTENT BEGINS -->
-												<form action="php/visitas_general.php" method="POST">
-												<div class="form-group">
-													<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
-
-													<select name="zona" id="zona" class="form-control materia" required>
-														<option value="">Seleccionar</option>
-														 <?php 
-														 	$sql = "SELECT codigo, zona FROM zonas";
-										
-															$req = $bdd->prepare($sql);
-															$req->execute();
-															$zonas = $req->fetchAll();
-										
-															foreach($zonas as $zona) {
-																$codigo = $zona['codigo'];
-																$nom = $zona['zona'];
-																echo '<option value="'.$codigo.'">'.$nom.'</option>';
-															}
-														 ?>
-													</select><br>
-													<center><button class="btn btn-primary">Exportar excel</button></center>
-												</div>
-												
-										</div>
-
-											<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde1"> Desde: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde1" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta1"> Hasta: </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta1" type="text" data-date-format="yyyy-mm-dd"/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-									</form>
-										</div>
+                                        		$promotor=$plan["nombres"]." ".$plan["apellidos"];
+                                           
+                                                echo'<tr class="odd gradeX">';
+                                                echo'<td class="center">'.$plan["zona"].'</td>';
+                                                echo'<td class="center">'.$promotor.'</td>';
+                                                echo'<td class="center">'.$plan["start"].'</td>';
+                                                echo'<td class="center">'.$plan["colegio"].'</td>';
+                                                echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';
+                                                echo'<td class="center">'.$plan["resultado"].'</td>';
+                                                
+                                            }
+                                         ?>
+                                        
+                                        </tr>
+                                       
+                                    </tbody>
+                                </table>
 									</div>
 								</div>
 							</div>

@@ -288,6 +288,22 @@
 							
 
 						</div>
+							<?php 
+								if ($visita["resultado"]==1) {
+									
+								
+								$sql_v = "SELECT observaciones FROM visitas WHERE id_plan_trabajo='".$_GET["evento"]."'";
+
+								$req_v = $bdd->prepare($sql_v);
+								$req_v->execute();
+								$v = $req_v->fetch();
+							 ?>
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-4">
+									<h5>Comentarios: <?php echo $v["observaciones"] ?></h5>
+								</div>
+
+							</div>
 						<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 
 								echo'<table class="table table-bordered">
@@ -334,7 +350,8 @@
 								echo "</tbody></table>";
 							
 							
-							}?>
+							}
+						}?>
 						<?php if ($visita["resultado"] ==0 && $visita['start'] >= date("Y-m-d 00:00:00")) {
 						?>
 						<center><a href="ajax/deleteEvent.php?evento=<?php echo $visita["id"] ?>" class="btn btn-danger">Eliminar</a> <button class='btn btn-success' data-toggle="modal" data-target="#ModalEjecutar">Ejecutar</button></center>

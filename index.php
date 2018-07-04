@@ -187,13 +187,40 @@
 										$req->execute();
 
 										$colegios = $req->rowCount();
-											if ($_SESSION["tipo"] !=3 ) {
-											$sql = "SELECT id FROM usuarios WHERE tipo=3";
 
-											$req = $bdd->prepare($sql);
-											$req->execute();
+										if ($_SESSION["tipo"] !=3 ) {
+											$sql_pt = "SELECT id FROM plan_trabajo";
+										}
 
-											$promotores = $req->rowCount();
+										else {
+											$sql_pt = "SELECT id FROM plan_trabajo WHERE id_promotor='".$_SESSION["id"]."'";
+										}
+
+										$req_pt = $bdd->prepare($sql_pt);
+										$req_pt->execute();
+
+										$plan_trabajo = $req_pt->rowCount();
+
+										if ($_SESSION["tipo"] !=3 ) {
+											$sql_vi = "SELECT id FROM visitas";
+										}
+
+										else {
+											$sql_vi = "SELECT id FROM visitas WHERE id_promotor='".$_SESSION["id"]."'";
+										}
+
+										$req_vi = $bdd->prepare($sql_vi);
+										$req_vi->execute();
+
+										$visitas = $req_vi->rowCount();
+
+										if ($_SESSION["tipo"] !=3 ) {
+										$sql = "SELECT id FROM usuarios WHERE tipo=3";
+
+										$req = $bdd->prepare($sql);
+										$req->execute();
+
+										$promotores = $req->rowCount();
 										}
 									?>
 
@@ -245,7 +272,7 @@
 													<!--<div class="stat stat-important">4%</div>-->
 												</div>
 											<?php } ?>
-										
+											
 											<!--<div class="infobox infobox-red">
 												<div class="infobox-icon">
 													<i class="ace-icon fa fa-flask"></i>
@@ -331,12 +358,14 @@
 
 									<div class="vspace-12-sm"></div>
 
-									<div class="row"><div class="col-sm-6 col-sm-offset-3">
+									<div class="row">
+										<center><h4>Visitas Planificadas: <?php echo $plan_trabajo;?> Visitas Ejecutadas: <?php echo $visitas;?> </h4></center>
+										<div class="col-sm-6 col-sm-offset-3">
 												<br><div class="widget-box">
 													<div class="widget-header widget-header-flat widget-header-small">
 														<h5 class="widget-title">
 															<i class="ace-icon fa fa-signal"></i>
-															<b>Gráfica de Visitas</b>
+															<b>Gráfica de visitas ejecutadas</b>
 														</h5>
 											
 														<!--<div class="widget-toolbar no-border">

@@ -109,10 +109,11 @@ $req_periodo = $bdd->prepare($sql_periodo);
 $req_periodo->execute();
 $gp_periodo = $req_periodo->fetch();
 
-
+$desde=$_POST["desde"]." "."00:00:00";
+$hasta=$_POST["hasta"]." "."23:59:59";
 if (isset($_POST["zona"])) {
 
-	$sql = "SELECT o.objetivo, p.id as planid, p.resultado, p.cod_profesor, c.colegio, p.start, z.zona FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona  WHERE c.cod_zona='".$_POST["zona"]."' AND p.id_periodo='".$gp_periodo["id"]."'";
+	$sql = "SELECT o.objetivo, p.id as planid, p.resultado, p.cod_profesor, c.colegio, p.start, z.zona FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona  WHERE c.cod_zona='".$_POST["zona"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC ";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$planes = $req->fetchAll();
@@ -120,7 +121,7 @@ if (isset($_POST["zona"])) {
 
 else {
 
-	$sql = "SELECT o.objetivo, p.id as planid, p.resultado,p.cod_profesor, c.colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  JOIN objetivos o ON p.id_objetivo=o.id  WHERE p.id_promotor='".$_POST["promo"]."' AND p.id_periodo='".$gp_periodo["id"]."'";
+	$sql = "SELECT o.objetivo, p.id as planid, p.resultado,p.cod_profesor, c.colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  JOIN objetivos o ON p.id_objetivo=o.id  WHERE p.id_promotor='".$_POST["promo"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$planes = $req->fetchAll();

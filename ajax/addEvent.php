@@ -3,7 +3,7 @@ require_once("../php/aut.php");
 // Conexion a la base de datos
 require_once('../conexion/bdd.php');
 
-if (isset($_POST['colegio']) &&  isset($_POST['profesor']) && isset($_POST['objetivo']) && isset($_POST['start']) && isset($_POST['end'])){
+if (isset($_POST['cole']) &&  isset($_POST['profesor']) && isset($_POST['objetivo']) && isset($_POST['start']) && isset($_POST['end'])){
 
 	$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
 
@@ -11,7 +11,7 @@ if (isset($_POST['colegio']) &&  isset($_POST['profesor']) && isset($_POST['obje
 	$req_periodo->execute();
 	$gp_periodo = $req_periodo->fetch();
 	
-	$colegio = $_POST['colegio'];
+	$colegio = $_POST['cole'];
 	$profesor = $_POST['profesor'];
 	$objetivo = $_POST['objetivo'];
 	$start = $_POST['start'];

@@ -118,7 +118,7 @@
 	   
 	      } while ($cod_profesor=="");
 
-		$sql = "INSERT INTO trabajadores_colegios(codigo,id_colegio,cargo,nombre,area,telefono,email,cumpleaños) VALUES('".$cod_profesor."','".$_POST["id_colegio"]."', '5', '".$_POST["nombre4"]."', '3', '".$_POST["celular3"]."', '".$_POST["email3"]."', '".$_POST["cumpleaños3"]."')";
+		$sql = "INSERT INTO trabajadores_colegios(codigo,id_colegio,cargo,nombre,area,telefono,email,cumpleaños) VALUES('".$cod_profesor."','".$_POST["id_colegio"]."', '5', '".$_POST["nombre3"]."', '3', '".$_POST["celular3"]."', '".$_POST["email3"]."', '".$_POST["cumpleaños3"]."')";
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		
