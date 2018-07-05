@@ -284,27 +284,35 @@
                         </div>
                         <div class="row">
                         	<table class="table table-bordered table-hover">
-                        		
+                        		<form action="php/actualizar_colegio.php" method="POST">
                         		<tr>
-                        			<td>Nombre de la institución: <?php echo $colegio['colegio']; ?></td>
+                        			<td>Nombre de la institución:<small style="color:red;"> *</small><input type="text" name="colegio" class="form-control" value="<?php echo $colegio['colegio']; ?>" required></td>
                         			<td>Código interno: <?php echo $colegio['codigo']; ?></td>
                         		</tr>
                         		<tr>
                         			
-                        			<td>Dirección: <?php echo $colegio['direccion']; ?></td>
-                        			<td>Barrio: <?php echo $colegio['barrio']; ?></td>
+                        			<td>Dirección:<small style="color:red;"> *</small>  <input type="text" name="direccion" class="form-control" value="<?php echo $colegio['direccion']; ?>" required></td>
+                        			<td>Barrio:<small style="color:red;"> *</small> <input type="text" name="barrio" class="form-control" value="<?php echo $colegio['barrio']; ?>" required></td>
                         		</tr>
                         
                         		<tr>
-                        			<td>Teléfono: <?php echo $colegio['telefono']; ?></td>
-                        			<td>Pagina Web: <?php echo $colegio['web']; ?></td>
+                        			<td>Teléfono: <input type="text" name="telefono_c" class="form-control" value="<?php echo $colegio['telefono']; ?>"></td>
+                        			<td>Pagina Web: <input type="text" name="web" class="form-control" value="<?php echo $colegio['web']; ?>"></td>
                         		</tr>
                         		<tr>
-                        			<td>Cumpleaños del colegio: <?php echo $colegio['cumpleaños']; ?></td>
+                        			<td>Cumpleaños del colegio: <div class="input-group"><input type="text" class="form-control date-picker" name="cumpleaños_c" id="cumpleaños_c" value="<?php echo $colegio['cumpleaños']; ?>" type="text" data-date-format="yyyy-mm-dd"/>
+									<span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span></div></td>
                         			
                         		</tr>
-                        			
+	
                         	</table>
+                        	<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+                        	<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+                        	<center><button class="btn btn-success">Actualizar</button></center><br><br>
+                        	<?php } ?>
+                        	</form>
                         </div>
                         <div id="accordion" class="accordion-style1 panel-group">
 											<div class="panel panel-default">
@@ -1858,60 +1866,60 @@
 
 												<div class="panel-collapse collapse" id="collapsefive">
 													<div class="panel-body">
-						<div class="row">
-							<center><h4>Añadir nuevo</h4></center><br>
-							<div class="col-sm-6 col-sm-offset-3">
-								<form action="php/areas_objetivas.php" method="POST">
-								<div class="form-group">
-									<label class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
+														<div class="row">
+															<center><h4>Añadir nuevo</h4></center><br>
+															<div class="col-sm-6 col-sm-offset-3">
+																<form action="php/areas_objetivas.php" method="POST">
+																<div class="form-group">
+																	<label class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
 
-									<select name="materia1" id="materia1" class="form-control materia">
-					 			<option value="">Seleccionar</option>
-								 	<?php 
-								 		$sql = "SELECT id, materia FROM materias";
-										$req = $bdd->prepare($sql);
-										$req->execute();
-										$materias = $req->fetchAll();
-										foreach($materias as $materia) {
-										    $id = $materia['id'];
-										    $nom = $materia['materia'];
-										    echo '<option value="'.$id.'">'.$nom.'</option>';
-										}
-								 	?>
-					 		</select>
-										
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
-						
-								 		<select name="grado1" required id="grado1" class="form-control grado">
-								 			
-											
-								 		</select>
-								</div>
-				  			</div>
-				  			<div class="col-sm-6">
-				  				<div class="form-group">
-									<label for="libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
-							
-									 <select name="libro_e1" id="libro_e1" class="form-control grado" >
-									 			
-												
-									 </select>
-								</div>
+																	<select name="materia1" id="materia1" class="form-control materia">
+													 			<option value="">Seleccionar</option>
+																 	<?php 
+																 		$sql = "SELECT id, materia FROM materias";
+																		$req = $bdd->prepare($sql);
+																		$req->execute();
+																		$materias = $req->fetchAll();
+																		foreach($materias as $materia) {
+																		    $id = $materia['id'];
+																		    $nom = $materia['materia'];
+																		    echo '<option value="'.$id.'">'.$nom.'</option>';
+																		}
+																 	?>
+													 		</select>
+																		
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-sm-6">
+																<div class="form-group">
+																	<label for="grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
+														
+																 		<select name="grado1" required id="grado1" class="form-control grado">
+																 			
+																			
+																 		</select>
+																</div>
+												  			</div>
+												  			<div class="col-sm-6">
+												  				<div class="form-group">
+																	<label for="libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+															
+																	 <select name="libro_e1" id="libro_e1" class="form-control grado" >
+																	 			
+																				
+																	 </select>
+																</div>
 
-				  			</div>
-				  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
-				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
-				  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
-				  			<br><br><center><button class="btn btn-success">Guardar</button></center>
-				  			<?php }?>
-							</form>
-						</div><br><br>
+												  			</div>
+												  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
+												  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+												  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+												  			<br><br><center><button class="btn btn-success">Guardar</button></center>
+												  			<?php }?>
+															</form>
+									</div><br><br>
 						<?php 
 							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
@@ -1951,7 +1959,61 @@
 													</div>
 												</div>
 											</div>
+											<?php if ($_SESSION["tipo"]==1) {?>
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsevisitas">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+																&nbsp;Tasabilidad de visitas
+														</a>
+													</h4>
+												</div>
 
+												<div class="panel-collapse collapse" id="collapsevisitas">
+													<div class="panel-body">
+														<?php 
+															$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE c.id='".$colegio['id']."' AND p.resultado='1' AND p.id_periodo='".$gp_periodo["id"]."' ORDER BY start ASC";
+															$req = $bdd->prepare($sql);
+															$req->execute();
+															$planes = $req->fetchAll();
+														 ?>
+														<div class="table-responsive">
+                                						<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+					                                    <thead>
+					                                        <tr>
+					                                            <th>Zona</th>
+					                                            <th>Promotor</th>
+					                                            <th>Fecha planificada</th>
+					                                            <th>Objetivo</th>
+					                                            <th>Resultado</th>
+					                                        </tr>
+					                                    </thead>
+					                                    <tbody>
+					                                        <?php 
+					                                        	foreach($planes as $plan) {
+
+					                                        		$promotor=$plan["nombres"]." ".$plan["apellidos"];
+					                                           
+					                                                echo'<tr class="odd gradeX">';
+					                                                echo'<td class="center">'.$plan["zona"].'</td>';
+					                                                echo'<td class="center">'.$promotor.'</td>';
+					                                                echo'<td class="center">'.$plan["start"].'</td>';
+					                                                echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';
+					                                                echo'<td class="center">'.$plan["resultado"].'</td>';
+					                                                
+					                                            }
+					                                         ?>
+					                                        
+					                                        </tr>
+					                                       
+					                                    </tbody>
+                               						 </table>
+													</div>
+													</div>
+												</div>
+											</div>
+										<?php } ?>
                         
 						
 						
@@ -2018,6 +2080,38 @@
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
+		<script src="assets/js/dataTables/jquery.dataTables.js"></script>
+    	<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    	<script>
+            $(document).ready(function () {
+                $('#dataTables-example').dataTable({
+                	"language": {
+			            "lengthMenu": "Display _MENU_ registros por página",
+			            "zeroRecords": "Nada encontrado, lo siento",
+			            "info": "Mostrando página _PAGE_ de _PAGES_",
+			            "infoEmpty": "No hay registros disponibles",
+			            "infoFiltered": "(filtrado de _MAX_ registros en total )",
+			            "search": "Buscar&nbsp;:",
+			             paginate: {
+				            first:"Primero",
+				            previous:"Anterior",
+				            next:"Siguiente",
+				            last:"Último"
+				        }
+        			}
+                });
+            });
+
+            $(".eliminar").click(function(e){
+
+	            e.preventDefault();
+	            var cod= $(this).attr('data-codigo');
+	            if (confirm("¿Seguro que desea eliminar este colegio")) {
+	                window.location="php/eliminar_colegio.php?codigo="+cod
+	            }
+
+        	})
+    </script>
 		<script>
 			$.fn.datepicker.dates['es'] = {
 			        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],

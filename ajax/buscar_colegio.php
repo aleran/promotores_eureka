@@ -2,7 +2,14 @@
 	require_once("../php/aut.php");
 	require_once('../conexion/bdd.php');  
 	$colegio=$_POST["colegio"];
-	$sql = "SELECT id,colegio FROM colegios WHERE colegio like'%".$colegio."%' AND cod_zona='".$_SESSION["zona"]."'";
+	if ($_SESSION["tipo"]==1) {
+		$sql = "SELECT id,colegio FROM colegios WHERE colegio like'%".$colegio."%'";
+	}
+	else {
+
+		$sql = "SELECT id,colegio FROM colegios WHERE colegio like'%".$colegio."%' AND cod_zona='".$_SESSION["zona"]."'";
+	}
+	
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$colegios = $req->fetchAll();

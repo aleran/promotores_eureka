@@ -92,7 +92,7 @@ $events = $req->fetchAll();
 			margin: 0 auto;
 			position:absolute;
 			min-width:120px;
-			height:70px;
+			height:150px;
 			border:ridge 2px;
 			border-radius: 3px;
 			overflow: auto;
