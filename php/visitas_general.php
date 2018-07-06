@@ -148,7 +148,13 @@ foreach($planes as $plan) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$plan[colegio]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$profe[nombre]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$plan[objetivo]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$plan[resultado]");
+	 if ($plan["resultado"]==1) {
+		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "Efectiva");
+	}
+	else {
+		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "No ejecutada");
+	}
+	
 	if ($plan["resultado"]==1) {
 		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$visitas[observaciones]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$visitas[fecha]");

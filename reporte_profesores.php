@@ -811,5 +811,9 @@
 				}
 			}
 		</script>
+		<script>
+			$(".abrir_reportes").addClass("open");
+			$(".profesores").addClass("active");
+		</script>
 	</body>
 </html>

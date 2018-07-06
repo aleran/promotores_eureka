@@ -859,5 +859,8 @@
 			
 			})
 		</script>
+		<script>
+			$(".inicio").addClass("active");
+		</script>
 	</body>
 </html>

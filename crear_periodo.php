@@ -727,6 +727,9 @@
 			
 			});
 		</script>
-		
+		<script>
+			$(".abrir_periodos").addClass("open");
+			$(".crear_periodo").addClass("active");
+		</script>
 	</body>
 </html>

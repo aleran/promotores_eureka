@@ -811,5 +811,9 @@
 				}
 			}
 		</script>
+		<script>
+			$(".abrir_reportes").addClass("open");
+			$(".trabajadores").addClass("active");
+		</script>
 	</body>
 </html>

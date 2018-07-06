@@ -356,5 +356,9 @@
 
         	})
     </script>
+    <script>
+		$(".abrir_periodos").addClass("open");
+		$(".ver_periodos").addClass("active");
+	</script>
 	</body>
 </html>

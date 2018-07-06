@@ -293,7 +293,7 @@
 															}
 														 ?>
 													</select><br>
-													<center><button class="btn btn-primary">Exportar excel</button></center>
+													<center><button class="btn btn-primary">Buscar</button></center>
 												</div>
 												
 										</div>
@@ -352,7 +352,7 @@
 														<input required required type="tel" name="promotor" id="promotor1" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms1();bus_h1()"/>
 															<input type="hidden" name="promo" id="promo1"><div id="suggestions1"></div><br>
 														
-														<center><button class="btn btn-primary">Exportar excel</button></center>
+														<center><button class="btn btn-primary">Buscar</button></center>
 													</div>
 													
 											</div>
@@ -410,7 +410,7 @@
 															}
 														 ?>
 													</select><br>
-													<center><button class="btn btn-primary">Exportar excel</button></center>
+													<center><button class="btn btn-primary">Buscar</button></center>
 												</div>
 												
 										</div>
@@ -1096,6 +1096,10 @@
 					$("#comp").val("");
 				}
 			}
+		</script>
+		<script>
+			$(".abrir_reportes").addClass("open");
+			$(".visitas").addClass("active");
 		</script>
 	</body>
 </html>

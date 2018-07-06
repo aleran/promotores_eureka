@@ -404,6 +404,10 @@
 				});
 			}
 		</script>
+		<script>
+			$(".abrir_zonas").addClass("open");
+			$(".ver_zonas").addClass("active");
+		</script>
 		<!-- inline scripts related to this page -->
 	</body>
 </html>

@@ -109,7 +109,7 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
+						<!--<div class="ace-settings-container" id="ace-settings-container">
 							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 								<i class="ace-icon fa fa-cog bigger-130"></i>
 							</div>
@@ -155,7 +155,7 @@
 											<b>.container</b>
 										</label>
 									</div>
-								</div><!-- /.pull-left -->
+								</div>
 
 								<div class="pull-left width-50">
 									<div class="ace-settings-item">
@@ -172,9 +172,9 @@
 										<input required type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
 										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
 									</div>
-								</div><!-- /.pull-left -->
-							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
+								</div>
+							</div>
+						</div>-->
 
 						<div class="page-header">
 							<h1>
@@ -785,6 +785,9 @@
 				});
 			}
 		</script>
-		
+		<script>
+			$(".abrir_zonas").addClass("open");
+			$(".agregar_zona").addClass("active");
+		</script>
 	</body>
 </html>

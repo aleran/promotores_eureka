@@ -34,7 +34,7 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li class="active">
+					<li class="inicio">
 						<a href="index.php">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> Dashboard </span>
@@ -272,7 +272,7 @@
 						</ul>
 					</li>-->
 					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
-					<li class="">
+					<li class="abrir_periodos">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon glyphicon glyphicon-time"></i>
 							<span class="menu-text"> Periodos </span>
@@ -283,7 +283,7 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="">
+							<li class="crear_periodo">
 								<a href="crear_periodo.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Crear periodo
@@ -292,7 +292,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="">
+							<li class="ver_periodos">
 								<a href="ver_periodos.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Ver Periodos
@@ -332,7 +332,7 @@
 					</li>
 					<?php } ?>
 					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
-					<li class="">
+					<li class="abrir_zonas">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-road"></i>
 							<span class="menu-text"> Zonas </span>
@@ -343,7 +343,7 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="">
+							<li class="agregar_zona">
 								<a href="agregar_zonas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Agregar Zonas
@@ -352,7 +352,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="">
+							<li class="ver_zonas">
 								<a href="ver_zonas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Ver Zonas
@@ -391,7 +391,7 @@
 						</ul>
 					</li>
 					<?php } ?>
-					<li class="">
+					<li class="abrir_colegios">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon glyphicon glyphicon-book"></i>
 							<span class="menu-text"> Colegios </span>
@@ -402,7 +402,7 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="">
+							<li class="agregar_colegio">
 								<a href="agregar_colegio.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Agregar Colegios
@@ -411,7 +411,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="">
+							<li class="ver_colegios">
 								<a href="ver_colegios.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Ver colegios
@@ -458,8 +458,8 @@
 
 						<b class="arrow"></b>
 					</li>-->
-					<?php if ( $_SESSION["id"] ==3 || $_SESSION["tipo"] ==1  ) {?>
-					<li class="">
+					
+					<li class="plan_trabajo">
 						<a href="calendar.php">
 							<i class="menu-icon fa fa-calendar"></i>
 
@@ -471,8 +471,8 @@
 
 						<b class="arrow"></b>
 					</li>
-					<?php } ?>
-					<li class="">
+					
+					<li class="abrir_reportes">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-folder"></i>
 							<span class="menu-text"> Reportes </span>
@@ -483,24 +483,40 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="">
+							<li class="cubrimiento">
 								<?php if ($_SESSION["tipo"]==3) {?>
 								<a href="php/cubrimiento2.php">
 								<?php }else{ ?>
 								<a href="reporte_cubrimiento.php">
 								<?php } ?>
 									<i class="menu-icon fa fa-caret-right"></i>
-									Reporte de cubrimiento
+									Cubrimiento
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 							<?php if ($_SESSION["tipo"]!=3) {?>
-							<li class="">
+							<li class="visitas">
 								<a href="reporte_visitas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Reporte de visitas
+									Visitas
 									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="trabajadores">
+								<a href="reporte_trabajadores.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Trabajadores
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="profesores">
+								<a href="reporte_profesores.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Profesores
 								</a>
 
 								<b class="arrow"></b>

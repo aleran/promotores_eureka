@@ -374,5 +374,9 @@
 
         	})
     </script>
+    <script>
+			$(".abrir_colegios").addClass("open");
+			$(".ver_colegios").addClass("active");
+	</script>
 	</body>
 </html>

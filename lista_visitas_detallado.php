@@ -249,14 +249,25 @@
                                         	foreach($planes as $plan) {
 
                                         		$promotor=$plan["nombres"]." ".$plan["apellidos"];
-                                           
-                                                echo'<tr class="odd gradeX">';
+                                        		
+                                           		if ($plan["resultado"]==1) {
+                                                	echo'<tr class="odd gradeX success">';
+                                            	}
+                                            	else {
+                                            		echo'<tr class="odd gradeX">';
+                                            	}
                                                 echo'<td class="center">'.$plan["zona"].'</td>';
                                                 echo'<td class="center">'.$promotor.'</td>';
                                                 echo'<td class="center">'.$plan["start"].'</td>';
                                                 echo'<td class="center">'.$plan["colegio"].'</td>';
                                                 echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';
-                                                echo'<td class="center">'.$plan["resultado"].'</td>';
+                                                if ($plan["resultado"]==1) {
+                                                	 echo'<td class="center">Efectiva</td>';
+                                                }
+                                                else {
+                                                	 echo'<td class="center">No ejecutada</td>';
+                                                }
+                                               
                                                 
                                             }
                                          ?>
@@ -918,5 +929,9 @@
 				}
 			}
 		</script>
+		<script>
+			$(".abrir_reportes").addClass("open");
+			$(".visitas").addClass("active");
+		</script>	
 	</body>
 </html>

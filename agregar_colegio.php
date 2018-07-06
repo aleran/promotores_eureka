@@ -790,6 +790,11 @@
 			
 			});
 		</script>
+		<script>
+			$(".abrir_colegios").addClass("open");
+			$(".agregar_colegio").addClass("active");
+		</script>
+	</body>
 		
 	</body>
 </html>

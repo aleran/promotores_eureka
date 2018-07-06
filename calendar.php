@@ -640,6 +640,9 @@ $events = $req->fetchAll();
 
 	
 </script>
+	<script>
+		$(".plan_trabajo").addClass("active");
+	</script>
 		
 	</body>
 </html>

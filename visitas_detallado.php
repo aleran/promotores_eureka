@@ -306,7 +306,7 @@
 								$req->execute();
 								$visita_e = $req->fetch();
 
-							}
+							
 						 ?>
 							
 							<div class="row">
@@ -322,6 +322,7 @@
 								</div>
 
 							</div>
+						<?php } ?>
 							<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 
 								echo'<table class="table table-bordered">
@@ -369,13 +370,15 @@
 							
 							
 							}?>
+							<?php 
+							if ($visita["resultado"]==1) { ?>
 							<div class="row">
 								<div class="col-sm-6 col-sm-offset-5">
 									<h4>Geolocalización</h4>
 								</div>
 								<div id="map"></div>
 							</div>
-							
+							<?php } ?>
 
 						
 												
@@ -924,6 +927,9 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCfKRWI7AB_psEMbo4_Yd9ssbeMk9RU7c&callback=initMap">
     </script>
 
-		
+	<script>
+			$(".abrir_reportes").addClass("open");
+			$(".visitas").addClass("active");
+	</script>	
 	</body>
 </html>
