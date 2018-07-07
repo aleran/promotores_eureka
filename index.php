@@ -359,7 +359,26 @@
 									<div class="vspace-12-sm"></div>
 
 									<div class="row">
-										<center><h4>Visitas Planificadas: <?php echo $plan_trabajo;?> Visitas Ejecutadas: <?php echo $visitas;?> </h4></center>
+										<div class="col-sm-4 col-sm-offset-4">
+										<div class="table-responsive">
+											<table class="table table-bordered">
+												<thead>
+													<th>Visitas planificadas</th>
+													<th>Visitas ejecutadas</th>
+													</thead>
+												<tbody>
+													<tr>
+														<td>
+															<?php echo $plan_trabajo;?>
+														</td>
+														<td class="success">
+															<?php echo $visitas;?>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										</div>
 										<div class="col-sm-6 col-sm-offset-3">
 												<br><div class="widget-box">
 													<div class="widget-header widget-header-flat widget-header-small">

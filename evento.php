@@ -168,7 +168,7 @@
 								$fecha= $d."/".$m."/".$a;
 								
 
-							$sql_colegio = "SELECT colegio, barrio, direccion,telefono FROM colegios WHERE id='".$visita["id_colegio"]."'";
+							$sql_colegio = "SELECT id_colegio,codigo, colegio, barrio, direccion,telefono FROM colegios WHERE id='".$visita["id_colegio"]."'";
 
 								$req_colegio = $bdd->prepare($sql_colegio);
 								$req_colegio->execute();
@@ -181,11 +181,7 @@
 								$req_objetivo->execute();
 								$objetivo = $req_objetivo->fetch();
 
-							$sql_profesor = "SELECT nombre,cargo,area FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
-
-								$req_profesor = $bdd->prepare($sql_profesor);
-								$req_profesor->execute();
-								$profesor = $req_profesor->fetch();
+							
 
 							$sql_grado = "SELECT grado FROM grados a JOIN grados_materias b ON a.id=b.id_grado WHERE cod_profesor='".$visita["cod_profesor"]."'";
 
@@ -234,10 +230,21 @@
                         	</table>
 
 						</div>
+						<?php 
+							$sql_profesor = "SELECT nombre,cargo,area FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
 
+								$req_profesor = $bdd->prepare($sql_profesor);
+								$req_profesor->execute();
+								$num_profesor=$req_profesor->rowCount();
+								$profesor = $req_profesor->fetch();
+						 ?>
 						<div class="row">
 							<h4>Datos del profesor:</h4>
-							<?php if ($profesor["cargo"]== 3){ ?>
+							<?php
+								if ($num_profesor > 0) {
+								 
+								if ($profesor["cargo"]== 3){ 
+							?>
 								
 							<table class="table table-bordered table-hover">
                         		
@@ -278,7 +285,87 @@
                         		</tr>
                         			
                         	</table>
-                        	<?php }?>
+                        	<?php }
+                         }else{?>
+                         	<form action="php/crear_profesor.php" method="POST">
+                         		<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="profesor" class="control-label no-padding-right">Nombre Profesor<small style="color:red;"> *</small></label>
+				  					 <input type="text" required name="profesor" id="profesor" class="form-control" placeholder="">
+				  				</div>
+				  			</div>
+				  			<div class="col-sm-4">
+				  				<div class="form-group">
+				  					<label for="telefono_p" class="control-label no-padding-right">Telefono<small style="color:red;"> *</small></label>
+				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" >
+				  				</div>
+
+				  			</div>
+				  			
+							<div class="col-sm-4">
+								<label for="email_p" class="control-label no-padding-right">Email</label>
+					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" >
+							</div>
+								<br>
+				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
+				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<div class="otro_p">
+							<div class="row profesor">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="materia_p"> Materia:<small style="color:red;"> *</small></label>
+							
+										<select name="materia[]" id="materia_p" class="form-control materia" required=>
+											<option value="">Seleccionar</option>
+											 	<?php 
+											 		$sql = "SELECT id, materia FROM materias";
+							
+													$req = $bdd->prepare($sql);
+													$req->execute();
+													$materias = $req->fetchAll();
+							
+													foreach($materias as $materia) {
+													    $id = $materia['id'];
+													    $nom = $materia['materia'];
+													    echo '<option value="'.$id.'">'.$nom.'</option>';
+													}
+											 	?>
+										</select>
+											
+									</div>
+							
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="grado_p"> Grado:<small style="color:red;"> *</small></label>
+							
+										<select name="grado[]" id="grado_p" class="form-control materia" re>
+												 					<option value="">Seleccionar</option>
+											 	<?php 
+											 		$sql = "SELECT id, grado FROM grados";
+							
+													$req = $bdd->prepare($sql);
+													$req->execute();
+													$grados = $req->fetchAll();
+							
+													foreach($grados as $grado) {
+													    $id = $grado['id'];
+													    $nom = $grado['grado'];
+													    echo '<option value="'.$id.'">'.$nom.'</option>';
+													}
+											 	?>
+										</select>
+											
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<a id="agregar_materia" style="cursor: pointer;">Agregar materia +</a>
+						<input type="hidden" name="evento" value="<?php echo $_GET["evento"];?>">
+						<center><button class="btn btn-success">Guardar profesor</button></center>
+                         	</form>
+                         <?php } ?>
 						</div>
 
 						<div class="row">
@@ -1630,6 +1717,12 @@
 
 		});
 	</script>
+	<script>
+		$("#agregar_materia").click(function(){
+			$(".profesor").clone().appendTo(".otro_p");
+		});
+	</script>
+
 		
 	</body>
 </html>

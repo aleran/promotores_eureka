@@ -1927,6 +1927,14 @@
 								$req->execute();
 								$areas = $req->fetchAll();
 								echo "<center><h4>Lista</h4></center><br>";
+								echo "<div class='table-responsive'>
+										<table class='table table-bordered'>
+											<thead>
+												<th>Materia</th>
+												<th>Grado</th>
+												<th>Libro</th>
+											</thead>
+											<tbody>";
 								foreach ($areas as $area) {
 									$sq_l = "SELECT libro FROM libros WHERE id='".$area["lib_eureka"]."'";
 							
@@ -1934,19 +1942,11 @@
 										$req_l->execute();
 										$libro_e = $req_l->fetch();
 										$libro=$libro_e["libro"];
-									echo '
-									<form action="php/modificar_areas.php" method="POST"><div class="row">
-						 			<div class="col-sm-6">
-						 				<label>Materia: '.$area["materia"].'</label>
-						 			</div>
-						 			<div class="col-sm-6">
-						 				<label>Grado: '.$area["grado"].'</label>
-						 			</div>
-						 		</div>
-						 		<div class="col-sm-6 col-sm-offset-3">
-						 			<label>Libro: '.$libro.'</label>
-					  				
-				  				</div>';
+									echo "<tr>
+											<td>".$area["materia"]."</td>
+											<td>".$area["grado"]."</td>
+											<td>".$libro."</td>
+										</tr>";
 				  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
 				  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
 				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
@@ -1955,6 +1955,8 @@
 				  				</form></div>';
 				  			}*/
 								}
+								echo "</tbody>
+										</table></div>";
 						 ?>
 													</div>
 												</div>

@@ -1,8 +1,8 @@
 <?php
   
-    if ($_SESSION["tipo"] ==1) {
+    if ($_SESSION["tipo"] !=1) {
       //si no está logueado lo envío a la página de autentificación
-      header("location:./login.html");
+      header("location:./index.php");
     }
 
 ?>

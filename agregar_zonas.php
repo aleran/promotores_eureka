@@ -1,4 +1,5 @@
 <?php require_once("php/aut.php"); ?>
+<?php require_once("php/aut_1.php"); ?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -191,7 +192,7 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form name="" role="form" action="php/crear_zona.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="zona">Zona: </label>
+										<label class="control-label no-padding-right" for="zona">Zona: <small style="color: red">*</small></label>
 
 										
 											<input required type="text" name="zona" id="zona" placeholder="Nombre de la zona" class="form-control" />
@@ -201,8 +202,8 @@
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label no-padding-right" for="promotor"> Promotor: </label>
-									<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="bus_h()"/>
+									<label class="control-label no-padding-right" for="promotor"> Promotor: <small style="color: red">*</small></label>
+									<input required required type="tel" name="promotor" id="promotor" placeholder="A quien se le va a asignar la zona" class="form-control" autocomplete="off" onkeyup="bus_h()"/>
 									<input type="hidden" name="promo" id="promo"><div id="suggestions"></div>
 										
 								</div>

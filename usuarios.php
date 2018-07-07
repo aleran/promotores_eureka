@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Ver Periodos</title>
+		<title>Usuarios</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -52,7 +52,7 @@
 		<?php include("template/nav.php"); ?>
 
 		<div class="main-container ace-save-state" id="main-container">
-			<script required type="text/javascript">
+			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
 
@@ -68,9 +68,9 @@
 							</li>
 
 							<li>
-								<a href="#">Periodos</a>
+								<a href="#">Usuarios</a>
 							</li>
-							<li class="active">Ver periodos</li>
+							<li class="active">Usuarios</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -84,7 +84,7 @@
 					</div>
 
 					<div class="page-content">
-						<div class="ace-settings-container hidden" id="ace-settings-container">
+						<!--<div class="ace-settings-container" id="ace-settings-container">
 							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
 								<i class="ace-icon fa fa-cog bigger-130"></i>
 							</div>
@@ -130,7 +130,7 @@
 											<b>.container</b>
 										</label>
 									</div>
-								</div><!-- /.pull-left -->
+								</div>
 
 								<div class="pull-left width-50">
 									<div class="ace-settings-item">
@@ -147,20 +147,20 @@
 										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
 										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
 									</div>
-								</div><!-- /.pull-left -->
-							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
+								</div>
+							</div>
+						</div>--><!-- /.ace-settings-container -->
 
 						<div class="page-header">
 							<h1>
-								Periodos
+								Usuarios
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Ver peridoos
+									Usuarios
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
-							
+
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
@@ -172,37 +172,55 @@
 									<i class="ace-icon fa fa-hand-o-right"></i>
 									Please note that demo server is not configured to save the changes, therefore you may see an error message.
 								</div>-->
-
-								<?php 
+							<button class="btn btn-primary" data-toggle="modal" data-target="#ModalAdd">Crear Usuario</button><br><br>
+							<?php 
                                 include("conexion/bdd.php");
+
+                                $sql = "SELECT * FROM usuarios";
+
+								$req = $bdd->prepare($sql);
+								$req->execute();
+
+								$usuarios = $req->fetchAll();
                                 
-                                	$sql = "SELECT id, periodo, f_cierre FROM periodos";
-									$req = $bdd->prepare($sql);
-									$req->execute();
-                                
-									$periodos = $req->fetchAll();
-                                
+
                             ?>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th class="center">#</th>
-                                            <th class="center">Periodo</th>
-                                            <th class="center">Fecha de cierre</th>
-                                            <th class="center">Acciones</th>
-
+                                            <th>Nombres <small style="color: red;">*</small></th>
+                                            <th>Apellidos <small style="color: red;">*</small></th>
+                                            <th>Telefono</th>
+                                            <th>E-mail <small style="color: red;">*</small></th>
+                                            <th>Clave</th>
+                                            <th>Tipo</th>
+                                            <th>País</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php 
-                                        	foreach($periodos as $periodo) {
+                                        	foreach($usuarios as $usuario) {
 
+                                        		$sql = "SELECT pais FROM paises WHERE id='".$usuario["id_pais"]."'";
+												$req = $bdd->prepare($sql);
+												$req->execute();
+												$pais = $req->fetch();
+                                            
                                                 echo'<tr class="odd gradeX">';
-
-                                                echo'<form action="php/modificar_periodos.php" method="POST"><td class="center">'.$periodo["id"].'</td><input type="hidden" name="id_periodo" value="'.$periodo["id"].'">';
-                                                 echo'<td class="center"><input type="text" name="periodo" value="'.$periodo["periodo"].'"></td>';
-                                                echo'<td class="center"><input type="text" class="date-picker" data-date-format="yyyy-mm-dd" name="f_cierre" value="'.$periodo["f_cierre"].'"></td>';
+                                                echo'<form action="php/modificar_usuarios.php" method="POST"><td class=""><input type="text" name="nombres" value="'.$usuario["nombres"].'" size="15" required></td>';
+                                                echo'<td class=""><input type="text" name="apellidos" value="'.$usuario["apellidos"].'" size="15" required></td>';
+                                                echo'<td class=""><input type="text" name="telefono" value="'.$usuario["telefono"].'" size="15"></td>';
+                                                echo'<td class=""><input type="email" name="correo" value="'.$usuario["correo"].'" required></td>';
+                                                echo'<td class=""><input type="text" name="clave" size="15"></td>';
+                                                if ($usuario["tipo"] == 3) {
+                                                	echo'<td class="">Promotor</td>';
+                                                }
+                                                else {
+                                                	echo'<td class="">Administrador</td>';
+                                                }
+                                                echo'<td class="">'.$pais["pais"].'</td>';
                                                 echo '<td>
 														<div class="hidden-sm hidden-xs btn-group">
 															
@@ -226,6 +244,7 @@
 																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																			</span>
 																		</button>
+																		<input type="hidden" name="id_usuario" value="'.$usuario["id"].'">
 																	</li></form>
 																</ul>
 															</div>
@@ -240,6 +259,102 @@
                                 </table>
                             </div>
 
+							 <!-- Modal -->
+		<div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<form class="form-horizontal" method="POST" action="php/crear_usuario.php">
+			
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Crear Usuario</h4>
+			  </div>
+			  <div class="modal-body">
+				
+				   <div class="form-group">
+					<label for="nombres" class="col-sm-2 control-label">Nombres<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					  <input type="text" name="nombres" id="nombres" class="form-control" id="profesor" placeholder="" required>
+					</div>
+				  </div>
+					
+				  <div class="form-group">
+					<label for="apellidos" class="col-sm-2 control-label">Apellidos<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					  <input type="text" required name="apellidos" class="form-control" id="apellidos" placeholder="">
+					</div>
+				  </div>
+
+				  <div class="form-group">
+					<label for="telefono" class="col-sm-2 control-label">Telefono</label>
+					<div class="col-sm-10">
+					  <input type="text" name="telefono" class="form-control" id="telefono" placeholder=""">
+					</div>
+				  </div>
+
+				  <div class="form-group">
+					<label for="correo" class="col-sm-2 control-label">E-mail<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					  <input type="email" required name="correo" class="form-control" id="correo" placeholder="">
+					</div>
+				  </div>
+
+				  <div class="form-group">
+					<label for="clave" class="col-sm-2 control-label">Clave<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					  <input type="text" required name="clave" class="form-control" id="clave" placeholder="" minlength="6">
+					</div>
+				  </div>
+					
+					
+				<div class="form-group">
+					<label for="tipo" class="col-sm-2 control-label">Tipo<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					 <select name="tipo" id="tipo" class="form-control" required>
+					 	<option value="">Seleccionar</option>
+					 	<option value="3">Promotor</option>
+					 	<option value="1">Administrador</option>
+					 </select>
+					</div>
+				  </div>
+
+				  <div class="form-group">
+					<label for="pais" class="col-sm-2 control-label">País<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					 <select name="pais" id="pais" class="form-control" required>
+					 	<option value="">Seleccionar</option>
+					 	<?php 
+					 		$sql = "SELECT id, pais FROM paises";
+
+							$req = $bdd->prepare($sql);
+							$req->execute();
+							$paises = $req->fetchAll();
+
+							foreach($paises as $pais) {
+							    $id = $pais['id'];
+							    $nom = $pais['pais'];
+							    echo '<option value="'.$id.'">'.$nom.'</option>';
+							}
+					 	?>
+					 </select>
+					</div>
+				  </div>
+
+				  
+				
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+				<button type="submit" class="btn btn-success">Crear usuario</button>
+			  </div>
+			</form>
+			</div>
+		  </div>
+		</div>
+		
+		
+		
+		<!-- Modal -->
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -302,29 +417,6 @@
 		<script src="assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
-		<script src="assets/js/bootstrap-datepicker.min.js"></script>
-		<script>
-			//datepicker plugin
-				//link
-				$.fn.datepicker.dates['es'] = {
-			        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-			        daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-			        daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-			        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-			        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-    			};
-
-				$('.date-picker').datepicker({
-					autoclose: true,
-					todayHighlight: true,
-					language: 'es'
-				})
-
-				//show datepicker when clicking on the icon
-				.next().on(ace.click_event, function(){
-					$(this).prev().focus();
-				});
-		</script>
 		<script src="assets/js/dataTables/jquery.dataTables.js"></script>
     	<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
         <script>
@@ -346,20 +438,9 @@
         			}
                 });
             });
-
-            $(".eliminar").click(function(e){
-
-	            e.preventDefault();
-	            var cod= $(this).attr('data-codigo');
-	            if (confirm("¿Seguro que desea eliminar este colegio")) {
-	                window.location="php/eliminar_colegio.php?codigo="+cod
-	            }
-
-        	})
     </script>
     <script>
-		$(".abrir_periodos").addClass("open");
-		$(".ver_periodos").addClass("active");
+			$(".usuarios").addClass("active");
 	</script>
 	</body>
 </html>

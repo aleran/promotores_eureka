@@ -64,7 +64,25 @@
 			}
 		}
 	}
+	if (isset($_POST["evento"])) {
+		$sql_e = "UPDATE plan_trabajo SET cod_profesor='".$cod_profesor."' WHERE id='".$_POST["evento"]."'";
+				
+				
+				$query_e = $bdd->prepare( $sql_e );
+				if ($query_e == false) {
+				 print_r($bdd->errorInfo());
+				 die ('Erreur prepare');
+				}
+				$sth_e = $query_e->execute();
+				if ($sth_e == false) {
+				 print_r($query_e->errorInfo());
+				 die ('Erreur execute');
+				}
 
-	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'')
+		header('Location: ../evento.php?evento='.$_POST["evento"].'');
+	}
+	else{
+		header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
+	}
 ?>
 <!--<script>alert('Zona creada correctamente');window.location="../agregar_zonas.php";</script>;-->
