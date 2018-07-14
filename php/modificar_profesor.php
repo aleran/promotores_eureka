@@ -19,6 +19,6 @@
 
 	
 
-	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'')
+	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'&periodo='.$_POST["periodo"].'')
 ?>
 <!--<script>alert('Zona creada correctamente');window.location="../agregar_zonas.php";</script>;-->

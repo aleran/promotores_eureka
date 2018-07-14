@@ -265,15 +265,28 @@
 
 								<?php 
 	                                include("conexion/bdd.php");
-
-	                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, web, telefono, cumpleaños FROM colegios WHERE codigo='".$_GET["codigo"]."'";
+	                                if (isset($_GET["codigo"])) {
+	                                	$codigo_col= $_GET["codigo"];
+	                                }
+	                                else {
+	                                	$codigo_col= $_POST["codigo"];
+	                                }
+	                              
+	                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, web, telefono, cumpleaños FROM colegios WHERE codigo='".$codigo_col."'";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
 									$colegio = $req->fetch();
 
-									$sql_periodo="SELECT id, f_cierre FROM periodos ORDER BY id DESC";
+									if (isset($_POST["periodo"])) {
+										$periodo=$_POST["periodo"];
+									}
+									else {
+										$periodo=$_GET["periodo"];
+									}
+									
+									$sql_periodo="SELECT id, periodo, f_cierre FROM periodos WHERE id='".$periodo."'";
 
 									$req_periodo = $bdd->prepare($sql_periodo);
 									$req_periodo->execute();
@@ -314,6 +327,17 @@
                         	<?php } ?>
                         	</form>
                         </div>
+                        <center>
+                        <h4>
+                        	Periodo: <?php
+                        		echo $gp_periodo["periodo"];
+                        		if ($gp_periodo["f_cierre"] < date("Y-m-d")) {
+                        			echo " <span style='color: red;'>Cerrado</span>";
+                        		}
+                        	?>
+                        	
+                        </h4>
+                        </center>
                         <div id="accordion" class="accordion-style1 panel-group">
 											<div class="panel panel-default">
 												<div class="panel-heading">
@@ -1279,6 +1303,7 @@
 							<br>
 				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 						</div>
 						<div class="otro_p">
 							<div class="row profesor">
@@ -1343,7 +1368,7 @@
 						<div class="row">
 							<br><center><h4>Modificar</h4></center>
 							<?php 
-								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_materia=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' AND a.id_periodo='".$gp_periodo["id"]."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
+								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' AND a.id_periodo='".$gp_periodo["id"]."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -1374,7 +1399,8 @@
 							<br>
 				  			<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
-				  			<input type="hidden" name="cod_profesor" value="'.$profe["cod_profesor"].'">	
+				  			<input type="hidden" name="cod_profesor" value="'.$profe["cod_profesor"].'">
+				  			<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">	
 						</div>';
 
 									echo'<div class="row">
@@ -1471,6 +1497,7 @@
 						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+						<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-success">Guardar</button></center>
 						<?php } ?>
@@ -1631,6 +1658,7 @@
 						</center>
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+						<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-primary">Actualizar</button></center>
 						<?php }?>
@@ -1773,6 +1801,7 @@
 							</div><br>
 				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+				  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 				  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 				  			<center><button class="btn btn-success">Guardar</button></center>
 				  			<?php } ?>
@@ -1846,7 +1875,8 @@
 						echo'<center><button class="btn btn-primary">Actualizar</button></center>
 						 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 				  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
-				  			<input type="hidden" name="id_mercado" value="'.$mercado["aid"].'">						 </form>';
+				  			<input type="hidden" name="id_mercado" value="'.$mercado["aid"].'">
+				  			<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">						 </form>';
 				  		}
 								}
 						 ?>
@@ -1915,6 +1945,7 @@
 												  			</div>
 												  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
 												  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+												  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 												  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 												  			<br><br><center><button class="btn btn-success">Guardar</button></center>
 												  			<?php }?>

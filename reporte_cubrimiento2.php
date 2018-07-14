@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reporte de trabajadores</title>
+		<title>Reporte de cubrimiento</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -61,7 +61,7 @@
 			margin: 0 auto;
 			position:absolute;
 			min-width:120px;
-			height:150px;
+			height:70px;
 			border:ridge 2px;
 			border-radius: 3px;
 			overflow: auto;
@@ -95,7 +95,7 @@
 							<li>
 								<a href="#">Reportes</a>
 							</li>
-							<li class="active">Reporte de Trabajadores</li>
+							<li class="active">Reporte de cubrimiento</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -181,7 +181,7 @@
 								Reportes
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Reporte de trabajadores
+									Reporte de Cubrimiento
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -197,49 +197,30 @@
 						?>
 						
 						<div class="row">
-							<div class="col-sm-6">
-								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/trabajadores_excel.php" method="POST">
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="colegio"> Por colegio:<small style="color:red;"> *</small> </label>
-										<input required required type="tel" name="colegio" id="colegio" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
-											<input type="hidden" name="cole" id="cole"><div id="suggestions"></div><br>
-										
-										<center><button class="btn btn-primary">Exportar excel</button></center>
-									</div>
-									</form>
-							</div>
+							<center>
+								<form action="php/cubrimiento2.php" method="POST">
+								<div class="form-group">
+										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
+										<select name="periodo" id="periodo">
+											<?php  
 
-							<div class="col-sm-6">
-								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/trabajadores_excel.php" method="POST">
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
+												$sql = "SELECT id, periodo FROM periodos ORDER BY id DESC";
 
-										<select name="zona" id="zona" class="form-control materia" required>
-											<option value="">Seleccionar</option>
-											 <?php 
-											 	$sql = "SELECT codigo, zona FROM zonas";
-							
 												$req = $bdd->prepare($sql);
 												$req->execute();
-												$zonas = $req->fetchAll();
-							
-												foreach($zonas as $zona) {
-													$codigo = $zona['codigo'];
-													$nom = $zona['zona'];
-													echo '<option value="'.$codigo.'">'.$nom.'</option>';
+												$periodos = $req->fetchAll();
+
+												foreach ($periodos as $periodo) {
+
+													echo '<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
 												}
-											 ?>
-										</select><br>
-										<center><button class="btn btn-primary">Exportar excel</button></center>
+
+											?>
+										</select>
 									</div>
-									</form>
-							</div>
-						</div>
-						<div class="row">
-							<br><center><label>General</label><br>
-								<a href="php/trabajadores_excel2.php" class="btn btn-primary">Exportar excel</a></center>
+
+								<button class="btn btn-primary">Exportar excel</button></center>
+							</form>
 						</div>
 
 
@@ -770,12 +751,12 @@
 		</script>
 		<script>
 			function bus_h(){
-				var cole= document.getElementById('colegio').value;
+				var prom= document.getElementById('promotor').value;
 				//var colegio= document.getElementById('colegio').value;
-				var dataString = 'colegio='+cole;
+				var dataString = 'promotor='+prom;
 				$.ajax({
 					type: "POST",
-					url: "ajax/buscar_colegio.php",
+					url: "ajax/buscar_promotor.php",
 					data: dataString,
 					success: function(resp) {
 
@@ -787,11 +768,11 @@
 						}
 
 						
-						$('.suggest-element_c a').on('click', function(){
+						$('.suggest-element a').on('click', function(){
 							var id = $(this).attr('id');
-							var coleg= $(this).attr('data-colegio');
-							$('#colegio').val(coleg);
-							$('#cole').val(id);
+							var promot= $(this).attr('data-promo');
+							$('#promotor').val(promot);
+							$('#promo').val(id);
 							$('#suggestions').fadeOut(1000);
 
 							return false;
@@ -813,7 +794,7 @@
 		</script>
 		<script>
 			$(".abrir_reportes").addClass("open");
-			$(".trabajadores").addClass("active");
+			$(".cubrimiento").addClass("active");
 		</script>
 	</body>
 </html>

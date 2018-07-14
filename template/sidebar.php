@@ -484,7 +484,7 @@
 						<ul class="submenu">
 							<li class="cubrimiento">
 								<?php if ($_SESSION["tipo"]==3) {?>
-								<a href="php/cubrimiento2.php">
+								<a href="reporte_cubrimiento2.php">
 								<?php }else{ ?>
 								<a href="reporte_cubrimiento.php">
 								<?php } ?>

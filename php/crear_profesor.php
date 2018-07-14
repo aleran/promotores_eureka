@@ -39,7 +39,7 @@
 				 die ('Erreur execute');
 				}
 
-	$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+	$sql_periodo="SELECT id FROM periodos WHERE id='".$_POST["periodo"]."'";
 
 	$req_periodo = $bdd->prepare($sql_periodo);
 	$req_periodo->execute();
@@ -82,7 +82,7 @@
 		header('Location: ../evento.php?evento='.$_POST["evento"].'');
 	}
 	else{
-		header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
+		header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'&periodo='.$_POST["periodo"].'');
 	}
 ?>
 <!--<script>alert('Zona creada correctamente');window.location="../agregar_zonas.php";</script>;-->

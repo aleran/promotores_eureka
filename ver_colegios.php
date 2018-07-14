@@ -210,10 +210,17 @@
                                             <th>Dirección</th>
                                             <th>Barrio</th>
                                             <th>Telefono</th>
+                                             <th>Periodo</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    	<?php 
+                                    		$sql_periodo="SELECT id, periodo FROM periodos ORDER BY id DESC";
+											$req_periodo = $bdd->prepare($sql_periodo);
+											$req_periodo->execute();
+											$gp_periodo = $req_periodo->fetchAll();
+                                    	 ?>
                                         <?php 
                                         	foreach($colegios as $colegio) {
                                             
@@ -224,18 +231,27 @@
                                                $barrio = $colegio['barrio'];
                                                $telefono = $colegio['telefono'];
                                                 echo'<tr class="odd gradeX">';
+                                                echo '<form action="colegio.php" method="POST">';
                                                 echo'<td class="center">'.$codigo.'</td>';
                                                 echo'<td class="center">'.$nombre.'</td>';
                                                 echo'<td class="center">'.$direccion.'</td>';
                                                 echo'<td class="center">'.$barrio.'</td>';
                                                 echo'<td class="center">'.$telefono.'</td>';
+                                                 echo'<td class="center">';
+                                                 	echo'<select name="periodo">';
+														foreach($gp_periodo as $periodo){
+															echo'<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
+														}
+                                                 	echo'</select>';
+                                                 	echo '<input type="hidden" name="codigo" value="'.$codigo.'">';
+                                                 echo'</td>';
                                                 echo '<td>
 														<div class="hidden-sm hidden-xs btn-group">
 															
 
-															<a class="btn btn-xs btn-info" href="colegio.php?codigo='.$codigo.'">
+															<button class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
-															</a>
+															</button>
 
 															<a class="btn btn-xs btn-danger eliminar" href="#" data-codigo='.$codigo.'>
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
@@ -252,11 +268,11 @@
 																<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 
 																	<li>
-																		<a href="colegio.php?codigo='.$codigo.'" class="tooltip-success" data-rel="tooltip" title="Edit">
+																		<button class="tooltip-success" data-rel="tooltip" title="Edit">
 																			<span class="green">
 																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																			</span>
-																		</a>
+																		</button>
 																	</li>
 
 																	<li>
@@ -270,6 +286,7 @@
 																</ul>
 															</div>
 														</div>
+														</form>
 													</td>';
                                             }
                                          ?>

@@ -38,5 +38,5 @@
 		
 	}
 ?>
-<script>alert('Colegio creado correctamente');window.location="../colegio.php?codigo=<?php echo $cod_colegio;?>";
+<script>alert('Colegio creado correctamente');window.location="../ver_colegios.php";
 </script>;

@@ -109,16 +109,11 @@ $objPHPExcel->getActiveSheet()->getStyle("A4:H4")->getFont()->getColor()->applyF
 	)
 );
 
-$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
-
-$req_periodo = $bdd->prepare($sql_periodo);
-$req_periodo->execute();
-$gp_periodo = $req_periodo->fetch();
 
 
 if (isset($_POST["zona"])) {
 
-	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños, ca.cargo, g.grado, m.materia, c.colegio FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN grados_materias gm ON t.codigo=gm.cod_profesor JOIN grados g ON gm.id_grado=g.id JOIN materias m ON gm.id_materia=m.id WHERE z.codigo='".$_POST["zona"]."'";
+	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños, ca.cargo, g.grado, m.materia, c.colegio FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN grados_materias gm ON t.codigo=gm.cod_profesor JOIN grados g ON gm.id_grado=g.id JOIN materias m ON gm.id_materia=m.id WHERE z.codigo='".$_POST["zona"]."' AND gm.id_periodo='".$_POST["periodo"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
@@ -126,7 +121,7 @@ if (isset($_POST["zona"])) {
 
 else {
 
-	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños, ca.cargo, g.grado, m.materia FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN grados_materias gm ON t.codigo=gm.cod_profesor JOIN grados g ON gm.id_grado=g.id JOIN materias m ON gm.id_materia=m.id WHERE c.id='".$_POST["cole"]."' GROUP BY gm.id_grado,gm.id_materia,gm.cod_profesor";
+	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños, ca.cargo, g.grado, m.materia FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN grados_materias gm ON t.codigo=gm.cod_profesor JOIN grados g ON gm.id_grado=g.id JOIN materias m ON gm.id_materia=m.id WHERE c.id='".$_POST["cole"]."' AND gm.id_periodo='".$_POST["periodo"]."' GROUP BY gm.id_grado,gm.id_materia,gm.cod_profesor";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();

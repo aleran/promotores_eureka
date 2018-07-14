@@ -197,7 +197,7 @@
 						?>
 						
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-3">
 								<!-- PAGE CONTENT BEGINS -->
 									<form action="php/cubrimiento.php" method="POST">
 									<div class="form-group">
@@ -205,12 +205,41 @@
 										<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
 											<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
 										
-										<center><button class="btn btn-primary">Exportar excel</button></center>
+										
 									</div>
+							
 									</form>
 							</div>
+							<div class="col-sm-3">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
+										<select name="periodo" id="periodo">
+											<?php  
+												include("conexion/bdd.php");
 
-							<div class="col-sm-6">
+												$sql ="SELECT id, periodo FROM periodos ORDER BY id DESC";
+
+												$req = $bdd->prepare($sql);
+												$req->execute();
+												$periodos = $req->fetchAll();
+
+												foreach ($periodos as $periodo) {
+
+													echo '<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
+												}
+
+											?>
+										</select>
+									</div><br>
+										
+										<button class="btn btn-primary">Exportar excel</button>
+									</form>
+									
+									
+							</div>
+
+							<div class="col-sm-3">
 								<!-- PAGE CONTENT BEGINS -->
 									<form action="php/cubrimiento.php" method="POST">
 									<div class="form-group">
@@ -219,7 +248,7 @@
 										<select name="zona" id="zona" class="form-control materia" required>
 											<option value="">Seleccionar</option>
 											 <?php 
-											 	$sql = "SELECT codigo, zona FROM zonas";
+											 	$sql ="SELECT codigo, zona FROM zonas ";
 							
 												$req = $bdd->prepare($sql);
 												$req->execute();
@@ -232,14 +261,62 @@
 												}
 											 ?>
 										</select><br>
-										<center><button class="btn btn-primary">Exportar excel</button></center>
-									</div>
+																		</div>
+									
+							</div>
+							<div class="col-sm-3">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
+										<select name="periodo" id="periodo">
+											<?php  
+
+												$sql ="SELECT id, periodo FROM periodos ORDER BY id DESC";
+
+												$req = $bdd->prepare($sql);
+												$req->execute();
+												$periodos = $req->fetchAll();
+
+												foreach ($periodos as $periodo) {
+
+													echo '<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
+												}
+
+											?>
+										</select>
+									</div><br>
+										
+										<button class="btn btn-primary">Exportar excel</button>
 									</form>
+									
+									
 							</div>
 						</div>
 						<div class="row">
-							<br><center><label>General</label><br>
-								<a href="php/cubrimiento_general.php" class="btn btn-primary">Exportar excel</a></center>
+							<br><center><h4>General</h4>
+								<form action="php/cubrimiento_general.php" method="POST">
+								<div class="form-group">
+										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
+										<select name="periodo" id="periodo">
+											<?php  
+
+												$sql = "SELECT id, periodo FROM periodos ORDER BY id DESC";
+
+												$req = $bdd->prepare($sql);
+												$req->execute();
+												$periodos = $req->fetchAll();
+
+												foreach ($periodos as $periodo) {
+
+													echo '<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
+												}
+
+											?>
+										</select>
+									</div>
+
+								<button class="btn btn-primary">Exportar excel</button></center>
+							</form>
 						</div>
 
 

@@ -93,7 +93,7 @@ $objPHPExcel->getActiveSheet()->getStyle("A4:M4")->getFont()->getColor()->applyF
 	)
 );
 
-$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+$sql_periodo="SELECT id FROM periodos WHERE id='".$_POST["periodo"]."'";
 
 $req_periodo = $bdd->prepare($sql_periodo);
 $req_periodo->execute();
