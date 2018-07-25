@@ -79,5 +79,26 @@
 		
 	}
 
-	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'');
+	if (isset($_POST["nombre8"])) {
+	
+		include("../conexion/bdd.php");
+		if ($_POST["otro_cargo"] < 20 ) {
+		
+
+		$sql = "UPDATE trabajadores_colegios SET nombre='".$_POST["nombre8"]."', telefono='".$_POST["celular8"]."', email='".$_POST["email8"]."', cumpleaños='".$_POST["cumpleaños8"]."', cargo='".$_POST["otro_cargo"]."' WHERE id_colegio='".$_POST["id_colegio"]."' AND id='".$_POST["id8"]."'";
+
+		}
+
+		else {
+			$sql = "UPDATE trabajadores_colegios SET nombre='".$_POST["nombre8"]."', telefono='".$_POST["celular8"]."', email='".$_POST["email8"]."', cumpleaños='".$_POST["cumpleaños8"]."' WHERE id_colegio='".$_POST["id_colegio"]."' AND id='".$_POST["id8"]."'";
+
+			
+			
+		}
+		
+		$req = $bdd->prepare($sql);
+		$req->execute();
+	}
+
+	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'&periodo='.$_POST["periodo"].'');
 ?>

@@ -748,7 +748,7 @@
 							<div class="col-sm-8">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="email7"> Email: </label>
+										<label class="control-label no-padding-right" for="email6"> Email: </label>
 
 										
 											<input type="email" name="email7" id="email7" placeholder="" class="form-control" />
@@ -770,6 +770,76 @@
 									</div>
 								
 							</div>
+						</div>
+						
+						<label class="col-sm-3"><b>Otro cargo:</b></label> 
+							<select class="col-sm-3" name="otro_cargo" id="otro_cargo" class="form-control materia">
+							<option value="20">Seleccionar</option>
+									<?php 
+										$sql = "SELECT id, cargo FROM cargos WHERE id > 6";
+							
+									$req = $bdd->prepare($sql);
+									$req->execute();
+									$materias = $req->fetchAll();
+							
+									foreach($materias as $materia) {
+													$id = $materia['id'];
+													$nom = $materia['cargo'];
+													echo '<option value="'.$id.'">'.$nom.'</option>';
+									}
+									?>
+						</select></b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre8"> Nombre:</label>
+
+										
+											<input type="text" name="nombre8" id="nombre8" placeholder="Nombre completo" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular8"> Celular:</label>
+
+										
+											<input type="tel" name="celular8" id="celular8" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email8"> Email: </label>
+
+										
+											<input type="email" name="email8" id="email8" placeholder="" class="form-control" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños8"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input type="text" class="form-control date-picker" name="cumpleaños8" id="cumpleaños8" type="text" data-date-format="yyyy-mm-dd"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+								
+							</div>
+
+
 
 
 
@@ -784,6 +854,7 @@
 							
 							<input required required type="hidden" name="id_colegio" value='<?php echo $colegio["id"] ?>'>
 							<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+							<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 							</form>
 							<?php } else { 
 								$sql = "SELECT id, cargo, nombre, telefono, email, cumpleaños FROM trabajadores_colegios WHERE id_colegio='".$colegio['id']."' AND cargo=1";
@@ -833,6 +904,12 @@
 								$req7 = $bdd->prepare($sql7);
 								$req7->execute();
 								$trabajadores7 = $req7->fetch();
+
+								$sql8 = "SELECT id, cargo, nombre, telefono, email, cumpleaños FROM trabajadores_colegios WHERE id_colegio='".$colegio['id']."' AND cargo > 6";
+
+								$req8 = $bdd->prepare($sql8);
+								$req8->execute();
+								$trabajadores8 = $req8->fetch();
 							?>
 
 						<b>Propietario</b><br><br>
@@ -1248,8 +1325,84 @@
 											</div>
 										
 									</div>
-								<input required required type="hidden" name="id7" value="<?php echo $trabajadores7["id"]?>">
+								<input required required type="hidden" name="id7" value="<?php echo $trabajadores6["id"]?>">
 							</div>
+						</div>
+						
+						<?php 
+							$sql_cargos="SELECT id, cargo FROM cargos WHERE id='".$trabajadores8["cargo"]."'";
+
+							$req_cargos = $bdd->prepare($sql_cargos);
+							$req_cargos->execute();
+							$cargo = $req_cargos->fetch();
+						?>
+						<label class="col-sm-3"><b>Otro Cargo: <?php echo $cargo["cargo"] ?></b></label>
+						<select class="col-sm-3" name="otro_cargo" id="otro_cargo" class="form-control materia">
+							<option value="20">Seleccionar</option>
+								<?php 
+									$sql = "SELECT id, cargo FROM cargos WHERE id > 6";
+							
+									$req = $bdd->prepare($sql);
+									$req->execute();
+									$materias = $req->fetchAll();
+							
+									foreach($materias as $materia) {
+										$id = $materia['id'];
+										$nom = $materia['cargo'];
+										echo '<option value="'.$id.'">'.$nom.'</option>';
+									}
+									?>
+						</select></b><br><br>
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="nombre8"> Nombre:</label>
+
+										
+											<input type="text" name="nombre8" id="nombre8" placeholder="Nombre completo" class="form-control"  value="<?php echo $trabajadores8["nombre"]?>" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="celular7"> Celular:</label>
+
+										
+											<input type="tel" name="celular8" id="celular8" placeholder="" class="form-control" value="<?php echo $trabajadores8["telefono"]?>" />
+										
+									</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="email7"> Email:</label>
+
+										
+											<input type="email" name="email8" id="email8" placeholder="" class="form-control" value="<?php echo $trabajadores8["email"]?>" />
+										
+									</div>
+							</div>
+							<div class="col-sm-4">
+								<!-- PAGE CONTENT BEGINS -->
+									<div class="form-group">
+										<label class="control-label no-padding-right" for="cumpleaños8"> Fecha de cumpleaños: </label>
+											
+											<div class="input-group">
+												<input  type="text" class="form-control date-picker" name="cumpleaños8" id="cumpleaños8" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $trabajadores8["cumpleaños"]?>"/>
+												<span class="input-group-addon">
+													<i class="fa fa-calendar bigger-110"></i>
+												</span>
+											</div>
+										
+									</div>
+								<input required required type="hidden" name="id8" value="<?php echo $trabajadores8["id"]?>">
+							</div>
+
 
 
 							
@@ -1258,6 +1411,7 @@
 							<?php } ?>
 							<input required required type="hidden" name="id_colegio" value='<?php echo $colegio["id"] ?>'>
 							<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+							<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 							</form>
 
 							<?php } ?>
