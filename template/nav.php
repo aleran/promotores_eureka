@@ -10,7 +10,7 @@
 					<span class="icon-bar"></span>
 				</button>
 
-				<div class="navbar-header pull-left ">
+				<div class="navbar-header pull-left">
 					<a href="index.php" class="navbar-brand">
 						<small>
 							<i class=""></i>
