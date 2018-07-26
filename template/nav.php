@@ -10,11 +10,11 @@
 					<span class="icon-bar"></span>
 				</button>
 
-				<div class="navbar-header pull-left">
+				<div class="navbar-header pull-left ">
 					<a href="index.php" class="navbar-brand">
 						<small>
 							<i class=""></i>
-							<img src="assets/images/logo_eureka.png" alt="" class="" height="50px" width="100px">
+							<img src="assets/images/logo_eureka.png" alt="" class="" height="80px" width="125px">
 						</small>
 					</a>
 				</div>
