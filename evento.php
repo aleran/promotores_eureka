@@ -167,8 +167,7 @@
 								list($a,$m,$d)=explode("-", $fecha);
 								$fecha= $d."/".$m."/".$a;
 								
-
-							$sql_colegio = "SELECT id_colegio,codigo, colegio, barrio, direccion,telefono FROM colegios WHERE id='".$visita["id_colegio"]."'";
+							$sql_colegio = "SELECT id,codigo, colegio, barrio, direccion,telefono FROM colegios WHERE id='".$visita["id_colegio"]."'";
 
 								$req_colegio = $bdd->prepare($sql_colegio);
 								$req_colegio->execute();

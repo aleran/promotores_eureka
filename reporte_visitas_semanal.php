@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reporte de visitas global</title>
+		<title>Reporte de visitas semanal</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -117,7 +117,7 @@
 							<li>
 								<a href="#">Reportes</a>
 							</li>
-							<li class="active">Reporte de visitas global</li>
+							<li class="active">Reporte de visitas semanal</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -203,7 +203,7 @@
 								Reportes
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Reporte de visitas global
+									Reporte de visitas semanal
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -217,240 +217,78 @@
 							$zona = $req->fetch();
 							//echo "<div class='pull-right' style='font-size: 20px;'>Zona: ". $zona["zona"]."</div>";
 						?>
-						<div id="accordion" class="accordion-style1 panel-group">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-											<i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-												&nbsp;Detallado
-										</a>
-									</h4>
+						<div class="row">
+							<div class="col-sm-4">
+							<!-- PAGE CONTENT BEGINS -->
+								<form action="visitas_semanal.php" method="POST">
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
+									<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
+										<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
+												
+									<center><button class="btn btn-primary">Buscar</butt</center>
 								</div>
-
-								<div class="panel-collapse collapse in" id="collapseOne">
-									<div class="panel-body">
-									<div class="row">
-										<div class="col-sm-4">
-									<!-- PAGE CONTENT BEGINS -->
-											<form action="lista_visitas_detallado.php" method="POST">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-												<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
-													<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
-												
-												<center><button class="btn btn-primary">Buscar</button></center>
-											</div>
 											
-										</div>
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde"> Desde:<small style="color:red;"> *</small> </label>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="desde"> Desde:<small style="color:red;"> *</small> </label>
 											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde" type="text" data-date-format="yyyy-mm-dd" required/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta"> Hasta:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta" type="text" data-date-format="yyyy-mm-dd" required="" />
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-										</form>
-										</div>
-										<div class="row">
-										<div class="col-sm-4">
-											<!-- PAGE CONTENT BEGINS -->
-												<form action="lista_visitas_detallado.php" method="POST">
-												<div class="form-group">
-													<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
-
-													<select name="zona" id="zona" class="form-control materia" required>
-														<option value="">Seleccionar</option>
-														 <?php 
-														 	$sql = "SELECT codigo, zona FROM zonas";
-										
-															$req = $bdd->prepare($sql);
-															$req->execute();
-															$zonas = $req->fetchAll();
-										
-															foreach($zonas as $zona) {
-																$codigo = $zona['codigo'];
-																$nom = $zona['zona'];
-																echo '<option value="'.$codigo.'">'.$nom.'</option>';
-															}
-														 ?>
-													</select><br>
-													<center><button class="btn btn-primary">Buscar</button></center>
-												</div>
-												
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde1"> Desde:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde1" type="text" data-date-format="yyyy-mm-dd" required/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta1"> Hasta:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta1" type="text" data-date-format="yyyy-mm-dd" required/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-										</form>
-										</div>
+									<div class="input-group">
+										<input type="text" class="form-control date-picker" name="desde" id="desde" type="text" data-date-format="yyyy-mm-dd" required/>
+										<span class="input-group-addon">
+											<i class="fa fa-calendar bigger-110"></i>
+										</span>
 									</div>
+										
+								</div>
+							</div>
+							</form>
+							</div>
+							<div class="row">
+							<div class="col-sm-4">
+							<!-- PAGE CONTENT BEGINS -->
+								<form action="visitas_semanal.php" method="POST">
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
+
+									<select name="zona" id="zona" class="form-control materia" required>
+										<option value="">Seleccionar</option>
+											<?php 
+												$sql = "SELECT codigo, zona FROM zonas";
+										
+											$req = $bdd->prepare($sql);
+											$req->execute();
+											$zonas = $req->fetchAll();
+										
+											foreach($zonas as $zona) {
+												$codigo = $zona['codigo'];
+												$nom = $zona['zona'];
+												echo '<option value="'.$codigo.'">'.$nom.'</option>';
+											}
+											?>
+									</select><br>
+									<center><button class="btn btn-primary">Buscar<button></center>
+								</div>
+												
+							</div>
+
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label no-padding-right" for="desde1"> Desde:<small style="color:red;"> *</small> </label>
+											
+									<div class="input-group">
+										<input type="text" class="form-control date-picker" name="desde" id="desde1" type="text" data-date-format="yyyy-mm-dd" required/>
+										<span class="input-group-addon">
+											<i class="fa fa-calendar bigger-110"></i>
+										</span>
+									</div>
+										
 								</div>
 							</div>
 
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-											<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-												&nbsp;General
-										</a>
-									</h4>
-								</div>
-
-								<div class="panel-collapse collapse" id="collapseTwo">
-									<div class="panel-body">
-										<div class="row">
-											<div class="col-sm-4">
-												<!-- PAGE CONTENT BEGINS -->
-													<form action="php/visitas_general.php" method="POST">
-													<div class="form-group">
-														<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-														<input required required type="tel" name="promotor" id="promotor1" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms1();bus_h1()"/>
-															<input type="hidden" name="promo" id="promo1"><div id="suggestions1"></div><br>
-														
-														<center><button class="btn btn-primary">Buscar</button></center>
-													</div>
-													
-											</div>
-
-											<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde"> Desde:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde" type="text" data-date-format="yyyy-mm-dd" required />
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta"> Hasta:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta" type="text" data-date-format="yyyy-mm-dd" required/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-									</form>
-											
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-											<!-- PAGE CONTENT BEGINS -->
-												<form action="php/visitas_general.php" method="POST">
-												<div class="form-group">
-													<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
-
-													<select name="zona" id="zona" class="form-control materia" required>
-														<option value="">Seleccionar</option>
-														 <?php 
-														 	$sql = "SELECT codigo, zona FROM zonas";
-										
-															$req = $bdd->prepare($sql);
-															$req->execute();
-															$zonas = $req->fetchAll();
-										
-															foreach($zonas as $zona) {
-																$codigo = $zona['codigo'];
-																$nom = $zona['zona'];
-																echo '<option value="'.$codigo.'">'.$nom.'</option>';
-															}
-														 ?>
-													</select><br>
-													<center><button class="btn btn-primary">Buscar</button></center>
-												</div>
-												
-										</div>
-
-											<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="desde1"> Desde:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="desde" id="desde1" type="text" data-date-format="yyyy-mm-dd" required/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label no-padding-right" for="hasta1"> Hasta:<small style="color:red;"> *</small> </label>
-											
-												<div class="input-group">
-													<input type="text" class="form-control date-picker" name="hasta" id="hasta1" type="text" data-date-format="yyyy-mm-dd" required/>
-													<span class="input-group-addon">
-														<i class="fa fa-calendar bigger-110"></i>
-													</span>
-												</div>
-										
-											</div>
-										</div>
-									</form>
-										</div>
-									</div>
-								</div>
+							</form>
 							</div>
-
-											
-						</div>
 						
 
 

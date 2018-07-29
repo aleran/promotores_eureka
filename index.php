@@ -604,8 +604,8 @@
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
-					$contacto = $req->rowCount();
-					$contacto= ($contacto / $objetivos) * 100;
+					$n_contacto = $req->rowCount();
+					$contacto= ($n_contacto / $objetivos) * 100;
 					if ($_SESSION["tipo"] != 3) {
 
 						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=2 AND v.id_periodo='".$gp_periodo["id"]."'";
@@ -618,8 +618,8 @@
 
 					$req = $bdd->prepare($sql);
 					$req->execute();
-					$muestreo = $req->rowCount();
-					$muestreo= ($muestreo / $objetivos) * 100;
+					$n_muestreo = $req->rowCount();
+					$muestreo= ($n_muestreo / $objetivos) * 100;
 
 					if ($_SESSION["tipo"] != 3) {
 
@@ -634,8 +634,8 @@
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
-					$presentacion = $req->rowCount();
-					$presentacion= ($presentacion / $objetivos) * 100;
+					$n_presentacion = $req->rowCount();
+					$presentacion= ($n_presentacion / $objetivos) * 100;
 
 					if ($_SESSION["tipo"] != 3) {
 
@@ -649,8 +649,8 @@
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
-					$seguimiento = $req->rowCount();
-					$seguimiento= ($seguimiento / $objetivos) * 100;
+					$n_seguimiento = $req->rowCount();
+					$seguimiento= ($n_seguimiento / $objetivos) * 100;
 
 					if ($_SESSION["tipo"] != 3) {
 
@@ -664,8 +664,8 @@
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
-					$definicion_a = $req->rowCount();
-					$definicion_a= ($definicion_a / $objetivos) * 100;
+					$n_definicion_a = $req->rowCount();
+					$definicion_a= ($n_definicion_a / $objetivos) * 100;
 					if ($_SESSION["tipo"] != 3) {
 						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=6 AND v.id_periodo='".$gp_periodo["id"]."'";
 					}
@@ -677,8 +677,8 @@
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
-					$definicion_f = $req->rowCount();
-					$definicion_f= ($definicion_f / $objetivos) * 100;
+					$n_definicion_f = $req->rowCount();
+					$definicion_f= ($n_definicion_f / $objetivos) * 100;
 					if ($_SESSION["tipo"] != 3) {
 						$sql = "SELECT p.id_objetivo as objetivo FROM plan_trabajo p JOIN visitas v ON p.id=v.id_plan_trabajo WHERE p.id_objetivo=7 AND v.id_periodo='".$gp_periodo["id"]."'";
 					}
@@ -689,19 +689,19 @@
 					$req = $bdd->prepare($sql);
 					$req->execute();
 
-					$otro = $req->rowCount();
-					$otro= ($otro / $objetivos) * 100;
+					$n_otro = $req->rowCount();
+					$otro= ($n_otro / $objetivos) * 100;
 			  ?>
 
 			  var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
 			  var data = [
-				{ label: "Contacto",  data: <?php echo $contacto; ?>, color: "#68BC31"},
-				{ label: "Muestreo",  data: <?php echo $muestreo; ?>, color: "#2091CF"},
-				{ label: "Presentación",  data: <?php echo $presentacion; ?>, color: "#AF4E96"},
-				{ label: "Seguimiento",  data: <?php echo $seguimiento; ?>, color: "#F71206"},
-				{ label: "Definición anticipada",  data: <?php echo $definicion_a; ?>, color: "#EFF80E"},
-				{ label: "Definición final",  data: <?php echo $definicion_f; ?>, color: "#FF4F00"},
-				{ label: "Otro",  data: <?php echo $otro; ?>, color: "#FEE074"}
+				{ label: "Contacto: <?php echo $n_contacto ?>",  data: <?php echo $contacto; ?>, color: "#68BC31"},
+				{ label: "Muestreo: <?php echo $n_muestreo ?>",  data: <?php echo $muestreo; ?>, color: "#2091CF"},
+				{ label: "Presentación: <?php echo $n_presentacion ?>",  data: <?php echo $presentacion; ?>, color: "#AF4E96"},
+				{ label: "Seguimiento : <?php echo $n_seguimiento ?>",  data: <?php echo $seguimiento; ?>, color: "#F71206"},
+				{ label: "Definición anticipada: <?php echo $n_definicion_a ?>",  data: <?php echo $definicion_a; ?>, color: "#EFF80E"},
+				{ label: "Definición final: <?php echo $n_definicion_f ?>",  data: <?php echo $definicion_f; ?>, color: "#FF4F00"},
+				{ label: "Otro: <?php echo $n_otro ?>",  data: <?php echo $otro; ?>, color: "#FEE074"}
 			  ]
 			  function drawPieChart(placeholder, data, position) {
 			 	  $.plot(placeholder, data, {

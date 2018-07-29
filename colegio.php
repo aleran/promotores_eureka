@@ -2043,7 +2043,7 @@
 													<h4 class="panel-title">
 														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefive">
 															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-															&nbsp;Areas obejetivas
+															&nbsp;Areas objetivas
 														</a>
 													</h4>
 												</div>

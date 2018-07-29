@@ -206,7 +206,53 @@
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
-						<h5>Visitas desde: <?php echo $_POST["desde"]; ?> Hasta: <?php echo $_POST["hasta"]; ?></h5>
+						<?php
+							if (isset($_POST["promo"])) {
+								$sql_usuario="SELECT nombres, apellidos, cod_zona FROM usuarios WHERE id='".$_POST["promo"]."'";
+
+								$req_usuario = $bdd->prepare($sql_usuario);
+								$req_usuario->execute();
+
+								$usuario = $req_usuario->fetch();
+
+								$promotor=$usuario["nombres"]." ".$usuario["apellidos"];
+
+								$sql_zonas="SELECT zona FROM zonas WHERE codigo='".$usuario["cod_zona"]."'";
+
+								$req_zonas = $bdd->prepare($sql_zonas);
+								$req_zonas->execute();
+								$zonas = $req_zonas->fetch();
+
+								$zona=$zonas["zona"];
+
+							}
+							else {
+
+								$sql_zonas="SELECT zona FROM zonas WHERE codigo='".$_POST["zona"]."'";
+
+								$req_zonas = $bdd->prepare($sql_zonas);
+								$req_zonas->execute();
+								$zonas = $req_zonas->fetch();
+
+								$zona=$zonas["zona"];
+
+								$sql_usuario="SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$_POST["zona"]."'";
+
+								$req_usuario = $bdd->prepare($sql_usuario);
+								$req_usuario->execute();
+								$usuario = $req_usuario->fetch();
+
+								$usuario = $req_usuario->fetch();
+
+								$promotor=$usuario["nombres"]." ".$usuario["apellidos"];
+
+
+							}
+
+						?>
+						<h5>Promotor: <?php echo $promotor." "."Zona: ". $zona; ?><br><br>Visitas desde: <?php echo $_POST["desde"]; ?> Hasta: <?php echo $_POST["hasta"]; ?>
+							
+						</h5>
 							<?php 
                                 include("conexion/bdd.php");
 
@@ -219,10 +265,10 @@
 								$desde=$_POST["desde"]." "."00:00:00";
 								$hasta=$_POST["hasta"]." "."23:59:59";
 								if (isset($_POST["promo"])) {
-									$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE u.id='".$_POST["promo"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+									$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE u.id='".$_POST["promo"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
 								}
 								else {
-									$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start, z.zona, u.nombres, u.apellidos FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE z.codigo='".$_POST["zona"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+									$sql = "SELECT o.objetivo, p.id as planid, p.resultado, c.colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON p.id_promotor=u.id  WHERE z.codigo='".$_POST["zona"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
 								}
                                 
 								$req = $bdd->prepare($sql);
@@ -236,8 +282,6 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>Zona</th>
-                                            <th>Promotor</th>
                                             <th>Fecha planificada</th>
                                             <th>Colegio</th>
                                             <th>Objetivo</th>
@@ -247,8 +291,6 @@
                                     <tbody>
                                         <?php 
                                         	foreach($planes as $plan) {
-
-                                        		$promotor=$plan["nombres"]." ".$plan["apellidos"];
                                         		
                                            		if ($plan["resultado"]==1) {
                                                 	echo'<tr class="odd gradeX success">';
@@ -256,8 +298,6 @@
                                             	else {
                                             		echo'<tr class="odd gradeX">';
                                             	}
-                                                echo'<td class="center">'.$plan["zona"].'</td>';
-                                                echo'<td class="center">'.$promotor.'</td>';
                                                 echo'<td class="center">'.$plan["start"].'</td>';
                                                 echo'<td class="center">'.$plan["colegio"].'</td>';
                                                 echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';

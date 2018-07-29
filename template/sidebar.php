@@ -470,7 +470,16 @@
 							<li class="visitas">
 								<a href="reporte_visitas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Visitas
+									Visitas global
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="visitas_semanal">
+								<a href="reporte_visitas_semanal.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Visitas semanal
 									
 								</a>
 
