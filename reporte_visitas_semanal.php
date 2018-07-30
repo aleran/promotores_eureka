@@ -268,7 +268,7 @@
 											}
 											?>
 									</select><br>
-									<center><button class="btn btn-primary">Buscar<button></center>
+									<center><button class="btn btn-primary">Buscar</button></center>
 								</div>
 												
 							</div>
@@ -938,7 +938,7 @@
 		</script>
 		<script>
 			$(".abrir_reportes").addClass("open");
-			$(".visitas").addClass("active");
+			$(".visitas_semanal").addClass("active");
 		</script>
 	</body>
 </html>

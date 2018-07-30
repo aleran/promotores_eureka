@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reporte de profesores</title>
+		<title>Reporte de directorio</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -95,7 +95,7 @@
 							<li>
 								<a href="#">Reportes</a>
 							</li>
-							<li class="active">Reporte de profesores</li>
+							<li class="active">Reporte de directorio</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -181,7 +181,7 @@
 								Reportes
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Reporte de profesores
+									Reporte de directorio
 								</small>
 							</h1>
 						</div><!-- /.page-header -->

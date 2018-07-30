@@ -2050,61 +2050,67 @@
 
 												<div class="panel-collapse collapse" id="collapsefive">
 													<div class="panel-body">
-														<div class="row">
-															<center><h4>Añadir nuevo</h4></center><br>
-															<div class="col-sm-6 col-sm-offset-3">
+														<div class="otra_ao">
+															<div class="row a_ob">
+																<center><h4>Añadir nuevo</h4></center><br>
+																<div class="col-sm-6 col-sm-offset-3">
 																<form action="php/areas_objetivas.php" method="POST">
-																<div class="form-group">
-																	<label class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
+																	<div class="form-group">
+																		<label class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
 
-																	<select name="materia1" id="materia1" class="form-control materia">
-													 			<option value="">Seleccionar</option>
-																 	<?php 
-																 		$sql = "SELECT id, materia FROM materias";
-																		$req = $bdd->prepare($sql);
-																		$req->execute();
-																		$materias = $req->fetchAll();
-																		foreach($materias as $materia) {
-																		    $id = $materia['id'];
-																		    $nom = $materia['materia'];
-																		    echo '<option value="'.$id.'">'.$nom.'</option>';
-																		}
-																 	?>
-													 		</select>
-																		
+																		<select name="materia1" id="materia1" class="form-control materia">
+														 					<option value="">Seleccionar</option>
+																		 	<?php 
+																		 		$sql = "SELECT id, materia FROM materias";
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$materias = $req->fetchAll();
+																				foreach($materias as $materia) {
+																				    $id = $materia['id'];
+																				    $nom = $materia['materia'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+																		 	?>
+														 				</select>
+																			
+																	</div>
 																</div>
 															</div>
-														</div>
-														<div class="row">
-															<div class="col-sm-6">
-																<div class="form-group">
-																	<label for="grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
-														
-																 		<select name="grado1" required id="grado1" class="form-control grado">
-																 			
-																			
-																 		</select>
-																</div>
-												  			</div>
-												  			<div class="col-sm-6">
-												  				<div class="form-group">
-																	<label for="libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+															<div class="row a_ob">
+																<div class="col-sm-6">
+																	<div class="form-group">
+																		<label for="grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
 															
-																	 <select name="libro_e1" id="libro_e1" class="form-control grado" >
+																	 		<select name="grado1" required id="grado1" class="form-control grado">
 																	 			
 																				
-																	 </select>
-																</div>
+																	 		</select>
+																	</div>
+													  			</div>
+													  			<div class="col-sm-6">
+													  				<div class="form-group">
+																		<label for="libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+																
+																		 <select name="libro_e1" id="libro_e1" class="form-control grado" >
+																		 			
+																					
+																		 </select>
+																	</div>
 
-												  			</div>
-												  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
-												  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
-												  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
+													  			</div>
+													  		</div>
+													  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
+													  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+													  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
+													  	</div>
 												  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+												  				<a id="agregar_ao" style="cursor: pointer;">Agregar Otro +</a>
 												  			<br><br><center><button class="btn btn-success">Guardar</button></center>
 												  			<?php }?>
+
 															</form>
-									</div><br><br>
+
+												<br><br>
 						<?php 
 							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							
@@ -2146,6 +2152,118 @@
 													</div>
 												</div>
 											</div>
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsemeta">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+																&nbsp;Meta
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapsemeta">
+													<div class="panel-body">
+														
+
+														<?php 
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado, l.libro, l.pri_sec FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+															$req = $bdd->prepare($sql);
+															$req->execute();
+															$areas = $req->fetchAll();
+															echo "<div class='table-responsive'>
+																	<table class='table table-bordered'>
+																		<thead>
+																			<th>Título</th>
+																			<th>Materia</th>
+																			<th>Grado</th>
+																			<th>N° Paralelos</th>
+																			<th>N° Alumnos</th>
+																			<th>Tasa de compra</th>
+																			<th>PVP</th>
+																			<th>Descuento</th>
+																			<th>Venta potencial</th>
+																		</thead>
+																		<tbody>";
+															foreach ($areas as $area) {
+
+
+																if ($area["id_grado"]> 14 ) {
+
+																	$sq_l2 = "SELECT l.libro,l.id_grado, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$area["lib_eureka"]."'";
+														
+																	$req_l2 = $bdd->prepare($sq_l2);
+																	$req_l2->execute();
+																	$libros2 = $req_l2->fetchAll();
+
+																	foreach ($libros2 as $libro2) {
+																		$libro=$libro2["libro"];
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro2["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+																		$req_gp = $bdd->prepare($sq_gp);
+																		$req_gp->execute();
+																		$gp = $req_gp->fetch();
+
+																		echo "<tr>
+																				<td>".$libro."</td>
+																				<td>".$libro2["materia"]."</td>
+																				<td>".$libro2["grado"]."</td>
+																				<td>".$gp["paralelos"]."</td>
+																				<td>".$gp["alumnos"]."</td>
+																				<td><input type='text' size='2'></td>
+																				<td></td>
+																				<td></td>
+																				<td></td>
+
+
+																				
+																			</tr>";
+																	}
+																}
+
+																else {
+
+																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$area["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+																		$req_gp = $bdd->prepare($sq_gp);
+																		$req_gp->execute();
+																		$gp = $req_gp->fetch();
+
+																	echo "<tr>
+																			<td>".$area["libro"]."</td>
+																			<td>".$area["materia"]."</td>
+																			<td>".$area["grado"]."</td>
+																			<td>".$gp["paralelos"]."</td>
+																			<td>".$gp["alumnos"]."</td>
+																			<td><input type='text' size='2'></td>
+																			<td></td>
+																			<td></td>
+																			<td></td>
+																			
+																		</tr>";
+
+																}
+
+																
+											  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+											  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
+											  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+											  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
+											  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
+											  				</form></div>';
+											  			}*/
+															}
+															echo "</tbody>
+																	</table></div>";
+													 ?>
+
+													</div>
+												</div>
+											</div>
+
 											<?php if ($_SESSION["tipo"]==1) {?>
 											<div class="panel panel-default">
 												<div class="panel-heading">
@@ -2589,6 +2707,9 @@
 		$("#agregar_materia").click(function(){
 			$(".profesor").clone().appendTo(".otro_p");
 		});
+		/*$("#agregar_ao").click(function(){
+			$(".a_ob").clone().appendTo(".otra_ao");
+		})*/;
 		</script>
 		<script>
 			$(".abrir_colegios").addClass("open");

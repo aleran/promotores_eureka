@@ -467,6 +467,15 @@
 								<b class="arrow"></b>
 							</li>
 							<?php if ($_SESSION["tipo"]!=3) {?>
+							<li class="profesores">
+								<a href="reporte_profesores.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Directorio
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
 							<li class="visitas">
 								<a href="reporte_visitas.php">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -485,22 +494,14 @@
 
 								<b class="arrow"></b>
 							</li>
-							<li class="trabajadores">
+							<!--<li class="trabajadores">
 								<a href="reporte_trabajadores.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Trabajadores
 								</a>
 
 								<b class="arrow"></b>
-							</li>
-							<li class="profesores">
-								<a href="reporte_profesores.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Profesores
-								</a>
-
-								<b class="arrow"></b>
-							</li>
+							</li>-->
 							<?php } ?>
 						</li>
 					</ul>
