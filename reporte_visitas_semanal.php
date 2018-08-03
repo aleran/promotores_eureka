@@ -223,7 +223,7 @@
 								<form action="visitas_semanal.php" method="POST">
 								<div class="form-group">
 									<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
-									<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
+									<input required required type="text" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
 										<input type="hidden" name="promo" id="promo"><div id="suggestions"></div><br>
 												
 									<center><button class="btn btn-primary">Buscar</butt</center>

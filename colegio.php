@@ -321,6 +321,7 @@
                         		</tr>
 	
                         	</table>
+								<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
                         	<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
                         	<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
                         	<center><button class="btn btn-success">Actualizar</button></center><br><br>
@@ -1325,7 +1326,7 @@
 											</div>
 										
 									</div>
-								<input required required type="hidden" name="id7" value="<?php echo $trabajadores6["id"]?>">
+								<input required required type="hidden" name="id7" value="<?php echo $trabajadores7["id"]?>">
 							</div>
 						</div>
 						

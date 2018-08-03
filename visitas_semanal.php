@@ -14,6 +14,7 @@ if (isset($_POST["zona"])) {
 	$usuario = $req_u->fetch();
 
 	$promotor=$usuario["nombres"]." ".$usuario["apellidos"];
+	$id_user=$usuario["id"];
 
 	$sql_z = "SELECT zona FROM zonas WHERE codigo='".$_POST['zona']."'";
 
@@ -37,6 +38,7 @@ else {
 	$usuario = $req_u->fetch();
 
 	$promotor=$usuario["nombres"]." ".$usuario["apellidos"];
+	$id_user=$usuario["id"];
 
 	$sql_z = "SELECT zona FROM zonas WHERE codigo='".$usuario["cod_zona"]."'";
 
@@ -192,8 +194,8 @@ $events = $req->fetchAll();
                
                 <div id="calendar" class="col-centered">
                 </div>
+				<h5><a href="php/visitas_semanal_excel.php?desde=<?php echo $_POST["desde"] ?>&hasta=<?php echo $hasta ?>&promotor=<?php echo $id_user ?>">Exportar excel</a></h5>
             </div>
-			
         </div>
 
         <!-- Modal -->

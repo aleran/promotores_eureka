@@ -206,7 +206,7 @@
 										}
 
 										else {
-											$sql_vi = "SELECT id FROM visitas WHERE id_promotor='".$_SESSION["id"]."'";
+											$sql_vi = "SELECT v.id FROM visitas v JOIN plan_trabajo p ON v.id_plan_trabajo=p.id WHERE p.id_promotor='".$_SESSION["id"]."'";
 										}
 
 										$req_vi = $bdd->prepare($sql_vi);
