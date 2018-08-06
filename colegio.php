@@ -1446,7 +1446,7 @@
 				  			<div class="col-sm-4">
 				  				<div class="form-group">
 				  					<label for="telefono_p" class="control-label no-padding-right">Telefono<small style="color:red;"> *</small></label>
-				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" >
+				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" required>
 				  				</div>
 
 				  			</div>
@@ -1467,7 +1467,7 @@
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="materia_p"> Materia:<small style="color:red;"> *</small></label>
 							
-										<select name="materia[]" id="materia_p" class="form-control materia" required=>
+										<select name="materia[]" id="materia_p" class="form-control materia" required>
 											<option value="">Seleccionar</option>
 											 	<?php 
 											 		$sql = "SELECT id, materia FROM materias";
@@ -1492,7 +1492,7 @@
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="grado_p"> Grado:<small style="color:red;"> *</small></label>
 							
-										<select name="grado[]" id="grado_p" class="form-control materia" re>
+										<select name="grado[]" id="grado_p" class="form-control materia" required>
 												 					<option value="">Seleccionar</option>
 											 	<?php 
 											 		$sql = "SELECT id, grado FROM grados";

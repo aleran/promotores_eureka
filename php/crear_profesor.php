@@ -39,7 +39,15 @@
 				 die ('Erreur execute');
 				}
 
-	$sql_periodo="SELECT id FROM periodos WHERE id='".$_POST["periodo"]."'";
+	if (isset($_POST["periodo"])) {
+
+		$sql_periodo="SELECT id FROM periodos WHERE id='".$_POST["periodo"]."'";
+	}
+	else {
+
+		$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+	}
+	
 
 	$req_periodo = $bdd->prepare($sql_periodo);
 	$req_periodo->execute();
