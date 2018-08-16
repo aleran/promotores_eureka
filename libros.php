@@ -67,9 +67,6 @@
 								<a href="#">Home</a>
 							</li>
 
-							<li>
-								<a href="#">Libros y series</a>
-							</li>
 							<li class="active">Libros</li>
 						</ul><!-- /.breadcrumb -->
 
@@ -153,10 +150,10 @@
 
 						<div class="page-header">
 							<h1>
-								Usuarios
+								Libros
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Usuarios
+									Libros
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
