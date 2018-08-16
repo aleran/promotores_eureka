@@ -6,6 +6,7 @@
 	$req->execute();
 	$libros = $req->fetchAll();
 
+	echo"<option value=''> Seleccionar</option>";
 	foreach($libros as $lib) {;
 		echo"<option value=".$lib["id"].">".$lib["libro"]."</option>";
 	}

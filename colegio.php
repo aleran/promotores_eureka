@@ -2169,11 +2169,11 @@
 														
 
 														<?php 
-														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado, l.libro, l.pri_sec FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 														
 															$req = $bdd->prepare($sql);
 															$req->execute();
-															$areas = $req->fetchAll();
+															$libros_p = $req->fetchAll();
 															echo "<div class='table-responsive'>
 																	<table class='table table-bordered'>
 																		<thead>
@@ -2188,12 +2188,12 @@
 																			<th>Venta potencial</th>
 																		</thead>
 																		<tbody>";
-															foreach ($areas as $area) {
+															foreach ($libros_p as $libro_p) {
 
 
 																if ($area["id_grado"]> 14 ) {
 
-																	$sq_l2 = "SELECT l.libro,l.id_grado, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$area["lib_eureka"]."'";
+																	$sq_l2 = "SELECT l.libro,l.id_grado, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$libro_p["lib_eureka"]."'";
 														
 																	$req_l2 = $bdd->prepare($sq_l2);
 																	$req_l2->execute();
@@ -2215,7 +2215,7 @@
 																				<td>".$gp["paralelos"]."</td>
 																				<td>".$gp["alumnos"]."</td>
 																				<td><input type='text' size='2'></td>
-																				<td></td>
+																				<td>".$libro_p["precio"]."</td>
 																				<td></td>
 																				<td></td>
 
@@ -2234,13 +2234,13 @@
 																		$gp = $req_gp->fetch();
 
 																	echo "<tr>
-																			<td>".$area["libro"]."</td>
-																			<td>".$area["materia"]."</td>
-																			<td>".$area["grado"]."</td>
+																			<td>".$libro_p["libro"]."</td>
+																			<td>".$libro_p["materia"]."</td>
+																			<td>".$libro_p["grado"]."</td>
 																			<td>".$gp["paralelos"]."</td>
 																			<td>".$gp["alumnos"]."</td>
 																			<td><input type='text' size='2'></td>
-																			<td></td>
+																			<td>".$libro_p["precio"]."</td>
 																			<td></td>
 																			<td></td>
 																			

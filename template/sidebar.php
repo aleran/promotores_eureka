@@ -301,6 +301,18 @@
 								<b class="arrow"></b>
 							</li>-->
 						</ul>
+						<li class="libros">
+								<a href="libros.php">
+									<i class="menu-icon fa fa-book"></i>
+
+									<span class="menu-text">
+										Libros
+
+									</span>
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 					</li>
 					<?php } ?>
 					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
@@ -365,7 +377,7 @@
 					<?php } ?>
 					<li class="abrir_colegios">
 						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon glyphicon glyphicon-book"></i>
+							<i class="menu-icon glyphicon glyphicon-home"></i>
 							<span class="menu-text"> Colegios </span>
 
 							<b class="arrow fa fa-angle-down"></b>

@@ -246,7 +246,7 @@
 										
 											<div class="infobox infobox-blue">
 												<div class="infobox-icon">
-													<i class="ace-icon fa fa-book"></i>
+													<i class="ace-icon glyphicon glyphicon-home"></i>
 												</div>
 										
 												<div class="infobox-data">
