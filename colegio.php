@@ -353,7 +353,7 @@
 												<div class="panel-collapse collapse in" id="collapseOne">
 													<div class="panel-body">
 														<?php 
-                        	$sql = "SELECT id FROM trabajadores_colegios WHERE id_colegio='".$colegio['id']."'";
+                        	$sql = "SELECT id FROM trabajadores_colegios WHERE cargo !=6 AND id_colegio='".$colegio['id']."'";
 
 							$req = $bdd->prepare($sql);
 							$req->execute();
@@ -2169,31 +2169,32 @@
 														
 
 														<?php 
-														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 														
 															$req = $bdd->prepare($sql);
 															$req->execute();
 															$libros_p = $req->fetchAll();
-															echo "<div class='table-responsive'>
+															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><form action='php/presupuesto.php' method='POST'><div class='table-responsive'>
 																	<table class='table table-bordered'>
 																		<thead>
 																			<th>Título</th>
 																			<th>Materia</th>
 																			<th>Grado</th>
-																			<th>N° Paralelos</th>
-																			<th>N° Alumnos</th>
+																			<th>Paralelos</th>
+																			<th>Alumnos</th>
 																			<th>Tasa de compra</th>
 																			<th>PVP</th>
 																			<th>Descuento</th>
+																			<th>Precio neto</th>
 																			<th>Venta potencial</th>
 																		</thead>
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
 
 
-																if ($area["id_grado"]> 14 ) {
+																if ($libro_p["id_grado"]> 14 ) {
 
-																	$sq_l2 = "SELECT l.libro,l.id_grado, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$libro_p["lib_eureka"]."'";
+																	$sq_l2 = "SELECT l.id, l.libro,l.id_grado, l.precio, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$libro_p["lib_eureka"]."'";
 														
 																	$req_l2 = $bdd->prepare($sq_l2);
 																	$req_l2->execute();
@@ -2213,12 +2214,88 @@
 																				<td>".$libro2["materia"]."</td>
 																				<td>".$libro2["grado"]."</td>
 																				<td>".$gp["paralelos"]."</td>
-																				<td>".$gp["alumnos"]."</td>
-																				<td><input type='text' size='2'></td>
-																				<td>".$libro_p["precio"]."</td>
-																				<td></td>
-																				<td></td>
+																				<td id='alm".$libro2["id"]."'>".$gp["alumnos"]."</td>
+																				<td><input type='text' size='2' name='tasa[]' id='tasa".$libro2["id"]."'> %</td>
+																				<td id='pvp".$libro2["id"]."'>".$libro2["precio"]."</td>
+																				<td><input type='text' size='2' name='descuento[]' value='20' id='descuento".$libro2["id"]."'> %</td>
+																				<td id='pn".$libro2["id"]."'></td>
+																				<td id='venta_p".$libro2["id"]."'></td>
+																				<input type='hidden' name='libro[]' value='".$libro2["id"]."'>
 
+																				<input type='hidden' name='precio_n[]' id='precio_n".$libro2["id"]."'>
+
+																			<input type='hidden' name='venta_potencial[]' id='v_p".$libro2["id"]."'>
+																			<script>
+																				$('#descuento".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
+
+																						var descuento=parseInt($('#descuento".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn".$libro2["id"]."').text(precio_neto);
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						var tasa_c=parseInt($('#tasa".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0
+																						}
+
+																						$('#venta_p".$libro2["id"]."').text(vp);
+
+																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																					})
+
+																					$('#tasa".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
+
+																						var descuento=parseInt($('#descuento".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn".$libro2["id"]."').text(precio_neto);
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						var tasa_c=parseInt($('#tasa".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p".$libro2["id"]."').text(vp);
+
+																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																					})
+																			</script>
 
 																				
 																			</tr>";
@@ -2227,7 +2304,7 @@
 
 																else {
 
-																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$area["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
 														
 																		$req_gp = $bdd->prepare($sq_gp);
 																		$req_gp->execute();
@@ -2238,15 +2315,95 @@
 																			<td>".$libro_p["materia"]."</td>
 																			<td>".$libro_p["grado"]."</td>
 																			<td>".$gp["paralelos"]."</td>
-																			<td>".$gp["alumnos"]."</td>
-																			<td><input type='text' size='2'></td>
-																			<td>".$libro_p["precio"]."</td>
-																			<td></td>
-																			<td></td>
+																			<td id='alm".$libro_p["id"]."'>".$gp["alumnos"]."</td>
+																			<td><input type='text' size='2' name='tasa[]' id='tasa".$libro_p["id"]."'> %</td>
+																			<td id='pvp".$libro_p["id"]."'>".$libro_p["precio"]."</td>
+																			<td><input type='text' size='2' name='descuento[]' value='20' id='descuento".$libro_p["id"]."'> %</td>
+																			<td id='pn".$libro_p["id"]."'></td>
+																			<td id='venta_p".$libro_p["id"]."'></td>
+
+																			<input type='hidden' name='libro[]' value='".$libro_p["id"]."'>
+
+																			<input type='hidden' name='precio_n[]' id='precio_n".$libro_p["id"]."'>
+
+																			<input type='hidden' name='venta_potencial[]' id='v_p".$libro_p["id"]."'>
+																			<script>
+																				$('#descuento".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
+
+																						var descuento=parseInt($('#descuento".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn".$libro_p["id"]."').text(precio_neto);
+
+																						$('#precio_n".$libro_p["id"]."').val(precio_neto);
+
+																						var tasa_c=parseInt($('#tasa".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p".$libro_p["id"]."').text(vp);
+
+																						$('#v_p".$libro_p["id"]."').val(vp);
+
+
+																					})
+
+																					$('#tasa".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
+
+																						var descuento=parseInt($('#descuento".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn".$libro_p["id"]."').text(precio_neto);
+
+																						$('#precio_n".$libro_p["id"]."').val(precio_neto);
+
+																						var tasa_c=parseInt($('#tasa".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p".$libro_p["id"]."').text(vp);
+
+																						$('#v_p".$libro_p["id"]."').val(vp);
+
+
+																					})
+																			</script>
+
 																			
 																		</tr>";
 
 																}
+
 
 																
 											  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
@@ -2257,8 +2414,12 @@
 											  				</form></div>';
 											  			}*/
 															}
-															echo "</tbody>
-																	</table></div>";
+															echo "<tr>	<td>Totales</td></tr>";
+															echo '</tbody>
+																	</table></div>
+																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+				  			<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">
+																	<button>Guardar</button></form>';
 													 ?>
 
 													</div>
@@ -2377,7 +2538,7 @@
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
-		<script src="assets/js/jquery-2.1.4.min.js"></script>
+		
 
 		<!-- <![endif]-->
 
