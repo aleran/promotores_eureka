@@ -2168,13 +2168,31 @@
 													<div class="panel-body">
 														
 
-														<?php 
+														<?php
+
 														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+
+
 														
 															$req = $bdd->prepare($sql);
 															$req->execute();
 															$libros_p = $req->fetchAll();
-															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><form action='php/presupuesto.php' method='POST'><div class='table-responsive'>
+
+
+
+														$sql_hp = "SELECT id FROM presupuestos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+
+															$req_hp = $bdd->prepare($sql_hp);
+															$req_hp->execute();
+															$num_hp= $req_hp->rowCount();
+															if ($num_hp < 1) {
+																echo "<form action='php/presupuesto.php' method='POST'>";
+															}
+															else {
+																echo "<form action='php/actualizar_presupuesto.php' method='POST'>";
+															}
+															
+															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
 																	<table class='table table-bordered'>
 																		<thead>
 																			<th>Título</th>
@@ -2191,6 +2209,7 @@
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
 
+																
 
 																if ($libro_p["id_grado"]> 14 ) {
 
@@ -2201,6 +2220,15 @@
 																	$libros2 = $req_l2->fetchAll();
 
 																	foreach ($libros2 as $libro2) {
+
+																		$sql_presup = "SELECT tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+																
+																	
+
 																		$libro=$libro2["libro"];
 
 																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro2["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
@@ -2214,17 +2242,48 @@
 																				<td>".$libro2["materia"]."</td>
 																				<td>".$libro2["grado"]."</td>
 																				<td>".$gp["paralelos"]."</td>
-																				<td id='alm".$libro2["id"]."'>".$gp["alumnos"]."</td>
-																				<td><input type='text' size='2' name='tasa[]' id='tasa".$libro2["id"]."'> %</td>
-																				<td id='pvp".$libro2["id"]."'>".$libro2["precio"]."</td>
-																				<td><input type='text' size='2' name='descuento[]' value='20' id='descuento".$libro2["id"]."'> %</td>
-																				<td id='pn".$libro2["id"]."'></td>
-																				<td id='venta_p".$libro2["id"]."'></td>
-																				<input type='hidden' name='libro[]' value='".$libro2["id"]."'>
+																				<td id='alm".$libro2["id"]."'>".$gp["alumnos"]."</td>";
+																				if ($presup["tasa_compra"] !="") {
 
-																				<input type='hidden' name='precio_n[]' id='precio_n".$libro2["id"]."'>
+																					$presup["tasa_compra"] = $presup["tasa_compra"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa".$libro2["id"]."' value='".$presup["tasa_compra"]."'> %</td>";
+																				}else {
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa".$libro2["id"]."' value='0' required> %</td>";
 
-																			<input type='hidden' name='venta_potencial[]' id='v_p".$libro2["id"]."'>
+																				}
+
+																				
+																				echo "<td id='pvp".$libro2["id"]."'>".$libro2["precio"]."</td>";
+
+																				if ($presup["descuento"] !="") {
+
+																					$presup_m = $presup["descuento"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento".$libro2["id"]."' value='".$presup_m."'> %</td>";
+
+																				}else {
+
+																					echo "<td><input type='text' size='2' name='descuento[]' value='20' id='descuento".$libro2["id"]."' required> %</td>";
+																				}
+																				if ($presup["tasa_compra"] !="") {
+																					$precio_neto= $libro2["precio"] -( $libro2["precio"] * $presup["descuento"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
+
+																					echo "<td id='pn".$libro2["id"]."'>".$precio_neto."</td>
+
+																					<td id='venta_p".$libro2["id"]."'>".$venta_p."</td>";
+
+																				}else {
+
+																					echo "<td id='pn".$libro2["id"]."'></td>
+
+																					<td id='venta_p".$libro2["id"]."'></td>";
+
+																				}
+																				
+
+																				echo "<input type='hidden' name='presupuesto[]' id='presupuesto".$libro2["id"]."'>
+
 																			<script>
 																				$('#descuento".$libro2["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
@@ -2240,7 +2299,6 @@
 
 																						$('#pn".$libro2["id"]."').text(precio_neto);
 
-																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 
 																						var tasa_c=parseInt($('#tasa".$libro2["id"]."').val());
 
@@ -2255,8 +2313,14 @@
 																						}
 
 																						$('#venta_p".$libro2["id"]."').text(vp);
+																						
+
+																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento);
 
 																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 
 
 																					})
@@ -2275,7 +2339,6 @@
 
 																						$('#pn".$libro2["id"]."').text(precio_neto);
 
-																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 
 																						var tasa_c=parseInt($('#tasa".$libro2["id"]."').val());
 
@@ -2286,12 +2349,18 @@
 																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
 
 																						if(isNaN(vp)){
-																							vp=0;
+																							vp=0
 																						}
 
 																						$('#venta_p".$libro2["id"]."').text(vp);
+																						
+
+																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento);
 
 																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 
 
 																					})
@@ -2304,6 +2373,14 @@
 
 																else {
 
+																	$sql_presup = "SELECT tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+
+																
+
 																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
 														
 																		$req_gp = $bdd->prepare($sq_gp);
@@ -2315,18 +2392,44 @@
 																			<td>".$libro_p["materia"]."</td>
 																			<td>".$libro_p["grado"]."</td>
 																			<td>".$gp["paralelos"]."</td>
-																			<td id='alm".$libro_p["id"]."'>".$gp["alumnos"]."</td>
-																			<td><input type='text' size='2' name='tasa[]' id='tasa".$libro_p["id"]."'> %</td>
-																			<td id='pvp".$libro_p["id"]."'>".$libro_p["precio"]."</td>
-																			<td><input type='text' size='2' name='descuento[]' value='20' id='descuento".$libro_p["id"]."'> %</td>
-																			<td id='pn".$libro_p["id"]."'></td>
-																			<td id='venta_p".$libro_p["id"]."'></td>
+																			<td id='alm".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
+																			if ($presup["tasa_compra"] !="") {
 
-																			<input type='hidden' name='libro[]' value='".$libro_p["id"]."'>
+																					$presup["tasa_compra"] = $presup["tasa_compra"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa".$libro_p["id"]."' value='".$presup["tasa_compra"]."'> %</td>";
+																				}else {
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa".$libro_p["id"]."' value='0' required> %</td>";
 
-																			<input type='hidden' name='precio_n[]' id='precio_n".$libro_p["id"]."'>
+																				}
+																			echo "<td id='pvp".$libro_p["id"]."'>".$libro_p["precio"]."</td>";
+																			if ($presup["descuento"] !="") {
 
-																			<input type='hidden' name='venta_potencial[]' id='v_p".$libro_p["id"]."'>
+																					$presup_m = $presup["descuento"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento".$libro_p["id"]."' value='".$presup_m."'> %</td>";
+
+																				}else {
+
+																					echo "<td><input type='text' size='2' name='descuento[]' value='20' id='descuento".$libro_p["id"]."' required> %</td>";
+																				}
+																				if ($presup["tasa_compra"] !="") {
+																					$precio_neto= $libro_p["precio"] -( $libro_p["precio"] * $presup["descuento"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
+
+																					echo "<td id='pn".$libro_p["id"]."'>".$precio_neto."</td>
+
+																					<td id='venta_p".$libro_p["id"]."'>".$venta_p."</td>";
+
+																				}else {
+
+																					echo "<td id='pn".$libro_p["id"]."'></td>
+
+																					<td id='venta_p".$libro_p["id"]."'></td>";
+
+																				}
+
+																			echo "<input type='hidden' name='presupuesto[]' id='presupuesto".$libro_p["id"]."'>
+
 																			<script>
 																				$('#descuento".$libro_p["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
@@ -2342,7 +2445,6 @@
 
 																						$('#pn".$libro_p["id"]."').text(precio_neto);
 
-																						$('#precio_n".$libro_p["id"]."').val(precio_neto);
 
 																						var tasa_c=parseInt($('#tasa".$libro_p["id"]."').val());
 
@@ -2358,7 +2460,9 @@
 
 																						$('#venta_p".$libro_p["id"]."').text(vp);
 
-																						$('#v_p".$libro_p["id"]."').val(vp);
+																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento);
+
+																				
 
 
 																					})
@@ -2377,7 +2481,6 @@
 
 																						$('#pn".$libro_p["id"]."').text(precio_neto);
 
-																						$('#precio_n".$libro_p["id"]."').val(precio_neto);
 
 																						var tasa_c=parseInt($('#tasa".$libro_p["id"]."').val());
 
@@ -2393,7 +2496,9 @@
 
 																						$('#venta_p".$libro_p["id"]."').text(vp);
 
-																						$('#v_p".$libro_p["id"]."').val(vp);
+																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento);
+
+																				
 
 
 																					})
@@ -2418,8 +2523,15 @@
 															echo '</tbody>
 																	</table></div>
 																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
-				  			<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">
-																	<button>Guardar</button></form>';
+				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
+				  													if ($num_hp < 1) {
+				  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
+				  													}
+				  													else {
+
+				  														echo '<center><button class="btn btn-success">Actualizar</button></center></form>';
+				  													}
+																	
 													 ?>
 
 													</div>
