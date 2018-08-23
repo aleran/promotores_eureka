@@ -6,7 +6,7 @@
 
 		list($libro,$tasa_c,$descuento) = explode("/", $presup);
 
-		$sql_e = "INSERT INTO presupuestos(id_periodo,id_colegio, id_libro, tasa_compra,descuento) values ('".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$libro."', '".$tasa_c."', '".$descuento."')";
+		$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."', descuento='".$descuento."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
 
 		$query_e = $bdd->prepare( $sql_e );
 		if ($query_e == false) {

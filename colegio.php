@@ -2159,7 +2159,7 @@
 													<h4 class="panel-title">
 														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsemeta">
 															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-																&nbsp;Meta
+																&nbsp;Presupuesto
 														</a>
 													</h4>
 												</div>
@@ -2169,7 +2169,7 @@
 														
 
 														<?php
-
+														
 														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 
 
@@ -2271,13 +2271,13 @@
 
 																					echo "<td id='pn".$libro2["id"]."'>".$precio_neto."</td>
 
-																					<td id='venta_p".$libro2["id"]."'>".$venta_p."</td>";
+																					<td id='venta_p".$libro2["id"]."' class='venta'>".$venta_p."</td>";
 
 																				}else {
 
 																					echo "<td id='pn".$libro2["id"]."'></td>
 
-																					<td id='venta_p".$libro2["id"]."'></td>";
+																					<td id='venta_p".$libro2["id"]."' class='venta'></td>";
 
 																				}
 																				
@@ -2321,6 +2321,17 @@
 
 
 																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+																						
+																						var total_vp=0;
+
+																						$('.venta').each(function(){
+
+																							total_vp+=parseInt($(this).text()) || 0;
+
+																						});
+																				
+																						$('#total_vp').text(total_vp);
+
 
 
 																					})
@@ -2361,6 +2372,16 @@
 
 
 																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						var total_vp=0;
+
+																						$('.venta').each(function(){
+
+																							total_vp+=parseInt($(this).text()) || 0;
+
+																						});
+																				
+																						$('#total_vp').text(total_vp);
 
 
 																					})
@@ -2418,13 +2439,13 @@
 
 																					echo "<td id='pn".$libro_p["id"]."'>".$precio_neto."</td>
 
-																					<td id='venta_p".$libro_p["id"]."'>".$venta_p."</td>";
+																					<td id='venta_p".$libro_p["id"]."' class='venta'>".$venta_p."</td>";
 
 																				}else {
 
 																					echo "<td id='pn".$libro_p["id"]."'></td>
 
-																					<td id='venta_p".$libro_p["id"]."'></td>";
+																					<td id='venta_p".$libro_p["id"]."' class='venta'></td>";
 
 																				}
 
@@ -2461,9 +2482,16 @@
 																						$('#venta_p".$libro_p["id"]."').text(vp);
 
 																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento);
+																						
+																						var total_vp=0;
 
+																						$('.venta').each(function(){
+
+																							total_vp+=parseInt($(this).text()) || 0;
+
+																						});
 																				
-
+																						$('#total_vp').text(total_vp);
 
 																					})
 
@@ -2498,8 +2526,15 @@
 
 																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento);
 
-																				
+																						var total_vp=0;
 
+																						$('.venta').each(function(){
+
+																							total_vp+=parseInt($(this).text()) || 0;
+
+																						});
+																				
+																						$('#total_vp').text(total_vp);
 
 																					})
 																			</script>
@@ -2519,10 +2554,22 @@
 											  				</form></div>';
 											  			}*/
 															}
-															echo "<tr>	<td>Totales</td></tr>";
+															echo "<tr>
+																<td><b>Total:</b></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td id='total_vp'></td>
+																</tr>";
 															echo '</tbody>
 																	</table></div>
 																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
 				  													if ($num_hp < 1) {
 				  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
@@ -2988,6 +3035,17 @@
 		<script>
 			$(".abrir_colegios").addClass("open");
 			$(".ver_colegios").addClass("active");
+		</script>
+		<script>
+			var total_vp=0;
+
+																						$('.venta').each(function(){
+
+																							total_vp+=parseInt($(this).text()) || 0;
+
+																						});
+																				
+																						$('#total_vp').text(total_vp);
 		</script>
 		<!-- inline scripts related to this page -->
 	</body>
