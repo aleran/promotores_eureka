@@ -506,6 +506,16 @@
 
 								<b class="arrow"></b>
 							</li>
+
+							<li class="presupuesto">
+								<a href="reporte_presupuesto.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Presupuestos
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 							<!--<li class="trabajadores">
 								<a href="reporte_trabajadores.php">
 									<i class="menu-icon fa fa-caret-right"></i>

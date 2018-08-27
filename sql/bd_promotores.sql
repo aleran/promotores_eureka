@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 23, 2018 at 01:29 AM
+-- Generation Time: Aug 27, 2018 at 01:51 AM
 -- Server version: 5.5.60-0+deb8u1
 -- PHP Version: 5.6.33-0+deb8u1
 
@@ -3053,7 +3053,7 @@ INSERT INTO `libros` (`id`, `id_materia`, `id_grado`, `libro`, `precio`, `pri_se
 (46, 2, 8, 'CONTACTO MATEMATICO 5', 100000, 158),
 (47, 2, 4, 'EUREKA TALLER MATEMATICO 1', 100000, 159),
 (48, 2, 5, 'EUREKA TALLER MATEMATICO 2', 50000, 159),
-(49, 2, 6, 'EUREKA TALLER MATEMATICO 3', 0, 159),
+(49, 2, 6, 'EUREKA TALLER MATEMATICO 3', 80000, 159),
 (50, 2, 7, 'EUREKA TALLER MATEMATICO 4', 0, 159),
 (51, 2, 8, 'EUREKA TALLER MATEMATICO 5', 0, 159),
 (52, 2, 9, 'EUREKA TALLER MATEMATICO 6', 0, 160),
@@ -3545,27 +3545,28 @@ CREATE TABLE IF NOT EXISTS `presupuestos` (
   `id_periodo` int(11) NOT NULL,
   `id_colegio` int(11) NOT NULL,
   `id_libro` int(11) NOT NULL,
+  `precio` decimal(10,0) NOT NULL,
   `tasa_compra` decimal(10,2) NOT NULL,
   `descuento` decimal(10,2) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `presupuestos`
 --
 
-INSERT INTO `presupuestos` (`id`, `id_periodo`, `id_colegio`, `id_libro`, `tasa_compra`, `descuento`) VALUES
-(67, 2, 292, 47, 0.40, 0.20),
-(68, 2, 292, 48, 0.30, 0.20),
-(69, 2, 292, 0, 0.00, 0.00),
-(70, 2, 292, 0, 0.00, 0.00),
-(71, 2, 292, 0, 0.00, 0.00),
-(72, 2, 292, 0, 0.00, 0.00),
-(73, 2, 292, 0, 0.00, 0.00),
-(74, 2, 292, 0, 0.00, 0.00),
-(75, 2, 292, 0, 0.00, 0.00),
-(76, 2, 292, 0, 0.00, 0.00),
-(77, 2, 292, 0, 0.00, 0.00),
-(78, 2, 292, 3, 0.50, 0.20);
+INSERT INTO `presupuestos` (`id`, `id_periodo`, `id_colegio`, `id_libro`, `precio`, `tasa_compra`, `descuento`) VALUES
+(1, 2, 292, 47, 100000, 0.50, 0.70),
+(2, 2, 292, 48, 50000, 0.30, 0.30),
+(3, 2, 292, 0, 0, 0.00, 0.00),
+(4, 2, 292, 0, 0, 0.00, 0.00),
+(5, 2, 292, 0, 0, 0.00, 0.00),
+(6, 2, 292, 0, 0, 0.00, 0.00),
+(7, 2, 292, 0, 0, 0.00, 0.00),
+(8, 2, 292, 0, 0, 0.00, 0.00),
+(9, 2, 292, 0, 0, 0.00, 0.00),
+(10, 2, 292, 0, 0, 0.00, 0.00),
+(11, 2, 292, 0, 0, 0.00, 0.00),
+(12, 2, 292, 3, 70000, 0.50, 0.40);
 
 -- --------------------------------------------------------
 
@@ -4172,7 +4173,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
 -- AUTO_INCREMENT for table `presupuestos`
 --
 ALTER TABLE `presupuestos`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=79;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `tipos_libro`
 --

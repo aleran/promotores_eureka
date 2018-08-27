@@ -4,9 +4,9 @@
 
 	foreach ($_POST["presupuesto"] as $presups => $presup) {
 
-		list($libro,$tasa_c,$descuento) = explode("/", $presup);
+		list($libro,$tasa_c,$descuento, $precio) = explode("/", $presup);
 
-		$sql_e = "INSERT INTO presupuestos(id_periodo,id_colegio, id_libro, tasa_compra,descuento) values ('".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$libro."', '".$tasa_c."', '".$descuento."')";
+		$sql_e = "INSERT INTO presupuestos(id_periodo,id_colegio, id_libro, precio, tasa_compra,descuento) values ('".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$libro."','".$precio."', '".$tasa_c."', '".$descuento."')";
 
 		$query_e = $bdd->prepare( $sql_e );
 		if ($query_e == false) {

@@ -332,7 +332,7 @@
                         <h4>
                         	Periodo: <?php
                         		echo $gp_periodo["periodo"];
-                        		if ($gp_periodo["f_cierre"] < date("Y-m-d")) {
+                        		if ($gp_periodo["f_cierre"] <= date("Y-m-d")) {
                         			echo " <span style='color: red;'>Cerrado</span>";
                         		}
                         	?>
@@ -2221,7 +2221,7 @@
 
 																	foreach ($libros2 as $libro2) {
 
-																		$sql_presup = "SELECT tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																		$sql_presup = "SELECT precio, tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -2252,9 +2252,12 @@
 
 																				}
 
-																				
-																				echo "<td id='pvp".$libro2["id"]."'>".$libro2["precio"]."</td>";
+																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
+																				echo "<td id='pvp".$libro2["id"]."'>".$presup["precio"]."</td>";
+																				}else {
 
+																					echo "<td id='pvp".$libro2["id"]."'>".$libro2["precio"]."</td>";
+																				}
 																				if ($presup["descuento"] !="") {
 
 																					$presup_m = $presup["descuento"] * 100;
@@ -2315,7 +2318,7 @@
 																						$('#venta_p".$libro2["id"]."').text(vp);
 																						
 
-																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento);
+																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						$('#v_p".$libro2["id"]."').val(vp);
 
@@ -2366,7 +2369,7 @@
 																						$('#venta_p".$libro2["id"]."').text(vp);
 																						
 
-																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento);
+																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						$('#v_p".$libro2["id"]."').val(vp);
 
@@ -2394,7 +2397,7 @@
 
 																else {
 
-																	$sql_presup = "SELECT tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	$sql_presup = "SELECT precio, tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -2422,7 +2425,11 @@
 																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa".$libro_p["id"]."' value='0' required> %</td>";
 
 																				}
-																			echo "<td id='pvp".$libro_p["id"]."'>".$libro_p["precio"]."</td>";
+																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
+																					echo "<td id='pvp".$libro_p["id"]."'>".$presup["precio"]."</td>";
+																				}else {
+																					echo "<td id='pvp".$libro_p["id"]."'>".$libro_p["precio"]."</td>";
+																				}
 																			if ($presup["descuento"] !="") {
 
 																					$presup_m = $presup["descuento"] * 100;
@@ -2481,7 +2488,7 @@
 
 																						$('#venta_p".$libro_p["id"]."').text(vp);
 
-																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento);
+																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 																						
 																						var total_vp=0;
 
@@ -2524,7 +2531,7 @@
 
 																						$('#venta_p".$libro_p["id"]."').text(vp);
 
-																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento);
+																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						var total_vp=0;
 
