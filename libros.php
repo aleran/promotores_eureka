@@ -173,7 +173,7 @@
 							<?php 
                                 include("conexion/bdd.php");
 
-                                $sql = "SELECT l.libro, l.id_grado, l.pri_sec, l.precio, m.materia, g.grado FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id";
+                                $sql = "SELECT l.id,l.libro, l.id_grado, l.pri_sec, l.precio, l.pri_sec, m.materia, g.grado FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -190,6 +190,7 @@
                                             <th>Materia <small style="color: red;">*</small></th>
                                             <th>Grado</th>
                                             <th>¿Es serie?</th>
+                                             <th>Serie</th>
                                             <th>Precio $</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -197,8 +198,16 @@
                                     <tbody>
                                         <?php 
                                         	foreach($libros as $libro) {
-                                            
+                                            	
+
+                                            	   $sql_serie = "SELECT libro FROM libros WHERE id='".$libro["pri_sec"]."'";
+
+													$req_serie = $bdd->prepare($sql_serie);
+													$req_serie->execute();
+													$serie = $req_serie->fetch();
+
                                                 echo'<tr class="odd gradeX">';
+                                                echo '<form action="php/modificar_libro.php" method="POST">';
                                                 echo'<td class="">'.$libro["libro"].'</td>';
                                                 echo'<td class="">'.$libro["materia"].'</td>';
                                                 echo'<td class="">'.$libro["grado"].'</td>';
@@ -209,7 +218,17 @@
 
                                                 	echo'<td class="">No</td>';
                                                 }
-                                                echo'<td class="">'.$libro["precio"].'</td>';
+                                                echo'<td class="">'.$serie["libro"].'</td>';
+                                                 if ($libro["id_grado"] == 15 || $libro["id_grado"] == 16) {
+
+                                                 	echo'<td class=""></td>';
+
+                                                 }else {
+
+                                                 	echo'<td class=""><input type="number" name="precio" value="'.$libro["precio"].'" size="5" required></td>';
+                                                 }
+                                      			
+                                                echo '<input type="hidden" name="id_libro" value="'.$libro["id"].'">';
                                                 
                                                 echo '<td>
 														<div class="hidden-sm hidden-xs btn-group">
@@ -239,7 +258,9 @@
 																</ul>
 															</div>
 														</div>
-													</td>';
+													</td>
+													
+													</form>';
                                             }
                                          ?>
                                         
@@ -435,32 +456,33 @@
 		            var valor = $(this).val();
 		            var materia=$("#materia").val();
 		             //alert(valor);
-		            if (valor == 15 || valor == 16) {
-		            var dataString = 'mat_gra='+materia+"/"+valor;
-		            $.ajax({
+		            if (valor  < 15) {
 
-	                url: "ajax/buscar_serie.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#serie").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#serie").html("");
-	            		}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
+			            var dataString = 'mat_gra='+materia+"/"+valor;
+			            $.ajax({
 
-                        
-            	})
+		                url: "ajax/buscar_serie.php",
+		                type: "POST",
+		                data: dataString,
+		                success: function (resp) {
+		               
+		                    $("#serie").html(resp);                        
+		                    //console.log(resp);
+		                    if(valor =="") {
+		            			$("#serie").html("");
+		            		}
+		                },
+		                error: function (jqXHR,estado,error){
+		                    alert("error");
+		                    console.log(estado);
+		                    console.log(error);
+		                },
+		                complete: function (jqXHR,estado){
+		                    console.log(estado);
+		                }
+
+	                        
+	            	})
 		        } else {
 		        	$("#serie").html("<option value=''>Ninguna</option>");
 		        }

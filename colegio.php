@@ -2125,10 +2125,11 @@
 												<th>Materia</th>
 												<th>Grado</th>
 												<th>Libro</th>
+												<th>Acciones</th>
 											</thead>
 											<tbody>";
 								foreach ($areas as $area) {
-									$sq_l = "SELECT libro FROM libros WHERE id='".$area["lib_eureka"]."'";
+									$sq_l = "SELECT id, libro FROM libros WHERE id='".$area["lib_eureka"]."'";
 							
 										$req_l = $bdd->prepare($sq_l);
 										$req_l->execute();
@@ -2138,6 +2139,9 @@
 											<td>".$area["materia"]."</td>
 											<td>".$area["grado"]."</td>
 											<td>".$libro."</td>
+											<td><a class='btn btn-xs btn-danger eliminar' href='#' data-codigo=".$libro_e["id"].">
+													<i class='ace-icon fa fa-trash-o bigger-120'></i>
+											</a></td>
 										</tr>";
 				  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
 				  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
@@ -2579,11 +2583,11 @@
 																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
 				  													if ($num_hp < 1) {
-				  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
+				  														echo '<center><button class="btn btn-primary">Guardar0</button></center></form>';
 				  													}
 				  													else {
 
-				  														echo '<center><button class="btn btn-success">Actualizar</button></center></form>';
+				  														echo '<center><button class="btn btn-success">Guardar</button></center></form>';
 				  													}
 																	
 													 ?>
@@ -2749,8 +2753,8 @@
 
 	            e.preventDefault();
 	            var cod= $(this).attr('data-codigo');
-	            if (confirm("¿Seguro que desea eliminar este colegio")) {
-	                window.location="php/eliminar_colegio.php?codigo="+cod
+	            if (confirm("¿Seguro que desea eliminar este libro")) {
+	                window.location="php/eliminar_area_objetiva.php?id_libro="+cod+"&cod_colegio=<?php echo $codigo_col; ?>"+"&periodo=<?php echo $gp_periodo["id"]; ?>"+"&id_colegio=<?php echo $colegio["id"]; ?>"
 	            }
 
         	})
