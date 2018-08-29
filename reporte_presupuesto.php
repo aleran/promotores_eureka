@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reporte de cubrimiento</title>
+		<title>Reporte de presupuestos</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -95,7 +95,7 @@
 							<li>
 								<a href="#">Reportes</a>
 							</li>
-							<li class="active">Reporte de cubrimiento</li>
+							<li class="active">Reporte de presupuestos</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -181,7 +181,7 @@
 								Reportes
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Reporte de Cubrimiento
+									Reporte de presupuestos
 								</small>
 							</h1>
 						</div><!-- /.page-header -->

@@ -94,35 +94,39 @@ $conta=8;
 
 foreach($presupuestos as $presupuesto) {
 
-	
-	$sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$presupuesto["id_grado"]."' AND id_periodo='2'";
+	if ($presupuesto["precio"] != 0) {
+		
+		$sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$presupuesto["id_grado"]."' AND id_periodo='2'";
 														
-	$req_gp = $bdd->prepare($sq_gp);
-	$req_gp->execute();
-	$gp = $req_gp->fetch();
+		$req_gp = $bdd->prepare($sq_gp);
+		$req_gp->execute();
+		$gp = $req_gp->fetch();
+		
+		$tasa_c= $presupuesto["tasa_compra"] * 100;
+		$alumnos_tasa= floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
+		$descuento= $presupuesto["descuento"] * 100;
+		$precio_neto= $presupuesto["precio"] - ($presupuesto["precio"] * $presupuesto["descuento"]);
+		$venta_potencial= $precio_neto * floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
+
+		$total_alumnos_tasa[]=$alumnos_tasa;
+		$total_venta[]=$venta_potencial;
+		$total_descuento[]=$descuento;
+
+
+		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[colegio]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$presupuesto[libro]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[alumnos]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$tasa_c %");
+		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$alumnos_tasa");
+		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$ $presupuesto[precio]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$descuento %");
+		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$ $precio_neto");
+		$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$ $venta_potencial");
+
+		$conta++;
 	
-	$tasa_c= $presupuesto["tasa_compra"] * 100;
-	$alumnos_tasa= floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
-	$descuento= $presupuesto["descuento"] * 100;
-	$precio_neto= $presupuesto["precio"] - ($presupuesto["precio"] * $presupuesto["descuento"]);
-	$venta_potencial= $precio_neto * floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
-
-	$total_alumnos_tasa[]=$alumnos_tasa;
-	$total_venta[]=$venta_potencial;
-	$total_descuento[]=$descuento;
-
-
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[colegio]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$presupuesto[libro]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[alumnos]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$tasa_c %");
-	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$alumnos_tasa");
-	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$ $presupuesto[precio]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$descuento %");
-	$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$ $precio_neto");
-	$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$ $venta_potencial");
-
-	$conta++;
+	}
+	
 }
 $sum_ventas=array_sum($total_venta);
 $sum_ta=array_sum($total_alumnos_tasa);
