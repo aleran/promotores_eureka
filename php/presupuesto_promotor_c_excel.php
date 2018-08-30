@@ -41,14 +41,20 @@ $estilo2->applyFromArray(
     )
 ));
 
+$sql_cole = "SELECT colegio,cod_zona FROM colegios WHERE id='".$_POST["cole"]."'";
+														
+$req_cole = $bdd->prepare($sql_cole);
+$req_cole->execute();
+$cole = $req_cole->fetch();
+
 	
-$sql_z = "SELECT zona FROM zonas WHERE codigo='".$_POST["zona"]."'";
+$sql_z = "SELECT zona FROM zonas WHERE codigo='".$cole["cod_zona"]."'";
 														
 $req_z = $bdd->prepare($sql_z);
 $req_z->execute();
 $zona = $req_z->fetch();
 
-$sql_u = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$_POST["zona"]."'";
+$sql_u = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$cole["cod_zona"]."'";
 														
 $req_u = $bdd->prepare($sql_u);
 $req_u->execute();
@@ -57,22 +63,22 @@ $promotor=$usuario["nombres"]." ".$usuario["apellidos"];
 
 
 //~ Ingreo de datos en la hojda de excel
+$objPHPExcel->getActiveSheet()->SetCellValue("A3", "colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("A4", "$cole[colegio]");
 $objPHPExcel->getActiveSheet()->SetCellValue("B3", "Zona");
 $objPHPExcel->getActiveSheet()->SetCellValue("B4", "$zona[zona]");
 $objPHPExcel->getActiveSheet()->SetCellValue("C3", "Promotor");
 $objPHPExcel->getActiveSheet()->SetCellValue("C1", "Reporte de presupuesto");
 $objPHPExcel->getActiveSheet()->SetCellValue("C4", "$promotor");
 
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Título");
-$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Alumnos");
-$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Tasa compra");
-$objPHPExcel->getActiveSheet()->SetCellValue("E7", "Alumnos x tasa");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Precio");
-$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Descuento");
-$objPHPExcel->getActiveSheet()->SetCellValue("H7", "Precio Neto");
-$objPHPExcel->getActiveSheet()->SetCellValue("I7", "Venta Potencial");
+$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Título");
+$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Tasa compra");
+$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Alumnos x tasa");
+$objPHPExcel->getActiveSheet()->SetCellValue("E7", "Precio");
+$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Descuento");
+$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Precio Neto");
+$objPHPExcel->getActiveSheet()->SetCellValue("H7", "Venta Potencial");
 $objPHPExcel->getActiveSheet()->getStyle("A3:F3")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
@@ -85,7 +91,7 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyF
 );
 
 
-	$sql = "SELECT p.id_colegio, p.precio, p.tasa_compra, p.descuento, l.libro,l.id_grado, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona WHERE z.codigo='".$_POST["zona"]."' AND p.id_periodo='".$_POST["periodo"]."'";
+	$sql = "SELECT p.id_colegio, p.precio, p.tasa_compra, p.descuento, l.libro,l.id_grado, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id  WHERE c.id='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$presupuestos = $req->fetchAll();
@@ -113,15 +119,14 @@ foreach($presupuestos as $presupuesto) {
 		$total_descuento[]=$descuento;
 
 
-		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[colegio]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$presupuesto[libro]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[alumnos]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$tasa_c %");
-		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$alumnos_tasa");
-		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$ $presupuesto[precio]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$descuento %");
-		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$ $precio_neto");
-		$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$ $venta_potencial");
+		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[libro]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$gp[alumnos]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$tasa_c %");
+		$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$alumnos_tasa");
+		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$ $presupuesto[precio]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$descuento %");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$ $precio_neto");
+		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$ $venta_potencial");
 
 		$conta++;
 	
@@ -151,6 +156,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Reporte_presupuesto.xlsx"');
+header('Content-Disposition: attachment; filename="Reporte_presupuesto_colegio_promotor.xlsx"');
 $objWriter->save('php://output');
 ?>

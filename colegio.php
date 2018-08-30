@@ -2295,7 +2295,7 @@
 																				$('#descuento".$libro2["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
 
-																						var descuento=parseInt($('#descuento".$libro2["id"]."').val());
+																						var descuento=parseFloat($('#descuento".$libro2["id"]."').val());
 																						descuento= descuento/100;
 
 																						var precio_neto= pvp - (pvp * descuento);
@@ -2333,7 +2333,9 @@
 
 																						$('.venta').each(function(){
 
-																							total_vp+=parseInt($(this).text()) || 0;
+																							total_vp+=parseFloat($(this).text()) || 0;
+
+																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
 																				
@@ -2346,7 +2348,7 @@
 																					$('#tasa".$libro2["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
 
-																						var descuento=parseInt($('#descuento".$libro2["id"]."').val());
+																						var descuento=parseFloat($('#descuento".$libro2["id"]."').val());
 																						descuento= descuento/100;
 
 																						var precio_neto= pvp - (pvp * descuento);
@@ -2384,7 +2386,9 @@
 
 																						$('.venta').each(function(){
 
-																							total_vp+=parseInt($(this).text()) || 0;
+																							total_vp+=parseFloat($(this).text()) || 0;
+
+																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
 																				
@@ -2466,7 +2470,7 @@
 																				$('#descuento".$libro_p["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
 
-																						var descuento=parseInt($('#descuento".$libro_p["id"]."').val());
+																						var descuento=parseFloat($('#descuento".$libro_p["id"]."').val());
 																						descuento= descuento/100;
 
 																						var precio_neto= pvp - (pvp * descuento);
@@ -2498,7 +2502,9 @@
 
 																						$('.venta').each(function(){
 
-																							total_vp+=parseInt($(this).text()) || 0;
+																							total_vp+=parseFloat($(this).text()) || 0;
+
+																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
 																				
@@ -2509,7 +2515,7 @@
 																					$('#tasa".$libro_p["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
 
-																						var descuento=parseInt($('#descuento".$libro_p["id"]."').val());
+																						var descuento=parseFloat($('#descuento".$libro_p["id"]."').val());
 																						descuento= descuento/100;
 
 																						var precio_neto= pvp - (pvp * descuento);
@@ -2541,7 +2547,9 @@
 
 																						$('.venta').each(function(){
 
-																							total_vp+=parseInt($(this).text()) || 0;
+																							total_vp+=parseFloat($(this).text()) || 0;
+
+																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
 																				
@@ -3050,13 +3058,14 @@
 		<script>
 			var total_vp=0;
 
-																						$('.venta').each(function(){
+			$('.venta').each(function(){
 
-																							total_vp+=parseInt($(this).text()) || 0;
+				total_vp+=parseFloat($(this).text()) || 0;
+				total_vp=Math.round(total_vp * 100) / 100;
 
-																						});
+			});
 																				
-																						$('#total_vp').text(total_vp);
+			$('#total_vp').text(total_vp);
 		</script>
 		<!-- inline scripts related to this page -->
 	</body>

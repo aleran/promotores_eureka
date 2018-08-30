@@ -41,14 +41,16 @@ $estilo2->applyFromArray(
     )
 ));
 
-	
-$sql_z = "SELECT zona FROM zonas WHERE codigo='".$_POST["zona"]."'";
+
+
+
+$sql_z = "SELECT zona FROM zonas WHERE codigo='".$_SESSION["zona"]."'";
 														
 $req_z = $bdd->prepare($sql_z);
 $req_z->execute();
 $zona = $req_z->fetch();
 
-$sql_u = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$_POST["zona"]."'";
+$sql_u = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$_SESSION["zona"]."'";
 														
 $req_u = $bdd->prepare($sql_u);
 $req_u->execute();
@@ -85,7 +87,7 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyF
 );
 
 
-	$sql = "SELECT p.id_colegio, p.precio, p.tasa_compra, p.descuento, l.libro,l.id_grado, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona WHERE z.codigo='".$_POST["zona"]."' AND p.id_periodo='".$_POST["periodo"]."'";
+	$sql = "SELECT p.id_colegio, p.precio, p.tasa_compra, p.descuento, l.libro,l.id_grado, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona WHERE z.codigo='".$_SESSION["zona"]."' AND p.id_periodo='".$_POST["periodo"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$presupuestos = $req->fetchAll();
@@ -151,6 +153,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Reporte_presupuesto.xlsx"');
+header('Content-Disposition: attachment; filename="Reporte_presupuesto_promotor.xlsx"');
 $objWriter->save('php://output');
 ?>

@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<title>Reporte de presupuestos</title>
 
-		<meta name="description" content="Sistema Aula máxima" />
+		<meta name="daescription" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -239,32 +239,17 @@
 									
 							</div>-->
 
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								
-									<form action="php/presupuesto_zona_excel.php" method="POST">
+									<form action="php/presupuesto_promotor_excel.php" method="POST">
 									<div class="form-group">
-										<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
+										<label class="control-label no-padding-right" for="barrio"> General:</label>
 
-										<select name="zona" id="zona" class="form-control materia" required>
-											<option value="">Seleccionar</option>
-											 <?php 
-											 	$sql ="SELECT codigo, zona FROM zonas ";
-							
-												$req = $bdd->prepare($sql);
-												$req->execute();
-												$zonas = $req->fetchAll();
-							
-												foreach($zonas as $zona) {
-													$codigo = $zona['codigo'];
-													$nom = $zona['zona'];
-													echo '<option value="'.$codigo.'">'.$nom.'</option>';
-												}
-											 ?>
-										</select><br>
-																		</div>
+										<br>
+									</div>
 									
-							</div>
-							<div class="col-sm-3">
+							
+							
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
@@ -289,11 +274,11 @@
 										<button class="btn btn-primary">Exportar excel</button>
 									</form>
 									
-									
-							</div>
+							</div>		
+							
 							<div class="col-sm-3">
 								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/presupuesto_colegio_excel.php" method="POST">
+									<form action="php/presupuesto_promotor_c_excel.php" method="POST">
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="colegio"> Por colegio:<small style="color:red;"> *</small> </label>
 										<input required required type="tel" name="colegio" id="colegio" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
@@ -928,7 +913,7 @@
 		</script>
 		<script>
 			$(".abrir_reportes").addClass("open");
-			$(".presupuesto").addClass("active");
+			$(".presupuesto_p").addClass("active");
 		</script>
 	</body>
 </html>

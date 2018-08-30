@@ -478,6 +478,14 @@
 
 								<b class="arrow"></b>
 							</li>
+							<?php if ($_SESSION["tipo"]==3) {?>
+							<li class="presupuesto_p">
+								<a href="reporte_presupuesto_promotor.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Presupuestos
+								</a>
+							</li>
+							<?php } ?>
 							<?php if ($_SESSION["tipo"]!=3) {?>
 							<li class="profesores">
 								<a href="reporte_profesores.php">
