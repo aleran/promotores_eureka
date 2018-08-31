@@ -42,42 +42,34 @@ $estilo2->applyFromArray(
 ));
 
 	
-$sql_z = "SELECT zona FROM zonas WHERE codigo='".$_POST["zona"]."'";
-														
-$req_z = $bdd->prepare($sql_z);
-$req_z->execute();
-$zona = $req_z->fetch();
 
-$sql_u = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$_POST["zona"]."'";
-														
-$req_u = $bdd->prepare($sql_u);
-$req_u->execute();
-$usuario = $req_u->fetch();
-$promotor=$usuario["nombres"]." ".$usuario["apellidos"];
-
-
-//~ Ingreo de datos en la hojda de excel
-$objPHPExcel->getActiveSheet()->SetCellValue("B3", "Zona");
-$objPHPExcel->getActiveSheet()->SetCellValue("B4", "$zona[zona]");
-$objPHPExcel->getActiveSheet()->SetCellValue("C3", "Promotor");
 $objPHPExcel->getActiveSheet()->SetCellValue("C1", "Reporte de presupuesto");
-$objPHPExcel->getActiveSheet()->SetCellValue("C4", "$promotor");
 
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Título");
-$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Alumnos");
-$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Tasa compra");
-$objPHPExcel->getActiveSheet()->SetCellValue("E7", "Alumnos x tasa");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Precio");
-$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Descuento");
-$objPHPExcel->getActiveSheet()->SetCellValue("H7", "Precio Neto");
-$objPHPExcel->getActiveSheet()->SetCellValue("I7", "Venta Potencial");
-$objPHPExcel->getActiveSheet()->getStyle("A3:F3")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Título");
+$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("E7", "Castigo");
+$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Venta Potencial");
+$objPHPExcel->getActiveSheet()->mergeCells('G6:I6');
+$objPHPExcel->getActiveSheet()->SetCellValue("G6", "Total");
+$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("H7", "Castigo");
+$objPHPExcel->getActiveSheet()->SetCellValue("I7", "%");
+$objPHPExcel->getActiveSheet()->getStyle("A3:I3")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
 );
+//centrar
+$estilo = array( 
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+    );
+
+$objPHPExcel->getActiveSheet()->getStyle("G6")->applyFromArray($estilo);
+
 $objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
@@ -85,19 +77,12 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyF
 );
 
 
-	$sql = "SELECT p.id_colegio, p.precio, p.tasa_compra, p.descuento, l.libro,l.id_grado, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona WHERE z.codigo='".$_POST["zona"]."' AND p.id_periodo='".$_POST["periodo"]."'";
+	$sql = "SELECT p.id_colegio, p.precio, p.tasa_compra, p.descuento, l.libro,l.id_grado, c.colegio, z.zona,z.id as id_zona, u.nombres FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.id_periodo='".$_POST["periodo"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$presupuestos = $req->fetchAll();
 
-
-	$sql_f = "SELECT MAX(fecha) as fecha FROM presupuestos p JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona WHERE z.codigo='".$_POST["zona"]."' AND p.id_periodo='".$_POST["periodo"]."'";
-	$req_f = $bdd->prepare($sql_f);
-	$req_f->execute();
-	$fecha = $req_f->fetch();
-
 $conta=8;
-
 foreach($presupuestos as $presupuesto) {
 
 	if ($presupuesto["precio"] != 0) {
@@ -116,40 +101,36 @@ foreach($presupuestos as $presupuesto) {
 
 		$total_alumnos_tasa[]=$alumnos_tasa;
 		$total_venta[]=$venta_potencial;
-		$total_descuento[]=$descuento;
+		$total_alumnos[]=$gp["alumnos"];
 
-
-		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[colegio]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$presupuesto[libro]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[alumnos]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$tasa_c %");
+		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[zona]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$presupuesto[colegio]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$presupuesto[libro]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$gp[alumnos]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$alumnos_tasa");
-		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$ $presupuesto[precio]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$descuento %");
-		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$ $precio_neto");
-		$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$ $venta_potencial");
+		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$ $venta_potencial");
 
 		$conta++;
+
 	
 	}
 	
 }
 $sum_ventas=array_sum($total_venta);
 $sum_ta=array_sum($total_alumnos_tasa);
+$sum_alumnos=array_sum($total_alumnos);
 
-$sum_descuento=array_sum($total_descuento);
-$cantidad_descuento=sizeof($total_descuento);
-$promedio_descuento=$sum_descuento/$cantidad_descuento;
-$promedio_descuento=number_format($promedio_descuento,2);
-$objPHPExcel->getActiveSheet()->SetCellValue("E2", "Total");
-$objPHPExcel->getActiveSheet()->SetCellValue("D3", "Alumnos x tasa");
-$objPHPExcel->getActiveSheet()->SetCellValue("D4", "$sum_ta");
-$objPHPExcel->getActiveSheet()->SetCellValue("E3", "Descuento");
-$objPHPExcel->getActiveSheet()->SetCellValue("E4", "$promedio_descuento %");
-$objPHPExcel->getActiveSheet()->SetCellValue("F3", "Venta potencial");
-$objPHPExcel->getActiveSheet()->SetCellValue("F4", "$ $sum_ventas");
-$objPHPExcel->getActiveSheet()->SetCellValue("G3", "Fecha");
-$objPHPExcel->getActiveSheet()->SetCellValue("G4", "$fecha[fecha]");
+$porcentaje= ($sum_ta / $sum_alumnos) *100;
+$porcentaje= number_format($porcentaje,2);
+
+//$sum_descuento=array_sum($total_descuento);
+//$cantidad_descuento=sizeof($total_descuento);
+//$promedio_descuento=$sum_descuento/$cantidad_descuento;
+//$promedio_descuento=number_format($promedio_descuento,2);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("G8", "$sum_alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("H8", "$sum_ta");
+$objPHPExcel->getActiveSheet()->SetCellValue("I8", "$porcentaje");
 
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  

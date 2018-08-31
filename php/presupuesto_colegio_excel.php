@@ -96,6 +96,11 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyF
 	$req->execute();
 	$presupuestos = $req->fetchAll();
 
+	$sql_f = "SELECT MAX(fecha) as fecha FROM presupuestos  WHERE id_colegio='".$_POST["cole"]."' AND id_periodo='".$_POST["periodo"]."'";
+	$req_f = $bdd->prepare($sql_f);
+	$req_f->execute();
+	$fecha = $req_f->fetch();
+
 $conta=8;
 
 foreach($presupuestos as $presupuesto) {
@@ -147,6 +152,8 @@ $objPHPExcel->getActiveSheet()->SetCellValue("E3", "Descuento");
 $objPHPExcel->getActiveSheet()->SetCellValue("E4", "$promedio_descuento %");
 $objPHPExcel->getActiveSheet()->SetCellValue("F3", "Venta potencial");
 $objPHPExcel->getActiveSheet()->SetCellValue("F4", "$ $sum_ventas");
+$objPHPExcel->getActiveSheet()->SetCellValue("G3", "Fecha");
+$objPHPExcel->getActiveSheet()->SetCellValue("G4", "$fecha[fecha]");
 
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  

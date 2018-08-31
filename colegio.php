@@ -2591,11 +2591,14 @@
 																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
 				  													if ($num_hp < 1) {
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")){
 				  														echo '<center><button class="btn btn-primary">Guardar0</button></center></form>';
+				  														}
 				  													}
 				  													else {
-
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")){
 				  														echo '<center><button class="btn btn-success">Guardar</button></center></form>';
+				  													}
 				  													}
 																	
 													 ?>

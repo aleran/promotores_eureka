@@ -330,9 +330,9 @@
 									
 							</div>
 						</div>
-						<!--<div class="row">
+						<div class="row">
 							<br><center><h4>General</h4>
-								<form action="php/cubrimiento_general.php" method="POST">
+								<form action="php/presupuesto_global_excel.php" method="POST">
 								<div class="form-group">
 										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
 										<select name="periodo" id="periodo">
@@ -355,7 +355,7 @@
 
 								<button class="btn btn-primary">Exportar excel</button></center>
 							</form>
-						</div>-->
+						</div>
 
 
 						
