@@ -2238,7 +2238,7 @@
 
 																
 
-																if ($libro_p["id_grado"]> 14 ) {
+																if ($libro_p["id_grado"] == 15 || $libro_p["id_grado"] == 16 ) {
 
 																	$sq_l2 = "SELECT l.id, l.libro,l.id_grado, l.precio, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$libro_p["lib_eureka"]."'";
 														
@@ -2495,7 +2495,7 @@
 
 																					echo "<td id='pvp".$libro_p["id"]."'>".$precio."</td>";
 
-																					echo "<input type='hidden' id='pvp_s".$libro2["id"]."' value='".$libro_p["precio"]."'>";
+																					echo "<input type='hidden' id='pvp_s".$libro_p["id"]."' value='".$libro_p["precio"]."'>";
 																				}
 																			if ($presup["descuento"] !="") {
 
