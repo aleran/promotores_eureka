@@ -2163,13 +2163,36 @@
 													<h4 class="panel-title">
 														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsemeta">
 															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-																&nbsp;Presupuesto
+																&nbsp;Simulador
 														</a>
 													</h4>
 												</div>
 
 												<div class="panel-collapse collapse" id="collapsemeta">
 													<div class="panel-body">
+
+														<!--funcion Separador de miles-->
+														<script>
+															var formatNumber = {
+															 separador: ".", // separador para los miles
+															 sepDecimal: ',', // separador para los decimales
+															 formatear:function (num){
+															 num +='';
+															 var splitStr = num.split('.');
+															 var splitLeft = splitStr[0];
+															 var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+															 var regx = /(\d+)(\d{3})/;
+															 while (regx.test(splitLeft)) {
+															 splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+															 }
+															 return this.simbol + splitLeft +splitRight;
+															 },
+															 new:function(num, simbol){
+															 this.simbol = simbol ||'';
+															 return this.formatear(num);
+															 }
+															}
+														</script>
 														
 
 														<?php
@@ -2255,12 +2278,20 @@
 																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa".$libro2["id"]."' value='0' required> %</td>";
 
 																				}
-
+																				
 																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
-																				echo "<td id='pvp".$libro2["id"]."'>".$presup["precio"]."</td>";
+																					$precio=number_format($presup["precio"],0,",", ".");
+
+																				echo "<td id='pvp".$libro2["id"]."'>".$precio."</td>";
+
+																				echo "<input type='hidden' id='pvp_s".$libro2["id"]."' value='".$presup["precio"]."'>";
 																				}else {
 
-																					echo "<td id='pvp".$libro2["id"]."'>".$libro2["precio"]."</td>";
+																					$precio=number_format($libro2["precio"],0,",", ".");
+
+																					echo "<td id='pvp".$libro2["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s".$libro2["id"]."' value='".$libro2["precio"]."'>";
 																				}
 																				if ($presup["descuento"] !="") {
 
@@ -2276,15 +2307,31 @@
 
 																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
 
-																					echo "<td id='pn".$libro2["id"]."'>".$precio_neto."</td>
+																					$precio_ne=number_format($precio_neto,2,",", ".");
 
-																					<td id='venta_p".$libro2["id"]."' class='venta'>".$venta_p."</td>";
+																					echo "<td id='pn".$libro2["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s".$libro2["id"]."' value='".$precio_neto."'>";
+																					
+																					$venta_po=number_format($venta_p,2,",", ".");
+
+																					echo"<td id='venta_p".$libro2["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps".$libro2["id"]."' class='venta1' value='".$venta_p."'>";
+																					
+
+
+
+
+
 
 																				}else {
 
 																					echo "<td id='pn".$libro2["id"]."'></td>
 
-																					<td id='venta_p".$libro2["id"]."' class='venta'></td>";
+																					<td id='venta_p".$libro2["id"]."' class='venta1'></td>
+
+																					<input type='hidden' id='venta_ps".$libro2["id"]."' class='venta1'>";
 
 																				}
 																				
@@ -2292,8 +2339,9 @@
 																				echo "<input type='hidden' name='presupuesto[]' id='presupuesto".$libro2["id"]."'>
 
 																			<script>
+
 																				$('#descuento".$libro2["id"]."').keyup(function(){
-																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
+																						var pvp=parseInt($('#pvp_s".$libro2["id"]."').val());
 
 																						var descuento=parseFloat($('#descuento".$libro2["id"]."').val());
 																						descuento= descuento/100;
@@ -2304,7 +2352,7 @@
 																							precio_neto=0
 																						}
 
-																						$('#pn".$libro2["id"]."').text(precio_neto);
+																						$('#pn".$libro2["id"]."').text(formatNumber.new(precio_neto));
 
 
 																						var tasa_c=parseInt($('#tasa".$libro2["id"]."').val());
@@ -2319,7 +2367,9 @@
 																							vp=0
 																						}
 
-																						$('#venta_p".$libro2["id"]."').text(vp);
+																						$('#venta_p".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps".$libro2["id"]."').val(vp);
 																						
 
 																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
@@ -2331,22 +2381,21 @@
 																						
 																						var total_vp=0;
 
-																						$('.venta').each(function(){
+																						$('.venta1').each(function(){
 
-																							total_vp+=parseFloat($(this).text()) || 0;
-
+																							total_vp+=parseFloat($(this).val()) || 0;
 																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
-																				
-																						$('#total_vp').text(total_vp);
+																																							
+																						$('#total_vp').text(formatNumber.new(total_vp));
 
 
 
 																					})
 
 																					$('#tasa".$libro2["id"]."').keyup(function(){
-																						var pvp=parseInt($('#pvp".$libro2["id"]."').text());
+																						var pvp=parseInt($('#pvp_s".$libro2["id"]."').val());
 
 																						var descuento=parseFloat($('#descuento".$libro2["id"]."').val());
 																						descuento= descuento/100;
@@ -2357,7 +2406,7 @@
 																							precio_neto=0
 																						}
 
-																						$('#pn".$libro2["id"]."').text(precio_neto);
+																						$('#pn".$libro2["id"]."').text(formatNumber.new(precio_neto));
 
 
 																						var tasa_c=parseInt($('#tasa".$libro2["id"]."').val());
@@ -2372,7 +2421,9 @@
 																							vp=0
 																						}
 
-																						$('#venta_p".$libro2["id"]."').text(vp);
+																						$('#venta_p".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps".$libro2["id"]."').val(vp);
 																						
 
 																						$('#presupuesto".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
@@ -2384,15 +2435,14 @@
 
 																						var total_vp=0;
 
-																						$('.venta').each(function(){
+																						$('.venta1').each(function(){
 
-																							total_vp+=parseFloat($(this).text()) || 0;
-
+																							total_vp+=parseFloat($(this).val()) || 0;
 																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
-																				
-																						$('#total_vp').text(total_vp);
+																																							
+																						$('#total_vp').text(formatNumber.new(total_vp));
 
 
 																					})
@@ -2434,9 +2484,18 @@
 
 																				}
 																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
-																					echo "<td id='pvp".$libro_p["id"]."'>".$presup["precio"]."</td>";
+
+																					$precio=number_format($presup["precio"],0,",", ".");
+
+																					echo "<td id='pvp".$libro_p["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s".$libro_p["id"]."' value='".$presup["precio"]."'>";
 																				}else {
-																					echo "<td id='pvp".$libro_p["id"]."'>".$libro_p["precio"]."</td>";
+																					$precio=number_format($libro_p["precio"],0,",", ".");
+
+																					echo "<td id='pvp".$libro_p["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s".$libro2["id"]."' value='".$libro_p["precio"]."'>";
 																				}
 																			if ($presup["descuento"] !="") {
 
@@ -2452,15 +2511,25 @@
 
 																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
 
-																					echo "<td id='pn".$libro_p["id"]."'>".$precio_neto."</td>
+																					$precio_ne=number_format($precio_neto,2,",", ".");
 
-																					<td id='venta_p".$libro_p["id"]."' class='venta'>".$venta_p."</td>";
+																					echo "<td id='pn".$libro_p["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s".$libro_p["id"]."' value='".$precio_neto."'>";
+
+																						$venta_po=number_format($venta_p,2,",", ".");
+
+																					echo"<td id='venta_p".$libro_p["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps".$libro_p["id"]."' class='venta1' value='".$venta_p."'>";
 
 																				}else {
 
 																					echo "<td id='pn".$libro_p["id"]."'></td>
 
-																					<td id='venta_p".$libro_p["id"]."' class='venta'></td>";
+																					<td id='venta_p".$libro_p["id"]."' class='venta'></td>
+
+																					<input type='hidden' id='venta_ps".$libro_p["id"]."' class='venta1'>";
 
 																				}
 
@@ -2468,7 +2537,7 @@
 
 																			<script>
 																				$('#descuento".$libro_p["id"]."').keyup(function(){
-																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
+																						var pvp=parseInt($('#pvp_s".$libro_p["id"]."').val());
 
 																						var descuento=parseFloat($('#descuento".$libro_p["id"]."').val());
 																						descuento= descuento/100;
@@ -2479,7 +2548,7 @@
 																							precio_neto=0
 																						}
 
-																						$('#pn".$libro_p["id"]."').text(precio_neto);
+																						$('#pn".$libro_p["id"]."').text(formatNumber.new(precio_neto));
 
 
 																						var tasa_c=parseInt($('#tasa".$libro_p["id"]."').val());
@@ -2494,26 +2563,27 @@
 																							vp=0;
 																						}
 
-																						$('#venta_p".$libro_p["id"]."').text(vp);
+																						$('#venta_p".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps".$libro_p["id"]."').val(vp);
 
 																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 																						
 																						var total_vp=0;
 
-																						$('.venta').each(function(){
+																						$('.venta1').each(function(){
 
-																							total_vp+=parseFloat($(this).text()) || 0;
-
+																							total_vp+=parseFloat($(this).val()) || 0;
 																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
-																				
-																						$('#total_vp').text(total_vp);
+																																							
+																						$('#total_vp').text(formatNumber.new(total_vp));
 
 																					})
 
 																					$('#tasa".$libro_p["id"]."').keyup(function(){
-																						var pvp=parseInt($('#pvp".$libro_p["id"]."').text());
+																						var pvp=parseInt($('#pvp_s".$libro_p["id"]."').val());
 
 																						var descuento=parseFloat($('#descuento".$libro_p["id"]."').val());
 																						descuento= descuento/100;
@@ -2524,7 +2594,7 @@
 																							precio_neto=0
 																						}
 
-																						$('#pn".$libro_p["id"]."').text(precio_neto);
+																						$('#pn".$libro_p["id"]."').text(formatNumber.new(precio_neto));
 
 
 																						var tasa_c=parseInt($('#tasa".$libro_p["id"]."').val());
@@ -2539,21 +2609,22 @@
 																							vp=0;
 																						}
 
-																						$('#venta_p".$libro_p["id"]."').text(vp);
+																						$('#venta_p".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps".$libro_p["id"]."').val(vp);
 
 																						$('#presupuesto".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						var total_vp=0;
 
-																						$('.venta').each(function(){
+																						$('.venta1').each(function(){
 
-																							total_vp+=parseFloat($(this).text()) || 0;
-
+																							total_vp+=parseFloat($(this).val()) || 0;
 																							total_vp=Math.round(total_vp * 100) / 100;
 
 																						});
-																				
-																						$('#total_vp').text(total_vp);
+																																							
+																						$('#total_vp').text(formatNumber.new(total_vp));
 
 																					})
 																			</script>
@@ -3059,15 +3130,17 @@
 		<script>
 			var total_vp=0;
 
-			$('.venta').each(function(){
+			$('.venta1').each(function(){
 
-				total_vp+=parseFloat($(this).text()) || 0;
+				total_vp+=parseFloat($(this).val()) || 0;
 				total_vp=Math.round(total_vp * 100) / 100;
 
 			});
 																				
-			$('#total_vp').text(total_vp);
+			$('#total_vp').text(formatNumber.new(total_vp));
 		</script>
+
+		
 		<!-- inline scripts related to this page -->
 	</body>
 </html>

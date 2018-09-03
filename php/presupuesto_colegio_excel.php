@@ -123,6 +123,9 @@ foreach($presupuestos as $presupuesto) {
 		$total_venta[]=$venta_potencial;
 		$total_descuento[]=$descuento;
 
+		$presupuesto["precio"]=number_format($presupuesto["precio"],0,",", ".");
+		$precio_neto=number_format($precio_neto,2,",", ".");
+		$venta_potencial=number_format($venta_potencial,2,",", ".");
 
 		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$presupuesto[libro]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$gp[alumnos]");
@@ -140,6 +143,7 @@ foreach($presupuestos as $presupuesto) {
 }
 $sum_ventas=array_sum($total_venta);
 $sum_ta=array_sum($total_alumnos_tasa);
+$sum_ventas=number_format($sum_ventas,2,",", ".");
 
 $sum_descuento=array_sum($total_descuento);
 $cantidad_descuento=sizeof($total_descuento);

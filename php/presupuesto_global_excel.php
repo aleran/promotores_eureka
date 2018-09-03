@@ -98,7 +98,7 @@ foreach($presupuestos as $presupuesto) {
 		$descuento= $presupuesto["descuento"] * 100;
 		$precio_neto= $presupuesto["precio"] - ($presupuesto["precio"] * $presupuesto["descuento"]);
 		$venta_potencial= $precio_neto * floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
-
+		$venta_potencial= number_format($venta_potencial,2,",", ".");
 		$total_alumnos_tasa[]=$alumnos_tasa;
 		$total_venta[]=$venta_potencial;
 		$total_alumnos[]=$gp["alumnos"];
