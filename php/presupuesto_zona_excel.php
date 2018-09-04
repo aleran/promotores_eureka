@@ -41,6 +41,23 @@ $estilo2->applyFromArray(
     )
 ));
 
+//poner imagen
+$objDrawing = new PHPExcel_Worksheet_Drawing();
+$objDrawing->setName('test_img');
+$objDrawing->setDescription('test_img');
+$objDrawing->setPath('../assets/images/logo_eureka.png');
+
+$objPHPExcel->getActiveSheet()->mergeCells('A1:A4');
+
+$objDrawing->setCoordinates('A1');                      
+//setOffsetX works properly
+$objDrawing->setOffsetX(50); 
+$objDrawing->setOffsetY(5);                
+//set width, height
+$objDrawing->setWidth(200); 
+$objDrawing->setHeight(75); 
+$objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+
 	
 $sql_z = "SELECT zona FROM zonas WHERE codigo='".$_POST["zona"]."'";
 														
@@ -57,31 +74,52 @@ $promotor=$usuario["nombres"]." ".$usuario["apellidos"];
 
 
 //~ Ingreo de datos en la hojda de excel
-$objPHPExcel->getActiveSheet()->SetCellValue("B3", "Zona");
-$objPHPExcel->getActiveSheet()->SetCellValue("B4", "$zona[zona]");
-$objPHPExcel->getActiveSheet()->SetCellValue("C3", "Promotor");
-$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Reporte de presupuesto");
-$objPHPExcel->getActiveSheet()->SetCellValue("C4", "$promotor");
+$objPHPExcel->getActiveSheet()->SetCellValue("B5", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("B6", "$zona[zona]");
+$objPHPExcel->getActiveSheet()->SetCellValue("C5", "Promotor");
+$objPHPExcel->getActiveSheet()->mergeCells('C1:D1');
+$objPHPExcel->getActiveSheet()->mergeCells('C3:D3');
 
+$estilo_centrar = array( 
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+    );
 
-$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Título");
-$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Alumnos");
-$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Tasa compra");
-$objPHPExcel->getActiveSheet()->SetCellValue("E7", "Alumnos x tasa");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Precio");
-$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Descuento");
-$objPHPExcel->getActiveSheet()->SetCellValue("H7", "Precio Neto");
-$objPHPExcel->getActiveSheet()->SetCellValue("I7", "Venta Potencial");
-$objPHPExcel->getActiveSheet()->getStyle("A3:F3")->getFont()->getColor()->applyFromArray(
-	array(
-	'rgb' => '#251919'
-	)
+$objPHPExcel->getActiveSheet()->getStyle("C1")->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle("C3")->applyFromArray($estilo_centrar);
+
+$estilo_negrita = array(
+    'font' => array(
+        'bold' => true
+    )
 );
-$objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyFromArray(
-	array(
-	'rgb' => '#251919'
-	)
+
+$objPHPExcel->getActiveSheet()->getStyle('C1')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Eureka Libros SAS");
+$objPHPExcel->getActiveSheet()->SetCellValue("C3", "Presupuesto por zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("C6", "$promotor");
+
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A8", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("B8", "Título");
+$objPHPExcel->getActiveSheet()->SetCellValue("C8", "Alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("D8", "Tasa compra");
+$objPHPExcel->getActiveSheet()->SetCellValue("E8", "Castigo");
+$objPHPExcel->getActiveSheet()->SetCellValue("F8", "Precio");
+$objPHPExcel->getActiveSheet()->SetCellValue("G8", "Descuento");
+$objPHPExcel->getActiveSheet()->SetCellValue("H8", "Precio Neto");
+$objPHPExcel->getActiveSheet()->SetCellValue("I8", "Venta Potencial");
+
+$objPHPExcel->getActiveSheet()->getStyle('A8:I8')->applyFromArray(
+    array(
+        'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '01F400')
+        )
+    )
 );
 
 
@@ -96,7 +134,7 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:I7")->getFont()->getColor()->applyF
 	$req_f->execute();
 	$fecha = $req_f->fetch();
 
-$conta=8;
+$conta=9;
 
 foreach($presupuestos as $presupuesto) {
 
@@ -145,15 +183,17 @@ $sum_descuento=array_sum($total_descuento);
 $cantidad_descuento=sizeof($total_descuento);
 $promedio_descuento=$sum_descuento/$cantidad_descuento;
 $promedio_descuento=number_format($promedio_descuento,2);
-$objPHPExcel->getActiveSheet()->SetCellValue("E2", "Total");
-$objPHPExcel->getActiveSheet()->SetCellValue("D3", "Alumnos x tasa");
-$objPHPExcel->getActiveSheet()->SetCellValue("D4", "$sum_ta");
-$objPHPExcel->getActiveSheet()->SetCellValue("E3", "Descuento");
-$objPHPExcel->getActiveSheet()->SetCellValue("E4", "$promedio_descuento %");
-$objPHPExcel->getActiveSheet()->SetCellValue("F3", "Venta potencial");
-$objPHPExcel->getActiveSheet()->SetCellValue("F4", "$ $sum_ventas");
-$objPHPExcel->getActiveSheet()->SetCellValue("G3", "Fecha");
-$objPHPExcel->getActiveSheet()->SetCellValue("G4", "$fecha[fecha]");
+
+$conta++;
+
+$objPHPExcel->getActiveSheet()->getStyle('A'.$conta.'')->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "Total");
+$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$sum_ta");
+$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$promedio_descuento %");
+$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$ $sum_ventas");
+$objPHPExcel->getActiveSheet()->SetCellValue("G5", "Fecha");
+$objPHPExcel->getActiveSheet()->SetCellValue("G6", "$fecha[fecha]");
 
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
@@ -163,6 +203,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Reporte_presupuesto.xlsx"');
+header('Content-Disposition: attachment; filename="Reporte_presupuesto_zona.xlsx"');
 $objWriter->save('php://output');
 ?>
