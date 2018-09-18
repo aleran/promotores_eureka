@@ -193,13 +193,13 @@ $events = $req->fetchAll();
 
 			<div class="main-content">
 				<div class="main-content-inner">
-					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
-						<ul class="breadcrumb">
+					<div class="breadcrumbs ace-save-state hidden-print" id="breadcrumbs">
+						<ul class="breadcrumb ">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
 								<a href="#">Home</a>
 							</li>
-							<li class="active">Plan de trabajo</li>
+							<li class="active">Visitas semanal</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -226,7 +226,7 @@ $events = $req->fetchAll();
 						</div><!-- /.page-header -->
 
 						<div class="row">
-							<h4> Promotor: <?php echo $promotor." zona: ".$zona;  ?></h4><br>
+							<h5> Promotor: <?php echo $promotor." zona: ".$zona;  ?></h5><br>
             <div class="">
                
                 <div id="calendar" class="col-centered">
