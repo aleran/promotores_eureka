@@ -393,6 +393,7 @@ $events = $req->fetchAll();
 				right: '',
 
 			},
+			hiddenDays: [ 0 ],
 			defaultDate: yyyy+"-"+mm+"-"+dd,
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events

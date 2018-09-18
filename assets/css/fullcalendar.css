@@ -956,7 +956,7 @@ a.fc-more:hover {
 --------------------------------------------------------------------------------------------------*/
 
 .fc-time-grid .fc-slats td {
-	height: 4em; /* tamaño dias*/
+	height: 4.6em; /* tamaño dias*/
 	border-bottom: 0; /* each cell is responsible for its top border */
 }
 

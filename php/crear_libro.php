@@ -4,7 +4,7 @@
 	
 
 
-			$sql_z = "INSERT INTO libros(id_materia, id_grado, libro, precio, pri_sec) VALUES('".$_POST["materia"]."', '".$_POST["grado"]."', '".$_POST["libro"]."', '".$_POST["precio"]."', '".$_POST["serie"]."')";
+			$sql_z = "INSERT INTO libros(id_materia, id_grado, libro, precio, pri_sec, presupuesto) VALUES('".$_POST["materia"]."', '".$_POST["grado"]."', '".$_POST["libro"]."', '".$_POST["precio"]."', '".$_POST["serie"]."', '".$_POST["presupuesto"]."')";
 		
 			//echo $sql_z;
 			

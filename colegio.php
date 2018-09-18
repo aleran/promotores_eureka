@@ -2057,7 +2057,7 @@
 																<div class="col-sm-6 col-sm-offset-3">
 																<form action="php/areas_objetivas.php" method="POST">
 																	<div class="form-group">
-																		<label class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
+																		<label id="l_materia1" class="control-label no-padding-right" for="materia1"> Materia:<small style="color:red;"> *</small></label>
 
 																		<select name="materia1" id="materia1" class="form-control materia">
 														 					<option value="">Seleccionar</option>
@@ -2080,7 +2080,7 @@
 															<div class="row a_ob">
 																<div class="col-sm-6">
 																	<div class="form-group">
-																		<label for="grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
+																		<label for="grado1" id="l_grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
 															
 																	 		<select name="grado1" required id="grado1" class="form-control grado">
 																	 			
@@ -2090,9 +2090,9 @@
 													  			</div>
 													  			<div class="col-sm-6">
 													  				<div class="form-group">
-																		<label for="libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+																		<label  for="libro_e1" id="l_libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
 																
-																		 <select name="libro_e1" id="libro_e1" class="form-control grado" >
+																		 <select name="libro_e1" id="libro_e1" class="form-control grado" required>
 																		 			
 																					
 																		 </select>
@@ -2100,6 +2100,14 @@
 
 													  			</div>
 													  		</div>
+													  			<input type="hidden" name="libs_ao[]" id="libs_ao">
+
+													  			<input type="hidden" name="libs_ao[]" id="libs_ao1">
+													  			<input type="hidden" name="libs_ao[]" id="libs_ao2">
+													  			<input type="hidden" name="libs_ao[]" id="libs_ao3">
+													  			<input type="hidden" name="libs_ao[]" id="libs_ao4">
+													  			<input type="hidden" name="libs_ao[]" id="libs_ao5">
+
 													  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
 													  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 													  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
@@ -2313,7 +2321,7 @@
 
 																					echo "<input type='hidden' id='pn_s".$libro2["id"]."' value='".$precio_neto."'>";
 																					
-																					$venta_po=number_format($venta_p,2,",", ".");
+																					$venta_po=number_format($venta_p,0,",", ".");
 
 																					echo"<td id='venta_p".$libro2["id"]."' class='venta'>".$venta_po."</td>
 
@@ -2517,7 +2525,7 @@
 
 																					echo "<input type='hidden' id='pn_s".$libro_p["id"]."' value='".$precio_neto."'>";
 
-																						$venta_po=number_format($venta_p,2,",", ".");
+																						$venta_po=number_format($venta_p,0,",", ".");
 
 																					echo"<td id='venta_p".$libro_p["id"]."' class='venta'>".$venta_po."</td>
 
@@ -2907,8 +2915,8 @@
                     $("#grado1").html(resp);                        
                     //console.log(resp);
                     if(valor =="") {
-            		$("#grado1").html("");
-            }
+            			$("#grado1").html("");
+          			}
                 },
                 error: function (jqXHR,estado,error){
                     alert("error");
@@ -3091,7 +3099,7 @@
 		            var dataString = 'mat_gra='+materia+"/"+valor;
 		            $.ajax({
 
-	                url: "ajax/buscar_l_eureka.php",
+	                url: "ajax/buscar_l_eureka_p.php",
 	                type: "POST",
 	                data: dataString,
 	                success: function (resp) {
@@ -3116,12 +3124,412 @@
                 
        		});
 
+			$('#libro_e1').on('change',function(){
+				$value=$("#materia1").val()+"/"+$("#grado1").val()+"/"+$(this).val();
+			 	$("#libs_ao").val($value);
+			           
+	                
+	       	});
+
 		$("#agregar_materia").click(function(){
 			$(".profesor").clone().appendTo(".otro_p");
 		});
-		/*$("#agregar_ao").click(function(){
-			$(".a_ob").clone().appendTo(".otra_ao");
-		})*/;
+
+		var m = 1;
+		var g = 1;
+		var l = 1;
+
+		//agregar mas areas objetivas
+
+		$("#agregar_ao").click(function(){
+
+			if (m>4) {
+				$("#agregar_ao").addClass("hidden");
+			}
+
+			$("#l_materia1").clone().appendTo(".otra_ao");
+			$("#materia1").clone().appendTo(".otra_ao").attr("id","materia1"+(m++));
+			$("#l_grado1").clone().appendTo(".otra_ao");
+			$("#grado1").clone().appendTo(".otra_ao").attr("id","grado1"+(g++));
+			$("#l_libro_e1").clone().appendTo(".otra_ao");
+			$("#libro_e1").clone().appendTo(".otra_ao").attr("id","libro_e1"+(l++));
+
+			$('#materia11').on('change',function(){
+	            var valor = $(this).val();
+	            var colegio=$("#cole").val();
+	             //alert(valor);
+	            var dataString = 'materia='+valor+"/"+colegio;
+	            
+	            $.ajax({
+
+	                url: "ajax/grados.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#grado11").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#grado11").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+        	});
+
+		$('#grado11').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materia11").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_e11").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e11").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_e11').on('change',function(){
+				$value=$("#materia11").val()+"/"+$("#grado11").val()+"/"+$(this).val();
+			 	$("#libs_ao1").val($value);
+			           
+	                
+	       	});
+
+	       	$('#materia12').on('change',function(){
+	            var valor = $(this).val();
+	            var colegio=$("#cole").val();
+	             //alert(valor);
+	            var dataString = 'materia='+valor+"/"+colegio;
+	            
+	            $.ajax({
+
+	                url: "ajax/grados.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#grado12").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#grado12").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+        	});
+
+		$('#grado12').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materia12").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_e12").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e12").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_e12').on('change',function(){
+				$value=$("#materia12").val()+"/"+$("#grado12").val()+"/"+$(this).val();
+			 	$("#libs_ao2").val($value);
+			           
+	                
+	       	});
+
+
+	       	$('#materia13').on('change',function(){
+	            var valor = $(this).val();
+	            var colegio=$("#cole").val();
+	             //alert(valor);
+	            var dataString = 'materia='+valor+"/"+colegio;
+	            
+	            $.ajax({
+
+	                url: "ajax/grados.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#grado13").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#grado13").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+        	});
+
+		$('#grado13').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materia13").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_e13").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e13").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_e13').on('change',function(){
+				$value=$("#materia13").val()+"/"+$("#grado13").val()+"/"+$(this).val();
+			 	$("#libs_ao3").val($value);
+			           
+	                
+	       	});
+
+				$('#materia14').on('change',function(){
+	            var valor = $(this).val();
+	            var colegio=$("#cole").val();
+	             //alert(valor);
+	            var dataString = 'materia='+valor+"/"+colegio;
+	            
+	            $.ajax({
+
+	                url: "ajax/grados.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#grado14").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#grado14").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+        	});
+
+		$('#grado14').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materia14").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_e14").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e14").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_e14').on('change',function(){
+				$value=$("#materia14").val()+"/"+$("#grado14").val()+"/"+$(this).val();
+			 	$("#libs_ao4").val($value);
+			           
+	                
+	       	});
+
+	       	$('#materia15').on('change',function(){
+	            var valor = $(this).val();
+	            var colegio=$("#cole").val();
+	             //alert(valor);
+	            var dataString = 'materia='+valor+"/"+colegio;
+	            
+	            $.ajax({
+
+	                url: "ajax/grados.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#grado15").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#grado15").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+        	});
+
+		$('#grado15').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materia15").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_e15").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e15").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_e15').on('change',function(){
+				$value=$("#materia15").val()+"/"+$("#grado15").val()+"/"+$(this).val();
+			 	$("#libs_ao5").val($value);
+			           
+	                
+	       	});
+			
+		});
+
+		// fin agregar mas areas objetivas
+
+
 		</script>
 		<script>
 			$(".abrir_colegios").addClass("open");

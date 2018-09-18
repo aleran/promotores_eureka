@@ -1,9 +1,14 @@
 <?php require_once("php/aut.php"); ?>
 <?php
 require_once('conexion/bdd.php');
+if (isset($_POST["desde"])) {
 
-$mod_date = strtotime($_POST["desde"]."+ 7 day");
-$hasta= date("Y-m-d",$mod_date);
+	$mod_date = strtotime($_POST["desde"]."+ 7 day");
+	$mod_date = strtotime($_POST["desde"]."+ 7 day");
+	$hasta= date("Y-m-d",$mod_date);
+}
+
+
 
 if (isset($_POST["zona"])) {
 
@@ -29,9 +34,24 @@ if (isset($_POST["zona"])) {
 }
 else {
 
-	$sql = "SELECT id, id_colegio, color, start, end, id_objetivo FROM plan_trabajo WHERE id_promotor='".$_POST['promo']."' AND start BETWEEN '".$_POST["desde"]."' AND '".$hasta."'";
+	if (isset($_GET["planid"])) {
 
-	$sql_u = "SELECT id, nombres, apellidos, cod_zona FROM usuarios WHERE id='".$_POST['promo']."'";
+		$sql_pl= "SELECT id_promotor FROM plan_trabajo WHERE id='".$_GET["planid"]."'";
+
+		$req_pl = $bdd->prepare($sql_pl);
+		$req_pl->execute();
+		$pl = $req_pl->fetch();
+
+		$sql = "SELECT id, id_colegio, color, start, end, id_objetivo FROM plan_trabajo WHERE id_promotor='".$pl["id_promotor"]."' AND start BETWEEN '".$_GET["desde"]."' AND '".$_GET["hasta"]."'";
+
+		$sql_u = "SELECT id, nombres, apellidos, cod_zona FROM usuarios WHERE id='".$pl["id_promotor"]."'";
+	}
+
+	else{
+		$sql = "SELECT id, id_colegio, color, start, end, id_objetivo FROM plan_trabajo WHERE id_promotor='".$_POST['promo']."' AND start BETWEEN '".$_POST["desde"]."' AND '".$hasta."'";
+
+		$sql_u = "SELECT id, nombres, apellidos, cod_zona FROM usuarios WHERE id='".$_POST['promo']."'";
+	}
 
 	$req_u = $bdd->prepare($sql_u);
 	$req_u->execute();
@@ -141,6 +161,23 @@ $events = $req->fetchAll();
 			display: none;
 			z-index: 2;
 		}
+
+
+	@page{
+   		margin: 0;
+   		size: landscape;
+   		
+	}
+	@media print {
+		a {display: none;}
+		
+		a[href]:after {
+    		content: none !important;
+ 		}
+		
+	}
+
+
 		</style>
 	</head>
 
@@ -178,7 +215,7 @@ $events = $req->fetchAll();
 					<div class="page-content">
 						
 
-						<div class="page-header">
+						<div class="page-header hidden-print">
 							<h1>
 								Reportes
 								<small>
@@ -190,11 +227,12 @@ $events = $req->fetchAll();
 
 						<div class="row">
 							<h4> Promotor: <?php echo $promotor." zona: ".$zona;  ?></h4><br>
-            <div class="col-lg-12 text-center">
+            <div class="">
                
                 <div id="calendar" class="col-centered">
                 </div>
 				<h5><a href="php/visitas_semanal_excel.php?desde=<?php echo $_POST["desde"] ?>&hasta=<?php echo $hasta ?>&promotor=<?php echo $id_user ?>">Exportar excel</a></h5>
+				<center><button class="btn btn-success hidden-print" id="imprimir">Imprimir</button></center>
             </div>
         </div>
 
@@ -350,7 +388,7 @@ $events = $req->fetchAll();
 			<div class="footer">
 				<div class="footer-inner">
 					<div class="footer-content">
-						<span class="bigger-120">
+						<span class="bigger-120 hidden-print">
 							<span class="blue bolder">Aula Máxima</span>
 							 &copy; Eureka Libros SAS
 						</span>
@@ -435,7 +473,12 @@ $events = $req->fetchAll();
 				right: '',
 
 			},
+			hiddenDays: [ 0 ],
+			<?php if (isset($_POST["desde"])) {?>
 			defaultDate: '<?php echo $_POST["desde"] ?>',
+			<?php }else{ ?>
+		defaultDate: '<?php echo $_GET["desde"] ?>',
+			<?php } ?>
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			selectable: true,
@@ -502,7 +545,11 @@ $events = $req->fetchAll();
 					start: '<?php echo $start; ?>',
 					end: '<?php echo $end; ?>',
 					color: '<?php echo $event['color']; ?>',
-					url: 'visita_detallado_semanal.php?planid=<?php echo $event['id']; ?>'
+					<?php if (isset($_POST["desde"])) {?>
+					url: 'visita_detallado_semanal.php?planid=<?php echo $event['id']; ?>&desde=<?php echo $_POST["desde"]; ?>&hasta=<?php echo $hasta; ?>'
+					<?php }else{ ?>
+					url: 'visita_detallado_semanal.php?planid=<?php echo $event['id']; ?>&desde=<?php echo $_GET["desde"]; ?>&hasta=<?php echo $_GET["hasta"]; ?>'
+					<?php } ?>
 				},
 			<?php endforeach; ?>
 			]
@@ -621,10 +668,13 @@ $events = $req->fetchAll();
 	}
 
 
-	
+	$("#imprimir").click(function(){
+		window.print();
+	});
 </script>
 	<script>
-		$(".plan_trabajo").addClass("active");
+		$(".abrir_reportes").addClass("open");
+		$(".visitas_semanal").addClass("active");
 	</script>
 		
 	</body>

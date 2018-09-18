@@ -173,7 +173,7 @@
 							<?php 
                                 include("conexion/bdd.php");
 
-                                $sql = "SELECT l.id,l.libro, l.id_grado, l.pri_sec, l.precio, l.pri_sec, m.materia, g.grado FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id";
+                                $sql = "SELECT l.id,l.libro, l.id_grado, l.pri_sec, l.precio, l.pri_sec, l.presupuesto, m.materia, g.grado FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -190,8 +190,9 @@
                                             <th>Materia <small style="color: red;">*</small></th>
                                             <th>Grado</th>
                                             <th>¿Es serie?</th>
-                                             <th>Serie</th>
+                                            <th>Serie</th>
                                             <th>Precio $</th>
+                                            <th>¿Presupuesto?</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -227,7 +228,24 @@
 
                                                  	echo'<td class=""><input type="number" name="precio" value="'.$libro["precio"].'" size="5" required></td>';
                                                  }
+
+                                                 if ($libro["presupuesto"]==1) {
+
+                                                 	echo'<td class=""> <select name="presupuesto" id="" required>
+														<option value="1" selected>SI</option>
+														<option value="0">No</option>
+
+                                                 	</select></td>';
+
+                                                 }else {
+                                                 	echo'<td class=""> <select name="presupuesto" id="" required>
+														<option value="1">SI</option>
+														<option value="0" selected>No</option>
+
+                                                 	</select></td>';
+                                                 }
                                       			
+
                                                 echo '<input type="hidden" name="id_libro" value="'.$libro["id"].'">';
                                                 
                                                 echo '<td>
@@ -344,6 +362,17 @@
 					<label for="precio" class="col-sm-2 control-label">Precio $</label>
 					<div class="col-sm-10">
 					  <input type="number" name="precio" id="precio" class="form-control" id="profesor" placeholder="">
+					</div>
+				  </div>
+
+				  <div class="form-group">
+					<label for="presupuesto" class="col-sm-2 control-label">¿Presupuesto?<small style="color:red;"> *</small></label>
+					<div class="col-sm-10">
+					  <select name="presupuesto" id="presupuesto" required>
+					  <option value="">Seleccione</option>
+						  <option value="1">Si</option>
+						  <option value="0">No</option>
+					  </select>
 					</div>
 				  </div>
 					

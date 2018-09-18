@@ -221,7 +221,7 @@
 							</h1>
 						</div><!-- /.page-header -->
 
-						
+						<a class="btn btn-warning" href="visitas_semanal.php?planid=<?php echo $_GET["planid"] ?>&desde=<?php echo $_GET["desde"] ?>&hasta=<?php echo $_GET["hasta"] ?>">Atras</a>
 						<div class="row">
 							<h4>Datos del colegio:</h4>
 
