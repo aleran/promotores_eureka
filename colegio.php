@@ -2220,11 +2220,12 @@
 															$req_hp = $bdd->prepare($sql_hp);
 															$req_hp->execute();
 															$num_hp= $req_hp->rowCount();
+
 															if ($num_hp < 1) {
 																echo "<form action='php/presupuesto.php' method='POST'>";
 															}
 															else {
-																echo "<form action='php/actualizar_presupuesto.php' method='POST'>";
+																echo "<form action='php/actualizar_presupuesto.php' method='POST' id='simulador'>";
 															}
 															
 															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
@@ -2240,6 +2241,7 @@
 																			<th>Descuento</th>
 																			<th>Precio neto</th>
 																			<th>Venta potencial</th>
+																			<th>Presupuesto</th>
 																		</thead>
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
@@ -2256,7 +2258,7 @@
 
 																	foreach ($libros2 as $libro2) {
 
-																		$sql_presup = "SELECT precio, tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																		$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -2342,6 +2344,16 @@
 																					<input type='hidden' id='venta_ps".$libro2["id"]."' class='venta1'>";
 
 																				}
+
+																				if ($presup["pre_aprob"] ==1) {
+																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro2["id"]."/1'></td>";
+																				}
+																				else {
+
+																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro2["id"]."/1'></td>";
+
+																				}
+
 																				
 
 																				echo "<input type='hidden' name='presupuesto[]' id='presupuesto".$libro2["id"]."'>
@@ -2463,7 +2475,7 @@
 
 																else {
 
-																	$sql_presup = "SELECT precio, tasa_compra, descuento FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -2538,6 +2550,15 @@
 																					<td id='venta_p".$libro_p["id"]."' class='venta'></td>
 
 																					<input type='hidden' id='venta_ps".$libro_p["id"]."' class='venta1'>";
+
+																				}
+
+																				if ($presup["pre_aprob"] ==1) {
+																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro_p["id"]."/1'></td>";
+																				}
+																				else {
+
+																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro_p["id"]."/1'></td>";
 
 																				}
 
@@ -2673,9 +2694,13 @@
 				  														
 				  													}
 				  													else {
-				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")){
-				  														echo '<center><button class="btn btn-success">Guardar</button></center></form>';
-				  													}
+				  													
+				  														echo '<center><button class="btn btn-primary">Guardar</button> ';
+				  														
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+
+				  															echo ' <button class="btn btn-success" id="pre_aprob">Pasar a presupuesto</button></center></form>';
+				  														}
 				  													}
 																	
 													 ?>
@@ -2683,6 +2708,549 @@
 													</div>
 												</div>
 											</div>
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsepresu">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+																&nbsp;Presupuesto
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapsepresu">
+													<div class="panel-body">
+
+														<!--funcion Separador de miles-->
+														<script>
+															var formatNumber = {
+															 separador: ".", // separador para los miles
+															 sepDecimal: ',', // separador para los decimales
+															 formatear:function (num){
+															 num +='';
+															 var splitStr = num.split('.');
+															 var splitLeft = splitStr[0];
+															 var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+															 var regx = /(\d+)(\d{3})/;
+															 while (regx.test(splitLeft)) {
+															 splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+															 }
+															 return this.simbol + splitLeft +splitRight;
+															 },
+															 new:function(num, simbol){
+															 this.simbol = simbol ||'';
+															 return this.formatear(num);
+															 }
+															}
+														</script>
+														
+
+														<?php
+														
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+
+
+														
+															$req = $bdd->prepare($sql);
+															$req->execute();
+															$libros_p = $req->fetchAll();
+
+
+
+														$sql_hp = "SELECT id FROM presupuestos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+
+															$req_hp = $bdd->prepare($sql_hp);
+															$req_hp->execute();
+															$num_hp= $req_hp->rowCount();
+
+															if ($num_hp < 1) {
+																echo "<form action='php/presupuesto.php' method='POST'>";
+															}
+															else {
+																echo "<form action='php/actualizar_presupuesto.php' method='POST' id='simulador'>";
+															}
+															
+															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
+																	<table class='table table-bordered'>
+																		<thead>
+																			<th>Título</th>
+																			<th>Materia</th>
+																			<th>Grado</th>
+																			<th>Paralelos</th>
+																			<th>Alumnos</th>
+																			<th>Tasa de compra</th>
+																			<th>PVP</th>
+																			<th>Descuento</th>
+																			<th>Precio neto</th>
+																			<th>Venta potencial</th>
+																			<th>Presupuesto</th>
+																		</thead>
+																		<tbody>";
+															foreach ($libros_p as $libro_p) {
+
+																
+
+																if ($libro_p["id_grado"] == 15 || $libro_p["id_grado"] == 16 ) {
+
+																	$sq_l2 = "SELECT l.id, l.libro,l.id_grado, l.precio, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$libro_p["lib_eureka"]."'";
+														
+																	$req_l2 = $bdd->prepare($sq_l2);
+																	$req_l2->execute();
+																	$libros2 = $req_l2->fetchAll();
+
+																	foreach ($libros2 as $libro2) {
+
+																		$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+																
+																	
+
+																		$libro=$libro2["libro"];
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro2["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+																		$req_gp = $bdd->prepare($sq_gp);
+																		$req_gp->execute();
+																		$gp = $req_gp->fetch();
+
+																		echo "<tr>
+																				<td>".$libro."</td>
+																				<td>".$libro2["materia"]."</td>
+																				<td>".$libro2["grado"]."</td>
+																				<td>".$gp["paralelos"]."</td>
+																				<td id='alm_p".$libro2["id"]."'>".$gp["alumnos"]."</td>";
+																				if ($presup["tasa_compra"] !="") {
+
+																					$presup["tasa_compra"] = $presup["tasa_compra"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_p".$libro2["id"]."' value='".$presup["tasa_compra"]."'> %</td>";
+																				}else {
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_p".$libro2["id"]."' value='0' required> %</td>";
+
+																				}
+																				
+																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
+																					$precio=number_format($presup["precio"],0,",", ".");
+
+																				echo "<td id='pvp_p".$libro2["id"]."'>".$precio."</td>";
+
+																				echo "<input type='hidden' id='pvp_s_p".$libro2["id"]."' value='".$presup["precio"]."'>";
+																				}else {
+
+																					$precio=number_format($libro2["precio"],0,",", ".");
+
+																					echo "<td id='pvp_p".$libro2["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s_p".$libro2["id"]."' value='".$libro2["precio"]."'>";
+																				}
+																				if ($presup["descuento"] !="") {
+
+																					$presup_m = $presup["descuento"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento_p".$libro2["id"]."' value='".$presup_m."'> %</td>";
+
+																				}else {
+
+																					echo "<td><input type='text' size='2' name='descuento[]' value='20' id='descuento_p".$libro2["id"]."' required> %</td>";
+																				}
+																				if ($presup["tasa_compra"] !="") {
+																					$precio_neto= $libro2["precio"] -( $libro2["precio"] * $presup["descuento"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
+
+																					$precio_ne=number_format($precio_neto,2,",", ".");
+
+																					echo "<td id='pn_p".$libro2["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s_p".$libro2["id"]."' value='".$precio_neto."'>";
+																					
+																					$venta_po=number_format($venta_p,0,",", ".");
+
+																					echo"<td id='venta_p_p".$libro2["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps_p".$libro2["id"]."' class='venta1_p' value='".$venta_p."'>";
+																					
+
+
+
+
+
+
+																				}else {
+
+																					echo "<td id='pn_p".$libro2["id"]."'></td>
+
+																					<td id='venta_p_p".$libro2["id"]."' class='venta1_p'></td>
+
+																					<input type='hidden' id='venta_ps_p".$libro2["id"]."' class='venta1_p'>";
+
+																				}
+
+																				if ($presup["pre_aprob"] ==1) {
+																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro2["id"]."/1'></td>";
+																				}
+																				else {
+
+																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro2["id"]."/1'></td>";
+
+																				}
+
+																				
+
+																				echo "<input type='hidden' name='presupuesto[]' id='presupuesto_p".$libro2["id"]."'>
+
+																			<script>
+
+																				$('#descuento_p".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_p".$libro2["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_p".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_p".$libro2["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_p".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_p".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0
+																						}
+
+																						$('#venta_p_p".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_p".$libro2["id"]."').val(vp);
+																						
+
+																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+																						
+																						var total_vp_p=0;
+
+																						$('.venta1_p').each(function(){
+
+																							total_vp_p+=parseFloat($(this).val()) || 0;
+																							total_vp_p=Math.round(total_vp_p * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_p').text(formatNumber.new(total_vp_p));
+
+
+
+																					})
+
+																					$('#tasa_p".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_p".$libro2["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_p".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_p".$libro2["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_p".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_p".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0
+																						}
+
+																						$('#venta_p_p".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_p".$libro2["id"]."').val(vp);
+																						
+
+																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						var total_vp_p=0;
+
+																						$('.venta1_p').each(function(){
+
+																							total_vp_p+=parseFloat($(this).val()) || 0;
+																							total_vp_p=Math.round(total_vp_p * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_p').text(formatNumber.new(total_vp_p));
+
+
+																					})
+																			</script>
+
+																				
+																			</tr>";
+																	}
+																}
+
+																else {
+
+																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+
+																
+
+																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+																		$req_gp = $bdd->prepare($sq_gp);
+																		$req_gp->execute();
+																		$gp = $req_gp->fetch();
+
+																	echo "<tr>
+																			<td>".$libro_p["libro"]."</td>
+																			<td>".$libro_p["materia"]."</td>
+																			<td>".$libro_p["grado"]."</td>
+																			<td>".$gp["paralelos"]."</td>
+																			<td id='alm_p".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
+																			if ($presup["tasa_compra"] !="") {
+
+																					$presup["tasa_compra"] = $presup["tasa_compra"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_p".$libro_p["id"]."' value='".$presup["tasa_compra"]."'> %</td>";
+																				}else {
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_p".$libro_p["id"]."' value='0' required> %</td>";
+
+																				}
+																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
+
+																					$precio=number_format($presup["precio"],0,",", ".");
+
+																					echo "<td id='pvp_p".$libro_p["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s_p".$libro_p["id"]."' value='".$presup["precio"]."'>";
+																				}else {
+																					$precio=number_format($libro_p["precio"],0,",", ".");
+
+																					echo "<td id='pvp_p".$libro_p["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s_p".$libro_p["id"]."' value='".$libro_p["precio"]."'>";
+																				}
+																			if ($presup["descuento"] !="") {
+
+																					$presup_m = $presup["descuento"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento_p".$libro_p["id"]."' value='".$presup_m."'> %</td>";
+
+																				}else {
+
+																					echo "<td><input type='text' size='2' name='descuento[]' value='20' id='descuento_p".$libro_p["id"]."' required> %</td>";
+																				}
+																				if ($presup["tasa_compra"] !="") {
+																					$precio_neto= $libro_p["precio"] -( $libro_p["precio"] * $presup["descuento"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
+
+																					$precio_ne=number_format($precio_neto,2,",", ".");
+
+																					echo "<td id='pn_p".$libro_p["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s_p".$libro_p["id"]."' value='".$precio_neto."'>";
+
+																						$venta_po=number_format($venta_p,0,",", ".");
+
+																					echo"<td id='venta_p_p".$libro_p["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps_p".$libro_p["id"]."' class='venta1_p' value='".$venta_p."'>";
+
+																				}else {
+
+																					echo "<td id='pn_p".$libro_p["id"]."'></td>
+
+																					<td id='venta_p_p".$libro_p["id"]."' class='venta'></td>
+
+																					<input type='hidden' id='venta_ps_p".$libro_p["id"]."' class='venta1_p'>";
+
+																				}
+
+																				if ($presup["pre_aprob"] ==1) {
+																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro_p["id"]."/1'></td>";
+																				}
+																				else {
+
+																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro_p["id"]."/1'></td>";
+
+																				}
+
+																			echo "<input type='hidden' name='presupuesto[]' id='presupuesto_p".$libro_p["id"]."'>
+
+																			<script>
+																				$('#descuento_p".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_p".$libro_p["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_p".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_p".$libro_p["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_p".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_p".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p_p".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_p".$libro_p["id"]."').val(vp);
+
+																						$('#presupuesto_p".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+																						
+																						var total_vp_p=0;
+
+																						$('.venta1_p').each(function(){
+
+																							total_vp_p+=parseFloat($(this).val()) || 0;
+																							total_vp_p=Math.round(total_vp_p * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_p').text(formatNumber.new(total_vp_p));
+
+																					})
+
+																					$('#tasa_p".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_p".$libro_p["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_p".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_p".$libro_p["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_p".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_p".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p_p".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_p".$libro_p["id"]."').val(vp);
+
+																						$('#presupuesto_p".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						var total_vp_p=0;
+
+																						$('.venta1_p').each(function(){
+
+																							total_vp_p+=parseFloat($(this).val()) || 0;
+																							total_vp_p=Math.round(total_vp_p * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_p').text(formatNumber.new(total_vp_p));
+
+																					})
+																			</script>
+
+																			
+																		</tr>";
+
+																}
+
+
+																
+											  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+											  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
+											  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+											  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
+											  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
+											  				</form></div>';
+											  			}*/
+															}
+															echo "<tr>
+																<td><b>Total:</b></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td id='total_vp_p'></td>
+																</tr>";
+															echo '</tbody>
+																	</table></div>
+																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
+				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
+				  													if ($num_hp < 1) {
+				  														
+				  													}
+				  													else {
+				  													
+				  														echo '<center><button class="btn btn-primary">Guardar</button> ';
+				  														
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+
+				  															echo ' <button class="btn btn-success" id="pre_aprob">Pasar a presupuesto</button></center></form>';
+				  														}
+				  													}
+																	
+													 ?>
+
+													</div>
+												</div>
+											</div>
+
 
 											<?php if ($_SESSION["tipo"]==1) {?>
 											<div class="panel panel-default">
@@ -3546,6 +4114,21 @@
 			});
 																				
 			$('#total_vp').text(formatNumber.new(total_vp));
+
+			var total_vp_p=0;
+
+			$('.venta1_p').each(function(){
+
+				total_vp_p+=parseFloat($(this).val()) || 0;
+				total_vp_p=Math.round(total_vp_p * 100) / 100;
+
+			});
+																				
+			$('#total_vp_p').text(formatNumber.new(total_vp));
+
+			$("#pre_aprob").click(function(){
+				$("#simulador").attr("action","php/pasar_presupuesto.php")
+			})
 		</script>
 
 		

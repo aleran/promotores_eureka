@@ -44,23 +44,25 @@
 
 			
 			foreach($colegios as $cole) {
+
 				if (!in_array($cole, $_POST["colegios"])) {
     			
-				if ($_POST["cod_zona"]==$cole["cod_zona"]) {
-					$sql = "UPDATE colegios SET cod_zona='' WHERE id='".$cole["id"]."'";
+					if ($_POST["cod_zona"]==$cole["cod_zona"]) {
+						
+						$sql = "UPDATE colegios SET cod_zona='' WHERE id='".$cole["id"]."'";
 
-					$query = $bdd->prepare( $sql );
-					if ($query == false) {
-					 print_r($bdd->errorInfo());
-					 die ('Erreur prepare');
+						$query = $bdd->prepare( $sql );
+						if ($query == false) {
+						 print_r($bdd->errorInfo());
+						 die ('Erreur prepare');
+						}
+						$sth = $query->execute();
+						if ($sth == false) {
+						 print_r($query->errorInfo());
+						 die ('Erreur execute');
+						}
+						//echo "entro";
 					}
-					$sth = $query->execute();
-					if ($sth == false) {
-					 print_r($query->errorInfo());
-					 die ('Erreur execute');
-					}
-					//echo "entro";
-				}
 					
 				}
 			}
