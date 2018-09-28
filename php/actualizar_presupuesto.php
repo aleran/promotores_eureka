@@ -5,7 +5,6 @@
 	foreach ($_POST["presupuesto"] as $presups => $presup) {
 
 		list($libro,$tasa_c,$descuento,$precio) = explode("/", $presup);
-		echo $descuento."<br>";
 		$sql_e = "UPDATE presupuestos SET precio='".$precio."', tasa_compra='".$tasa_c."', descuento='".$descuento."', fecha='".date("Y-m-d")."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
 
 		$query_e = $bdd->prepare( $sql_e );

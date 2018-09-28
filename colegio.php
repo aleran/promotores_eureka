@@ -2747,7 +2747,7 @@
 
 														<?php
 														
-														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+														$sql = "SELECT p.id, b.materia, c.grado,l.id, l.libro,l.id_materia, l.id_grado, l.pri_sec, l.precio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' and p.pre_aprob=1 ";
 
 
 														
@@ -2763,12 +2763,8 @@
 															$req_hp->execute();
 															$num_hp= $req_hp->rowCount();
 
-															if ($num_hp < 1) {
-																echo "<form action='php/presupuesto.php' method='POST'>";
-															}
-															else {
-																echo "<form action='php/actualizar_presupuesto.php' method='POST' id='simulador'>";
-															}
+															
+															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='simulador'>";
 															
 															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
 																	<table class='table table-bordered'>
@@ -2783,7 +2779,6 @@
 																			<th>Descuento</th>
 																			<th>Precio neto</th>
 																			<th>Venta potencial</th>
-																			<th>Presupuesto</th>
 																		</thead>
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
@@ -2887,18 +2882,9 @@
 
 																				}
 
-																				if ($presup["pre_aprob"] ==1) {
-																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro2["id"]."/1'></td>";
-																				}
-																				else {
-
-																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro2["id"]."/1'></td>";
-
-																				}
-
 																				
 
-																				echo "<input type='hidden' name='presupuesto[]' id='presupuesto_p".$libro2["id"]."'>
+																				echo "<input type='hidden' name='presupuesto[]' value='".$libro2["id"]."'>
 
 																			<script>
 
@@ -2933,8 +2919,6 @@
 
 																						$('#venta_ps_p".$libro2["id"]."').val(vp);
 																						
-
-																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						$('#v_p".$libro2["id"]."').val(vp);
 
@@ -2987,8 +2971,6 @@
 
 																						$('#venta_ps_p".$libro2["id"]."').val(vp);
 																						
-
-																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						$('#v_p".$libro2["id"]."').val(vp);
 
@@ -3095,16 +3077,8 @@
 
 																				}
 
-																				if ($presup["pre_aprob"] ==1) {
-																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro_p["id"]."/1'></td>";
-																				}
-																				else {
 
-																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro_p["id"]."/1'></td>";
-
-																				}
-
-																			echo "<input type='hidden' name='presupuesto[]' id='presupuesto_p".$libro_p["id"]."'>
+																			echo "<input type='hidden' name='presupuesto[]' value='".$libro_p["id"]."'>
 
 																			<script>
 																				$('#descuento_p".$libro_p["id"]."').keyup(function(){
@@ -3138,7 +3112,6 @@
 
 																						$('#venta_ps_p".$libro_p["id"]."').val(vp);
 
-																						$('#presupuesto_p".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 																						
 																						var total_vp_p=0;
 
@@ -3184,7 +3157,6 @@
 
 																						$('#venta_ps_p".$libro_p["id"]."').val(vp);
 
-																						$('#presupuesto_p".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						var total_vp_p=0;
 
@@ -3236,17 +3208,31 @@
 				  														
 				  													}
 				  													else {
-				  													
-				  														echo '<center><button class="btn btn-primary">Guardar</button> ';
-				  														
-				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
-				  															echo ' <button class="btn btn-success" id="pre_aprob">Pasar a presupuesto</button></center></form>';
-				  														}
+
+				  														$sql = "SELECT aprobado FROM presupuestos WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND pre_aprob=1";
+													
+																			$req = $bdd->prepare($sql);
+																			$req->execute();
+																			$aprob= $req->fetch();
+
+																			if ($aprob["aprobado"]==1) {
+
+																				echo "<center><h3>Aprobado</h3></center>";
+																			}else {
+
+																				if ($_SESSION["tipo"]==1) {
+																						echo '<center><button class="btn btn-primary">Aprobar</button> ';
+																					}
+																				}
+				  															
+				  														
+				  														
+				  														
 				  													}
 																	
 													 ?>
-
+													
 													</div>
 												</div>
 											</div>
@@ -4124,7 +4110,7 @@
 
 			});
 																				
-			$('#total_vp_p').text(formatNumber.new(total_vp));
+			$('#total_vp_p').text(formatNumber.new(total_vp_p));
 
 			$("#pre_aprob").click(function(){
 				$("#simulador").attr("action","php/pasar_presupuesto.php")
