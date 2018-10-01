@@ -64,6 +64,55 @@ $objPHPExcel->getActiveSheet()->getStyle("A8:ZZ3")->getFont()->getColor()->apply
 	)
 );
 
+//poner imagen
+$objDrawing = new PHPExcel_Worksheet_Drawing();
+$objDrawing->setName('test_img');
+$objDrawing->setDescription('test_img');
+$objDrawing->setPath('../assets/images/logo_eureka.png');
+
+$objPHPExcel->getActiveSheet()->mergeCells('A1:A4');
+
+$objDrawing->setCoordinates('A1');                      
+//setOffsetX works properly
+$objDrawing->setOffsetX(50); 
+$objDrawing->setOffsetY(5);                
+//set width, height
+$objDrawing->setWidth(200); 
+$objDrawing->setHeight(75); 
+$objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+
+
+
+
+$estilo_centrar = array( 
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+    );
+
+$estilo_negrita = array(
+    'font' => array(
+        'bold' => true
+    )
+);
+$objPHPExcel->getActiveSheet()->mergeCells('C3:D3');
+$objPHPExcel->getActiveSheet()->mergeCells('B5:E5');
+
+$objPHPExcel->getActiveSheet()->getStyle("C3")->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->getStyle("B5")->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_negrita);
+
+$sql_periodo="SELECT periodo FROM periodos WHERE id='".$_POST["periodo"]."'";
+
+$req_periodo = $bdd->prepare($sql_periodo);
+$req_periodo->execute();
+$gp_periodo = $req_periodo->fetch();
+
+$objPHPExcel->getActiveSheet()->SetCellValue("C3", "Eureka Libros SAS");
+$objPHPExcel->getActiveSheet()->SetCellValue("B5", "Presupuesto General Periodo: ".$gp_periodo["periodo"]."");
+
 
 
 $objPHPExcel->getActiveSheet()->mergeCells('C8:E8');
@@ -562,6 +611,7 @@ $sql = "SELECT c.id, c.colegio, p.fila FROM presupuestos p JOIN colegios c ON c.
 $conta_cols=2;
 $coles=[];
 
+$color=1;
 foreach($colegios as $colegio) {
 
 		$conta_cols2=$colegio["fila"];
@@ -569,7 +619,29 @@ foreach($colegios as $colegio) {
 		$conta_cols3 = $conta_cols3 +1;
 		$conta_cols4 = $conta_cols3 +1;
 
-		
+	if ($color % 2 !=0){
+
+		$objPHPExcel->getActiveSheet()->getStyle($cols[$colegio["fila"]]."8")->applyFromArray(
+		    array(
+		        'fill' => array(
+		            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+		            'color' => array('rgb' => '62F261')
+		        )
+		    )
+		);
+
+		$objPHPExcel->getActiveSheet()->getStyle($cols[$conta_cols2]."9".":".$cols2[$conta_cols4]."9")->applyFromArray(
+		    array(
+		        'fill' => array(
+		            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+		            'color' => array('rgb' => '80F47F')
+		        )
+		    )
+		);
+
+	}
+		$color++;
+
 		$objPHPExcel->getActiveSheet()->SetCellValue($cols[$colegio["fila"]]."8", "$colegio[colegio]$colegio[fila]");
 
 		$objPHPExcel->getActiveSheet()->SetCellValue($cols[$conta_cols2]."9", "Población");
@@ -582,30 +654,22 @@ foreach($colegios as $colegio) {
 	//}
 	
 }
+
+	$objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols4+1]."9".":".$cols2[$conta_cols4+4]."9")->applyFromArray(
+    array(
+        'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '01F400')
+        )
+    )
+);
+
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+1]."9", "Total población");
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+2]."9", "Neto");
-$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+3]."9", "Valor");
+$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+3]."9", "Promedio % descuento");
+$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+4]."9", "Valor");
 
 
-	
-
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A9", "Tílulo");
-$objPHPExcel->getActiveSheet()->SetCellValue("B9", "PVP");
-
-$sql = "SELECT l.libro, l.precio, p.columna FROM libros l JOIN presupuestos p ON l.id=p.id_libro WHERE p.aprobado=1 GROUP BY l.id";
-
-$req = $bdd->prepare($sql);
-$req->execute();
-$libros = $req->fetchAll();
-
-foreach ($libros as $libro) {
-
-	$n_col=$libro["columna"];
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$n_col", "$libro[precio]");
-
-}
 
 $sql = "SELECT l.id as idlibro, p.id_colegio,p.fila,p.columna, l.id_grado, p.precio, p.tasa_compra, p.descuento, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.id_periodo='".$_POST["periodo"]."' AND p.aprobado=1";
 	$req = $bdd->prepare($sql);
@@ -624,13 +688,6 @@ foreach($presupuestos as $presupuesto) {
 		
 		$tasa_c= $presupuesto["tasa_compra"] * 100;
 		$alumnos_tasa= floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
-		$descuento= $presupuesto["descuento"] * 100;
-		$precio_neto= $presupuesto["precio"] - ($presupuesto["precio"] * $presupuesto["descuento"]);
-		$venta_potencial= $precio_neto * floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
-		$venta_potencial= number_format($venta_potencial,2,",", ".");
-		$total_alumnos_tasa[]=$alumnos_tasa;
-		$total_venta[]=$venta_potencial;
-		$total_alumnos[]=$gp["alumnos"];
 
 		if (in_array($presupuesto["id_colegio"], $coles)) {
 
@@ -651,24 +708,46 @@ foreach($presupuestos as $presupuesto) {
 		
 
 }
+$objPHPExcel->getActiveSheet()->getStyle('A9')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('B9')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->SetCellValue("A9", "Tílulo");
+$objPHPExcel->getActiveSheet()->SetCellValue("B9", "PVP");
+
+$sql = "SELECT l.id, l.libro, l.precio, p.columna, l.id_grado FROM libros l JOIN presupuestos p ON l.id=p.id_libro WHERE p.aprobado=1 GROUP BY l.id";
+
+$req = $bdd->prepare($sql);
+$req->execute();
+$libros = $req->fetchAll();
+
+foreach ($libros as $libro) {
+
+	$n_col=$libro["columna"];
+
+	$sq_gp = "SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, p.precio * SUM(floor(alumnos * tasa_compra)) as total_venta FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio WHERE p.id_libro='".$libro["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND a.id_grado='".$libro["id_grado"]."' AND p.aprobado='1'";
+														
+	$req_gp = $bdd->prepare($sq_gp);
+	$req_gp->execute();
+	$total_poblacion = $req_gp->fetch();
+
+	$prom_descuento=$total_poblacion["prom_descuento"] *100;
+	$prom_descuento=number_format($prom_descuento,2);
+
+	$poblacion_neta = $req->fetch();
+	$poblacion_neta=floor($total_poblacion["p_neta"]);
+
+	$objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("B$n_col", "$libro[precio]");
+	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+1].$n_col, "$total_poblacion[total_poblacion]");
+
+	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+2].$n_col, "$poblacion_neta");
+	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+3].$n_col, "$prom_descuento");
+	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+4].$n_col, "$total_poblacion[total_venta]");
+
+}
 
 
 
-/*$sum_ventas=array_sum($total_venta);
-$sum_ta=array_sum($total_alumnos_tasa);
-$sum_alumnos=array_sum($total_alumnos);
 
-$porcentaje= ($sum_ta / $sum_alumnos) *100;
-$porcentaje= number_format($porcentaje,2);*/
-
-//$sum_descuento=array_sum($total_descuento);
-//$cantidad_descuento=sizeof($total_descuento);
-//$promedio_descuento=$sum_descuento/$cantidad_descuento;
-//$promedio_descuento=number_format($promedio_descuento,2);
-
-/*$objPHPExcel->getActiveSheet()->SetCellValue("G8", "$sum_alumnos");
-$objPHPExcel->getActiveSheet()->SetCellValue("H8", "$sum_ta");
-$objPHPExcel->getActiveSheet()->SetCellValue("I8", "$porcentaje");*/
 
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
@@ -680,4 +759,8 @@ $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="Reporte_presupuesto.xlsx"');
 $objWriter->save('php://output');
+
+
+
+
 ?>
