@@ -603,13 +603,111 @@ $cols=["A","B","C","F","I","L","O","R","U","X","AA","AD","AG","AJ","AM","AP","AS
 $cols2=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ","BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ","CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ","DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ","EA","EB","EC","ED","EE","EF","EG","EH","EI","EJ","EK","EL","EM","EN","EO","EP","EQ","ER","ES","ET","EU","EV","EW","EX","EY","EZ","FA","FB","FC","FD","FE","FF","FG","FH","FI","FJ","FK","FL","FM","FN","FO","FP","FQ","FR","FS","FT","FU","FV","FW","FX","FY","FZ","GA","GB","GC","GD","GE","GF","GG","GH","GI","GJ","GK","GL","GM","GN","GO","GP","GQ","GR","GS","GT","GU","GV","GW","GX","GY","GZ","HA","HB","HC","HD","HE","HF","HG","HH","HI","HJ","HK","HL","HM","HN","HO","HP","HQ","HR","HS","HT","HU","HV","HW","HX","HY","HZ","IA","IB","IC","ID","IE","IF","IG","IH","II","IJ","IK","IL","IM","IN","IO","IP","IQ","IR","IS","IT","IU","IV","IW","IX","IY","IZ","JA","JB","JC","JD","JE","JF","JG","JH","JI","JJ","JK","JL","JM","JN","JO","JP","JQ","JR","JS","JT","JU","JV","JW","JX","JY","JZ","KA","KB","KC","KD","KE","KF","KG","KH","KI","KJ","KK","KL","KM","KN","KO","KP","KQ","KR","KS","KT","UK","VK","KW","KX","KY","KZ","LA","LB","LC","LD","LE","LF","LG","LH","LI","LJ","LK","LL","LM","LN","LO","LP","LQ","LR","LS","LT","LU","LV","LW","LX","LY","LZ","MA","MB","MC","MD","ME","MF","MG","MH","MI","MJ","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV",",W","MX","MY","MZ","NA","NB","NC","ND","NE","NF","NG","NH","NI","NJ","NK","NL","NM","NN","ON","NP","NQ","NR","NS","NT","NU","NV","NW","NX","NY","NZ","OA","OB","OC","OD","OE","OF","OG","OH","OI","OJ","OK","OL","OM","ON","OO","OP","OQ","OR","OS","OT","OU","OV","OW","OX","OY","OZ","PA","PB","PC","PD","PE","PF","PG","PH","PI","PJ","PK","PL","PM","PN","PO","PP","PQ","PR","PS","PT","PU","PV","PW","PX","PY","PZ","QA","QB","QC","QD","QE","QF","QG","QH","QI","QJ","QK","QL","QM","QN","QO","QP","QQ","QR","QS","QT","QU","QV","QW","QX","QY","QZ","RA","RB","RC","RD","RE","RF","RG","RH","RI","RJ","RK","RL","RM","RN","RO","RP","RQ","RR","RS","RT","RU","RV","RW","RX","RY","RZ","SA","SB","SC","SD","SE","SF","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SP","SQ","SR","SS","ST","SU","SV","SW","SX","SY","SZ","TA","TB","TC","TD","TE","TF","TG","TH","TI","TJ","TK","TL","TM","TN","TO","TP","TQ","TR","TS","TT","TU","TV","TW","TX","TY","TZ","UA","UB","UC","UD","UE","UF","UG","UH","UI","UJ","UK","UL","UM","UN","UO","UP","UQ","UR","US","UT","UU","UV","UW","UX","UY","UZ","VA","VB","VC","VD","VE","VF","VG","VH","VI","VJ","VK","VL","VM","VN","VO","VP","VQ","VR","VS","VT","VU","VV","VW","VX","VY","VZ","WA","WB","WC","WD","WE","WF","WG","WH","WI","WJ","WK","WL","WM","WN","WO","WP","WQ","WR","WS","WT","WU","WV","WW","WX","WY","WZ","XA","XB","XC","XD","XE","XF","XG","XH","XI","XJ","XK","XL","XM","XN","XO","XP","XQ","XR","XS","XT","XU","XV","XW","XX","XY","XZ","YA","YB","YC","YD","YE","YF","YG","YH","YI","YJ","YK","YL","YM","YN","YO","YP","YQ","YR","YS","YT","YU","YV","YW","YX","YY","YZ","ZA","ZB","ZC","ZD","ZE","ZF","ZG","ZH","ZI","ZJ","ZK","ZL","ZM","ZN","ZO","ZP","ZQ","ZR","ZS","ZT","ZU","ZV","ZW","ZX","ZY","ZZ"];
 
 
+
+
+
+$sql = "SELECT l.id as idlibro, p.id_colegio,p.fila,p.columna, l.id_grado, p.precio, p.tasa_compra, p.descuento, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.id_periodo='".$_POST["periodo"]."' AND p.aprobado=1";
+	$req = $bdd->prepare($sql);
+	$req->execute();
+	$presupuestos = $req->fetchAll();
+
+
+foreach($presupuestos as $presupuesto) {
+	$col=$presupuesto["columna"];
+
+	$sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$presupuesto["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+														
+		$req_gp = $bdd->prepare($sq_gp);
+		$req_gp->execute();
+		$gp = $req_gp->fetch();
+		
+		$tasa_c= $presupuesto["tasa_compra"] * 100;
+		$alumnos_tasa= floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
+
+		
+
+				$conta_cols3 = array_search($cols[$presupuesto["fila"]], $cols2);
+				$conta_cols3 =$conta_cols3 +1;
+				$conta_cols4 =$conta_cols3 +1;
+				
+				
+		$objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila"]].$presupuesto["columna"], "$gp[alumnos]");
+
+		$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols3].$presupuesto["columna"], "$tasa_c");
+
+		$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4].$presupuesto["columna"], "$alumnos_tasa");
+
+							
+								
+		
+		
+
+}
+$objPHPExcel->getActiveSheet()->getStyle('A9')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('B9')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('A9')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('B9')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->SetCellValue("A9", "Tílulo");
+$objPHPExcel->getActiveSheet()->SetCellValue("B9", "PVP");
+
+$sql = "SELECT id, libro, precio, columna, id_grado, id_materia FROM libros ORDER BY id_materia";
+
+$req = $bdd->prepare($sql);
+$req->execute();
+$libros = $req->fetchAll();
+
+foreach ($libros as $libro) {
+
+	$n_col=$libro["columna"];
+
+	$sq_gp = "SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, p.precio * SUM(floor(alumnos * tasa_compra)) as total_venta FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio WHERE p.id_libro='".$libro["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND a.id_grado='".$libro["id_grado"]."' AND p.aprobado='1'";
+														
+	$req_gp = $bdd->prepare($sq_gp);
+	$req_gp->execute();
+	$total_poblacion = $req_gp->fetch();
+
+	$prom_descuento=$total_poblacion["prom_descuento"] *100;
+	$prom_descuento=number_format($prom_descuento,2);
+
+	$poblacion_neta = $req->fetch();
+	$poblacion_neta=floor($total_poblacion["p_neta"]);
+
+
+		if ($libro["id_grado"] == 50 ) {
+
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$n_col)->applyFromArray($estilo_centrar);
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$n_col)->applyFromArray($estilo_negrita);
+			$objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
+		}
+		else if ($libro["id_grado"] == 51 ) {
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$n_col)->applyFromArray($estilo_centrar);
+			$objPHPExcel->getActiveSheet()->getStyle('A'.$n_col)->applyFromArray($estilo_negrita);
+			$objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
+
+		}
+		else {
+
+			$objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
+			$objPHPExcel->getActiveSheet()->SetCellValue("B$n_col", "$libro[precio]");
+			$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+1].$n_col, "$total_poblacion[total_poblacion]");
+
+			$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+2].$n_col, "$poblacion_neta");
+			$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+3].$n_col, "$prom_descuento");
+			$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+4].$n_col, "$total_poblacion[total_venta]");
+
+		}
+	
+	
+
+}
+
+
 $sql = "SELECT c.id, c.colegio, p.fila FROM presupuestos p JOIN colegios c ON c.id=p.id_colegio WHERE p.id_periodo='".$_POST["periodo"]."' AND p.aprobado=1 GROUP BY c.id ORDER BY p.fila";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$colegios = $req->fetchAll();
 
 $conta_cols=2;
-$coles=[];
 
 $color=1;
 foreach($colegios as $colegio) {
@@ -648,9 +746,7 @@ foreach($colegios as $colegio) {
 		$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols3]."9", "% Compra");
 		$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4]."9", "Neto");
 
-		$coles[]=$colegio["id"];
 
-	
 	//}
 	
 }
@@ -668,82 +764,6 @@ $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+1]."9", "Total 
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+2]."9", "Neto");
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+3]."9", "Promedio % descuento");
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+4]."9", "Valor");
-
-
-
-$sql = "SELECT l.id as idlibro, p.id_colegio,p.fila,p.columna, l.id_grado, p.precio, p.tasa_compra, p.descuento, c.colegio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.id_periodo='".$_POST["periodo"]."' AND p.aprobado=1";
-	$req = $bdd->prepare($sql);
-	$req->execute();
-	$presupuestos = $req->fetchAll();
-
-
-foreach($presupuestos as $presupuesto) {
-	$col=$presupuesto["columna"];
-
-	$sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$presupuesto["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
-														
-		$req_gp = $bdd->prepare($sq_gp);
-		$req_gp->execute();
-		$gp = $req_gp->fetch();
-		
-		$tasa_c= $presupuesto["tasa_compra"] * 100;
-		$alumnos_tasa= floor($gp["alumnos"] * $presupuesto["tasa_compra"]);
-
-		if (in_array($presupuesto["id_colegio"], $coles)) {
-
-				$conta_cols3 = array_search($cols[$presupuesto["fila"]], $cols2);
-				$conta_cols3 =$conta_cols3 +1;
-				$conta_cols4 =$conta_cols3 +1;
-				
-				
-		$objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila"]].$presupuesto["columna"], "$gp[alumnos]");
-
-		$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols3].$presupuesto["columna"], "$tasa_c");
-
-		$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4].$presupuesto["columna"], "$alumnos_tasa");
-
-							
-								
-		}
-		
-
-}
-$objPHPExcel->getActiveSheet()->getStyle('A9')->applyFromArray($estilo_negrita);
-$objPHPExcel->getActiveSheet()->getStyle('B9')->applyFromArray($estilo_negrita);
-$objPHPExcel->getActiveSheet()->SetCellValue("A9", "Tílulo");
-$objPHPExcel->getActiveSheet()->SetCellValue("B9", "PVP");
-
-$sql = "SELECT l.id, l.libro, l.precio, p.columna, l.id_grado FROM libros l JOIN presupuestos p ON l.id=p.id_libro WHERE p.aprobado=1 GROUP BY l.id";
-
-$req = $bdd->prepare($sql);
-$req->execute();
-$libros = $req->fetchAll();
-
-foreach ($libros as $libro) {
-
-	$n_col=$libro["columna"];
-
-	$sq_gp = "SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, p.precio * SUM(floor(alumnos * tasa_compra)) as total_venta FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio WHERE p.id_libro='".$libro["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND a.id_grado='".$libro["id_grado"]."' AND p.aprobado='1'";
-														
-	$req_gp = $bdd->prepare($sq_gp);
-	$req_gp->execute();
-	$total_poblacion = $req_gp->fetch();
-
-	$prom_descuento=$total_poblacion["prom_descuento"] *100;
-	$prom_descuento=number_format($prom_descuento,2);
-
-	$poblacion_neta = $req->fetch();
-	$poblacion_neta=floor($total_poblacion["p_neta"]);
-
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$n_col", "$libro[precio]");
-	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+1].$n_col, "$total_poblacion[total_poblacion]");
-
-	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+2].$n_col, "$poblacion_neta");
-	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+3].$n_col, "$prom_descuento");
-	$objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4+4].$n_col, "$total_poblacion[total_venta]");
-
-}
 
 
 

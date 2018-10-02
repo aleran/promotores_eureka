@@ -22,41 +22,15 @@
 
 	foreach ($_POST["presupuesto"] as $presups => $presup) {
 
-		$sql = "SELECT MAX(columna) as columna FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_libro='".$presup."'";
+		$sql = "SELECT columna FROM libros WHERE id='".$presup."'";
 
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		$con_colum = $req->fetch();
 
-		if ($con_colum["columna"] > 0) {
+		
 
-			$columna=$con_colum["columna"];
-
-			
-		}
-		else {
-			
-			
-			$sql = "SELECT MAX(columna) as columna FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
-
-			$req = $bdd->prepare($sql);
-			$req->execute();
-			$con_colum = $req->fetch();
-
-			if ($con_colum["columna"] > 0) {
-				$columna = $con_colum["columna"]+1;
-			}
-
-			else {
-
-				$columna=10;
-			}
-
-		}
-
-
-
-		$sql_e = "UPDATE presupuestos SET aprobado='1', fila='".$fila."', columna='".$columna."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+		$sql_e = "UPDATE presupuestos SET aprobado='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
 
 		$query_e = $bdd->prepare( $sql_e );
 		if ($query_e == false) {
