@@ -404,8 +404,8 @@ $events = $req->fetchAll();
 			select: function(start, end) {
 
 		      	// leemos las fechas de inicio de evento y hoy
-		      	var check = moment(start).format('YYYY-MM-DD HH:mm:ss');
-		     	var today = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+		      	var check = moment(start).format('YYYY-MM-DD');
+		     	var today = moment(new Date()).format('YYYY-MM-DD');
 
 		      	// si el inicio de evento ocurre hoy o en el futuro mostramos el modal
 		     	if (check >= today) {
