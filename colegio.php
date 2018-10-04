@@ -2344,14 +2344,15 @@
 																					<input type='hidden' id='venta_ps".$libro2["id"]."' class='venta1'>";
 
 																				}
+																				if ($presup["tasa_compra"] !="") {
+																					if ($presup["pre_aprob"] ==1) {
+																						echo "<td><input type='checkbox' name='pre_aprob[]' class='pre_aprob' checked value='".$libro2["id"]."/1'></td>";
+																					}
+																					else {
 
-																				if ($presup["pre_aprob"] ==1) {
-																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro2["id"]."/1'></td>";
-																				}
-																				else {
+																						echo "<td><input type='checkbox' name='pre_aprob[]' class='pre_aprob' value='".$libro2["id"]."/1'></td>";
 
-																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro2["id"]."/1'></td>";
-
+																					}
 																				}
 
 																				
@@ -2552,14 +2553,15 @@
 																					<input type='hidden' id='venta_ps".$libro_p["id"]."' class='venta1'>";
 
 																				}
+																				if ($presup["tasa_compra"] !="") {
+																					if ($presup["pre_aprob"] ==1) {
+																						echo "<td><input type='checkbox' name='pre_aprob[]' class='pre_aprob' checked value='".$libro_p["id"]."/1'></td>";
+																					}
+																					else {
 
-																				if ($presup["pre_aprob"] ==1) {
-																					echo "<td><input type='checkbox' name='pre_aprob[]' checked value='".$libro_p["id"]."/1'></td>";
-																				}
-																				else {
+																						echo "<td><input type='checkbox' name='pre_aprob[]' class='pre_aprob' value='".$libro_p["id"]."/1'></td>";
 
-																					echo "<td><input type='checkbox' name='pre_aprob[]' value='".$libro_p["id"]."/1'></td>";
-
+																					}
 																				}
 
 																			echo "<input type='hidden' name='presupuesto[]' id='presupuesto".$libro_p["id"]."'>
@@ -2695,11 +2697,11 @@
 				  													}
 				  													else {
 				  													
-				  														echo '<center><button class="btn btn-primary">Guardar</button> ';
-				  														
+				  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
+				  												
 				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
-				  															echo ' <button class="btn btn-success" id="pre_aprob">Pasar a presupuesto</button></center></form>';
+				  															echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button></form>';
 				  														}
 				  													}
 																	
@@ -4115,6 +4117,25 @@
 			$("#pre_aprob").click(function(){
 				$("#simulador").attr("action","php/pasar_presupuesto.php")
 			})
+
+			$("#pre_aprob").on("click", function(e) {
+		        var condiciones = $(".pre_aprob").is(":checked");
+		        if (!condiciones) {
+		            alert("Debe marcar el libro para pasarlo a presupuesto");
+		            e.preventDefault();
+	        	}
+    		});
+
+    		$(".pre_aprob").on("click", function() {
+		        var condiciones = $(".pre_aprob").is(":checked");
+		        if (!condiciones) {
+		            $("#pre_aprob").addClass("hidden");
+		             $("#pre_aprob").removeClass("show");
+	        	}else {
+	        		 $("#pre_aprob").addClass("show");
+	        		 $("#pre_aprob").removeClass("hidden");
+	        	}
+    		});
 		</script>
 
 		

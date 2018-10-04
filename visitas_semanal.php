@@ -483,7 +483,7 @@ $events = $req->fetchAll();
 			eventLimit: true, // allow "more" link when too many events
 			selectable: true,
 			selectHelper: true,
-			minTime: "07:00:00",
+			minTime: "06:00:00",
 			maxTime: "20:00:00",
 			select: function(start, end) {
 				
