@@ -19,16 +19,13 @@
 		$fila=2;
 	}
 
-
 	foreach ($_POST["presupuesto"] as $presups => $presup) {
 
 		$sql = "SELECT columna FROM libros WHERE id='".$presup."'";
 
 		$req = $bdd->prepare($sql);
 		$req->execute();
-		$con_colum = $req->fetch();
-
-		
+		$con_colum = $req->fetch();	
 
 		$sql_e = "UPDATE presupuestos SET aprobado='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
 
