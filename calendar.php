@@ -167,16 +167,22 @@ $events = $req->fetchAll();
 				<h4 class="modal-title" id="myModalLabel">Agendar visita</h4>
 			  </div>
 			  <div class="modal-body">
-				
-				   <div class="form-group">
+					<div class="form-group">
+						<label for="colegio" class="col-sm-2 control-label">Oficina:</label>
+						<div class="col-sm-10">
+						  <input type="checkbox" name="oficina" id="oficina">
+						</div>
+				  	</div>
+
+				   <div class="form-group ocultar_oficina">
 					<label for="colegio" class="col-sm-2 control-label">Colegio<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					  <input type="text" name="colegio" id="colegio" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_c()" required=>
+					  <input type="text" name="colegio" id="colegio" class="form-control" id="profesor" placeholder="Nombre del colegio" autocomplete="off" onkeyup="bus_c()" required=>
 					  <input type="hidden" name="cole" id="cole"><div id="suggestions_c"></div>
 					</div>
 				  </div>
 					
-				  <div class="form-group">
+				  <div class="form-group ocultar_oficina">
 					<label for="profesor" class="col-sm-2 control-label">Profesor</label>
 					<div class="col-sm-10">
 					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_h()">
@@ -186,7 +192,7 @@ $events = $req->fetchAll();
 					
 					
 
-				  <div class="form-group">
+				  <div class="form-group ocultar_oficina">
 					<label for="objetivo" class="col-sm-2 control-label">Objetivo<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
 					 <select name="objetivo" id="objetivo" class="form-control" required>
@@ -227,15 +233,15 @@ $events = $req->fetchAll();
 					</div>
 				  </div>-->
 				  <div class="form-group">
-					<label for="start" class="col-sm-2 control-label">Fecha</label>
+					<label for="start" class="col-sm-2 control-label">Inicio</label>
 					<div class="col-sm-10">
 					  <input type="text" name="start" class="form-control" id="start" >
 					</div>
 				  </div>
 				  <div class="form-group">
-					<label for="end" class="col-sm-2 control-label hidden">Fecha Final</label>
+					<label for="end" class="col-sm-2 control-label">Fin</label>
 					<div class="col-sm-10">
-					  <input type="hidden" name="end" class="form-control" id="end" >
+					  <input type="text" name="end" class="form-control" id="end" >
 					</div>
 				  </div>
 				
@@ -597,6 +603,25 @@ $events = $req->fetchAll();
 </script>
 	<script>
 		$(".plan_trabajo").addClass("active");
+
+	$("#oficina").click(function(){
+
+
+		if( $('#oficina').prop('checked') ) {
+	   		$(".ocultar_oficina").addClass("hidden")
+	   		$(".ocultar_oficina").removeClass("show")
+	   		$("#colegio").removeAttr("required");
+	   		$("#objetivo").removeAttr("required");
+
+		}else {
+			$(".ocultar_oficina").addClass("show")
+			$(".ocultar_oficina").removeClass("hidden")
+			$("#colegio").attr("required","required");
+	   		$("#objetivo").attr("required","required");
+
+		}
+	})
+	
 	</script>
 		
 	</body>

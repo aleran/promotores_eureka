@@ -3,9 +3,7 @@ require_once("../php/aut.php");
 // Conexion a la base de datos
 require_once('../conexion/bdd.php');
 
-if (isset($_POST['cole']) &&  isset($_POST['profesor']) && isset($_POST['objetivo']) && isset($_POST['start']) && isset($_POST['end'])){
-
-	$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
+$sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
 
 	$req_periodo = $bdd->prepare($sql_periodo);
 	$req_periodo->execute();
@@ -16,6 +14,27 @@ if (isset($_POST['cole']) &&  isset($_POST['profesor']) && isset($_POST['objetiv
 	$objetivo = $_POST['objetivo'];
 	$start = $_POST['start'];
 	$end = $_POST['end'];
+
+if(isset($_POST["oficina"])) {
+	
+	$sql = "INSERT INTO plan_trabajo(id_periodo,id_promotor,id_colegio,resultado,color,start,end) values ('".$gp_periodo["id"]."', '".$_SESSION['id']."','1','0','#0071c5', '$start', '$end')";
+	$query = $bdd->prepare( $sql );
+	if ($query == false) {
+	 print_r($bdd->errorInfo());
+	 die ('Erreur prepare');
+	}
+	$sth = $query->execute();
+	if ($sth == false) {
+	 print_r($query->errorInfo());
+	 die ('Erreur execute');
+	}
+
+}
+else {
+
+
+
+	
 	//$color = $_POST['color'];
 
 
@@ -43,6 +62,8 @@ if (isset($_POST['cole']) &&  isset($_POST['profesor']) && isset($_POST['objetiv
 	}
 
 }
+
+
 header('Location: '.$_SERVER['HTTP_REFERER']);
 
 	

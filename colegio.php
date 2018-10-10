@@ -2146,11 +2146,13 @@
 									echo "<tr>
 											<td>".$area["materia"]."</td>
 											<td>".$area["grado"]."</td>
-											<td>".$libro."</td>
-											<td><a class='btn btn-xs btn-danger eliminar' href='#' data-codigo=".$libro_e["id"].">
-													<i class='ace-icon fa fa-trash-o bigger-120'></i>
-											</a></td>
-										</tr>";
+											<td>".$libro."</td>";
+											if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+												echo"<td><a class='btn btn-xs btn-danger eliminar' href='#' data-codigo=".$libro_e["id"].">
+														<i class='ace-icon fa fa-trash-o bigger-120'></i>
+												</a></td>";
+											}
+										echo"</tr>";
 				  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
 				  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
 				  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
@@ -2886,7 +2888,7 @@
 
 																				
 
-																				echo "<input type='hidden' name='presupuesto[]' value='".$libro2["id"]."'>
+																				echo "<input type='hidden' name='presupuesto_p[]' value='".$libro2["id"]."' id='presupuesto_p".$libro2["id"]."'>
 
 																			<script>
 
@@ -2927,6 +2929,9 @@
 
 																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 																						
+																						
+																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
 																						var total_vp_p=0;
 
 																						$('.venta1_p').each(function(){
@@ -2978,6 +2983,8 @@
 
 
 																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 																						var total_vp_p=0;
 
@@ -3080,12 +3087,12 @@
 																				}
 
 
-																			echo "<input type='hidden' name='presupuesto[]' value='".$libro_p["id"]."'>
+																			echo "<input type='hidden' name='presupuesto_p[]' value='".$libro_p["id"]."' id='presupuesto_p".$libro_p["id"]."'>
 
 																			<script>
 																				$('#descuento_p".$libro_p["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp_s_p".$libro_p["id"]."').val());
-
+alert('hola');
 																						var descuento=parseFloat($('#descuento_p".$libro_p["id"]."').val());
 																						descuento= descuento/100;
 
@@ -3114,7 +3121,8 @@
 
 																						$('#venta_ps_p".$libro_p["id"]."').val(vp);
 
-																						
+																						$('#presupuesto_p".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
 																						var total_vp_p=0;
 
 																						$('.venta1_p').each(function(){
@@ -3158,6 +3166,8 @@
 																						$('#venta_p_p".$libro_p["id"]."').text(formatNumber.new(vp));
 
 																						$('#venta_ps_p".$libro_p["id"]."').val(vp);
+
+																						$('#presupuesto_p".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
 
 
 																						var total_vp_p=0;
@@ -3221,7 +3231,12 @@
 																			if ($aprob["aprobado"]==1) {
 
 																				echo "<center><h3>Aprobado</h3></center>";
-																			}else {
+																			}elseif($aprob["aprobado"]==2){
+
+																				echo "<center><h3>No aprobado</h3></center>";
+
+																			}
+																			else {
 
 																				if ($_SESSION["tipo"]==1) {
 																						echo '<center><button class="btn btn-primary">Aprobar</button> ';

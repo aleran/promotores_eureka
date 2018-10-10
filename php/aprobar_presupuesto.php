@@ -19,21 +19,30 @@
 		$fila=2;
 	}
 
-	foreach ($_POST["presupuesto"] as $presups => $presup) {
+	foreach ($_POST["presupuesto_p"] as $presups => $presup) {
+
+		list($libro,$tasa_c,$descuento, $precio) = explode("/", $presup);
 
 		$sql = "SELECT columna FROM libros WHERE id='".$presup."'";
 
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		$con_colum = $req->fetch();	
+		if ($tasa_c=="") {
 
-		$sql_e = "UPDATE presupuestos SET aprobado='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+
+		}else {
+
+			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+		}
+		
 
 		$query_e = $bdd->prepare( $sql_e );
 		if ($query_e == false) {
 			print_r($bdd->errorInfo());
-				die ('Erreur prepare');
-			}
+			die ('Erreur prepare');
+		}
 		$sth_e = $query_e->execute();
 		if ($sth_e == false) {
 			print_r($query_e->errorInfo());

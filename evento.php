@@ -362,18 +362,16 @@
 						</div>
 						<a id="agregar_materia" style="cursor: pointer;">Agregar materia +</a>
 						<input type="hidden" name="evento" value="<?php echo $_GET["evento"];?>">
-						<center><button class="btn btn-success">Guardar profesor</button></center>
+						<center><button class="btn btn-primary">Guardar profesor</button></center>
                          	</form>
                          <?php } ?>
-						</div>
+						</div><br>
 
 						<div class="row">
-							<h4>Objetivo de la Visita: <?php echo $objetivo["objetivo"] ?></h4>
+							<center><h4>Objetivo de la Visita: <?php echo $objetivo["objetivo"] ?></h4></center>
 
 
-							
-
-						</div>
+						</div><br>
 							<?php 
 								if ($visita["resultado"]==1) {
 									
@@ -385,11 +383,24 @@
 								$v = $req_v->fetch();
 							 ?>
 							<div class="row">
-								<div class="col-sm-6 col-sm-offset-4">
-									<h5>Comentarios: <?php echo $v["observaciones"] ?></h5>
-								</div>
+								<div class="form-group">
+									<div class="col-sm-6 col-sm-offset-3">
 
-							</div>
+										<center><b>Comentarios:</b></center>
+										<?php if ($visita['start'] >= date("Y-m-d 00:00:00")) {?>
+										<form action="php/editar_comentario.php" method="POST">
+											<textarea class="form-control" rows="3" name="comen_edit" id=""><?php echo $v["observaciones"] ?></textarea><br>
+											<input type="hidden" name="id_plan_trabajo" value="<?php echo $_GET["evento"]; ?>">
+											<center><button class="btn btn-warning">Editar Comentario</button></center>
+
+										</form>
+										<?php } else {?>
+											<textarea class="form-control" rows="3" name="comen_edit" disabled><?php echo $v["observaciones"] ?></textarea>
+										<?php } ?>
+									</div>
+							 	</div>
+
+							</div><br>
 						<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
 
 								echo'<table class="table table-bordered">

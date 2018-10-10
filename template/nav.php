@@ -96,18 +96,20 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li>!-->
 
 						<li class="purple dropdown-modal">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span class="badge badge-important">8</span>
+								<i class="ace-icon fa fa-bell"></i>
+
+								<!--Campana animada<i class="ace-icon fa fa-bell icon-animated-bell"></i>-->
+								<span class="badge badge-important">0</span>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									8 Notifications
+									0 Notificaciones
 								</li>
 
 								<li class="dropdown-content">
@@ -117,14 +119,14 @@
 												<div class="clearfix">
 													<span class="pull-left">
 														<i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-														New Comments
+														En desarrollo
 													</span>
-													<span class="pull-right badge badge-info">+12</span>
+													<!--<span class="pull-right badge badge-info">+12</span>-->
 												</div>
 											</a>
 										</li>
 
-										<li>
+										<!--<li>
 											<a href="#">
 												<i class="btn btn-xs btn-primary fa fa-user"></i>
 												Bob just signed up as an editor ...
@@ -153,20 +155,20 @@
 													<span class="pull-right badge badge-info">+11</span>
 												</div>
 											</a>
-										</li>
+										</li>-->
 									</ul>
 								</li>
 
 								<li class="dropdown-footer">
 									<a href="#">
-										See all notifications
+										Ver todas las notificaciones
 										<i class="ace-icon fa fa-arrow-right"></i>
 									</a>
 								</li>
 							</ul>
 						</li>
 
-						<li class="green dropdown-modal">
+						<!--<li class="green dropdown-modal">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
 								<span class="badge badge-success">5</span>
