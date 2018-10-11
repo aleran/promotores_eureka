@@ -2083,6 +2083,19 @@
 																		<label for="grado1" id="l_grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
 															
 																	 		<select name="grado1" required id="grado1" class="form-control grado">
+																	 			<option value="">Seleccionar</option>
+
+																	 			<?php 
+																		 		$sql = "SELECT id, grado FROM grados";
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$grados = $req->fetchAll();
+																				foreach($grados as $grado) {
+																				    $id = $grado['id'];
+																				    $nom = $grado['grado'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+																		 	?>
 																	 			
 																				
 																	 		</select>
@@ -2121,7 +2134,7 @@
 
 												<br><br>
 						<?php 
-							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+							$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND a.definicion='0' AND id_periodo='".$gp_periodo["id"]."'";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -2207,7 +2220,7 @@
 
 														<?php
 														
-														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND a.definicion='0' AND id_periodo='".$gp_periodo["id"]."'";
 
 
 														
@@ -2703,10 +2716,10 @@
 				  												
 				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
-				  															echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button></form>';
+				  															echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button>';
 				  														}
 				  													}
-																	
+																	echo "</form>";
 													 ?>
 
 													</div>
@@ -3242,7 +3255,7 @@ alert('hola');
 																						echo '<center><button class="btn btn-primary">Aprobar</button> ';
 																					}
 																				}
-				  															
+				  															echo "</form>";
 				  														
 				  														
 				  														
@@ -3254,6 +3267,721 @@ alert('hola');
 												</div>
 											</div>
 
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseadop">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+																&nbsp;Adopciones
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapseadop">
+													<div class="panel-body">
+														
+														<div class="otra_aod">
+															<div class="row a_ob">
+																<center><h4>Añadir nuevo</h4></center><br>
+																<div class="col-sm-6 col-sm-offset-3">
+																<form action="php/areas_cumplimiento.php" method="POST">
+																	<div class="form-group">
+																		<label id="l_materiad" class="control-label no-padding-right" for="materiad"> Materia:<small style="color:red;"> *</small></label>
+
+																		<select name="materiad" id="materiad" class="form-control materia">
+														 					<option value="">Seleccionar</option>
+																		 	<?php 
+																		 		$sql = "SELECT id, materia FROM materias";
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$materias = $req->fetchAll();
+																				foreach($materias as $materia) {
+																				    $id = $materia['id'];
+																				    $nom = $materia['materia'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+																		 	?>
+														 				</select>
+																			
+																	</div>
+																</div>
+															</div>
+															<div class="row a_ob">
+																<div class="col-sm-6">
+																	<div class="form-group">
+																		<label for="grado1" id="l_gradod" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
+															
+																	 		<select name="gradod" required id="gradod" class="form-control grado">
+																	 			<option value="">Seleccionar</option>
+
+																	 			<?php 
+																		 		$sql = "SELECT id, grado FROM grados";
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$grados = $req->fetchAll();
+																				foreach($grados as $grado) {
+																				    $id = $grado['id'];
+																				    $nom = $grado['grado'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+																		 	?>
+																	 			
+																				
+																	 		</select>
+																	</div>
+													  			</div>
+													  			<div class="col-sm-6">
+													  				<div class="form-group">
+																		<label  for="libro_ed" id="l_libro_ed" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
+																
+																		 <select name="libro_ed" id="libro_ed" class="form-control grado" required>
+																		 			
+																					
+																		 </select>
+																	</div>
+
+													  			</div>
+													  		</div>
+													  			<input type="hidden" name="libs_aod[]" id="libs_aod">
+
+													  			<input type="hidden" name="libs_aod[]" id="libs_aod1">
+													  			<input type="hidden" name="libs_aod[]" id="libs_aod2">
+													  			<input type="hidden" name="libs_aod[]" id="libs_aod3">
+													  			<input type="hidden" name="libs_aod[]" id="libs_aod4">
+													  			<input type="hidden" name="libs_aod[]" id="libs_aod5">
+
+													  			<input type="hidden" name="id_colegio" id="cole" value="<?php echo $colegio['id'] ?>">
+													  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
+													  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
+													  	</div>
+												  			<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+												  				<a id="agregar_aod" style="cursor: pointer;">Agregar Otro +</a>
+												  			<br><br><center><button class="btn btn-success">Guardar</button></center>
+												  			<?php }?>
+
+															</form>
+
+												<br><br>
+						
+
+														<!--funcion Separador de miles-->
+														<script>
+															var formatNumber = {
+															 separador: ".", // separador para los miles
+															 sepDecimal: ',', // separador para los decimales
+															 formatear:function (num){
+															 num +='';
+															 var splitStr = num.split('.');
+															 var splitLeft = splitStr[0];
+															 var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+															 var regx = /(\d+)(\d{3})/;
+															 while (regx.test(splitLeft)) {
+															 splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+															 }
+															 return this.simbol + splitLeft +splitRight;
+															 },
+															 new:function(num, simbol){
+															 this.simbol = simbol ||'';
+															 return this.formatear(num);
+															 }
+															}
+														</script>
+														
+
+														<?php
+														
+														$sql = "SELECT p.id, b.materia, c.grado,l.id, l.libro,l.id_materia, l.id_grado, l.pri_sec, l.precio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND p.aprobado < 2 AND p.pre_definido='1'";
+
+
+														
+															$req = $bdd->prepare($sql);
+															$req->execute();
+															$libros_p = $req->fetchAll();
+
+
+
+														$sql_hp = "SELECT id FROM presupuestos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+
+															$req_hp = $bdd->prepare($sql_hp);
+															$req_hp->execute();
+															$num_hp= $req_hp->rowCount();
+
+															
+															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='simulador'>";
+															
+															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
+																	<table class='table table-bordered'>
+																		<thead>
+																			<th>Título</th>
+																			<th>Materia</th>
+																			<th>Grado</th>
+																			<th>Paralelos</th>
+																			<th>Alumnos</th>
+																			<th>Tasa de compra</th>
+																			<th>PVP</th>
+																			<th>Descuento</th>
+																			<th>Precio neto</th>
+																			<th>Venta potencial</th>
+																			<th>Adopción</th>
+																			<th>Acciones</th>
+																		</thead>
+																		<tbody>";
+															foreach ($libros_p as $libro_p) {
+
+																
+
+																if ($libro_p["id_grado"] == 15 || $libro_p["id_grado"] == 16 ) {
+
+																	$sq_l2 = "SELECT l.id, l.libro,l.id_grado, l.precio, g.grado, m.materia FROM libros l JOIN materias m ON l.id_materia=m.id JOIN grados g ON l.id_grado=g.id WHERE l.pri_sec='".$libro_p["lib_eureka"]."'";
+														
+																	$req_l2 = $bdd->prepare($sq_l2);
+																	$req_l2->execute();
+																	$libros2 = $req_l2->fetchAll();
+
+																	foreach ($libros2 as $libro2) {
+
+																		$sql_presup = "SELECT precio, tasa_compra, descuento, definido, tasa_compra_d, descuento_d FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+																
+																	
+
+																		$libro=$libro2["libro"];
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro2["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+																		$req_gp = $bdd->prepare($sq_gp);
+																		$req_gp->execute();
+																		$gp = $req_gp->fetch();
+
+																		echo "<tr>
+																				<td>".$libro."</td>
+																				<td>".$libro2["materia"]."</td>
+																				<td>".$libro2["grado"]."</td>
+																				<td>".$gp["paralelos"]."</td>
+																				<td id='alm_d".$libro2["id"]."'>".$gp["alumnos"]."</td>";
+																			
+
+																					if ($presup["tasa_compra"] !="" && $presup["tasa_compra_d"] ==0.00 ) {
+
+																					$presup["tasa_compra"] = $presup["tasa_compra"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_d".$libro2["id"]."' value='".$presup["tasa_compra"]."'> %</td>";
+																				}
+																				elseif( $presup["tasa_compra_d"] !=""){
+
+																					$presup["tasa_compra_d"] = $presup["tasa_compra_d"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_d".$libro2["id"]."' value='".$presup["tasa_compra_d"]."'> %</td>";
+
+																				}
+																				else {
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_d".$libro2["id"]."' value='0' required> %</td>";
+
+																				}
+																				
+																				
+																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
+																					$precio=number_format($presup["precio"],0,",", ".");
+
+																				echo "<td id='pvp_d".$libro2["id"]."'>".$precio."</td>";
+
+																				echo "<input type='hidden' id='pvp_s_d".$libro2["id"]."' value='".$presup["precio"]."'>";
+																				}else {
+
+																					$precio=number_format($libro2["precio"],0,",", ".");
+
+																					echo "<td id='pvp_d".$libro2["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s_d".$libro2["id"]."' value='".$libro2["precio"]."'>";
+																				}
+																				if ($presup["descuento"] !="" && $presup["descuento_d"] ==0.00) {
+
+																					$presup_m = $presup["descuento"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento_d".$libro2["id"]."' value='".$presup_m."'> %</td>";
+
+																				}
+																				elseif( $presup["descuento_d"] !=""){
+
+																					$presup_m = $presup["descuento_d"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento_d".$libro2["id"]."' value='".$presup_m."'> %</td>";
+
+																				}
+																				else {
+
+																					echo "<td><input type='text' size='2' name='descuento[]' value='20' id='descuento_d".$libro_p["id"]."' required> %</td>";
+																				}
+																				if ($presup["tasa_compra"] !="" && $presup["tasa_compra_d"] ==0.00) {
+																					$precio_neto= $libro2["precio"] -( $libro2["precio"] * $presup["descuento"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
+
+																					$precio_ne=number_format($precio_neto,2,",", ".");
+
+																					echo "<td id='pn_d".$libro2["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s_d".$libro2["id"]."' value='".$precio_neto."'>";
+																					
+																					$venta_po=number_format($venta_p,0,",", ".");
+
+																					echo"<td id='venta_p_d".$libro2["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps_d".$libro2["id"]."' class='venta1_d' value='".$venta_p."'>";
+																				}
+																				elseif($presup["tasa_compra_d"] !=""){
+
+																					$precio_neto= $libro2["precio"] -( $libro2["precio"] * $presup["descuento_d"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra_d"]/100);
+
+																					$precio_ne=number_format($precio_neto,2,",", ".");
+
+																					echo "<td id='pn_d".$libro2["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s_d".$libro2["id"]."' value='".$precio_neto."'>";
+																					
+																					$venta_po=number_format($venta_p,0,",", ".");
+
+																					echo"<td id='venta_p_d".$libro2["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps_d".$libro2["id"]."' class='venta1_d' value='".$venta_p."'>";
+
+																				
+																				}else {
+
+																					echo "<td id='pn_d".$libro2["id"]."'></td>
+
+																					<td id='venta_p_d".$libro2["id"]."' class='venta1_d'></td>
+
+																					<input type='hidden' id='venta_ps_d".$libro2["id"]."' class='venta1_d'>";
+
+																				}
+
+
+																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
+																						if ($presup["definido"] ==1) {
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro2["id"]."/1'></td>";
+																						}
+																						else {
+
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' value='".$libro2["id"]."/1'></td>";
+
+																						}
+																					}else {
+																						echo"<td></td>";
+																					}
+
+																					if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+																						echo"<td><a class='btn btn-xs btn-danger eliminar_def' href='#' data-codigo=".$libro_e["id"].">
+																								<i class='ace-icon fa fa-trash-o bigger-120'></i>
+																						</a></td>";
+																					}
+
+																				echo "<input type='hidden' name='presupuesto_d[]' value='".$libro2["id"]."' id='presupuesto_d".$libro2["id"]."'>
+
+																			<script>
+
+																				$('#descuento_d".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_d".$libro2["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_d".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_d".$libro2["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_d".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_d".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0
+																						}
+
+																						$('#venta_p_d".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_d".$libro2["id"]."').val(vp);
+																						
+
+																						$('#v_d".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+																						
+																						
+																						$('#presupuesto_d".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						var total_vp_d=0;
+
+																						$('.venta1_d').each(function(){
+
+																							total_vp_d+=parseFloat($(this).val()) || 0;
+																							total_vp_d=Math.round(total_vp_d * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_d').text(formatNumber.new(total_vp_d));
+
+
+
+																					})
+
+																					$('#tasa_d".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_d".$libro2["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_d".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_d".$libro2["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_d".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_d".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0
+																						}
+
+																						$('#venta_p_d".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_d".$libro2["id"]."').val(vp);
+																						
+
+																						$('#v_d".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						$('#presupuesto_d".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						var total_vp_d=0;
+
+																						$('.venta1_d').each(function(){
+
+																							total_vp_d+=parseFloat($(this).val()) || 0;
+																							total_vp_d=Math.round(total_vp_d * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_d').text(formatNumber.new(total_vp_d));
+
+
+																					})
+																			</script>
+
+																				
+																			</tr>";
+																	}
+																}
+
+																else {
+
+																	$sql_presup = "SELECT precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+
+																
+
+																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+														
+																		$req_gp = $bdd->prepare($sq_gp);
+																		$req_gp->execute();
+																		$gp = $req_gp->fetch();
+
+																	echo "<tr>
+																			<td>".$libro_p["libro"]."</td>
+																			<td>".$libro_p["materia"]."</td>
+																			<td>".$libro_p["grado"]."</td>
+																			<td>".$gp["paralelos"]."</td>
+																			<td id='alm_d".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
+																			if ($presup["tasa_compra"] !="" && $presup["tasa_compra_d"] ==0.00 ) {
+
+																					$presup["tasa_compra"] = $presup["tasa_compra"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_d".$libro_p["id"]."' value='".$presup["tasa_compra"]."'> %</td>";
+																				}
+																				elseif( $presup["tasa_compra_d"] !=""){
+
+																					$presup["tasa_compra_d"] = $presup["tasa_compra_d"] *100;
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_d".$libro_p["id"]."' value='".$presup["tasa_compra_d"]."'> %</td>";
+
+																				}
+																				else {
+																					echo "<td><input type='text' size='2' name='tasa[]' id='tasa_d".$libro_p["id"]."' value='0' required> %</td>";
+
+																				}
+																				if ($presup["precio"] !="" && $presup["precio"] !=0) {
+
+																					$precio=number_format($presup["precio"],0,",", ".");
+
+																					echo "<td id='pvp_d".$libro_p["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s_d".$libro_p["id"]."' value='".$presup["precio"]."'>";
+																				}else {
+																					$precio=number_format($libro_p["precio"],0,",", ".");
+
+																					echo "<td id='pvp_d".$libro_p["id"]."'>".$precio."</td>";
+
+																					echo "<input type='hidden' id='pvp_s_d".$libro_p["id"]."' value='".$libro_p["precio"]."'>";
+																				}
+																			if ($presup["descuento"] !="" && $presup["descuento_d"] ==0.00) {
+
+																					$presup_m = $presup["descuento"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento_d".$libro_p["id"]."' value='".$presup_m."'> %</td>";
+
+																				}
+																				elseif( $presup["descuento_d"] !=""){
+
+																					$presup_m = $presup["descuento_d"] * 100;
+																					echo "<td><input type='text' size='2' name='descuento[]' id='descuento_d".$libro_p["id"]."' value='".$presup_m."'> %</td>";
+
+																				}
+																				else {
+
+																					echo "<td><input type='text' size='2' name='descuento[]' value='20' id='descuento_d".$libro_p["id"]."' required> %</td>";
+																				}
+																				if ($presup["tasa_compra"] !="" && $presup["tasa_compra_d"] ==0.00) {
+																					$precio_neto= $libro_p["precio"] -( $libro_p["precio"] * $presup["descuento"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra"]/100);
+
+																					$precio_ne=number_format($precio_neto,2,",", ".");
+
+																					echo "<td id='pn_d".$libro_p["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s_d".$libro_p["id"]."' value='".$precio_neto."'>";
+
+																						$venta_po=number_format($venta_p,0,",", ".");
+
+																					echo"<td id='venta_p_d".$libro_p["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps_d".$libro_p["id"]."' class='venta1_d' value='".$venta_p."'>";
+
+																				}
+																				elseif( $presup["tasa_compra_d"] !=""){
+
+																					$precio_neto= $libro_p["precio"] -( $libro_p["precio"] * $presup["descuento_d"]);
+
+																					$venta_p= $precio_neto * floor($gp["alumnos"] * $presup["tasa_compra_d"]/100);
+
+																					$precio_ne=number_format($precio_neto,2,",", ".");
+
+																					echo "<td id='pn_d".$libro_p["id"]."'>".$precio_ne."</td>";
+
+																					echo "<input type='hidden' id='pn_s_d".$libro_p["id"]."' value='".$precio_neto."'>";
+
+																						$venta_po=number_format($venta_p,0,",", ".");
+
+																					echo"<td id='venta_p_d".$libro_p["id"]."' class='venta'>".$venta_po."</td>
+
+																					<input type='hidden' id='venta_ps_d".$libro_p["id"]."' class='venta1_d' value='".$venta_p."'>";
+
+																				}
+
+																					else {
+
+																					echo "<td id='pn_d".$libro_p["id"]."'></td>
+
+																					<td id='venta_p_d".$libro_p["id"]."' class='venta'></td>
+
+																					<input type='hidden' id='venta_ps_d".$libro_p["id"]."' class='venta1_d'>";
+
+																				}
+
+
+																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
+																						if ($presup["definido"] ==1) {
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro_p["id"]."/1'></td>";
+																						}
+																						else {
+
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' value='".$libro_p["id"]."/1'></td>";
+
+																						}
+																					}else {
+																						echo"<td></td>";
+																					}
+
+
+																					if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+																						echo"<td><a class='btn btn-xs btn-danger eliminar_def' href='#' data-codigo=".$libro_e["id"].">
+																								<i class='ace-icon fa fa-trash-o bigger-120'></i>
+																						</a></td>";
+																					}
+
+
+																			echo "<input type='hidden' name='presupuesto_d[]' value='".$libro_p["id"]."' id='presupuesto_d".$libro_p["id"]."'>
+
+																			<script>
+																				$('#descuento_d".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_d".$libro_p["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_d".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_d".$libro_p["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_d".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_d".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p_d".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_d".$libro_p["id"]."').val(vp);
+
+																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						var total_vp_d=0;
+
+																						$('.venta1_d').each(function(){
+
+																							total_vp_d+=parseFloat($(this).val()) || 0;
+																							total_vp_d=Math.round(total_vp_d * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_d').text(formatNumber.new(total_vp_d));
+
+																					})
+
+																					$('#tasa_d".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_d".$libro_p["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_d".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_d".$libro_p["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_d".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_d".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p_d".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_d".$libro_p["id"]."').val(vp);
+
+																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+
+																						var total_vp_d=0;
+
+																						$('.venta1_d').each(function(){
+
+																							total_vp_d+=parseFloat($(this).val()) || 0;
+																							total_vp_d=Math.round(total_vp_d * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_d').text(formatNumber.new(total_vp_d));
+
+																					})
+																			</script>
+
+																			
+																		</tr>";
+
+																}
+
+
+																
+											  				/*if ($gp_periodo["f_cierre"] > date("Y-m-d")){
+											  				echo'<center><button class="btn btn-primary">Actualizar</button></center>
+											  				<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+											  			<input type="hidden" name="cod_colegio" value="'.$colegio["codigo"].'">
+											  			<input type="hidden" name="id_area" value="'.$area["aid"].'">	
+											  				</form></div>';
+											  			}*/
+															}
+															echo "<tr>
+																<td><b>Total:</b></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td></td>
+																<td id='total_vp_d'></td>
+																</tr>";
+															echo '</tbody>
+																	</table></div>
+																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
+																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
+				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
+				  													if ($num_hp < 1) {
+				  														
+				  													}
+				  													else {
+
+				  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
+				  												
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+
+				  															echo ' <button class="btn btn-success pull-right hidden" id="definir">Adopción</button></form>';
+				  														}
+				  				
+				  														
+				  														
+				  													}
+																	
+													 ?>
+													
+													</div>
+												</div>
+											</div>
 
 											<?php if ($_SESSION["tipo"]==1) {?>
 											<div class="panel panel-default">
@@ -3471,37 +4199,37 @@ alert('hola');
                 
         });
 
-			$('#materia1').on('change',function(){
-            var valor = $(this).val();
-            var colegio=$("#cole").val();
-             //alert(valor);
-            var dataString = 'materia='+valor+"/"+colegio;
-            $.ajax({
+			/*$('#materia1').on('change',function(){
+	            var valor = $(this).val();
+	            var colegio=$("#cole").val();
+	             //alert(valor);
+	            var dataString = 'materia='+valor+"/"+colegio;
+	            $.ajax({
 
-                url: "ajax/grados1.php",
-                type: "POST",
-                data: dataString,
-                success: function (resp) {
-               
-                    $("#grado1").html(resp);                        
-                    //console.log(resp);
-                    if(valor =="") {
-            			$("#grado1").html("");
-          			}
-                },
-                error: function (jqXHR,estado,error){
-                    alert("error");
-                    console.log(estado);
-                    console.log(error);
-                },
-                complete: function (jqXHR,estado){
-                    console.log(estado);
-                }
+	                url: "ajax/grados1.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#grado1").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#grado1").html("");
+	          			}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
 
-                        
-            })
+	                        
+	            })
                 
-        });
+      	  });*/
 
 		function bus_h1(){	
 			var lib= document.getElementById('libro').value;
@@ -3702,6 +4430,47 @@ alert('hola');
 	                
 	       	});
 
+	       	//libros definicion
+
+	       	$('#gradod').on('change',function(){
+		            var valor = $(this).val();
+		            var materia=$("#materiad").val();
+		             //alert(valor);
+		            var dataString = 'mat_gra='+materia+"/"+valor;
+		            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                success: function (resp) {
+	               
+	                    $("#libro_ed").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+                        
+            	})
+                
+       		});
+
+			$('#libro_ed').on('change',function(){
+				$value=$("#materiad").val()+"/"+$("#gradod").val()+"/"+$(this).val();
+			 	$("#libs_aod").val($value);
+			           
+	                
+	       	});
+
 		$("#agregar_materia").click(function(){
 			$(".profesor").clone().appendTo(".otro_p");
 		});
@@ -3725,38 +4494,7 @@ alert('hola');
 			$("#l_libro_e1").clone().appendTo(".otra_ao");
 			$("#libro_e1").clone().appendTo(".otra_ao").attr("id","libro_e1"+(l++));
 
-			$('#materia11').on('change',function(){
-	            var valor = $(this).val();
-	            var colegio=$("#cole").val();
-	             //alert(valor);
-	            var dataString = 'materia='+valor+"/"+colegio;
-	            
-	            $.ajax({
-
-	                url: "ajax/grados.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#grado11").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#grado11").html("");
-	            		}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
-
-                        
-            	})
-                
-        	});
+		
 
 		$('#grado11').on('change',function(){
 	            var valor = $(this).val();
@@ -3799,38 +4537,6 @@ alert('hola');
 	                
 	       	});
 
-	       	$('#materia12').on('change',function(){
-	            var valor = $(this).val();
-	            var colegio=$("#cole").val();
-	             //alert(valor);
-	            var dataString = 'materia='+valor+"/"+colegio;
-	            
-	            $.ajax({
-
-	                url: "ajax/grados.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#grado12").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#grado12").html("");
-	            		}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
-
-                        
-            	})
-                
-        	});
 
 		$('#grado12').on('change',function(){
 	            var valor = $(this).val();
@@ -3874,38 +4580,6 @@ alert('hola');
 	       	});
 
 
-	       	$('#materia13').on('change',function(){
-	            var valor = $(this).val();
-	            var colegio=$("#cole").val();
-	             //alert(valor);
-	            var dataString = 'materia='+valor+"/"+colegio;
-	            
-	            $.ajax({
-
-	                url: "ajax/grados.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#grado13").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#grado13").html("");
-	            		}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
-
-                        
-            	})
-                
-        	});
 
 		$('#grado13').on('change',function(){
 	            var valor = $(this).val();
@@ -3948,38 +4622,6 @@ alert('hola');
 	                
 	       	});
 
-				$('#materia14').on('change',function(){
-	            var valor = $(this).val();
-	            var colegio=$("#cole").val();
-	             //alert(valor);
-	            var dataString = 'materia='+valor+"/"+colegio;
-	            
-	            $.ajax({
-
-	                url: "ajax/grados.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#grado14").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#grado14").html("");
-	            		}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
-
-                        
-            	})
-                
-        	});
 
 		$('#grado14').on('change',function(){
 	            var valor = $(this).val();
@@ -4022,39 +4664,7 @@ alert('hola');
 	                
 	       	});
 
-	       	$('#materia15').on('change',function(){
-	            var valor = $(this).val();
-	            var colegio=$("#cole").val();
-	             //alert(valor);
-	            var dataString = 'materia='+valor+"/"+colegio;
-	            
-	            $.ajax({
-
-	                url: "ajax/grados.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#grado15").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#grado15").html("");
-	            		}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
-
-                        
-            	})
-                
-        	});
-
+	     
 		$('#grado15').on('change',function(){
 	            var valor = $(this).val();
 	            var materia = $("#materia15").val();
@@ -4100,6 +4710,245 @@ alert('hola');
 
 		// fin agregar mas areas objetivas
 
+			//agregar libros definicion
+			var md = 1;
+			var gd = 1;
+			var ld = 1;
+		$("#agregar_aod").click(function(){
+
+
+
+			if (md>4) {
+				$("#agregar_aod").addClass("hidden");
+			}
+
+			$("#l_materiad").clone().appendTo(".otra_aod");
+			$("#materiad").clone().appendTo(".otra_aod").attr("id","materiad"+(md++));
+			$("#l_gradod").clone().appendTo(".otra_aod");
+			$("#gradod").clone().appendTo(".otra_aod").attr("id","gradod"+(gd++));
+			$("#l_libro_ed").clone().appendTo(".otra_aod");
+			$("#libro_ed").clone().appendTo(".otra_aod").attr("id","libro_ed"+(ld++));
+
+			
+
+		$('#gradod1').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materiad1").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_ed1").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed1").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_ed1').on('change',function(){
+				$value=$("#materiad1").val()+"/"+$("#gradod1").val()+"/"+$(this).val();
+			 	$("#libs_aod1").val($value);
+			           
+	                
+	       	});
+
+	     
+
+		$('#gradod2').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materiad2").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_ed2").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed2").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_ed2').on('change',function(){
+				$value=$("#materiad2").val()+"/"+$("#gradod2").val()+"/"+$(this).val();
+			 	$("#libs_aod2").val($value);
+			           
+	                
+	       	});
+
+
+	       
+
+		$('#gradod3').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materiad3").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_ed3").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed3").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_ed3').on('change',function(){
+				$value=$("#materiad3").val()+"/"+$("#gradod3").val()+"/"+$(this).val();
+			 	$("#libs_aod3").val($value);
+			           
+	                
+	       	});
+
+			
+
+		$('#gradod4').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materiad4").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_ed4").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed4").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_ed4').on('change',function(){
+				$value=$("#materiad4").val()+"/"+$("#gradod4").val()+"/"+$(this).val();
+			 	$("#libs_aod4").val($value);
+			           
+	                
+	       	});
+
+	     
+
+		$('#gradod5').on('change',function(){
+	            var valor = $(this).val();
+	            var materia = $("#materiad5").val();
+	             //alert(valor);
+	            var dataString = 'mat_gra='+materia+'/'+valor;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka_p.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                 success: function (resp) {
+	               
+	                    $("#libro_ed5").html(resp);                        
+	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed5").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#libro_ed5').on('change',function(){
+				$value=$("#materiad5").val()+"/"+$("#gradod5").val()+"/"+$(this).val();
+			 	$("#libs_aod5").val($value);
+			           
+	                
+	       	});
+			
+		});
+
+		// fin agregar mas areas objetivas
+
 
 		</script>
 		<script>
@@ -4126,8 +4975,19 @@ alert('hola');
 				total_vp_p=Math.round(total_vp_p * 100) / 100;
 
 			});
-																				
+
 			$('#total_vp_p').text(formatNumber.new(total_vp_p));
+
+			var total_vp_d=0;
+
+			$('.venta1_d').each(function(){
+
+				total_vp_d+=parseFloat($(this).val()) || 0;
+				total_vp_d=Math.round(total_vp_d * 100) / 100;
+
+			});
+																				
+			$('#total_vp_d').text(formatNumber.new(total_vp_d));
 
 			$("#pre_aprob").click(function(){
 				$("#simulador").attr("action","php/pasar_presupuesto.php")
@@ -4149,6 +5009,25 @@ alert('hola');
 	        	}else {
 	        		 $("#pre_aprob").addClass("show");
 	        		 $("#pre_aprob").removeClass("hidden");
+	        	}
+    		});
+
+    		$("#definir").on("click", function(e) {
+		        var condiciones = $(".definir").is(":checked");
+		        if (!condiciones) {
+		            alert("Debe marcar el libro para pasarlo a presupuesto");
+		            e.preventDefault();
+	        	}
+    		});
+
+    		$(".definir").on("click", function() {
+		        var condiciones = $(".definir").is(":checked");
+		        if (!condiciones) {
+		            $("#definir").addClass("hidden");
+		             $("#definir").removeClass("show");
+	        	}else {
+	        		 $("#definir").addClass("show");
+	        		 $("#definir").removeClass("hidden");
 	        	}
     		});
 		</script>
