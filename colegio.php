@@ -3407,7 +3407,7 @@ alert('hola');
 															$num_hp= $req_hp->rowCount();
 
 															
-															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='simulador'>";
+															echo "<form action='php/guardar_definicion.php' method='POST' id='form_definicion'>";
 															
 															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
 																	<table class='table table-bordered'>
@@ -3440,7 +3440,7 @@ alert('hola');
 
 																	foreach ($libros2 as $libro2) {
 
-																		$sql_presup = "SELECT precio, tasa_compra, descuento, definido, tasa_compra_d, descuento_d FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																		$sql_presup = "SELECT id, precio, tasa_compra, descuento, definido, tasa_compra_d, descuento_d FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -3560,11 +3560,11 @@ alert('hola');
 
 																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
 																						if ($presup["definido"] ==1) {
-																							echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro2["id"]."/1'></td>";
+																						echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro2["id"]."/'".$presup["id"]."></td>";
 																						}
 																						else {
 
-																							echo "<td><input type='checkbox' name='definir[]' class='definir' value='".$libro2["id"]."/1'></td>";
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' value='".$libro2["id"]."/1".$presup["id"]."'></td>";
 
 																						}
 																					}else {
@@ -3697,7 +3697,7 @@ alert('hola');
 
 																else {
 
-																	$sql_presup = "SELECT precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	$sql_presup = "SELECT id,precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -3813,11 +3813,11 @@ alert('hola');
 
 																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
 																						if ($presup["definido"] ==1) {
-																							echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro_p["id"]."/1'></td>";
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro_p["id"]."/".$presup["id"]."'></td>";
 																						}
 																						else {
 
-																							echo "<td><input type='checkbox' name='definir[]' class='definir' value='".$libro_p["id"]."/1'></td>";
+																							echo "<td><input type='checkbox' name='definir[]' class='definir' value='".$libro_p["id"]."/".$presup["id"]."'></td>";
 
 																						}
 																					}else {
@@ -5017,6 +5017,8 @@ alert('hola');
 		        if (!condiciones) {
 		            alert("Debe marcar el libro para pasarlo a presupuesto");
 		            e.preventDefault();
+	        	}else {
+	        		$("#form_definicion").attr("action","php/definicion.php")
 	        	}
     		});
 
