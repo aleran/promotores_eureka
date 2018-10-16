@@ -184,7 +184,7 @@
 								<?php 
                                 include("conexion/bdd.php");
                                 if ($_SESSION["tipo"]==1) {
-                                	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios ";
+                                	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono FROM colegios  WHERE cod_zona !=0";
 									$req = $bdd->prepare($sql);
 									$req->execute();
                                 }
@@ -216,6 +216,12 @@
                                     </thead>
                                     <tbody>
                                     	<?php 
+                                    	$sql_periodo1="SELECT id FROM periodos ORDER BY id DESC";
+											$req_periodo1 = $bdd->prepare($sql_periodo1);
+											$req_periodo1->execute();
+											$periodo1 = $req_periodo1->fetch();
+											$periodo2=$periodo1["id"];
+
                                     		$sql_periodo="SELECT id, periodo FROM periodos ORDER BY id DESC";
 											$req_periodo = $bdd->prepare($sql_periodo);
 											$req_periodo->execute();
@@ -233,7 +239,7 @@
                                                 echo'<tr class="odd gradeX">';
                                                 echo '<form action="colegio.php" method="POST">';
                                                 echo'<td class="center">'.$codigo.'</td>';
-                                                echo'<td class="center">'.$nombre.'</td>';
+                                                echo'<td class="center"><a href="colegio.php?codigo='.$codigo.'&periodo='.$periodo2.'">'.$nombre.'</a></td>';
                                                 echo'<td class="center">'.$direccion.'</td>';
                                                 echo'<td class="center">'.$barrio.'</td>';
                                                 echo'<td class="center">'.$telefono.'</td>';

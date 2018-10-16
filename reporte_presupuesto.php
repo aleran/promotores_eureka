@@ -239,7 +239,7 @@
 									
 							</div>-->
 
-							<div class="col-sm-3">
+							<!--<div class="col-sm-3">
 								
 									<form action="php/presupuesto_zona_excel.php" method="POST">
 									<div class="form-group">
@@ -265,7 +265,7 @@
 									
 							</div>
 							<div class="col-sm-3">
-								<!-- PAGE CONTENT BEGINS -->
+							
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
 										<select name="periodo" id="periodo">
@@ -290,9 +290,9 @@
 									</form>
 									
 									
-							</div>
-							<div class="col-sm-3">
-								<!-- PAGE CONTENT BEGINS -->
+							</div>-->
+							<!--<div class="col-sm-3">
+								
 									<form action="php/presupuesto_colegio_excel.php" method="POST">
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="colegio"> Por colegio:<small style="color:red;"> *</small> </label>
@@ -302,7 +302,7 @@
 									</div>
 							</div>
 							<div class="col-sm-3">
-								<!-- PAGE CONTENT BEGINS -->
+								
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
 										<select name="periodo" id="periodo">
@@ -328,7 +328,7 @@
 									</form>
 									
 									
-							</div>
+							</div>-->
 						</div>
 						<div class="row">
 							<br><center><h4>General</h4>

@@ -151,7 +151,22 @@ $sql = "SELECT l.id as idlibro, p.id_colegio,p.fila,p.columna, l.id_grado,l.id_m
 foreach($presupuestos as $presupuesto) {
   $col=$presupuesto["columna"];
 
-  $sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$presupuesto["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+  if ($presupuesto["id_grado"] != 17) {
+
+    $sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$presupuesto["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+
+  }else{
+
+    $sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE id_colegio='".$presupuesto['id_colegio']."' AND id_libro_eureka='".$presupuesto["idlibro"]."' AND id_periodo='".$_POST["periodo"]."'";
+
+    $req_go = $bdd->prepare($sql_go);
+    $req_go->execute();
+    $grado_o = $req_go->fetch();
+
+    $sq_gp = "SELECT  alumnos FROM grados_paralelos WHERE id_colegio='".$presupuesto["id_colegio"]."' AND id_grado='".$grado_o["id_grado_otro"]."' AND id_periodo='".$_POST["periodo"]."'";
+
+
+  }
                             
     $req_gp = $bdd->prepare($sq_gp);
     $req_gp->execute();
@@ -421,7 +436,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+6]."9", "Descue
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7]."9", "Valor cumplimiento");
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+8]."9", "Cumplimiento / Neto");
 
-$col_final=$n_col+13;
+$col_final=$n_col+26;
 $objPHPExcel->getActiveSheet()->SetCellValue("A$col_final", "TOTAL GENERAL");
 /*for ($i=2; $i < $conta_cols4+5; $i++) { 
 

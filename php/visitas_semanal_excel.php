@@ -117,7 +117,7 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT o.objetivo, p.id as planid, p.resultado,p.cod_profesor, c.colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  JOIN objetivos o ON p.id_objetivo=o.id  WHERE p.id_promotor='".$_GET["promotor"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+	$sql = "SELECT p.id as planid, p.resultado,p.cod_profesor, c.colegio, p.start, p.id_objetivo FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  WHERE p.id_promotor='".$_GET["promotor"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$planes = $req->fetchAll();
@@ -139,10 +139,15 @@ foreach($planes as $plan) {
 	$req_profe->execute();
 	$profe = $req_profe->fetch();
 
+	$sql_objetivo = "SELECT objetivo FROM objetivos WHERE id='".$plan["id_objetivo"]."'";
+	$req_objetivo = $bdd->prepare($sql_objetivo);
+	$req_objetivo->execute();
+	$objetivo = $req_objetivo->fetch();
+
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$plan[start]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$plan[colegio]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$profe[nombre]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$plan[objetivo]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$objetivo[objetivo]");
 	 if ($plan["resultado"]==1) {
 		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "Efectiva");
 	}

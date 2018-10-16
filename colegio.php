@@ -2078,7 +2078,7 @@
 																</div>
 															</div>
 															<div class="row a_ob">
-																<div class="col-sm-6">
+																<div class="col-sm-4">
 																	<div class="form-group">
 																		<label for="grado1" id="l_grado1" class="control-label no-padding-right">Grado<small style="color:red;"> *</small></label>
 															
@@ -2101,7 +2101,30 @@
 																	 		</select>
 																	</div>
 													  			</div>
-													  			<div class="col-sm-6">
+													  			<div class="col-sm-4">
+																	<div class="form-group">
+																		<label for="grado_otro" id="l_grado_otro" class="control-label no-padding-right hidden g_otro">Grado otro<small style="color:red;"> *</small></label>
+															
+																	 		<select name="grado_otro" id="grado_otro" class="form-control g_otro hidden">
+																	 			<option value="">Seleccionar</option>
+
+																	 			<?php 
+																		 		$sql = "SELECT id, grado FROM grados";
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$grados = $req->fetchAll();
+																				foreach($grados as $grado) {
+																				    $id = $grado['id'];
+																				    $nom = $grado['grado'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+																		 	?>
+																	 			
+																				
+																	 		</select>
+																	</div>
+													  			</div>
+													  			<div class="col-sm-4">
 													  				<div class="form-group">
 																		<label  for="libro_e1" id="l_libro_e1" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
 																
@@ -2220,7 +2243,7 @@
 
 														<?php
 														
-														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado,a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND a.definicion='0' AND id_periodo='".$gp_periodo["id"]."'";
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado, a.id_grado_otro, a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND a.definicion='0' AND id_periodo='".$gp_periodo["id"]."'";
 
 
 														
@@ -2282,8 +2305,11 @@
 																	
 
 																		$libro=$libro2["libro"];
+																		
+																			
+																			$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro2["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
 
-																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro2["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																		
 														
 																		$req_gp = $bdd->prepare($sq_gp);
 																		$req_gp->execute();
@@ -2498,8 +2524,15 @@
 																	$presup = $req_presup->fetch();
 
 																
+																	if ($libro_p["id_grado"] != 17) {
 
-																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+
+																	}else {
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																	}
+																
 														
 																		$req_gp = $bdd->prepare($sq_gp);
 																		$req_gp->execute();
@@ -2507,9 +2540,12 @@
 
 																	echo "<tr>
 																			<td>".$libro_p["libro"]."</td>
-																			<td>".$libro_p["materia"]."</td>
-																			<td>".$libro_p["grado"]."</td>
-																			<td>".$gp["paralelos"]."</td>
+																			<td>".$libro_p["materia"]."</td>";
+																		
+																				echo "<td>".$libro_p["grado"]."</td>";
+																			
+																			
+																			echo "<td>".$gp["paralelos"]."</td>
 																			<td id='alm".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
 																			if ($presup["tasa_compra"] !="") {
 
@@ -3028,8 +3064,22 @@
 																	$presup = $req_presup->fetch();
 
 																
+																	if ($libro_p["id_grado"] != 17) {
+																	
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																	}
+																	else {
+																			$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE id_colegio='".$colegio['id']."' AND id_libro_eureka='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."'";
 
-																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																			$req_go = $bdd->prepare($sql_go);
+																			$req_go->execute();
+																			$grado_o = $req_go->fetch();
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$grado_o["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																		
+																		
+																	}
+																	
 														
 																		$req_gp = $bdd->prepare($sq_gp);
 																		$req_gp->execute();
@@ -3037,9 +3087,10 @@
 
 																	echo "<tr>
 																			<td>".$libro_p["libro"]."</td>
-																			<td>".$libro_p["materia"]."</td>
-																			<td>".$libro_p["grado"]."</td>
-																			<td>".$gp["paralelos"]."</td>
+																			<td>".$libro_p["materia"]."</td>";
+
+																			echo"<td>".$libro_p["grado"]."</td>";
+																			echo"<td>".$gp["paralelos"]."</td>
 																			<td id='alm_p".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
 																			if ($presup["tasa_compra"] !="") {
 
@@ -4395,6 +4446,16 @@ alert('hola');
 		            var valor = $(this).val();
 		            var materia=$("#materia1").val();
 		             //alert(valor);
+		             if (valor==17) {
+		             	$(".g_otro").removeClass("hidden");
+		             	$(".g_otro").addClass("show");
+		            	$("#grado_otro").attr("required","required");
+		             
+		             }else {
+		             	$(".g_otro").addClass("hidden");
+		             	$(".g_otro").removeClass("show");
+		             	$("#grado_otro").removeAttr("required");
+		             }
 		            var dataString = 'mat_gra='+materia+"/"+valor;
 		            $.ajax({
 
@@ -4424,7 +4485,7 @@ alert('hola');
        		});
 
 			$('#libro_e1').on('change',function(){
-				$value=$("#materia1").val()+"/"+$("#grado1").val()+"/"+$(this).val();
+				$value=$("#materia1").val()+"/"+$("#grado1").val()+"/"+$(this).val()+"/"+$("#grado_otro").val();
 			 	$("#libs_ao").val($value);
 			           
 	                
@@ -4491,6 +4552,14 @@ alert('hola');
 			$("#materia1").clone().appendTo(".otra_ao").attr("id","materia1"+(m++));
 			$("#l_grado1").clone().appendTo(".otra_ao");
 			$("#grado1").clone().appendTo(".otra_ao").attr("id","grado1"+(g++));
+			$("#l_grado_otro").clone().appendTo(".otra_ao").attr("id","l_grado_otro"+g);
+			$("#grado_otro").clone().appendTo(".otra_ao").attr("id","grado_otro"+g);
+			$("#l_grado_otro"+g).addClass("hidden");
+			$("#grado_otro"+g).addClass("hidden");
+			$("#l_grado_otro"+g).removeClass("g_otro");
+			$("#grado_otro"+g).removeClass("g_otro");
+			$("#grado_otro"+g).addClass("g_otro"+g);
+			$("#l_grado_otro"+g).addClass("g_otro"+g);
 			$("#l_libro_e1").clone().appendTo(".otra_ao");
 			$("#libro_e1").clone().appendTo(".otra_ao").attr("id","libro_e1"+(l++));
 
@@ -4501,6 +4570,15 @@ alert('hola');
 	            var materia = $("#materia11").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	             if (valor==17) {
+		             	$(".g_otro2").removeClass("hidden");
+		             	$(".g_otro2").addClass("show");
+		             
+		         }else {
+		            $(".g_otro2").addClass("hidden");
+		            $(".g_otro2").removeClass("show");
+		         }
 	            
 	            $.ajax({
 
@@ -4531,7 +4609,7 @@ alert('hola');
         	});
 
 			$('#libro_e11').on('change',function(){
-				$value=$("#materia11").val()+"/"+$("#grado11").val()+"/"+$(this).val();
+				$value=$("#materia11").val()+"/"+$("#grado11").val()+"/"+$(this).val()+"/"+$("#grado_otro2").val();
 			 	$("#libs_ao1").val($value);
 			           
 	                
@@ -4544,6 +4622,15 @@ alert('hola');
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
+	            if (valor==17) {
+		             	$(".g_otro3").removeClass("hidden");
+		             	$(".g_otro3").addClass("show");
+		             
+		         }else {
+		            $(".g_otro3").addClass("hidden");
+		            $(".g_otro3").removeClass("show");
+		         }
+
 	            $.ajax({
 
 	                url: "ajax/buscar_l_eureka_p.php",
@@ -4573,7 +4660,7 @@ alert('hola');
         	});
 
 			$('#libro_e12').on('change',function(){
-				$value=$("#materia12").val()+"/"+$("#grado12").val()+"/"+$(this).val();
+				$value=$("#materia12").val()+"/"+$("#grado12").val()+"/"+$(this).val()+"/"+$("#grado_otro3").val();
 			 	$("#libs_ao2").val($value);
 			           
 	                
@@ -4586,6 +4673,15 @@ alert('hola');
 	            var materia = $("#materia13").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	             if (valor==17) {
+		             	$(".g_otro4").removeClass("hidden");
+		             	$(".g_otro4").addClass("show");
+		             
+		         }else {
+		            $(".g_otro4").addClass("hidden");
+		            $(".g_otro4").removeClass("show");
+		         }
 	            
 	            $.ajax({
 
@@ -4616,7 +4712,7 @@ alert('hola');
         	});
 
 			$('#libro_e13').on('change',function(){
-				$value=$("#materia13").val()+"/"+$("#grado13").val()+"/"+$(this).val();
+				$value=$("#materia13").val()+"/"+$("#grado13").val()+"/"+$(this).val()+"/"+$("#grado_otro4").val();
 			 	$("#libs_ao3").val($value);
 			           
 	                
@@ -4628,6 +4724,15 @@ alert('hola');
 	            var materia = $("#materia14").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	            if (valor==17) {
+		             	$(".g_otro5").removeClass("hidden");
+		             	$(".g_otro5").addClass("show");
+		             
+		         }else {
+		            $(".g_otro5").addClass("hidden");
+		            $(".g_otro5").removeClass("show");
+		         }
 	            
 	            $.ajax({
 
@@ -4658,7 +4763,7 @@ alert('hola');
         	});
 
 			$('#libro_e14').on('change',function(){
-				$value=$("#materia14").val()+"/"+$("#grado14").val()+"/"+$(this).val();
+				$value=$("#materia14").val()+"/"+$("#grado14").val()+"/"+$(this).val()+"/"+$("#grado_otro5").val();
 			 	$("#libs_ao4").val($value);
 			           
 	                
@@ -4670,6 +4775,15 @@ alert('hola');
 	            var materia = $("#materia15").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	            if (valor==17) {
+		             	$(".g_otro6").removeClass("hidden");
+		             	$(".g_otro6").addClass("show");
+		             
+		         }else {
+		            $(".g_otro6").addClass("hidden");
+		            $(".g_otro6").removeClass("show");
+		         }
 	            
 	            $.ajax({
 
@@ -4700,7 +4814,7 @@ alert('hola');
         	});
 
 			$('#libro_e15').on('change',function(){
-				$value=$("#materia15").val()+"/"+$("#grado15").val()+"/"+$(this).val();
+				$value=$("#materia15").val()+"/"+$("#grado15").val()+"/"+$(this).val()+"/"+$("#grado_otro6").val();;
 			 	$("#libs_ao5").val($value);
 			           
 	                
