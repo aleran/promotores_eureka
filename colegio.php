@@ -2541,10 +2541,19 @@
 																	echo "<tr>
 																			<td>".$libro_p["libro"]."</td>
 																			<td>".$libro_p["materia"]."</td>";
-																		
+																		if ($libro_p["id_grado"] != 17) {
 																				echo "<td>".$libro_p["grado"]."</td>";
 																			
-																			
+																		}else {
+
+																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.id_libro_eureka='".$libro_p["lib_eureka"]."' AND a.id_periodo='".$gp_periodo["id"]."' AND a.id_colegio='".$colegio["id"]."'";
+
+																			$req_otrg = $bdd->prepare($sql_otrg);
+																			$req_otrg->execute();
+																			$otrg = $req_otrg->fetch();
+
+																			echo "<td>".$libro_p["grado"].": ".$otrg["grado"]."</td>";
+																		}	
 																			echo "<td>".$gp["paralelos"]."</td>
 																			<td id='alm".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
 																			if ($presup["tasa_compra"] !="") {
@@ -3089,7 +3098,20 @@
 																			<td>".$libro_p["libro"]."</td>
 																			<td>".$libro_p["materia"]."</td>";
 
-																			echo"<td>".$libro_p["grado"]."</td>";
+																		if ($libro_p["id_grado"] != 17) {
+																				echo "<td>".$libro_p["grado"]."</td>";
+																			
+																		}else {
+
+																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.id_libro_eureka='".$libro_p["id"]."' AND a.id_periodo='".$gp_periodo["id"]."' AND a.id_colegio='".$colegio["id"]."'";
+
+																			$req_otrg = $bdd->prepare($sql_otrg);
+																			$req_otrg->execute();
+																			$otrg = $req_otrg->fetch();
+
+																			echo "<td>".$libro_p["grado"].": ".$otrg["grado"]."</td>";
+																		}
+																		
 																			echo"<td>".$gp["paralelos"]."</td>
 																			<td id='alm_p".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
 																			if ($presup["tasa_compra"] !="") {

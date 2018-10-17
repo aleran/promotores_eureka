@@ -521,7 +521,7 @@ $events = $req->fetchAll();
 <script>
 	function bus_h(){
 		var prof= document.getElementById('profesor').value;
-		var colegio= document.getElementById('colegio').value;
+		var colegio= document.getElementById('cole').value;
 		var dataString = 'profesor='+prof+"/"+colegio;
 		$("#profesor").change(function(){
 			$("#profe").val("");

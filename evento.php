@@ -230,7 +230,7 @@
 
 						</div>
 						<?php 
-							$sql_profesor = "SELECT nombre,cargo,area FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
+							$sql_profesor = "SELECT t.nombre,t.cargo,t.area, c.cargo as nombrecargo FROM trabajadores_colegios t JOIN cargos c ON t.cargo=c.id WHERE t.codigo='".$visita["cod_profesor"]."'";
 
 								$req_profesor = $bdd->prepare($sql_profesor);
 								$req_profesor->execute();
@@ -241,7 +241,21 @@
 							<h4>Datos del profesor:</h4>
 							<?php
 								if ($num_profesor > 0) {
-								 
+								
+								if ($profesor["cargo"]== 1 || $profesor["cargo"]== 2 || $profesor["cargo"]== 7 || $profesor["cargo"]== 8 || $profesor["cargo"]== 9 || $profesor["cargo"]== 10 ){ 
+							?>
+								
+							<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        			<td>Cargo: <?php echo $profesor['nombrecargo']; ?></td>
+                        		</tr>
+                        			
+                        	</table>
+
+							<?php }
+
 								if ($profesor["cargo"]== 3){ 
 							?>
 								
@@ -254,7 +268,7 @@
                         			
                         	</table>
 
-							<?php } else if($profesor["cargo"]== 5) { 
+							<?php } if($profesor["cargo"]== 5) { 
 
 								$sql_materia = "SELECT materia FROM materias WHERE id='".$profesor["area"]."'";
 
@@ -271,7 +285,7 @@
                         		</tr>
                         			
                         		</table>
-							<?php } else{?>
+							<?php } if($profesor["cargo"]== 6){?>
 							
 							<table class="table table-bordered table-hover">
                         		

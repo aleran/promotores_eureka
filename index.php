@@ -465,7 +465,30 @@
 								</div><!-- /.row -->
 					</div><!-- /.page-content -->
 				</div>
+				<!-- Modal Novedades -->
+			<div id="myModal" class="modal fade">
+	    		<div class="modal-dialog">
+	        		<div class="modal-content">
+	            		<div class="modal-header">
+	                
+	                		<h4 class="modal-title"><center>¡HOLA!, <b>TENEMOS NOVEDADES</b></center></h4>
+	           			</div>
+			            <div class="modal-body">
+			                <p>1. En el simulador ya se puede utilizar plan lector para hacer presupuestos, <b>NOTA: si ya antes había agregado una área objetiva de plan lector debe eliminarla y volverla a crear para que la modificación surja efecto.</b></p><br>
+			                <p>2. En plan de trabajo ya puede elegir a rector, cordinador y todos los trabajadores del colegio con el cual va reunirse, solo debe escribir el nombre y le aparecera un buscador si ya lo tienen creado. </p>
+			              
+			                
+			            </div>
+			            <div class="modal-footer">
+			               
+			                <button type="button" class="btn btn-danger" id="continuar" data-dismiss="modal" Title="Cerrar">Cerrar</button>
+			            </div>
+	        		</div>
+	    		</div>
+			</div>
 			</div><!-- /.main-content -->
+			
+			
 
 			<div class="footer">
 				<div class="footer-inner">
@@ -880,6 +903,10 @@
 		</script>
 		<script>
 			$(".inicio").addClass("active");
+
+			
+			$("#myModal").modal("show");
+			
 		</script>
 	</body>
 </html>

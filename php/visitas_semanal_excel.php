@@ -41,6 +41,46 @@ $estilo2->applyFromArray(
     )
 ));
 
+$estilo_centrar = array( 
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+    );
+
+$estilo_negrita = array(
+    'font' => array(
+        'bold' => true
+    )
+);
+
+$objPHPExcel->getActiveSheet()->getStyle('A8:G8')->applyFromArray(
+    array(
+        'fill' => array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array('rgb' => '01F400')
+        )
+    )
+);
+
+
+
+//poner imagen
+$objDrawing = new PHPExcel_Worksheet_Drawing();
+$objDrawing->setName('test_img');
+$objDrawing->setDescription('test_img');
+$objDrawing->setPath('../assets/images/logo_eureka.png');
+
+$objPHPExcel->getActiveSheet()->mergeCells('A1:A4');
+
+$objDrawing->setCoordinates('A1');                      
+//setOffsetX works properly
+$objDrawing->setOffsetX(50); 
+$objDrawing->setOffsetY(5);                
+//set width, height
+$objDrawing->setWidth(200); 
+$objDrawing->setHeight(75); 
+$objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+
 
 
 	$sql = "SELECT nombres, apellidos, cod_zona FROM usuarios WHERE id='".$_GET["promotor"]."'";
@@ -79,35 +119,50 @@ $estilo2->applyFromArray(
 	
 
 //~ Ingreo de datos en la hojda de excel
-$objPHPExcel->getActiveSheet()->SetCellValue("B3", "Zona");
-$objPHPExcel->getActiveSheet()->SetCellValue("B4", "$zona[zona]");
-$objPHPExcel->getActiveSheet()->SetCellValue("C3", "Promotor");
-$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Reporte de visitas semanal");
-$objPHPExcel->getActiveSheet()->SetCellValue("C4", "$nombre_completo");
-$objPHPExcel->getActiveSheet()->SetCellValue("E3", "Programadas");
-$objPHPExcel->getActiveSheet()->SetCellValue("F3", "$plan_trabajo");
-$objPHPExcel->getActiveSheet()->SetCellValue("E4", "Ejecutadas");
-$objPHPExcel->getActiveSheet()->SetCellValue("F4", "$visitas");
-$objPHPExcel->getActiveSheet()->SetCellValue("E5", "Cumplimiento");
-$objPHPExcel->getActiveSheet()->SetCellValue("F5", "$cumplimiento %");
 
-$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Fecha planificada");
-$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Profesor");
-$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Objetivo");
-$objPHPExcel->getActiveSheet()->SetCellValue("E7", "Resultado");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Comentarios");
-$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Fecha ejecutada");
-$objPHPExcel->getActiveSheet()->getStyle("A3:C3")->getFont()->getColor()->applyFromArray(
-	array(
-	'rgb' => '#251919'
-	)
-);
-$objPHPExcel->getActiveSheet()->getStyle("A6:G6")->getFont()->getColor()->applyFromArray(
-	array(
-	'rgb' => '#251919'
-	)
-);
+$objPHPExcel->getActiveSheet()->mergeCells('C1:D1');
+$objPHPExcel->getActiveSheet()->getStyle('C1')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('C1')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Eureka Libros SAS");
+
+$objPHPExcel->getActiveSheet()->mergeCells('C3:D3');
+$objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->SetCellValue("C3", "Reporte de visitas semanal");
+
+$objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('B6')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('C5')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('C5')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('C6')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('E4')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('E4')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('A8:G8')->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("B5", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("B6", "$zona[zona]");
+$objPHPExcel->getActiveSheet()->SetCellValue("C5", "Promotor");
+$objPHPExcel->getActiveSheet()->SetCellValue("C6", "$nombre_completo");
+$objPHPExcel->getActiveSheet()->SetCellValue("E4", "Programadas");
+$objPHPExcel->getActiveSheet()->SetCellValue("F4", "$plan_trabajo");
+$objPHPExcel->getActiveSheet()->SetCellValue("E5", "Ejecutadas");
+$objPHPExcel->getActiveSheet()->SetCellValue("F5", "$visitas");
+$objPHPExcel->getActiveSheet()->SetCellValue("E6", "Cumplimiento");
+$objPHPExcel->getActiveSheet()->SetCellValue("F6", "$cumplimiento %");
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A8", "Fecha planificada");
+$objPHPExcel->getActiveSheet()->SetCellValue("B8", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("C8", "Profesor");
+$objPHPExcel->getActiveSheet()->SetCellValue("D8", "Objetivo");
+$objPHPExcel->getActiveSheet()->SetCellValue("E8", "Resultado");
+$objPHPExcel->getActiveSheet()->SetCellValue("F8", "Comentarios");
+$objPHPExcel->getActiveSheet()->SetCellValue("G8", "Fecha ejecutada");
+
 
 $sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
 
@@ -122,7 +177,7 @@ $gp_periodo = $req_periodo->fetch();
 	$req->execute();
 	$planes = $req->fetchAll();
 
-$conta=8;
+$conta=9;
 
 foreach($planes as $plan) {
 

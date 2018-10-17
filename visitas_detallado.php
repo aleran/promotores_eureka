@@ -191,7 +191,7 @@
 								$req_objetivo->execute();
 								$objetivo = $req_objetivo->fetch();
 
-							$sql_profesor = "SELECT nombre,cargo,area FROM trabajadores_colegios WHERE codigo='".$visita["cod_profesor"]."'";
+							$sql_profesor = "SELECT t.nombre,t.cargo,t.area, c.cargo as nombrecargo FROM trabajadores_colegios t JOIN cargos c ON t.cargo=c.id WHERE t.codigo='".$visita["cod_profesor"]."'";
 
 								$req_profesor = $bdd->prepare($sql_profesor);
 								$req_profesor->execute();
@@ -246,18 +246,18 @@
 
 						<div class="row">
 							<h4>Datos del profesor:</h4>
-							<?php if ($profesor["cargo"]== 3){ ?>
+							<?php if ($profesor["cargo"]== 1 || $profesor["cargo"]== 2 || $profesor["cargo"]== 7 || $profesor["cargo"]== 8 || $profesor["cargo"]== 9 || $profesor["cargo"]== 10 ){ ?>
 								
 							<table class="table table-bordered table-hover">
                         		
                         		<tr>
                         			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
-                        			<td>Cargo: Coordinador académico</td>
+                        			<td>Cargo: <?php echo $profesor['nombrecargo']; ?></td>
                         		</tr>
                         			
                         	</table>
 
-							<?php } else if($profesor["cargo"]== 5) { 
+							<?php }if ($profesor["cargo"]== 3){ 
 
 								$sql_materia = "SELECT materia FROM materias WHERE id='".$profesor["area"]."'";
 
@@ -270,11 +270,11 @@
                         		
                         		<tr>
                         			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
-                        			<td>Jefe de area: <?php echo $materia["materia"]; ?></td>
+                        			<td>Cargo: Coordinador académico</td>
                         		</tr>
                         			
                         		</table>
-							<?php } else{?>
+							<?php } if($profesor["cargo"]== 5){?>
 							
 							<table class="table table-bordered table-hover">
                         		
@@ -287,7 +287,19 @@
                         		</tr>
                         			
                         	</table>
-                        	<?php }?>
+                        		<?php } if($profesor["cargo"]== 6) {?>
+                        	<table class="table table-bordered table-hover">
+                        		
+                        		<tr>
+                        			<td>Nombre: <?php echo $profesor['nombre']; ?></td>
+                        		</tr>
+                        		<tr>
+                        			<td>Grado: <?php echo $grado['grado']; ?></td>
+                        			<td>Materia: <?php echo $materia['materia']; ?></td>
+                        		</tr>
+                        			
+                        	</table>
+                        	<?php } ?>
 						</div>
 
 						<div class="row">
