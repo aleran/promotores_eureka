@@ -239,7 +239,7 @@
 									
 							</div>-->
 
-							<!--<div class="col-sm-3">
+							<div class="col-sm-3">
 								
 									<form action="php/presupuesto_zona_excel.php" method="POST">
 									<div class="form-group">
@@ -290,45 +290,8 @@
 									</form>
 									
 									
-							</div>-->
-							<!--<div class="col-sm-3">
-								
-									<form action="php/presupuesto_colegio_excel.php" method="POST">
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="colegio"> Por colegio:<small style="color:red;"> *</small> </label>
-										<input required required type="tel" name="colegio" id="colegio" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
-											<input type="hidden" name="cole" id="cole"><div id="suggestions"></div><br>
-										
-									</div>
 							</div>
-							<div class="col-sm-3">
-								
-									<div class="form-group">
-										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
-										<select name="periodo" id="periodo">
-											<?php  
-												include("conexion/bdd.php");
-
-												$sql ="SELECT id, periodo FROM periodos ORDER BY id DESC";
-
-												$req = $bdd->prepare($sql);
-												$req->execute();
-												$periodos = $req->fetchAll();
-
-												foreach ($periodos as $periodo) {
-
-													echo '<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
-												}
-
-											?>
-										</select>
-									</div><br>
-										
-										<button class="btn btn-primary">Exportar excel</button>
-									</form>
-									
-									
-							</div>-->
+						
 						</div>
 						<div class="row">
 							<br><center><h4>General</h4>

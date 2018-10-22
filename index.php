@@ -905,7 +905,7 @@
 			$(".inicio").addClass("active");
 
 			
-			$("#myModal").modal("show");
+			//$("#myModal").modal("show");
 			
 		</script>
 	</body>
