@@ -154,8 +154,8 @@ $sql = "SELECT l.id as idlibro, p.id_colegio,p.fila,p.columna, l.id_grado,l.id_m
   $presupuestos = $req->fetchAll();
 
   if (empty($presupuestos) ) {
-  	echo "<script>alert('Aun no hay presupuesto en esta zona');window.location='../reporte_presupuesto.php'</script>";
-  }
+  	echo "<script>alert('Aun no hay presupuestos Aprobados en esta zona');window.location='../reporte_presupuesto.php'</script>";
+  }else{
 
 
 foreach($presupuestos as $presupuesto) {
@@ -487,7 +487,7 @@ header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetm
 header('Content-Disposition: attachment; filename="Presupuesto_Zona_'.$zona["zona"].'.xlsx"');
 $objWriter->save('php://output');
 
-
+}
 
 
 ?>
