@@ -478,7 +478,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 $objWriter->setPreCalculateFormulas(true);
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Reporte_presupuesto.xlsx"');
+header('Content-Disposition: attachment; filename="Presupuesto_General.xlsx"');
 $objWriter->save('php://output');
 
 

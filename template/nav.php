@@ -292,7 +292,7 @@
 									$usuario = $req->fetch();
 									$nombre_completo=$usuario["nombres"]." ".$usuario["apellidos"];
 								?>
-									<small>Bienvenido,</small>
+									<!--<small>Bienvenido,</small>-->
 									<?php echo $nombre_completo; ?>
 								<!--</span>-->
 

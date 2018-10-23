@@ -482,7 +482,7 @@
 							<li class="presupuesto_p">
 								<a href="reporte_presupuesto_promotor.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Presupuestos
+									Presupuesto Zona
 								</a>
 							</li>
 							<?php } ?>

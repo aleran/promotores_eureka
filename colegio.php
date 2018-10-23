@@ -2826,7 +2826,7 @@
 															$num_hp= $req_hp->rowCount();
 
 															
-															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='simulador'>";
+															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='pp'>";
 															
 															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
 																	<table class='table table-bordered'>
@@ -3325,7 +3325,9 @@ alert('hola');
 																			else {
 
 																				if ($_SESSION["tipo"]==1) {
-																						echo '<center><button class="btn btn-primary">Aprobar</button> ';
+																						echo '<center><button class="btn btn-success">Aprobar</button> ';
+
+																						echo '<button class="btn btn-danger" id="rechazar">Rechazar</button> ';
 																					}
 																				}
 				  															echo "</form>";
@@ -5128,7 +5130,10 @@ alert('hola');
 			$("#pre_aprob").click(function(){
 				$("#simulador").attr("action","php/pasar_presupuesto.php")
 			})
-
+			$("#rechazar").click(function(){
+				$("#pp").attr("action","php/rechazar_presupuesto.php")
+			})
+			
 			$("#pre_aprob").on("click", function(e) {
 		        var condiciones = $(".pre_aprob").is(":checked");
 		        if (!condiciones) {
