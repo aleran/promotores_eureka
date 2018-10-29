@@ -97,34 +97,62 @@
 								</li>
 							</ul>
 						</li>!-->
+						<?php  
+							include("conexion/bdd.php");
+							if ($_SESSION["tipo"]==1) {
 
-						<li class="purple dropdown-modal">
+								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1'";
+
+							}else {
+
+								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id > 1 AND n.visible='1' AND c.cod_zona='".$_SESSION["zona"]."'";
+
+							}
+							
+
+							$req = $bdd->prepare($sql);
+							$req->execute();
+							$notificaciones = $req->fetchAll();
+						?>
+						<li class="green dropdown-modal">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								
+								<?php if (count($notificaciones) > 0) { ?>
+								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<?php }else{ ?>
 								<i class="ace-icon fa fa-bell"></i>
+								<?php } ?>
 
-								<!--Campana animada<i class="ace-icon fa fa-bell icon-animated-bell"></i>-->
-								<span class="badge badge-important">0</span>
+								<span class="badge badge-important"><?php echo count($notificaciones); ?></span>
 							</a>
 
-							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+							<ul class="dropdown-menu-right dropdown-navbar navbar-green dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									0 Notificaciones
+									<?php echo count($notificaciones); ?> Notificaciones
 								</li>
 
 								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+									<ul class="dropdown-menu dropdown-navbar navbar-green">
+										<?php foreach ($notificaciones as $notificacion) { ?>
 										<li>
-											<a href="#">
+											<a href="colegio.php?codigo=<?php echo $notificacion["codigo"] ?>&periodo=<?php echo $notificacion["id_periodo"] ?>">
 												<div class="clearfix">
 													<span class="pull-left">
-														<i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-														En desarrollo
+														<?php if ($notificacion["id"]==1) {?>
+														<i class="btn btn-xs no-hover btn-warning fa fa-exclamation-circle "></i>
+													<?php }elseif($notificacion["id"]==2){ ?>
+														<i class="btn btn-xs no-hover btn-success fa  fa-check-square-o"></i>
+													<?php }else{?>
+														<i class="btn btn-xs no-hover btn-danger fa fa-ban"></i>
+													<?php } ?>
+														<?php echo $notificacion["colegio"]." ". $notificacion["tipo"] ?>
 													</span>
 													<!--<span class="pull-right badge badge-info">+12</span>-->
 												</div>
 											</a>
 										</li>
+										<?php } ?>
 
 										<!--<li>
 											<a href="#">
@@ -160,7 +188,7 @@
 								</li>
 
 								<li class="dropdown-footer">
-									<a href="#">
+									<a href="notificaiones.php">
 										Ver todas las notificaciones
 										<i class="ace-icon fa fa-arrow-right"></i>
 									</a>

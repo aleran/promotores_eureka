@@ -54,10 +54,38 @@
 				
 	}
 
+	$sql = "INSERT INTO notificaciones(id_periodo,id_colegio,id_tipo_notifi,visible) VALUES('".$_POST["periodo"]."','".$_POST["id_colegio"]."','2','1')";
+
+		$query = $bdd->prepare( $sql );
+		if ($query == false) {
+			print_r($bdd->errorInfo());
+			die ('Erreur prepare');
+		}
+
+		$sth = $query->execute();
+		if ($sth == false) {
+			print_r($query->errorInfo());
+			die ('Erreur execute');
+		}
+
+	$sql = "UPDATE notificaciones SET visible='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_tipo_notifi='1'";
+
+		$query = $bdd->prepare( $sql );
+		if ($query == false) {
+			print_r($bdd->errorInfo());
+			die ('Erreur prepare');
+		}
+
+		$sth = $query->execute();
+		if ($sth == false) {
+			print_r($query->errorInfo());
+			die ('Erreur execute');
+		}
+
 
 	
 
-	header('Location: ../colegio.php?codigo='.$_POST["codigo"].'&periodo='.$_POST["periodo"].'');
+	//header('Location: ../colegio.php?codigo='.$_POST["codigo"].'&periodo='.$_POST["periodo"].'');
 
 
 ?>

@@ -8,7 +8,6 @@
 	foreach ($_POST["pre_aprob"] as $presups => $presup) {
 
 		list($libro,$pre_aprob) = explode("/", $presup);
-		echo $pre_aprob."<br>";
 
 		$libs_e[]=$libro;
 
@@ -62,8 +61,19 @@
 		}
 
 
-	
-	
+		$sql = "INSERT INTO notificaciones(id_periodo,id_colegio,id_tipo_notifi,visible) VALUES('".$_POST["periodo"]."','".$_POST["id_colegio"]."','1','1')";
+
+		$query = $bdd->prepare( $sql );
+		if ($query == false) {
+			print_r($bdd->errorInfo());
+			die ('Erreur prepare');
+		}
+
+		$sth = $query->execute();
+		if ($sth == false) {
+			print_r($query->errorInfo());
+			die ('Erreur execute');
+		}
 
 
 	
