@@ -2781,7 +2781,16 @@
 				  												
 				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
-				  															echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button>';
+
+				  														$sql = "SELECT id FROM presupuestos WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND pre_aprob=1";
+													
+																			$req = $bdd->prepare($sql);
+																			$req->execute();
+																			$num= $req->rowCount();
+																			if ($num < 1 ) {
+																				echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button>';
+																			}
+				  															
 				  														}
 				  													}
 																	echo "</form>";
