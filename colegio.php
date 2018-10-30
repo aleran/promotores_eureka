@@ -1,4 +1,5 @@
-<?php require_once("php/aut.php"); ?>
+<?php require_once("php/aut.php");
+ include("conexion/bdd.php"); ?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -137,7 +138,27 @@
 		}
 		</style>
 	</head>
+	<?php 
 
+
+		if (isset($_GET["notifi"])) {
+
+			$sql = "UPDATE notificaciones SET visible='0' WHERE id='".$_GET["notifi"]."'";
+
+			$query = $bdd->prepare( $sql );
+			if ($query == false) {
+											print_r($bdd->errorInfo());
+				die ('Erreur prepare');
+			}
+
+			$sth = $query->execute();
+			if ($sth == false) {
+				print_r($query->errorInfo());
+				die ('Erreur execute');
+			}
+		}
+
+	?>
 	<body class="no-skin">
 		<?php include("template/nav.php"); ?>
 
@@ -262,9 +283,8 @@
 									<i class="ace-icon fa fa-hand-o-right"></i>
 									Please note that demo server is not configured to save the changes, therefore you may see an error message.
 								</div>-->
-
+								
 								<?php 
-	                                include("conexion/bdd.php");
 	                                if (isset($_GET["codigo"])) {
 	                                	$codigo_col= $_GET["codigo"];
 	                                }

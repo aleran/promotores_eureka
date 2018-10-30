@@ -101,11 +101,11 @@
 							include("conexion/bdd.php");
 							if ($_SESSION["tipo"]==1) {
 
-								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1'";
+								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1' LIMIT 7";
 
 							}else {
 
-								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id > 1 AND n.visible='1' AND c.cod_zona='".$_SESSION["zona"]."'";
+								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo, n.id as id_notifi FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id > 1 AND n.visible='1' AND c.cod_zona='".$_SESSION["zona"]."' LIMIT 7";
 
 							}
 							
@@ -122,8 +122,10 @@
 								<?php }else{ ?>
 								<i class="ace-icon fa fa-bell"></i>
 								<?php } ?>
-
+								
+								<?php if (count($notificaciones) > 0) { ?>
 								<span class="badge badge-important"><?php echo count($notificaciones); ?></span>
+								<?php }?>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar navbar-green dropdown-menu dropdown-caret dropdown-close">
@@ -136,7 +138,11 @@
 									<ul class="dropdown-menu dropdown-navbar navbar-green">
 										<?php foreach ($notificaciones as $notificacion) { ?>
 										<li>
+											<?php if ($_SESSION["tipo"]==1) { ?>
 											<a href="colegio.php?codigo=<?php echo $notificacion["codigo"] ?>&periodo=<?php echo $notificacion["id_periodo"] ?>">
+											<?php }else{ ?>
+											<a href="colegio.php?codigo=<?php echo $notificacion["codigo"] ?>&periodo=<?php echo $notificacion["id_periodo"] ?>&notifi=<?php echo $notificacion["id_notifi"] ?>">
+											<?php } ?>
 												<div class="clearfix">
 													<span class="pull-left">
 														<?php if ($notificacion["id"]==1) {?>
@@ -188,7 +194,7 @@
 								</li>
 
 								<li class="dropdown-footer">
-									<a href="notificaiones.php">
+									<a href="notificaciones.php">
 										Ver todas las notificaciones
 										<i class="ace-icon fa fa-arrow-right"></i>
 									</a>
