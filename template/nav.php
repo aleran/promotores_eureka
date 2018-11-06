@@ -101,14 +101,20 @@
 							include("conexion/bdd.php");
 							if ($_SESSION["tipo"]==1) {
 
+								$sql_n = "SELECT n.id FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1'";
+
 								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1' LIMIT 7";
 
 							}else {
 
+								$sql_n = "SELECT n.id FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1'";
+
 								$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo, n.id as id_notifi FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id > 1 AND n.visible='1' AND c.cod_zona='".$_SESSION["zona"]."' LIMIT 7";
 
 							}
-							
+							$req_n = $bdd->prepare($sql_n);
+							$req_n->execute();
+							$num= $req_n->rowCount();
 
 							$req = $bdd->prepare($sql);
 							$req->execute();
@@ -117,21 +123,21 @@
 						<li class="green dropdown-modal">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								
-								<?php if (count($notificaciones) > 0) { ?>
+								<?php if ($num > 0) { ?>
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
 								<?php }else{ ?>
 								<i class="ace-icon fa fa-bell"></i>
 								<?php } ?>
 								
-								<?php if (count($notificaciones) > 0) { ?>
-								<span class="badge badge-important"><?php echo count($notificaciones); ?></span>
+								<?php if ($num > 0) { ?>
+								<span class="badge badge-important"><?php echo $num; ?></span>
 								<?php }?>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar navbar-green dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="ace-icon fa fa-exclamation-triangle"></i>
-									<?php echo count($notificaciones); ?> Notificaciones
+									<?php echo $num; ?> Notificaciones
 								</li>
 
 								<li class="dropdown-content">
