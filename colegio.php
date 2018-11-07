@@ -3086,6 +3086,60 @@
 
 
 																					})
+
+
+																					$('#tasa_p".$libro2["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_p".$libro2["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_p".$libro2["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_p".$libro2["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_p".$libro2["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_p".$libro2["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0
+																						}
+
+																						$('#venta_p_p".$libro2["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_p".$libro2["id"]."').val(vp);
+																						
+
+																						$('#v_p".$libro2["id"]."').val(vp);
+
+
+																						$('#precio_n".$libro2["id"]."').val(precio_neto);
+
+																						$('#presupuesto_p".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+
+																						var total_vp_p=0;
+
+																						$('.venta1_p').each(function(){
+
+																							total_vp_p+=parseFloat($(this).val()) || 0;
+																							total_vp_p=Math.round(total_vp_p * 100) / 100;
+
+																						});
+																																							
+																						$('#total_vp_p').text(formatNumber.new(total_vp_p));
+
+
+																					})
 																			</script>
 
 																				
@@ -3297,6 +3351,10 @@ alert('hola');
 																						$('#total_vp_p').text(formatNumber.new(total_vp_p));
 
 																					})
+
+
+
+
 																			</script>
 
 																			
@@ -3526,6 +3584,7 @@ alert('hola');
 																			<th>Descuento</th>
 																			<th>Precio neto</th>
 																			<th>Venta potencial</th>
+																			<th>Precio venta final</th>
 																			<th>Adopción</th>
 																			<th>Acciones</th>
 																		</thead>
@@ -3544,7 +3603,7 @@ alert('hola');
 
 																	foreach ($libros2 as $libro2) {
 
-																		$sql_presup = "SELECT id, precio, tasa_compra, descuento, definido, tasa_compra_d, descuento_d FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																		$sql_presup = "SELECT id, precio, tasa_compra, descuento, definido, tasa_compra_d, descuento_d, precio_venta_final FROM presupuestos WHERE id_libro='".$libro2["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -3661,7 +3720,15 @@ alert('hola');
 
 																				}
 
+																				if ($presup["precio_venta_final"] > 0) {
 
+																					echo"<input type='text' size='2' name='precio_final[]' id='precio_final".$libro2["id"]."' value='".$presup["precio_venta_final"]."' > %</td>";
+																				}else {
+
+
+																					echo"<input type='text' size='2' name='precio_final' id='precio_final".$libro2["id"]."'> %</td>";
+
+																				}
 																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
 																						if ($presup["definido"] ==1) {
 																						echo "<td><input type='checkbox' name='definir[]' class='definir' checked value='".$libro2["id"]."/'".$presup["id"]."></td>";
@@ -3723,7 +3790,9 @@ alert('hola');
 																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 																						
 																						
-																						$('#presupuesto_d".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+																						var precio_final=$('#precio_final".$libro2["id"]."').val()
+
+																						$('#presupuesto_d".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp+'/'+precio_final);
 
 																						var total_vp_d=0;
 
@@ -3777,7 +3846,9 @@ alert('hola');
 
 																						$('#precio_n".$libro2["id"]."').val(precio_neto);
 
-																						$('#presupuesto_d".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+																						var precio_final=$('#precio_final".$libro2["id"]."').val()
+
+																						$('#presupuesto_d".$libro2["id"]."').val(".$libro2["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp+'/'+precio_final);
 
 																						var total_vp_d=0;
 
@@ -3801,7 +3872,7 @@ alert('hola');
 
 																else {
 
-																	$sql_presup = "SELECT id,precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	$sql_presup = "SELECT id,precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido,precio_venta_final FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -3914,6 +3985,16 @@ alert('hola');
 
 																				}
 
+																				if ($presup["precio_venta_final"] > 0) {
+
+																					echo"<td><input type='text' size='5' name='precio_final[]' id='precio_final".$libro_p["id"]."' value='".$presup["precio_venta_final"]."'  > </td>";
+																				}else {
+
+
+																					echo"<td><input type='text' size='5' name='precio_final' id='precio_final".$libro_p["id"]."' > </td>";
+
+																				}
+
 
 																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
 																						if ($presup["definido"] ==1) {
@@ -3970,7 +4051,9 @@ alert('hola');
 
 																						$('#venta_ps_d".$libro_p["id"]."').val(vp);
 
-																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+																						var precio_final=$('#precio_final".$libro_p["id"]."').val()
+
+																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp+'/'+precio_final);
 
 																						var total_vp_d=0;
 
@@ -4016,7 +4099,9 @@ alert('hola');
 
 																						$('#venta_ps_d".$libro_p["id"]."').val(vp);
 
-																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp);
+																						var precio_final=$('#precio_final".$libro_p["id"]."').val()
+
+																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp+'/'+precio_final);
 
 
 																						var total_vp_d=0;
@@ -4030,6 +4115,52 @@ alert('hola');
 																																							
 																						$('#total_vp_d').text(formatNumber.new(total_vp_d));
 
+																					})
+
+																					$('#precio_final".$libro_p["id"]."').keyup(function(){
+																						var pvp=parseInt($('#pvp_s_d".$libro_p["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_d".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						if(isNaN(precio_neto)){
+																							precio_neto=0
+																						}
+
+																						$('#pn_d".$libro_p["id"]."').text(formatNumber.new(precio_neto));
+
+
+																						var tasa_c=parseInt($('#tasa_d".$libro_p["id"]."').val());
+
+																						tasa_c=tasa_c/100;
+
+																						var alumnos=parseInt($('#alm_d".$libro_p["id"]."').text());
+
+																						var vp= precio_neto *(Math.floor(alumnos*tasa_c))
+
+																						if(isNaN(vp)){
+																							vp=0;
+																						}
+
+																						$('#venta_p_d".$libro_p["id"]."').text(formatNumber.new(vp));
+
+																						$('#venta_ps_d".$libro_p["id"]."').val(vp);
+
+																						var precio_final=$('#precio_final".$libro_p["id"]."').val()
+
+																						$('#presupuesto_d".$libro_p["id"]."').val(".$libro_p["id"]."+'/'+tasa_c+'/'+descuento+'/'+pvp+'/'+precio_final);
+
+
+																						var total_vp_d=0;
+
+																						$('.venta1_d').each(function(){
+
+																							total_vp_d+=parseFloat($(this).val()) || 0;
+																							total_vp_d=Math.round(total_vp_d * 100) / 100;
+
+																						});
 																					})
 																			</script>
 
@@ -4065,6 +4196,89 @@ alert('hola');
 																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
+
+
+				  													echo '<div class="row">
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																				<label class="control-label no-padding-right" for="recurso"> Recurso:</label>
+
+																			<textarea class="form-control" name="recurso" rows="2" cols="2" placeholder="EJ. Video Beam"></textarea>
+										
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																				<label class="control-label no-padding-right" for="reintegro"> Reintegro:</label>
+
+																			<textarea class="form-control" name="reintegro" rows="2" cols="2" placeholder="EJ. Proporcianal a la venta"></textarea>
+										
+																			</div>
+																		</div>';
+																		echo'<div class="col-sm-4">
+																				<div class="form-group">
+																					<label class="control-label no-padding-right" for="canal"> Canal de venta<small style="color:red;"> *</small></label>
+							
+																					<select name="canal" id="canal" class="form-control materia" required>
+																					<option value="">Seleccionar</option>';
+											 	 
+																		 		$sql = "SELECT id, canal_venta FROM canales_venta";
+														
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$materias = $req->fetchAll();
+														
+																				foreach($materias as $materia) {
+																				    $id = $materia['id'];
+																				    $nom = $materia['canal_venta'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+											 	
+																				echo'</select>
+																					
+																			</div>
+																		</div>
+																	</div>';
+
+																	echo '<div class="row">
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																			<label class="control-label no-padding-right" for="valor_recurso"> Valor recurso:</label>
+
+										
+																			<input type="text" name="valor_recurso" id="valor_recurso" placeholder="$ 1500000" class="form-control" />
+										
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																			<label class="control-label no-padding-right" for="valor_reintegro"> Valor Reintegro:</label>
+
+										
+																			<input type="text" name="valor_reintegro" id="valor_recurso" placeholder="$ 1500000" class="form-control" />
+										
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																				<label class="control-label no-padding-right" for="descripcion"> Descripción:</label>
+
+																			<textarea class="form-control" name="descripcion" rows="2" cols="2" placeholder="SE DEJA EN CONSIGNACIÓN Y SE LE INCREMENTA $2000"></textarea>
+										
+																			</div>
+																		</div>
+																	</div>';
+
+																	echo'<div class="form-group">
+																				<label class="control-label no-padding-right" for="observaciones"> Observaciones:</label>
+
+																			<textarea class="form-control" name="observaciones" rows="2" cols="2" placeholder="En la papeleria se deja la mercancia para venta y alla suben $2.000 por libro, una vez se haga la venta se reintegrara alaempresa el valor correspondiente al excedente del 10% aprobado como recurso"></textarea>
+										
+																			</div>';
+
+
+																		
+
 				  													if ($num_hp < 1) {
 				  														
 				  													}

@@ -6,7 +6,7 @@
 
 	foreach ($_POST["presupuesto_d"] as $presups => $presup) {
 
-		list($libro,$tasa_c,$descuento, $precio) = explode("/", $presup);
+		list($libro,$tasa_c,$descuento, $precio, $precio_final) = explode("/", $presup);
 
 		
 		if ($tasa_c=="") {
@@ -39,7 +39,7 @@
 
 		}else {
 
-			$sql_e = "UPDATE presupuestos SET  tasa_compra_d='".$tasa_c."',descuento_d='".$descuento."', precio='".$precio."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
+			$sql_e = "UPDATE presupuestos SET  tasa_compra_d='".$tasa_c."',descuento_d='".$descuento."', precio='".$precio."', precio_venta_final='".$precio_final."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
 
 			$query_e = $bdd->prepare( $sql_e );
 			if ($query_e == false) {
