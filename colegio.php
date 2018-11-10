@@ -4197,8 +4197,13 @@ alert('hola');
 																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
 
-
-				  													echo '<div class="row">
+				  								$sql_rec = "SELECT * FROM recursos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+												$req_rec = $bdd->prepare($sql_rec);
+													$req_rec->execute();
+													$recursos = $req_rec->fetch();
+													if (count($recursos) < 1) {
+														echo '<div class="row">
 																		<div class="col-sm-4">
 																			<div class="form-group">
 																				<label class="control-label no-padding-right" for="recurso"> Recurso:</label>
@@ -4217,20 +4222,20 @@ alert('hola');
 																		</div>';
 																		echo'<div class="col-sm-4">
 																				<div class="form-group">
-																					<label class="control-label no-padding-right" for="canal"> Canal de venta<small style="color:red;"> *</small></label>
+																					<label class="control-label no-padding-right" for="canal"> Canal de venta</label>
 							
-																					<select name="canal" id="canal" class="form-control materia" required>
+																					<select name="canal" id="canal" class="form-control materia" >
 																					<option value="">Seleccionar</option>';
 											 	 
 																		 		$sql = "SELECT id, canal_venta FROM canales_venta";
 														
 																				$req = $bdd->prepare($sql);
 																				$req->execute();
-																				$materias = $req->fetchAll();
+																				$canales = $req->fetchAll();
 														
-																				foreach($materias as $materia) {
-																				    $id = $materia['id'];
-																				    $nom = $materia['canal_venta'];
+																				foreach($canales as $canal) {
+																				    $id = $canal['id'];
+																				    $nom = $canal['canal_venta'];
 																				    echo '<option value="'.$id.'">'.$nom.'</option>';
 																				}
 											 	
@@ -4275,6 +4280,95 @@ alert('hola');
 																			<textarea class="form-control" name="observaciones" rows="2" cols="2" placeholder="En la papeleria se deja la mercancia para venta y alla suben $2.000 por libro, una vez se haga la venta se reintegrara alaempresa el valor correspondiente al excedente del 10% aprobado como recurso"></textarea>
 										
 																			</div>';
+													}else {
+
+														echo '<div class="row">
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																				<label class="control-label no-padding-right" for="recurso"> Recurso:</label>
+
+																			<textarea class="form-control" name="recurso" rows="2" cols="2" placeholder="EJ. Video Beam">'.$recursos["recurso"].'</textarea>
+										
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																				<label class="control-label no-padding-right" for="reintegro"> Reintegro:</label>
+
+																			<textarea class="form-control" name="reintegro" rows="2" cols="2" placeholder="EJ. Proporcianal a la venta">'.$recursos["reintegro"].'</textarea>
+										
+																			</div>
+																		</div>';
+																		echo'<div class="col-sm-4">
+																				<div class="form-group">
+																					<label class="control-label no-padding-right" for="canal"> Canal de venta</label>
+							
+																					<select name="canal" id="canal" class="form-control materia" >
+																					<option value="">Seleccionar</option>';
+											 	 
+																		 		$sql = "SELECT id, canal_venta FROM canales_venta";
+														
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$canales = $req->fetchAll();
+														
+																				foreach($canales as $canal) {
+
+
+																				    $id = $canal['id'];
+																				    $nom = $canal['canal_venta'];
+																				    if ($recursos["id_canal"]==$id) {
+																						echo '<option value="'.$id.'" SELECTED>'.$nom.'</option>';
+																					}else {
+																						echo '<option value="'.$id.'">'.$nom.'</option>';
+																					}
+																				    
+																				}
+											 	
+																				echo'</select>
+																					
+																			</div>
+																		</div>
+																	</div>';
+
+																	echo '<div class="row">
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																			<label class="control-label no-padding-right" for="valor_recurso"> Valor recurso:</label>
+
+										
+																			<input type="text" name="valor_recurso" id="valor_recurso" placeholder="$ 1500000" class="form-control" value="'.$recursos["valor_recurso"].'"/>
+										
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																			<label class="control-label no-padding-right" for="valor_reintegro"> Valor Reintegro:</label>
+
+										
+																			<input type="text" name="valor_reintegro" id="valor_recurso" placeholder="$ 1500000" class="form-control" value="'.$recursos["valor_reintegro"].'"/>
+										
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="form-group">
+																				<label class="control-label no-padding-right" for="descripcion"> Descripción:</label>
+
+																			<textarea class="form-control" name="descripcion" rows="2" cols="2" placeholder="SE DEJA EN CONSIGNACIÓN Y SE LE INCREMENTA $2000">'.$recursos["descripcion_canal"].'</textarea>
+										
+																			</div>
+																		</div>
+																	</div>';
+
+																	echo'<div class="form-group">
+																				<label class="control-label no-padding-right" for="observaciones"> Observaciones:</label>
+
+																			<textarea class="form-control" name="observaciones" rows="2" cols="2" placeholder="En la papeleria se deja la mercancia para venta y alla suben $2.000 por libro, una vez se haga la venta se reintegrara alaempresa el valor correspondiente al excedente del 10% aprobado como recurso">'.$recursos["observaciones"].'</textarea>
+										
+																			</div>';
+
+													}
+				  													
 
 
 																		

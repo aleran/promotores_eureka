@@ -61,7 +61,34 @@
 				
 	}
 
+	$sql_rec = "SELECT id FROM recursos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
 
+	$req_rec = $bdd->prepare($sql_rec);
+	$req_rec->execute();
+	$num = $req_rec->rowCount();
+
+	if ($num < 1 ) {
+
+		$sql_e = "INSERT INTO recursos(id_periodo,id_colegio,recurso,valor_recurso, reintegro, valor_reintegro,id_canal,descripcion_canal,fecha,observaciones) VALUES ('".$_POST["periodo"]."', '".$_POST["id_colegio"]."', '".$_POST["recurso"]."','".$_POST["valor_recurso"]."', '".$_POST["reintegro"]."','".$_POST["valor_reintegro"]."','".$_POST["canal"]."','".$_POST["descripcion"]."','".date("Y-m-d")."','".$_POST["observaciones"]."')";
+
+	}else {
+
+		$sql_e = "UPDATE recursos SET recurso='".$_POST["recurso"]."', valor_recurso='".$_POST["valor_recurso"]."', reintegro='".$_POST["reintegro"]."', valor_reintegro='".$_POST["valor_reintegro"]."', id_canal='".$_POST["canal"]."', descripcion_canal='".$_POST["descripcion"]."', fecha='".date("Y-m-d")."', observaciones='".$_POST["observaciones"]."'";
+	}
+
+	
+
+	$query_e = $bdd->prepare( $sql_e );
+
+	if ($query_e == false) {
+		print_r($bdd->errorInfo());
+		die ('Erreur prepare');
+	}
+	$sth_e = $query_e->execute();
+	if ($sth_e == false) {
+		print_r($query_e->errorInfo());
+		die ('Erreur execute');
+	}
 	
 
 	header('Location: ../colegio.php?codigo='.$_POST["codigo"].'&periodo='.$_POST["periodo"].'');
