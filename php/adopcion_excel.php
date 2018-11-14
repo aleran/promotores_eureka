@@ -73,9 +73,20 @@ $objDrawing->setWidth(200);
 $objDrawing->setHeight(75); 
 $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
+	$sql_cole="SELECT colegio, cod_zona FROM colegios WHERE id='".$_POST["cole"]."'";
+
+	$req_cole = $bdd->prepare($sql_cole);
+	$req_cole->execute();
+	$cole = $req_cole->fetch();
+
+	$sql_zona="SELECT zona FROM zonas WHERE codigo='".$cole["cod_zona"]."'";
+
+	$req_zona = $bdd->prepare($sql_zona);
+	$req_zona->execute();
+	$zona = $req_zona->fetch();
 
 
-	$sql = "SELECT nombres, apellidos, cod_zona FROM usuarios WHERE id='".$_GET["promotor"]."'";
+	$sql = "SELECT nombres, apellidos FROM usuarios WHERE cod_zona='".$cole["cod_zona"]."'";
 
 	$req = $bdd->prepare($sql);
 	$req->execute();
@@ -83,30 +94,6 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 	$nombre_completo=$usuario["nombres"]." ".$usuario["apellidos"];
 
-	$sql_zona="SELECT zona FROM zonas WHERE codigo='".$usuario["cod_zona"]."'";
-
-	$req_zona = $bdd->prepare($sql_zona);
-	$req_zona->execute();
-	$zona = $req_zona->fetch();
-
-	$desde=$_GET["desde"]." "."00:00:00";
-	$hasta=$_GET["hasta"]." "."23:59:59";
-
-	$sql_pt = "SELECT id FROM plan_trabajo WHERE id_promotor='".$_GET["promotor"]."' AND start BETWEEN '".$desde."' AND '".$hasta."'";
-	$req_pt = $bdd->prepare($sql_pt);
-	$req_pt->execute();
-
-	$plan_trabajo = $req_pt->rowCount();
-
-	$sql_vi = "SELECT v.id FROM visitas v JOIN plan_trabajo p ON v.id_plan_trabajo=p.id WHERE p.id_promotor='".$_GET["promotor"]."'  AND fecha BETWEEN '".$desde."' AND '".$hasta."'";
-
-	$req_vi = $bdd->prepare($sql_vi);
-	$req_vi->execute();
-
-	$visitas = $req_vi->rowCount();
-
-	$cumplimiento = $visitas / $plan_trabajo;
-	$cumplimiento = floor($cumplimiento * 100);
 
 	
 
@@ -136,18 +123,41 @@ $objPHPExcel->getActiveSheet()->getStyle('A10:L10')->applyFromArray($estilo_cent
 $objPHPExcel->getActiveSheet()->SetCellValue("D5", "Zona");
 $objPHPExcel->getActiveSheet()->SetCellValue("E5", "$zona[zona]");
 $objPHPExcel->getActiveSheet()->SetCellValue("A5", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("B5", "Nombre del colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("B5", "$cole[colegio]");
 $objPHPExcel->getActiveSheet()->SetCellValue("A6", "Promotor");
 $objPHPExcel->getActiveSheet()->SetCellValue("B6", "$nombre_completo");
 $objPHPExcel->getActiveSheet()->mergeCells('F5:G5');
 $objPHPExcel->getActiveSheet()->mergeCells('F6:G6');
 $objPHPExcel->getActiveSheet()->mergeCells('F7:G7');
+
+$sql_pre = "SELECT avg(tasa_compra_d) * as p_pre FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '1' AND '3'";
+
+$req_pre = $bdd->prepare($sql_pre);
+$req_pre->execute();
+$p_pre = $req_pre->fetch();
+
+$sql_pri =  "SELECT avg(tasa_compra_d) as p_pri FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '4' AND '8'";
+
+$req_pri = $bdd->prepare($sql_pri);
+$req_pri->execute();
+$p_pri = $req_pri->fetch();
+
+$sql_sec =  "SELECT avg(tasa_compra_d) as p_sec FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '9' AND '14'";;
+
+$req_sec = $bdd->prepare($sql_sec);
+$req_sec->execute();
+$p_sec = $req_sec->fetch();
+
+$p_pre=$p_pre["p_pre"] * 100;
+$p_pri=$p_pri["p_pri"] * 100;
+$p_sec=$p_sec["p_sec"] * 100;
+
 $objPHPExcel->getActiveSheet()->SetCellValue("F5", "Potencial compra preescolar%");
-$objPHPExcel->getActiveSheet()->SetCellValue("H5", "1");
+$objPHPExcel->getActiveSheet()->SetCellValue("H5", "$p_pre");
 $objPHPExcel->getActiveSheet()->SetCellValue("F6", "Potencial compra preescolar%");
-$objPHPExcel->getActiveSheet()->SetCellValue("H6", "2");
+$objPHPExcel->getActiveSheet()->SetCellValue("H6", "$p_pri");
 $objPHPExcel->getActiveSheet()->SetCellValue("F7", "Potencial venta bachillerato%");
-$objPHPExcel->getActiveSheet()->SetCellValue("H7", "3");
+$objPHPExcel->getActiveSheet()->SetCellValue("H7", "$p_sec");
 
 
 
@@ -186,14 +196,30 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT p.id as planid, p.resultado,p.cod_profesor, c.colegio, p.start, p.id_objetivo FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  WHERE p.id_promotor='".$_GET["promotor"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio, p.tasa_compra_d, p.descuento_d, p.precio_venta_final FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND p.id_colegio='".$_POST["cole"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
-	$planes = $req->fetchAll();
+	$adopciones = $req->fetchAll();
 
-$conta=9;
+$conta=11;
 
-foreach($planes as $plan) {
+foreach($adopciones as $adopcion) {
+
+	$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$adopcion["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+                           
+    $req_gp = $bdd->prepare($sq_gp);
+    $req_gp->execute();
+    $gp = $req_gp->fetch();
+
+	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$adopcion[libro]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$adopcion[grado]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[paralelos]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$gp[alumnos]");
+
+	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$adopcion[precio]");
+
+
+	$conta++;
 
 	
 }
@@ -205,6 +231,6 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Visitas_semanal.xlsx"');
+header('Content-Disposition: attachment; filename="Reporte_adopcion.xlsx"');
 $objWriter->save('php://output');
 ?>
