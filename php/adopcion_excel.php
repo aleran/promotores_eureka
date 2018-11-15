@@ -115,8 +115,8 @@ $objPHPExcel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_centrar);
-$objPHPExcel->getActiveSheet()->getStyle('A9:L9')->applyFromArray($estilo_negrita);
-$objPHPExcel->getActiveSheet()->getStyle('A10:L10')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('A9:M9')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('A10:M10')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('A9:L9')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->getStyle('A10:L10')->applyFromArray($estilo_centrar);
 
@@ -129,6 +129,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue("B6", "$nombre_completo");
 $objPHPExcel->getActiveSheet()->mergeCells('F5:G5');
 $objPHPExcel->getActiveSheet()->mergeCells('F6:G6');
 $objPHPExcel->getActiveSheet()->mergeCells('F7:G7');
+$objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
 
 $sql_pre = "SELECT avg(tasa_compra_d) * as p_pre FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '1' AND '3'";
 
@@ -142,7 +143,7 @@ $req_pri = $bdd->prepare($sql_pri);
 $req_pri->execute();
 $p_pri = $req_pri->fetch();
 
-$sql_sec =  "SELECT avg(tasa_compra_d) as p_sec FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '9' AND '14'";;
+$sql_sec =  "SELECT avg(tasa_compra_d) as p_sec FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '9' AND '14'";
 
 $req_sec = $bdd->prepare($sql_sec);
 $req_sec->execute();
@@ -152,40 +153,51 @@ $p_pre=$p_pre["p_pre"] * 100;
 $p_pri=$p_pri["p_pri"] * 100;
 $p_sec=$p_sec["p_sec"] * 100;
 
-$objPHPExcel->getActiveSheet()->SetCellValue("F5", "Potencial compra preescolar%");
+$sql_descuento =  "SELECT avg(descuento_d) as descuento_pactado FROM presupuestos p WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' ";
+
+$req_descuento = $bdd->prepare($sql_descuento);
+$req_descuento->execute();
+$descuento = $req_descuento->fetch();
+$descuento_pactado= $descuento["descuento_pactado"] * 100;
+
+$objPHPExcel->getActiveSheet()->SetCellValue("F5", "Potencial compra preescolar %");
 $objPHPExcel->getActiveSheet()->SetCellValue("H5", "$p_pre");
-$objPHPExcel->getActiveSheet()->SetCellValue("F6", "Potencial compra preescolar%");
+$objPHPExcel->getActiveSheet()->SetCellValue("F6", "Potencial compra preescolar %");
 $objPHPExcel->getActiveSheet()->SetCellValue("H6", "$p_pri");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Potencial venta bachillerato%");
+$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Potencial venta bachillerato %");
 $objPHPExcel->getActiveSheet()->SetCellValue("H7", "$p_sec");
+$objPHPExcel->getActiveSheet()->SetCellValue("F8", "Descuento pactado %");
+$objPHPExcel->getActiveSheet()->SetCellValue("H8", "$descuento_pactado");
 
 
 
-$objPHPExcel->getActiveSheet()->mergeCells('A9:A10');
-$objPHPExcel->getActiveSheet()->mergeCells('B9:B10');
-$objPHPExcel->getActiveSheet()->mergeCells('C9:C10');
-$objPHPExcel->getActiveSheet()->mergeCells('D9:D10');
-$objPHPExcel->getActiveSheet()->mergeCells('E9:H9');
-$objPHPExcel->getActiveSheet()->mergeCells('I9:I10');
-$objPHPExcel->getActiveSheet()->mergeCells('J9:J10');
-$objPHPExcel->getActiveSheet()->mergeCells('K9:K10');
-$objPHPExcel->getActiveSheet()->mergeCells('L9:L10');
-$objPHPExcel->getActiveSheet()->getStyle('E9')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->mergeCells('A10:A11');
+$objPHPExcel->getActiveSheet()->mergeCells('B10:B11');
+$objPHPExcel->getActiveSheet()->mergeCells('C10:C11');
+$objPHPExcel->getActiveSheet()->mergeCells('D10:D11');
+$objPHPExcel->getActiveSheet()->mergeCells('E10:E11');
+$objPHPExcel->getActiveSheet()->mergeCells('F10:I10');
+$objPHPExcel->getActiveSheet()->mergeCells('J10:J11');
+$objPHPExcel->getActiveSheet()->mergeCells('K10:K11');
+$objPHPExcel->getActiveSheet()->mergeCells('L10:L11');
+$objPHPExcel->getActiveSheet()->mergeCells('M10:M11');
+$objPHPExcel->getActiveSheet()->getStyle('E10')->applyFromArray($estilo_centrar);
 
 
-$objPHPExcel->getActiveSheet()->SetCellValue("A9", "Titulo");
-$objPHPExcel->getActiveSheet()->SetCellValue("B9", "Grado");
-$objPHPExcel->getActiveSheet()->SetCellValue("C9", "Paralelos");
-$objPHPExcel->getActiveSheet()->SetCellValue("D9", "Alumnos");
-$objPHPExcel->getActiveSheet()->SetCellValue("E9", "Venta estimada");
-$objPHPExcel->getActiveSheet()->SetCellValue("E10", "COMP ACTV");
-$objPHPExcel->getActiveSheet()->SetCellValue("F10", "PVP");
-$objPHPExcel->getActiveSheet()->SetCellValue("G10", "VENTA BRUTA");
-$objPHPExcel->getActiveSheet()->SetCellValue("H10", "Precio Facturación");
-$objPHPExcel->getActiveSheet()->SetCellValue("I9", "Venta estimada");
-$objPHPExcel->getActiveSheet()->SetCellValue("J9", "Precio Venta final");
-$objPHPExcel->getActiveSheet()->SetCellValue("K9", "Venta real");
-$objPHPExcel->getActiveSheet()->SetCellValue("L9", "Diferencia");
+$objPHPExcel->getActiveSheet()->SetCellValue("A10", "Titulo");
+$objPHPExcel->getActiveSheet()->SetCellValue("B10", "Grado");
+$objPHPExcel->getActiveSheet()->SetCellValue("C10", "Paralelos");
+$objPHPExcel->getActiveSheet()->SetCellValue("D10", "Alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("E10", "% Compra");
+$objPHPExcel->getActiveSheet()->SetCellValue("F10", "Venta estimada");
+$objPHPExcel->getActiveSheet()->SetCellValue("F11", "COMP ACTV");
+$objPHPExcel->getActiveSheet()->SetCellValue("G11", "PVP");
+$objPHPExcel->getActiveSheet()->SetCellValue("H11", "VENTA BRUTA");
+$objPHPExcel->getActiveSheet()->SetCellValue("I11", "Precio Facturación");
+$objPHPExcel->getActiveSheet()->SetCellValue("J10", "Venta estimada");
+$objPHPExcel->getActiveSheet()->SetCellValue("K10", "Precio Venta final");
+$objPHPExcel->getActiveSheet()->SetCellValue("L10", "Venta real");
+$objPHPExcel->getActiveSheet()->SetCellValue("M10", "Diferencia");
 
 
 $sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
@@ -201,7 +213,7 @@ $gp_periodo = $req_periodo->fetch();
 	$req->execute();
 	$adopciones = $req->fetchAll();
 
-$conta=11;
+$conta=12;
 
 foreach($adopciones as $adopcion) {
 
@@ -211,12 +223,30 @@ foreach($adopciones as $adopcion) {
     $req_gp->execute();
     $gp = $req_gp->fetch();
 
+
+    $tasa_compra=$adopcion["tasa_compra_d"] * 100;
+    $comp_activos=$gp["alumnos"] * $adopcion["tasa_compra_d"];
+    $comp_activos=floor($comp_activos);
+    $venta_bruta=$adopcion["precio"] * $comp_activos;
+    $precio_fact=$adopcion["precio"] - ($adopcion["precio"] * $descuento["descuento_pactado"]);
+    $venta_estimada=$precio_fact * $comp_activos;
+    $venta_real= $adopcion["precio_venta_final"] * $comp_activos;
+    $diferencia=$venta_estimada - $venta_real;
+
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$adopcion[libro]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$adopcion[grado]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[paralelos]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$gp[alumnos]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$tasa_compra");
+	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$comp_activos");
+	$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$adopcion[precio]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$venta_bruta");
+	$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$precio_fact");
+	$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$venta_estimada");
+	$objPHPExcel->getActiveSheet()->SetCellValue("K$conta", "$adopcion[precio_venta_final]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$venta_real");
+	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$diferencia");
 
-	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$adopcion[precio]");
 
 
 	$conta++;
