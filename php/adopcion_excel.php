@@ -248,11 +248,35 @@ foreach($adopciones as $adopcion) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$diferencia");
 
 
-
 	$conta++;
-
+	$t_alumnos[]=$gp["alumnos"];
+	$t_paralelos[]=$gp["paralelos"];
+	$t_compradores[]=$comp_activos;
+	$t_venta_bruta[]=$venta_bruta;
+	$t_venta_estimada[]=$venta_estimada;
+	$t_venta_real[]=$venta_real;
+	$t_diferencia[]=$diferencia;
 	
 }
+
+$t_paralelos=array_sum($t_paralelos);
+$t_alumnos=array_sum($t_alumnos);
+$t_compradores=array_sum($t_compradores);
+$t_venta_bruta=array_sum($t_venta_bruta);
+$t_venta_estimada=array_sum($t_venta_estimada);
+$t_venta_real=array_sum($t_venta_real);
+$t_diferencia=array_sum($t_diferencia);
+
+$objPHPExcel->getActiveSheet()->getStyle('A'.$conta.':M'.$conta)->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "TOTAL VENTA");
+$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$t_paralelos");
+$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$t_alumnos");
+$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$t_compradores");
+$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$t_venta_bruta");
+$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$t_venta_estimada");
+$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$t_venta_real");
+$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$diferencia");
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
 }
@@ -260,6 +284,8 @@ foreach (range('AA', 'ZZ') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
+$objWriter->setPreCalculateFormulas(true);
+PHPExcel_Calculation::getInstance($objPHPExcel)->cyclicFormulaCount = 1;
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="Reporte_adopcion.xlsx"');
 $objWriter->save('php://output');
