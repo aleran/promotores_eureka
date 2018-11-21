@@ -276,7 +276,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$t_compradores");
 $objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$t_venta_bruta");
 $objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$t_venta_estimada");
 $objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$t_venta_real");
-$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$diferencia");
+$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$t_diferencia");
 
 
 $sql_rec = "SELECT  * FROM recursos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."'";
