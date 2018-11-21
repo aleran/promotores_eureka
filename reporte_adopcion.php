@@ -812,7 +812,7 @@
 		</script>
 		<script>
 			$(".abrir_reportes").addClass("open");
-			$(".profesores").addClass("active");
+			$(".adopciones").addClass("active");
 		</script>
 	</body>
 </html>

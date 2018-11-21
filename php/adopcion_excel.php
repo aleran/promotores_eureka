@@ -120,11 +120,11 @@ $objPHPExcel->getActiveSheet()->getStyle('A10:M10')->applyFromArray($estilo_negr
 $objPHPExcel->getActiveSheet()->getStyle('A9:L9')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->getStyle('A10:L10')->applyFromArray($estilo_centrar);
 
-$objPHPExcel->getActiveSheet()->SetCellValue("D5", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("D5", "Zona:");
 $objPHPExcel->getActiveSheet()->SetCellValue("E5", "$zona[zona]");
-$objPHPExcel->getActiveSheet()->SetCellValue("A5", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("A5", "Colegio:");
 $objPHPExcel->getActiveSheet()->SetCellValue("B5", "$cole[colegio]");
-$objPHPExcel->getActiveSheet()->SetCellValue("A6", "Promotor");
+$objPHPExcel->getActiveSheet()->SetCellValue("A6", "Promotor:");
 $objPHPExcel->getActiveSheet()->SetCellValue("B6", "$nombre_completo");
 $objPHPExcel->getActiveSheet()->mergeCells('F5:G5');
 $objPHPExcel->getActiveSheet()->mergeCells('F6:G6');
@@ -277,6 +277,69 @@ $objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$t_venta_bruta");
 $objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$t_venta_estimada");
 $objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$t_venta_real");
 $objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$diferencia");
+
+
+$sql_rec = "SELECT  * FROM recursos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."'";
+                           
+$req_rec = $bdd->prepare($sql_rec);
+$req_rec->execute();
+$recurso = $req_rec->fetch();
+
+$sql_canal = "SELECT  canal_venta FROM canales_venta WHERE id='".$recurso["id_canal"]."'";
+                           
+$req_canal = $bdd->prepare($sql_canal);
+$req_canal->execute();
+$canal = $req_canal->fetch();
+
+$conta1=$conta + 2;
+$conta2=$conta1 + 1;
+
+$conta3=$conta2 + 2;
+$conta4=$conta3 + 1;
+
+$conta5=$conta4+ 2;
+
+$conta6=$conta5 + 2;
+$conta7=$conta6 + 1;
+
+$conta8=$conta7 + 4;
+
+$objPHPExcel->getActiveSheet()->getStyle('A'.$conta1.':H'.$conta1)->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta1", "RECURSO ENTREGADO");
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta2", "$recurso[recurso]");
+$objPHPExcel->getActiveSheet()->SetCellValue("D$conta1", "REINTEGRO");
+$objPHPExcel->getActiveSheet()->SetCellValue("D$conta2", "$recurso[reintegro]");
+$objPHPExcel->getActiveSheet()->SetCellValue("H$conta1", "CANAL DE VENTA");
+$objPHPExcel->getActiveSheet()->SetCellValue("H$conta2", "$canal[canal_venta]");
+
+$objPHPExcel->getActiveSheet()->getStyle('A'.$conta3.':H'.$conta3)->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta3", "VALOR RECURSO");
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta4", "$recurso[valor_recurso]");
+$objPHPExcel->getActiveSheet()->SetCellValue("D$conta3", "VALOR REINTEGRO");
+$objPHPExcel->getActiveSheet()->SetCellValue("D$conta4", "$recurso[valor_reintegro]");
+$objPHPExcel->getActiveSheet()->SetCellValue("H$conta3", "DESCRIPCION");
+$objPHPExcel->getActiveSheet()->SetCellValue("H$conta4", "$recurso[descripcion_canal]");
+
+$objPHPExcel->getActiveSheet()->getStyle('A'.$conta5)->applyFromArray($estilo_negrita);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta5", "FECHA: $recurso[fecha]");
+
+$objPHPExcel->getActiveSheet()->mergeCells('A'.$conta6.':L'.$conta7);
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta6", "OBSERVACIONES: $recurso[observaciones]");
+
+$objPHPExcel->getActiveSheet()->mergeCells('B'.$conta8.':D'.$conta8);
+$objPHPExcel->getActiveSheet()->mergeCells('F'.$conta8.':H'.$conta8);
+$objPHPExcel->getActiveSheet()->mergeCells('J'.$conta8.':L'.$conta8);
+
+$objPHPExcel->getActiveSheet()->getStyle('B'.$conta8.':J'.$conta8)->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('B'.$conta8.':J'.$conta8)->applyFromArray($estilo_centrar);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("B$conta8", "FIRMA ASESOR");
+$objPHPExcel->getActiveSheet()->SetCellValue("F$conta8", "FIRMA GERENTE P Y V");
+$objPHPExcel->getActiveSheet()->SetCellValue("J$conta8", "FIRMA GERENTE EUREKA");
+
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
 }

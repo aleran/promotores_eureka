@@ -533,6 +533,15 @@
 								<b class="arrow"></b>
 							</li>-->
 							<?php } ?>
+							<li class="adopciones">
+								<a href="reporte_adopcion.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Adopciones
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						</li>
 					</ul>
 					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
