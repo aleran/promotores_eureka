@@ -151,27 +151,7 @@ $objPHPExcel->getActiveSheet()->mergeCells('F6:G6');
 $objPHPExcel->getActiveSheet()->mergeCells('F7:G7');
 $objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
 
-$sql_pre = "SELECT avg(tasa_compra_d) * as p_pre FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '1' AND '3'";
 
-$req_pre = $bdd->prepare($sql_pre);
-$req_pre->execute();
-$p_pre = $req_pre->fetch();
-
-$sql_pri =  "SELECT avg(tasa_compra_d) as p_pri FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '4' AND '8'";
-
-$req_pri = $bdd->prepare($sql_pri);
-$req_pri->execute();
-$p_pri = $req_pri->fetch();
-
-$sql_sec =  "SELECT avg(tasa_compra_d) as p_sec FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN grados g ON g.id=l.id_grado WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND l.id_grado BETWEEN '9' AND '14'";
-
-$req_sec = $bdd->prepare($sql_sec);
-$req_sec->execute();
-$p_sec = $req_sec->fetch();
-
-$p_pre=$p_pre["p_pre"] * 100;
-$p_pri=$p_pri["p_pri"] * 100;
-$p_sec=$p_sec["p_sec"] * 100;
 
 $sql_descuento =  "SELECT avg(descuento_d) as descuento_pactado FROM presupuestos p WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' ";
 
@@ -179,20 +159,6 @@ $req_descuento = $bdd->prepare($sql_descuento);
 $req_descuento->execute();
 $descuento = $req_descuento->fetch();
 $descuento_pactado= $descuento["descuento_pactado"] * 100;
-
-$objPHPExcel->getActiveSheet()->SetCellValue("F5", "Potencial compra preescolar %");
-$objPHPExcel->getActiveSheet()->getStyle('H5')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H5", "$p_pre");
-$objPHPExcel->getActiveSheet()->SetCellValue("F6", "Potencial compra primaria %");
-$objPHPExcel->getActiveSheet()->getStyle('H6')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H6", "$p_pri");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Potencial venta bachillerato %");
-$objPHPExcel->getActiveSheet()->getStyle('H7')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H7", "$p_sec");
-$objPHPExcel->getActiveSheet()->SetCellValue("F8", "Promedio descuento %");
-$objPHPExcel->getActiveSheet()->getStyle('H8')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H8", "$descuento_pactado");
-
 
 
 $objPHPExcel->getActiveSheet()->mergeCells('A10:A11');
@@ -311,14 +277,29 @@ foreach($adopciones as $adopcion) {
 
 	if ($go["id_grado_otro"] == 0) {
 		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$adopcion[grado]");
+		if ($adopcion["id_grado"] < 4) {
+			$p_pre[]=$tasa_compra;
+		}elseif ($adopcion["id_grado"] > 3 && $adopcion["id_grado"] < 9) {
+			$p_pri[]=$tasa_compra;
+		}else {
+			$p_sec[]=$tasa_compra;
+		}
 
 	}else{
+
 		$sql_go1 = "SELECT grado FROM grados WHERE id='".$go["id_grado_otro"]."'";
 		$req_go1 = $bdd->prepare($sql_go1);
 		$req_go1->execute();
 		$go1 = $req_go1->fetch();
 
 		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$go1[grado]");
+		if ($go["id_grado_otro"] < 4) {
+			$p_pre[]=$tasa_compra;
+		}elseif ($go["id_grado_otro"] > 3 && $go["id_grado_otro"] < 9) {
+			$p_pri[]=$tasa_compra;
+		}else {
+			$p_sec[]=$tasa_compra;
+		}
 	}
 	
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[paralelos]");
@@ -345,6 +326,36 @@ foreach($adopciones as $adopcion) {
 	$t_diferencia[]=$diferencia;
 	
 }
+if (isset($p_pre)) {
+	$p_pre=array_sum($p_pre)/count($p_pre);
+}else {
+	$p_pre=0;
+}
+if (isset($p_pri)) {
+	$p_pri=array_sum($p_pri)/count($p_pri);
+}else{
+	$p_pri=0;
+}
+if (isset($p_sec)) {
+	$p_sec=array_sum($p_sec)/count($p_sec);
+}else{
+	$p_sec=0;
+}
+
+  
+    
+$objPHPExcel->getActiveSheet()->SetCellValue("F5", "Potencial compra preescolar %");
+$objPHPExcel->getActiveSheet()->getStyle('H5')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("H5", "$p_pre");
+$objPHPExcel->getActiveSheet()->SetCellValue("F6", "Potencial compra primaria %");
+$objPHPExcel->getActiveSheet()->getStyle('H6')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("H6", "$p_pri");
+$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Potencial venta bachillerato %");
+$objPHPExcel->getActiveSheet()->getStyle('H7')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("H7", "$p_sec");
+$objPHPExcel->getActiveSheet()->SetCellValue("F8", "Promedio descuento %");
+$objPHPExcel->getActiveSheet()->getStyle('H8')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("H8", "$descuento_pactado");
 
 $t_paralelos=array_sum($t_paralelos);
 $t_alumnos=array_sum($t_alumnos);
