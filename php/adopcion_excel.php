@@ -252,7 +252,7 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio, p.tasa_compra_d, p.descuento_d, p.precio_venta_final FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND p.id_colegio='".$_POST["cole"]."'";
+	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio, p.tasa_compra_d, p.descuento_d, p.precio_venta_final, p.id_libro FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND p.id_colegio='".$_POST["cole"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$adopciones = $req->fetchAll();
@@ -261,11 +261,25 @@ $conta=12;
 
 foreach($adopciones as $adopcion) {
 
-	$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$adopcion["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+	 $sql_go = "SELECT a.id_grado_otro FROM areas_objetivas a WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."' AND id_libro_eureka='".$adopcion["id_libro"]."'";
+	$req_go = $bdd->prepare($sql_go);
+	$req_go->execute();
+	$go = $req_go->fetch();
+
+	if ($go["id_grado_otro"] == 0) {
+
+		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$adopcion["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+	}else {
+
+		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$_POST["periodo"]."'";
+	}
+
                            
     $req_gp = $bdd->prepare($sq_gp);
     $req_gp->execute();
     $gp = $req_gp->fetch();
+
+   
 
 
     $tasa_compra=$adopcion["tasa_compra_d"] * 100;
@@ -294,7 +308,19 @@ foreach($adopciones as $adopcion) {
 	$objPHPExcel->getActiveSheet()->getStyle('N'.$conta)->applyFromArray($estilo_borde);
 
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$adopcion[libro]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$adopcion[grado]");
+
+	if ($go["id_grado_otro"] == 0) {
+		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$adopcion[grado]");
+
+	}else{
+		$sql_go1 = "SELECT grado FROM grados WHERE id='".$go["id_grado_otro"]."'";
+		$req_go1 = $bdd->prepare($sql_go1);
+		$req_go1->execute();
+		$go1 = $req_go1->fetch();
+
+		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$go1[grado]");
+	}
+	
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[paralelos]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$gp[alumnos]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$tasa_compra");

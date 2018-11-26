@@ -11,10 +11,11 @@
 		$libs_2=[];
 		foreach ($_POST["libs_aod"] as $libros => $libro) {
 
-			list($materia,$grado,$lib) = explode("/", $libro);
+			list($materia,$grado,$lib,$grado_otro) = explode("/", $libro);
 
 
-			$sql_p="INSERT INTO areas_objetivas(id_periodo,id_colegio,id_materia,id_grado,id_libro_eureka,definicion) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."', '".$materia."', '".$grado."', '".$lib."','1')";
+
+			$sql_p="INSERT INTO areas_objetivas(id_periodo,id_colegio,id_materia,id_grado,id_grado_otro,id_libro_eureka,definicion) VALUES('".$gp_periodo["id"]."','".$_POST["id_colegio"]."', '".$materia."', '".$grado."', '".$grado_otro."' ,'".$lib."','1')";
 
 			$query_p = $bdd->prepare( $sql_p );
 			if ($query_p == false) {
@@ -28,7 +29,7 @@
 			}
 		
 
-			if ($grado > 14 ) {
+			if ($grado== 15 || $grado ==16) {
 				$sq_l2 = "SELECT id FROM libros WHERE pri_sec='".$lib."'";
 															
 				$req_l2 = $bdd->prepare($sq_l2);

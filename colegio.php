@@ -3492,6 +3492,29 @@ alert('hola');
 																	 		</select>
 																	</div>
 													  			</div>
+													  			<div class="col-sm-4">
+																	<div class="form-group">
+																		<label for="grado_otro" id="l_grado_otrod" class="control-label no-padding-right hidden g_otrod">Grado otro<small style="color:red;"> *</small></label>
+															
+																	 		<select name="grado_otrod" id="grado_otrod" class="form-control g_otrod hidden">
+																	 			<option value="">Seleccionar</option>
+
+																	 			<?php 
+																		 		$sql = "SELECT id, grado FROM grados";
+																				$req = $bdd->prepare($sql);
+																				$req->execute();
+																				$grados = $req->fetchAll();
+																				foreach($grados as $grado) {
+																				    $id = $grado['id'];
+																				    $nom = $grado['grado'];
+																				    echo '<option value="'.$id.'">'.$nom.'</option>';
+																				}
+																		 	?>
+																	 			
+																				
+																	 		</select>
+																	</div>
+													  			</div>
 													  			<div class="col-sm-6">
 													  				<div class="form-group">
 																		<label  for="libro_ed" id="l_libro_ed" class="control-label no-padding-right">Libro<small style="color:red;"> *</small></label>
@@ -3586,7 +3609,6 @@ alert('hola');
 																			<th>Venta potencial</th>
 																			<th>Precio venta final</th>
 																			<th>Adopción</th>
-																			<th>Acciones</th>
 																		</thead>
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
@@ -3878,9 +3900,22 @@ alert('hola');
 																	$req_presup->execute();
 																	$presup = $req_presup->fetch();
 
-																
 
-																	$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																	if ($libro_p["id_grado"] != 17) {
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
+
+																	}else {
+
+																		$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."' AND id_libro_eureka='".$libro_p["id"]."'";
+
+																		$req_go = $bdd->prepare($sql_go);
+																		$req_go->execute();
+																		$go = $req_go->fetch();
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																	}
+
 														
 																		$req_gp = $bdd->prepare($sq_gp);
 																		$req_gp->execute();
@@ -3888,9 +3923,23 @@ alert('hola');
 
 																	echo "<tr>
 																			<td>".$libro_p["libro"]."</td>
-																			<td>".$libro_p["materia"]."</td>
-																			<td>".$libro_p["grado"]."</td>
-																			<td>".$gp["paralelos"]."</td>
+																			<td>".$libro_p["materia"]."</td>";
+
+																		if ($libro_p["id_grado"] != 17) {
+																				echo "<td>".$libro_p["grado"]."</td>";
+																			
+																		}else {
+
+																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.id_libro_eureka='".$libro_p["id"]."' AND a.id_periodo='".$gp_periodo["id"]."' AND a.id_colegio='".$colegio["id"]."'";
+
+																			$req_otrg = $bdd->prepare($sql_otrg);
+																			$req_otrg->execute();
+																			$otrg = $req_otrg->fetch();
+
+																			echo "<td>".$libro_p["grado"].": ".$otrg["grado"]."</td>";
+																		}
+																			
+																			echo"<td>".$gp["paralelos"]."</td>
 																			<td id='alm_d".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
 																			if ($presup["tasa_compra"] !="" && $presup["tasa_compra_d"] ==0.00 ) {
 
@@ -4010,11 +4059,6 @@ alert('hola');
 																					}
 
 
-																					if ($gp_periodo["f_cierre"] > date("Y-m-d")){
-																						echo"<td><a class='btn btn-xs btn-danger eliminar_def' href='#' data-codigo=".$libro_e["id"].">
-																								<i class='ace-icon fa fa-trash-o bigger-120'></i>
-																						</a></td>";
-																					}
 
 
 																			echo "<input type='hidden' name='presupuesto_d[]' value='".$libro_p["id"]."' id='presupuesto_d".$libro_p["id"]."'>
@@ -4858,6 +4902,17 @@ alert('hola');
 		            var valor = $(this).val();
 		            var materia=$("#materiad").val();
 		             //alert(valor);
+
+		            if (valor==17) {
+		             	$(".g_otrod").removeClass("hidden");
+		             	$(".g_otrod").addClass("show");
+		            	$("#grado_otrod").attr("required","required");
+		             
+		            }else {
+		             	$(".g_otrod").addClass("hidden");
+		             	$(".g_otrod").removeClass("show");
+		             	$("#grado_otrod").removeAttr("required");
+		            }
 		            var dataString = 'mat_gra='+materia+"/"+valor;
 		            $.ajax({
 
@@ -4887,7 +4942,7 @@ alert('hola');
        		});
 
 			$('#libro_ed').on('change',function(){
-				$value=$("#materiad").val()+"/"+$("#gradod").val()+"/"+$(this).val();
+				$value=$("#materiad").val()+"/"+$("#gradod").val()+"/"+$(this).val()+"/"+$("#grado_otrod").val();
 			 	$("#libs_aod").val($value);
 			           
 	                
