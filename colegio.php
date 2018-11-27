@@ -50,6 +50,10 @@
 			.poblacion{
 				width:30px;
 			}
+
+			.precio_final{
+				width:60px;
+			}
 			input[type=number] { -moz-appearance:textfield; }
 			input[type=number]::-webkit-inner-spin-button, 
 			input[type=number]::-webkit-outer-spin-button { 
@@ -74,6 +78,10 @@
 			}
 			.poblacion tr td {
 				text-align: center;
+			}
+
+			.borde_input {
+				border-color: red;
 			}
 		</style>
 		<style>
@@ -4036,11 +4044,11 @@ alert('hola');
 
 																				if ($presup["precio_venta_final"] > 0) {
 
-																					echo"<td><input type='text' size='5' name='precio_final[]' id='precio_final".$libro_p["id"]."' value='".$presup["precio_venta_final"]."'  > </td>";
+																					echo"<td><input type='number' class='precio_final'  name='precio_final[]' id='precio_final".$libro_p["id"]."' value='".$presup["precio_venta_final"]."'  > </td>";
 																				}else {
 
 
-																					echo"<td><input type='text' size='5' name='precio_final' id='precio_final".$libro_p["id"]."' > </td>";
+																					echo"<td><input type='number' class='precio_final' name='precio_final' id='precio_final".$libro_p["id"]."' > </td>";
 
 																				}
 
@@ -4206,6 +4214,25 @@ alert('hola');
 
 																						});
 																					})
+
+																					$('#precio_final".$libro_p["id"]."').blur(function(e){
+																						var pvp=parseInt($('#pvp_s_d".$libro_p["id"]."').val());
+
+																						var descuento=parseFloat($('#descuento_d".$libro_p["id"]."').val());
+																						descuento= descuento/100;
+
+																						var precio_neto= pvp - (pvp * descuento);
+
+																						var precio_final=parseInt($('#precio_final".$libro_p["id"]."').val());
+
+																						if(precio_final<= precio_neto || precio_final > pvp) {
+																							alert('Precio final debe ser mayor o igual que precio neto y no debe ser mayor al pvp')
+
+																						}
+
+																					})
+
+
 																			</script>
 
 																			
@@ -4240,6 +4267,10 @@ alert('hola');
 																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
+				  													if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+
+				  															echo ' <button class="btn btn-success pull-right hidden" id="definir">Adopción</button>';
+				  														}
 
 				  								$sql_rec = "SELECT * FROM recursos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
@@ -4422,13 +4453,7 @@ alert('hola');
 				  													}
 				  													else {
 
-				  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
-				  												
-				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
-
-				  															echo ' <button class="btn btn-success pull-right hidden" id="definir">Adopción</button></form>';
-				  														}
-				  				
+				  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
 				  														
 				  														
 				  													}
