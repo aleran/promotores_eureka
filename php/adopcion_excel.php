@@ -77,11 +77,11 @@ $objDrawing->setName('test_img');
 $objDrawing->setDescription('test_img');
 $objDrawing->setPath('../assets/images/logo_eureka.png');
 
-$objPHPExcel->getActiveSheet()->mergeCells('A1:A4');
+$objPHPExcel->getActiveSheet()->mergeCells('A1:B4');
 
 $objDrawing->setCoordinates('A1');                      
 //setOffsetX works properly
-$objDrawing->setOffsetX(50); 
+$objDrawing->setOffsetX(1); 
 $objDrawing->setOffsetY(5);                
 //set width, height
 $objDrawing->setWidth(200); 
@@ -114,7 +114,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 //~ Ingreo de datos en la hojda de excel
 
-$objPHPExcel->getActiveSheet()->mergeCells('F2:G2');
+$objPHPExcel->getActiveSheet()->mergeCells('F2:H2');
 $objPHPExcel->getActiveSheet()->getStyle('F2')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('F2')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->SetCellValue("F2", "REPORTE DE ADOPCION");
@@ -131,6 +131,8 @@ $objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->getStyle('A10:N10')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('A9:L9')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->getStyle('A10:N10')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('F11:J11')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->getStyle('F11:J11')->applyFromArray($estilo_negrita);
 
 $objPHPExcel->getActiveSheet()->SetCellValue("C5", "          ");
 $objPHPExcel->getActiveSheet()->SetCellValue("E6", "          ");
@@ -140,16 +142,18 @@ $objPHPExcel->getActiveSheet()->SetCellValue("L4", "                 ");
 $objPHPExcel->getActiveSheet()->SetCellValue("M4", "                 ");
 $objPHPExcel->getActiveSheet()->SetCellValue("N4", "                 ");
 
-$objPHPExcel->getActiveSheet()->SetCellValue("D5", "Zona:");
-$objPHPExcel->getActiveSheet()->SetCellValue("E5", "$zona[zona]");
+$objPHPExcel->getActiveSheet()->SetCellValue("E5", "Zona:");
+$objPHPExcel->getActiveSheet()->SetCellValue("F5", "$zona[zona]");
+$objPHPExcel->getActiveSheet()->mergeCells('B5:C5');
+$objPHPExcel->getActiveSheet()->mergeCells('B6:C6');
 $objPHPExcel->getActiveSheet()->SetCellValue("A5", "Colegio:");
 $objPHPExcel->getActiveSheet()->SetCellValue("B5", "$cole[colegio]");
 $objPHPExcel->getActiveSheet()->SetCellValue("A6", "Promotor:");
 $objPHPExcel->getActiveSheet()->SetCellValue("B6", "$nombre_completo");
-$objPHPExcel->getActiveSheet()->mergeCells('F5:G5');
-$objPHPExcel->getActiveSheet()->mergeCells('F6:G6');
-$objPHPExcel->getActiveSheet()->mergeCells('F7:G7');
-$objPHPExcel->getActiveSheet()->mergeCells('F8:G8');
+$objPHPExcel->getActiveSheet()->mergeCells('G5:I5');
+$objPHPExcel->getActiveSheet()->mergeCells('G6:I6');
+$objPHPExcel->getActiveSheet()->mergeCells('G7:I7');
+$objPHPExcel->getActiveSheet()->mergeCells('G8:I8');
 
 
 
@@ -195,19 +199,19 @@ $objPHPExcel->getActiveSheet()->getStyle('J11')->applyFromArray($estilo_borde);
 
 $objPHPExcel->getActiveSheet()->SetCellValue("A10", "TITULO");
 $objPHPExcel->getActiveSheet()->SetCellValue("B10", "GRADO");
-$objPHPExcel->getActiveSheet()->SetCellValue("C10", "PARALELOS");
-$objPHPExcel->getActiveSheet()->SetCellValue("D10", "ALUMNOS");
-$objPHPExcel->getActiveSheet()->SetCellValue("E10", "% COMPRA");
+$objPHPExcel->getActiveSheet()->SetCellValue("C10", "CURSOS");
+$objPHPExcel->getActiveSheet()->SetCellValue("D10", "ALUM \n NOS");
+$objPHPExcel->getActiveSheet()->SetCellValue("E10", "% COMP");
 $objPHPExcel->getActiveSheet()->SetCellValue("F10", "VENTA ESTIMADA");
-$objPHPExcel->getActiveSheet()->SetCellValue("F11", "COMP ACTV");
+$objPHPExcel->getActiveSheet()->SetCellValue("F11", "COM ACT.");
 $objPHPExcel->getActiveSheet()->SetCellValue("G11", "PVP");
-$objPHPExcel->getActiveSheet()->SetCellValue("H11", "DESCUENTO %");
-$objPHPExcel->getActiveSheet()->SetCellValue("I11", "VENTA BRUTA");
-$objPHPExcel->getActiveSheet()->SetCellValue("J11", "PRECIO FACTURACION");
-$objPHPExcel->getActiveSheet()->SetCellValue("K10", "VENTA ESTIMADA");
-$objPHPExcel->getActiveSheet()->SetCellValue("L10", "PRECIO VENTA FINAL");
-$objPHPExcel->getActiveSheet()->SetCellValue("M10", "VENTA REAL");
-$objPHPExcel->getActiveSheet()->SetCellValue("N10", "DIFERENCIA");
+$objPHPExcel->getActiveSheet()->SetCellValue("H11", "DESC.%");
+$objPHPExcel->getActiveSheet()->SetCellValue("I11", "V. BRUTA");
+$objPHPExcel->getActiveSheet()->SetCellValue("J11", "P. FACT");
+$objPHPExcel->getActiveSheet()->SetCellValue("K10", "VENTA \n ESTIMADA");
+$objPHPExcel->getActiveSheet()->SetCellValue("L10", "PRECIO \n VENTA F");
+$objPHPExcel->getActiveSheet()->SetCellValue("M10", "VENTA \n REAL");
+$objPHPExcel->getActiveSheet()->SetCellValue("N10", "DIFEREN \n CIA");
 
 
 $sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
@@ -344,18 +348,18 @@ if (isset($p_sec)) {
 
   
     
-$objPHPExcel->getActiveSheet()->SetCellValue("F5", "Potencial compra preescolar %");
-$objPHPExcel->getActiveSheet()->getStyle('H5')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H5", "$p_pre");
-$objPHPExcel->getActiveSheet()->SetCellValue("F6", "Potencial compra primaria %");
-$objPHPExcel->getActiveSheet()->getStyle('H6')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H6", "$p_pri");
-$objPHPExcel->getActiveSheet()->SetCellValue("F7", "Potencial venta bachillerato %");
-$objPHPExcel->getActiveSheet()->getStyle('H7')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H7", "$p_sec");
-$objPHPExcel->getActiveSheet()->SetCellValue("F8", "Promedio descuento %");
-$objPHPExcel->getActiveSheet()->getStyle('H8')->applyFromArray($estilo_borde);
-$objPHPExcel->getActiveSheet()->SetCellValue("H8", "$descuento_pactado");
+$objPHPExcel->getActiveSheet()->SetCellValue("G5", "Potencial compra preescolar %");
+$objPHPExcel->getActiveSheet()->getStyle('J5')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("J5", "$p_pre");
+$objPHPExcel->getActiveSheet()->SetCellValue("G6", "Potencial compra primaria %");
+$objPHPExcel->getActiveSheet()->getStyle('J6')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("J6", "$p_pri");
+$objPHPExcel->getActiveSheet()->SetCellValue("G7", "Potencial venta bachillerato %");
+$objPHPExcel->getActiveSheet()->getStyle('J7')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("J7", "$p_sec");
+$objPHPExcel->getActiveSheet()->SetCellValue("G8", "Promedio descuento %");
+$objPHPExcel->getActiveSheet()->getStyle('J8')->applyFromArray($estilo_borde);
+$objPHPExcel->getActiveSheet()->SetCellValue("J8", "$descuento_pactado");
 
 $t_paralelos=array_sum($t_paralelos);
 $t_alumnos=array_sum($t_alumnos);
@@ -428,9 +432,9 @@ $objPHPExcel->getActiveSheet()->SetCellValue("H$conta2", "$canal[canal_venta]");
 $objPHPExcel->getActiveSheet()->getStyle('A'.$conta3.':H'.$conta3)->applyFromArray($estilo_negrita);
 
 $objPHPExcel->getActiveSheet()->SetCellValue("A$conta3", "VALOR RECURSO");
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta4", "$recurso[valor_recurso]");
+$objPHPExcel->getActiveSheet()->SetCellValue("A$conta4", "$$recurso[valor_recurso]");
 $objPHPExcel->getActiveSheet()->SetCellValue("D$conta3", "VALOR REINTEGRO");
-$objPHPExcel->getActiveSheet()->SetCellValue("D$conta4", "$recurso[valor_reintegro]");
+$objPHPExcel->getActiveSheet()->SetCellValue("D$conta4", "$$recurso[valor_reintegro]");
 $objPHPExcel->getActiveSheet()->SetCellValue("H$conta3", "DESCRIPCION");
 $objPHPExcel->getActiveSheet()->SetCellValue("H$conta4", "$recurso[descripcion_canal]");
 
@@ -447,19 +451,17 @@ $objPHPExcel->getActiveSheet()->mergeCells('J'.$conta8.':L'.$conta8);
 
 $objPHPExcel->getActiveSheet()->getStyle('B'.$conta8.':J'.$conta8)->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('B'.$conta8.':J'.$conta8)->applyFromArray($estilo_centrar);
-
+$conta81=$conta8 - 1;
+$objPHPExcel->getActiveSheet()->SetCellValue("B$conta81", "__________________________________________");
 $objPHPExcel->getActiveSheet()->SetCellValue("B$conta8", "FIRMA ASESOR");
+$objPHPExcel->getActiveSheet()->SetCellValue("F$conta81", "__________________________________________");
 $objPHPExcel->getActiveSheet()->SetCellValue("F$conta8", "FIRMA GERENTE P Y V");
+$objPHPExcel->getActiveSheet()->SetCellValue("J$conta81", "__________________________________________");
 $objPHPExcel->getActiveSheet()->SetCellValue("J$conta8", "FIRMA GERENTE EUREKA");
 
 $objPHPExcel->getActiveSheet()->getStyle('A1:N'.$conta8)->applyFromArray($estilo_fuente);
+$objPHPExcel->getActiveSheet()->getColumnDimensionByColumn('A')->setWidth('30');
 
-foreach (range('A', 'Z') as $columnID) {
-$objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
-}
-foreach (range('AA', 'ZZ') as $columnID) {
-$objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
-}
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 $objWriter->setPreCalculateFormulas(true);
 PHPExcel_Calculation::getInstance($objPHPExcel)->cyclicFormulaCount = 1;
