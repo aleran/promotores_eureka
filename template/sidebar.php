@@ -488,9 +488,18 @@
 							<?php } ?>
 							<?php if ($_SESSION["tipo"]!=3) {?>
 							<li class="profesores">
-								<a href="reporte_profesores.php">
+								<a href="reporte_trabajadores.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Directorio
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="profesores2">
+								<a href="reporte_profesores.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Profesores
 								</a>
 
 								<b class="arrow"></b>

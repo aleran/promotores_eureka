@@ -1455,13 +1455,13 @@
 														<form action="php/crear_profesor.php" method="POST">
 						<div class="row">
 							<br><center><h4>Añadir nuevo</h4></center>
-				  			<div class="col-sm-4">
+				  			<div class="col-sm-3">
 				  				<div class="form-group">
 				  					<label for="profesor" class="control-label no-padding-right">Nombre Profesor<small style="color:red;"> *</small></label>
 				  					 <input type="text" required name="profesor" id="profesor" class="form-control" placeholder="">
 				  				</div>
 				  			</div>
-				  			<div class="col-sm-4">
+				  			<div class="col-sm-3">
 				  				<div class="form-group">
 				  					<label for="telefono_p" class="control-label no-padding-right">Telefono<small style="color:red;"> *</small></label>
 				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" required>
@@ -1469,10 +1469,23 @@
 
 				  			</div>
 				  			
-							<div class="col-sm-4">
-								<label for="email_p" class="control-label no-padding-right">Email</label>
-					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" >
+							<div class="col-sm-3">
+								<label for="email_p" class="control-label no-padding-right">Email<small style="color:red;"> *</small></label>
+					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" required>
 							</div>
+
+							<div class="col-sm-3">
+								<label class="control-label no-padding-right" for="cumple_profe"> Fecha de cumpleaños: </label>
+											
+								<div class="input-group">
+									<input type="text" class="form-control date-picker" name="cumple_profe" id="cumple_profe" type="text" data-date-format="yyyy-mm-dd"/>
+									<span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div>
+							</div>
+									
+
 							<br>
 				  			<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 				  			<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
@@ -1541,7 +1554,7 @@
 						<div class="row">
 							<br><center><h4>Modificar</h4></center>
 							<?php 
-								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' AND a.id_periodo='".$gp_periodo["id"]."' GROUP BY a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
+								$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado, b.materia,a.cod_profesor , c.grado, d.* FROM grados_materias a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN trabajadores_colegios d ON d.codigo=a.cod_profesor WHERE id_colegio='".$colegio['id']."' AND a.id_periodo='".$gp_periodo["id"]."' GROUP BY d.nombre,a.id_grado,a.id_materia,a.cod_profesor ORDER by a.cod_profesor ASC;";
 							
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -1551,13 +1564,13 @@
 
 									echo'<form action="php/modificar_profesor.php" method="POST">
 									<div class="row">
-				  			<div class="col-sm-4">
+				  			<div class="col-sm-3">
 				  				<div class="form-group">
 				  					<label for="profesor" class="control-label no-padding-right">Nombre Profesor<small style="color:red;"> *</small></label>
 				  					 <input type="text" required name="profesor" id="profesor" class="form-control" value="'.$profe["nombre"].'">
 				  				</div>
 				  			</div>
-				  			<div class="col-sm-4">
+				  			<div class="col-sm-3">
 				  				<div class="form-group">
 				  					<label for="telefono_p" class="control-label no-padding-right">Telefono<small style="color:red;"> *</small></label>
 				  					<input type="tel" name="telefono_p" id="telefono_p" class="form-control" placeholder="" value="'.$profe["telefono"].'">
@@ -1565,9 +1578,20 @@
 
 				  			</div>
 				  			
-							<div class="col-sm-4">
-								<label for="email_p" class="control-label no-padding-right">Email</label>
-					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" value="'.$profe["email"].'">
+							<div class="col-sm-3">
+								<label for="email_p" class="control-label no-padding-right">Email<small style="color:red;"> *</small></label>
+					  			<input type="text" name="email_p" id="email_p" class="form-control" placeholder="" value="'.$profe["email"].'" required>
+							</div>
+
+							<div class="col-sm-3">
+								<label class="control-label no-padding-right" for="cumple_profe"> Fecha de cumpleaños: </label>
+											
+								<div class="input-group">
+									<input type="text" class="form-control date-picker" name="cumple_profe" id="cumple_profe" type="text" data-date-format="yyyy-mm-dd" value="'.$profe["cumpleaños"].'"/>
+									<span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div>
 							</div>
 							<br>
 				  			<input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
@@ -3439,7 +3463,17 @@ alert('hola');
 
 												<div class="panel-collapse collapse" id="collapseadop">
 													<div class="panel-body">
-														
+														<center><h4>
+								                        	Periodo: <?php
+								                        		echo $gp_periodo["periodo"];
+								                        		if ($gp_periodo["f_cierre"] <= date("Y-m-d")) {
+								                        			echo " <span style='color: red;'>Cerrado</span>";
+								                        		}
+								                        	?>
+								                        	
+								                        </h4></center>
+
+								                        <?php if ($gp_periodo["f_cierre"] > date("Y-m-d"))  { ?>
 														<div class="otra_aod">
 															<div class="row a_ob">
 																<center><h4>Añadir nuevo</h4></center><br>
@@ -3543,6 +3577,7 @@ alert('hola');
 												  			
 
 															</form>
+														<?php } ?>
 
 												<br><br>
 						
@@ -4442,8 +4477,10 @@ alert('hola');
 				  														
 				  													}
 				  													else {
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
-				  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
+					  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
+				  														}
 				  														
 				  														
 				  													}

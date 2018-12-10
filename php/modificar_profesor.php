@@ -2,7 +2,7 @@
 	include("../conexion/bdd.php");
 
 
-	$sql_p = "UPDATE trabajadores_colegios SET nombre='".$_POST["profesor"]."', telefono='".$_POST["telefono_p"]."', email='".$_POST["email_p"]."' WHERE codigo='".$_POST["cod_profesor"]."'";
+	$sql_p = "UPDATE trabajadores_colegios SET nombre='".$_POST["profesor"]."', telefono='".$_POST["telefono_p"]."', email='".$_POST["email_p"]."', cumpleaños='".$_POST["cumple_profe"]."'  WHERE codigo='".$_POST["cod_profesor"]."'";
 				
 				//echo $sql_z;
 				

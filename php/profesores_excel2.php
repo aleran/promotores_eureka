@@ -71,7 +71,7 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT t.codigo,t.nombre, t.telefono,t.email,t.cumpleaños, t.area, t.cargo as id_cargo, ca.cargo, c.colegio, z.zona, u.nombres,u.apellidos FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON u.cod_zona=z.codigo WHERE t.nombre!=''";
+	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños, c.colegio, z.zona, u.nombres,u.apellidos, g.grado, m.materia FROM trabajadores_colegios t JOIN grados_materias gm ON gm.cod_profesor=t.codigo JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON u.cod_zona=z.codigo JOIN grados g ON g.id=gm.id_grado JOIN materias m ON m.id=gm.id_materia WHERE t.nombre!='' GROUP BY t.nombre, g.grado, m.materia";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
@@ -80,35 +80,15 @@ $gp_periodo = $req_periodo->fetch();
 $conta=2;
 foreach($coles as $cole) {
 
-	if ($cole["id_cargo"]==6) {
-
-		$sql_gm = "SELECT m.materia, g.grado FROM grados_materias gm JOIN grados g ON gm.id_grado=g.id JOIN materias m ON gm.id_materia=m.id WHERE gm.cod_profesor='".$cole["codigo"]."'  AND gm.id_periodo='".$_POST["periodo"]."' GROUP BY gm.id_grado,gm.id_materia,gm.cod_profesor";
-			$req_gm = $bdd->prepare($sql_gm);
-			$req_gm->execute();
-			$gm = $req_gm->fetch();
-	}
-	else {
-
-		$sql_area= "SELECT materia FROM materias WHERE id='".$cole["area"]."'";
-			$req_area = $bdd->prepare($sql_area);
-			$req_area->execute();
-			$area = $req_area->fetch();
-	}
 
 		$promotor=$cole["nombres"]. " ".$cole["apellidos"];
 		$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$cole[zona]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$promotor");
 		$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$cole[colegio]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$cole[nombre]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$cole[cargo]");
-		if ($cole["id_cargo"]==6) {
-			$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$gm[materia]");
-			$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$gm[grado]");
-		}
-		else {
-			$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$area[materia]");
-			$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "");
-		}
+		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "Profesor");
+		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$cole[materia]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$cole[grado]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$cole[telefono]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$cole[email]");
 		$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$cole[cumpleaños]");

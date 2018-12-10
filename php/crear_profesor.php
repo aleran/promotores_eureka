@@ -24,7 +24,7 @@
 	   
 	      } while ($cod_profesor=="");
 
-	$sql_p = "INSERT INTO trabajadores_colegios(codigo,id_colegio, cargo, nombre, telefono, email) values ('".$cod_profesor."','".$_POST["id_colegio"]."','6', '".$_POST["profesor"]."' ,'".$_POST["telefono_p"]."','".$_POST["email_p"]."')";
+	$sql_p = "INSERT INTO trabajadores_colegios(codigo,id_colegio, cargo, nombre, telefono, email,cumpleaños) values ('".$cod_profesor."','".$_POST["id_colegio"]."','6', '".$_POST["profesor"]."' ,'".$_POST["telefono_p"]."','".$_POST["email_p"]."','".$_POST["cumple_profe"]."')";
 				
 				//echo $sql_z;
 				

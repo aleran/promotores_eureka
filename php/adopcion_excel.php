@@ -227,8 +227,12 @@ $gp_periodo = $req_periodo->fetch();
 	$req->execute();
 	$adopciones = $req->fetchAll();
 
-$conta=12;
+	if (empty($adopciones) ) {
+ 		echo "<script>alert('Aun no hay adopciones en este colegio');window.location='../reporte_adopcion.php'</script>";
+ 	}else {
 
+$conta=12;
+ 
 foreach($adopciones as $adopcion) {
 
 	 $sql_go = "SELECT a.id_grado_otro FROM areas_objetivas a WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."' AND id_libro_eureka='".$adopcion["id_libro"]."'";
@@ -468,4 +472,6 @@ PHPExcel_Calculation::getInstance($objPHPExcel)->cyclicFormulaCount = 1;
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="Reporte_adopcion.xlsx"');
 $objWriter->save('php://output');
+
+}
 ?>

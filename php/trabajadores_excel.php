@@ -115,7 +115,7 @@ $gp_periodo = $req_periodo->fetch();
 
 if (isset($_POST["zona"])) {
 
-	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños,t.area, ca.cargo,c.colegio FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo WHERE z.codigo='".$_POST["zona"]."' AND ca.id !=6 AND t.nombre !=''";
+	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños,t.area, ca.cargo,c.colegio FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo WHERE z.codigo='".$_POST["zona"]."' AND ca.id !=6 AND t.nombre !='' GROUP BY t.nombre, t.cargo";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
@@ -123,7 +123,7 @@ if (isset($_POST["zona"])) {
 
 else {
 
-	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños,t.area, ca.cargo FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo WHERE c.id='".$_POST["cole"]."' AND ca.id !=6 AND t.nombre !=''";
+	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños,t.area, ca.cargo FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo WHERE c.id='".$_POST["cole"]."' AND ca.id !=6 AND t.nombre !='' GROUP BY t.nombre, t.cargo";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();

@@ -71,7 +71,7 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños,t.area, ca.cargo, c.colegio, z.zona, u.nombres,u.apellidos FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON z.codigo=u.cod_zona WHERE ca.id !=6 AND t.nombre !=''";
+	$sql = "SELECT t.nombre, t.telefono,t.email,t.cumpleaños,t.area, ca.cargo, c.colegio, z.zona, u.nombres,u.apellidos FROM trabajadores_colegios t JOIN colegios c ON t.id_colegio=c.id JOIN cargos ca ON t.cargo=ca.id JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON z.codigo=u.cod_zona WHERE ca.id !=6 AND t.nombre !='' GROUP BY t.nombre, t.cargo";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
