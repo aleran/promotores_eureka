@@ -43,19 +43,22 @@
 				}
 
 			}else {
+				if ($lib !=0) {
+					
+					$sql_e = "INSERT INTO presupuestos(id_periodo,id_colegio, id_libro, precio, tasa_compra,descuento) values ('".$gp_periodo["id"]."','".$_POST["id_colegio"]."','".$lib."','0', '0', '0.20')";
 
-				$sql_e = "INSERT INTO presupuestos(id_periodo,id_colegio, id_libro, precio, tasa_compra,descuento) values ('".$gp_periodo["id"]."','".$_POST["id_colegio"]."','".$lib."','0', '0', '0.20')";
-
-				$query_e = $bdd->prepare( $sql_e );
-				if ($query_e == false) {
-					print_r($bdd->errorInfo());
-						die ('Erreur prepare');
+					$query_e = $bdd->prepare( $sql_e );
+					if ($query_e == false) {
+						print_r($bdd->errorInfo());
+							die ('Erreur prepare');
+					}
+					$sth_e = $query_e->execute();
+					if ($sth_e == false) {
+						print_r($query_e->errorInfo());
+						die ('Erreur execute');
+					}
 				}
-				$sth_e = $query_e->execute();
-				if ($sth_e == false) {
-					print_r($query_e->errorInfo());
-					die ('Erreur execute');
-				}
+				
 			}
 
 		}
