@@ -3,21 +3,36 @@
 	include("../conexion/bdd.php");
 
 
+	$sql_fcole = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
 
-	$sql = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
+	$req_fcole = $bdd->prepare($sql_fcole);
+	$req_fcole->execute();
+	$fcole = $req_fcole->fetch();
 
-	$req = $bdd->prepare($sql);
-	$req->execute();
-	$con_fila = $req->fetch();
+	if ($fcole["fila"] > 0) {
 
-	if ($con_fila["fila"] > 0) {
+		$fila= $fcole["fila"];
 
-		$fila=$con_fila["fila"] + 1;
+	}else {
+
+		$sql = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
+
+		$req = $bdd->prepare($sql);
+		$req->execute();
+		$con_fila = $req->fetch();
+
+		if ($con_fila["fila"] > 0) {
+
+			$fila=$con_fila["fila"] + 1;
+		}
+		else {
+
+			$fila=2;
+		}
+
 	}
-	else {
 
-		$fila=2;
-	}
+	
 
 	foreach ($_POST["presupuesto_p"] as $presups => $presup) {
 
