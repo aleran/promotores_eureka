@@ -3151,13 +3151,12 @@ alert('hola');
 
 																			if ($aprob["aprobado"]==1) {
 
-																				echo "<center><h3>Aprobado</h3></center>";
-																			}elseif($aprob["aprobado"]==2){
-
-																				echo "<center><h3>No aprobado</h3></center>";
-
+																				echo "<center><h3 class='success'>Aprobado</h3></center>";
 																			}
+									
 																			else {
+
+																				echo "<center><h3 class='success'>Pendiente de Aprocación</h3></center><br>";
 
 																				if ($_SESSION["tipo"]==1) {
 																						echo '<center><button class="btn btn-success">Aprobar</button> ';
