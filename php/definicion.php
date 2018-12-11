@@ -3,7 +3,20 @@
 	include("../conexion/bdd.php");
 
 
+	$sql = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
 
+				$req = $bdd->prepare($sql);
+				$req->execute();
+				$con_fila = $req->fetch();
+
+				if ($con_fila["fila"] > 0) {
+
+					$fila=$con_fila["fila"] + 1;
+				}
+				
+				else {
+					$fila=2;
+				}
 	
 
 	foreach ($_POST["definir"] as $definiciones => $definir) {
@@ -34,23 +47,6 @@
 		}else{
 
 
-				$sql = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
-
-				$req = $bdd->prepare($sql);
-				$req->execute();
-				$con_fila = $req->fetch();
-
-				if ($con_fila["fila"] > 0) {
-
-					$fila=$con_fila["fila"];
-				}
-				elseif ($con_fila["fila"]==0) {
-
-					$fila=2;
-				}
-				else {
-					$fila=$con_fila["fila"] + 1;
-				}
 
 				$sql = "SELECT columna FROM libros WHERE id='".$libro."'";
 

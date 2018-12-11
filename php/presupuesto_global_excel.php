@@ -273,6 +273,14 @@ $req = $bdd->prepare($sql);
 $req->execute();
 $libros = $req->fetchAll();
 
+$sql_fila = "SELECT MAX(p.fila) as fila FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.id_periodo='".$_POST["periodo"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+$req_fila = $bdd->prepare($sql_fila);
+$req_fila->execute();
+$max_fila = $req_fila->fetch();
+$conta_cols7 = array_search($cols[$max_fila["fila"]], $cols2);
+$conta_cols7= $conta_cols7 +7;
+
 foreach ($libros as $libro) {
 
   $n_col=$libro["columna"];
@@ -352,6 +360,7 @@ foreach ($libros as $libro) {
     }
     else {
 
+      //sumatoria por libros
       $objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
       $objPHPExcel->getActiveSheet()->SetCellValue("B$n_col", "$libro[precio]");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$n_col, "$total_poblacion[total_poblacion]");
