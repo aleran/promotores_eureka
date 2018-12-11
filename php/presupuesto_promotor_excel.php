@@ -285,7 +285,7 @@ $req_fila = $bdd->prepare($sql_fila);
 $req_fila->execute();
 $max_fila = $req_fila->fetch();
 $conta_cols7 = array_search($cols[$max_fila["fila"]], $cols2);
-$conta_cols7= $conta_cols7 +7;
+$conta_cols7= $conta_cols7 +6;
 
 foreach ($libros as $libro) {
 
