@@ -473,7 +473,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+6]."9", "Descue
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7]."9", "Valor cumplimiento");
 $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+8]."9", "Cumplimiento / Neto");
 
-$col_final=$n_col+26;
+$col_final=$n_col+30
 $objPHPExcel->getActiveSheet()->SetCellValue("A$col_final", "TOTAL GENERAL");
 /*for ($i=2; $i < $conta_cols4+5; $i++) { 
 

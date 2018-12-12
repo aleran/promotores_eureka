@@ -5,7 +5,7 @@
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$libros = $req->fetchAll();
-
+	echo"<option value=''>Seleccione</option>";
 	foreach($libros as $lib) {;
 		echo"<option value=".$lib["id"].">".$lib["libro"]."</option>";
 	}

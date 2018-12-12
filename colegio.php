@@ -3164,11 +3164,12 @@ alert('hola');
 																						echo '<button class="btn btn-danger" id="rechazar">Rechazar</button> ';
 																					}
 																				}
-				  															echo "</form>";
+				  															
 				  														
 				  														
 				  														
 				  													}
+				  													echo "</form>";
 																	
 													 ?>
 													
@@ -4432,37 +4433,7 @@ alert('hola');
                 
         });
 
-			/*$('#materia1').on('change',function(){
-	            var valor = $(this).val();
-	            var colegio=$("#cole").val();
-	             //alert(valor);
-	            var dataString = 'materia='+valor+"/"+colegio;
-	            $.ajax({
 
-	                url: "ajax/grados1.php",
-	                type: "POST",
-	                data: dataString,
-	                success: function (resp) {
-	               
-	                    $("#grado1").html(resp);                        
-	                    //console.log(resp);
-	                    if(valor =="") {
-	            			$("#grado1").html("");
-	          			}
-	                },
-	                error: function (jqXHR,estado,error){
-	                    alert("error");
-	                    console.log(estado);
-	                    console.log(error);
-	                },
-	                complete: function (jqXHR,estado){
-	                    console.log(estado);
-	                }
-
-	                        
-	            })
-                
-      	  });*/
 
 		function bus_h1(){	
 			var lib= document.getElementById('libro').value;
@@ -4666,6 +4637,39 @@ alert('hola');
                 
        		});
 
+			$('#materia1').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#grado1").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               	
+	                    $("#libro_e1").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_e1").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
 			$('#libro_e1').on('change',function(){
 				$value=$("#materia1").val()+"/"+$("#grado1").val()+"/"+$(this).val()+"/"+$("#grado_otro").val();
 			 	$("#libs_ao").val($value);
@@ -4717,6 +4721,39 @@ alert('hola');
             	})
                 
        		});
+
+       		$('#materiad').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#gradod").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_ed").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_ed").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
 
 			$('#libro_ed').on('change',function(){
 				$value=$("#materiad").val()+"/"+$("#gradod").val()+"/"+$(this).val()+"/"+$("#grado_otrod").val();
@@ -4801,6 +4838,39 @@ alert('hola');
                 
         	});
 
+			$('#materia11').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#grado11").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_e11").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_e11").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
 			$('#libro_e11').on('change',function(){
 				$value=$("#materia11").val()+"/"+$("#grado11").val()+"/"+$(this).val()+"/"+$("#grado_otro2").val();
 			 	$("#libs_ao1").val($value);
@@ -4834,6 +4904,39 @@ alert('hola');
 	               
 	                    $("#libro_e12").html(resp);                        
 	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e12").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#materia12').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#grado12").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_e12").html(resp);                        
 	                    if(valor =="") {
 	            			$("#libro_e12").html("");
 	            		}
@@ -4904,6 +5007,39 @@ alert('hola');
                 
         	});
 
+			$('#materia13').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#grado13").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_e13").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_e13").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
 			$('#libro_e13').on('change',function(){
 				$value=$("#materia13").val()+"/"+$("#grado13").val()+"/"+$(this).val()+"/"+$("#grado_otro4").val();
 			 	$("#libs_ao3").val($value);
@@ -4955,6 +5091,40 @@ alert('hola');
                 
         	});
 
+			$('#materia14').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#grado14").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_e14").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_e14").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+
 			$('#libro_e14').on('change',function(){
 				$value=$("#materia14").val()+"/"+$("#grado14").val()+"/"+$(this).val()+"/"+$("#grado_otro5").val();
 			 	$("#libs_ao4").val($value);
@@ -4988,6 +5158,39 @@ alert('hola');
 	               
 	                    $("#libro_e15").html(resp);                        
 	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_e15").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#materia15').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#grado15").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_e15").html(resp);                        
 	                    if(valor =="") {
 	            			$("#libro_e15").html("");
 	            		}
@@ -5072,6 +5275,39 @@ alert('hola');
                 
         	});
 
+			$('#materiad1').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#gradod1").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_ed1").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_ed1").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
 			$('#libro_ed1').on('change',function(){
 				$value=$("#materiad1").val()+"/"+$("#gradod1").val()+"/"+$(this).val();
 			 	$("#libs_aod1").val($value);
@@ -5097,6 +5333,39 @@ alert('hola');
 	               
 	                    $("#libro_ed2").html(resp);                        
 	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed2").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#materiad2').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#gradod2").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_ed2").html(resp);                        
 	                    if(valor =="") {
 	            			$("#libro_ed2").html("");
 	            		}
@@ -5159,6 +5428,39 @@ alert('hola');
                 
         	});
 
+			$('#materiad3').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#gradod3").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_ed3").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_ed3").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
 			$('#libro_ed3').on('change',function(){
 				$value=$("#materiad3").val()+"/"+$("#gradod3").val()+"/"+$(this).val();
 			 	$("#libs_aod3").val($value);
@@ -5202,6 +5504,39 @@ alert('hola');
                 
         	});
 
+			$('#materiad4').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#gradod4").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_ed4").html(resp);                        
+	                    if(valor =="") {
+	            			$("#libro_ed4").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
 			$('#libro_ed4').on('change',function(){
 				$value=$("#materiad4").val()+"/"+$("#gradod4").val()+"/"+$(this).val();
 			 	$("#libs_aod4").val($value);
@@ -5227,6 +5562,39 @@ alert('hola');
 	               
 	                    $("#libro_ed5").html(resp);                        
 	                    //console.log(resp);
+	                    if(valor =="") {
+	            			$("#libro_ed5").html("");
+	            		}
+	                },
+	                error: function (jqXHR,estado,error){
+	                    alert("error");
+	                    console.log(estado);
+	                    console.log(error);
+	                },
+	                complete: function (jqXHR,estado){
+	                    console.log(estado);
+	                }
+
+	                        
+	            })
+                
+        	});
+
+			$('#materiad5').on('change',function(){
+	            var valor = $(this).val();
+	            var grado = $("#gradod5").val()
+	             //alert(valor);
+	            var dataString = 'mat_gra='+valor+'/'+grado;
+	            
+	            $.ajax({
+
+	                url: "ajax/buscar_l_eureka.php",
+	                type: "POST",
+	                data: dataString,
+	                dataType: "html",
+	                success: function (resp) {
+	               
+	                    $("#libro_ed5").html(resp);                        
 	                    if(valor =="") {
 	            			$("#libro_ed5").html("");
 	            		}
