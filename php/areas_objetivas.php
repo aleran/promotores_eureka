@@ -27,7 +27,7 @@
 				
 					do {
 	         $caracteres = "1234567890"; //posibles caracteres a usar
-	         $numerodeletras=10; //numero de letras para generar el texto
+	         $numerodeletras=11; //numero de letras para generar el texto
 	         $cod_area =""; //variable para almacenar la cadena generada
 	         for($i=0;$i<$numerodeletras;$i++)
 	         {
