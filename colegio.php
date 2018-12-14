@@ -2559,7 +2559,9 @@
 
 																else {
 																	
-																	
+																	if ($libro_p["codigo"] !="") {
+																		$libro_p["id_grado"] = 17;
+																	}
 
 																	if ($libro_p["id_grado"] != 17) {
 
@@ -2604,12 +2606,14 @@
 																	echo "<tr>
 																			<td>".$libro_p["libro"]."</td>
 																			<td>".$libro_p["materia"]."</td>";
+
+
 																		if ($libro_p["id_grado"] != 17) {
 																				echo "<td>".$libro_p["grado"]."</td>";
 																			
 																		}else {
 
-
+																			
 																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.codigo='".$libro_p["codigo"]."'";
 
 
@@ -2617,7 +2621,7 @@
 																			$req_otrg->execute();
 																			$otrg = $req_otrg->fetch();
 
-																			echo "<td>".$libro_p["grado"].": ".$otrg["grado"]."</td>";
+																			echo "<td>".$otrg["grado"]."</td>";
 																		}	
 																			echo "<td>".$gp["paralelos"]."</td>
 																			<td id='alm".$libro_p["id"]."'>".$gp["alumnos"]."</td>";
@@ -2919,6 +2923,10 @@
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
 
+																if ($libro_p["cod_area"] !="") {
+																		$libro_p["id_grado"] = 17;
+																	}
+
 																if ($libro_p["id_grado"] != 17) {
 																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
@@ -2977,7 +2985,7 @@
 																			$req_otrg->execute();
 																			$otrg = $req_otrg->fetch();
 
-																			echo "<td>".$libro_p["grado"].": ".$otrg["grado"]."</td>";
+																			echo "<td>".$otrg["grado"]."</td>";
 																		}
 																		
 																			echo"<td>".$gp["paralelos"]."</td>
@@ -3193,7 +3201,7 @@
 									
 																			else {
 
-																				echo "<center><h3 class='success'>Pendiente de Aprocación</h3></center><br>";
+																				echo "<center><h3 class='success'>Pendiente de Aprobación</h3></center><br>";
 
 																				if ($_SESSION["tipo"]==1) {
 																						echo '<center><button class="btn btn-success">Aprobar</button> ';
@@ -3690,6 +3698,11 @@
 
 																else {
 
+
+																	if ($libro_p["cod_area"] !="") {
+																		$libro_p["id_grado"] = 17;
+																	}
+
 																	if ($libro_p["id_grado"] != 17) {
 
 																	$sql_presup = "SELECT id,precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido,precio_venta_final FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
@@ -3744,7 +3757,7 @@
 																			$req_otrg->execute();
 																			$otrg = $req_otrg->fetch();
 
-																			echo "<td>".$libro_p["grado"].": ".$otrg["grado"]."</td>";
+																			echo "<td>".$otrg["grado"]."</td>";
 																		}
 																			
 																			echo"<td>".$gp["paralelos"]."</td>

@@ -35,7 +35,7 @@
 	            $cod_area .=substr($caracteres,rand(0,strlen($caracteres)),1); /*Extraemos 1 caracter de los caracteres 
 	            entre el rango 0 a Numero de letras que tiene la cadena */
 	         }
-	        $sql = "SELECT codigo FROM trabajadores_colegios";
+	        $sql = "SELECT codigo FROM areas_objetivas";
 
 			$req = $bdd->prepare($sql);
 			$req->execute();

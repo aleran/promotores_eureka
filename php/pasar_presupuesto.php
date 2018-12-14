@@ -20,7 +20,7 @@
 		
 		if ($row_cod["id_grado"] != 17) {
 
-			$sql_e = "UPDATE presupuestos SET pre_aprob='".$pre_aprob."'  WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
+			$sql_e = "UPDATE presupuestos SET pre_aprob='".$pre_aprob."'  WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$libro."')";
 		}else{
 			
 			$sql_e = "UPDATE presupuestos SET pre_aprob='".$pre_aprob."'  WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
