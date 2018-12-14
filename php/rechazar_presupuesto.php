@@ -14,7 +14,20 @@
 		$con_colum = $req->fetch();	
 		
 
-		$sql_e = "UPDATE presupuestos SET pre_aprob='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+		$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$presup."'";
+			$req_cod = $bdd->prepare($sql_cod);
+			$req_cod->execute();
+
+			$row_cod = $req_cod->fetch();
+
+		if ($row_cod["id_grado"] != 17) {
+
+			$sql_e = "UPDATE presupuestos SET pre_aprob='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+		}else{
+
+			$sql_e = "UPDATE presupuestos SET pre_aprob='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
+
+		}
 
 		
 
