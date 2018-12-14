@@ -55,7 +55,7 @@ $estilo_negrita = array(
 
 $estilo_fuente = array(
     'font' => array(
-        'size' => 9
+        'size' => 8
     )
 );
 
@@ -222,7 +222,7 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio, p.tasa_compra_d, p.descuento_d, p.precio_venta_final, p.id_libro FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND p.id_colegio='".$_POST["cole"]."'";
+	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio, p.tasa_compra_d, p.descuento_d, p.precio_venta_final, p.id_libro, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND p.id_colegio='".$_POST["cole"]."'";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$adopciones = $req->fetchAll();
@@ -235,7 +235,10 @@ $conta=12;
  
 foreach($adopciones as $adopcion) {
 
-	 $sql_go = "SELECT a.id_grado_otro FROM areas_objetivas a WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."' AND id_libro_eureka='".$adopcion["id_libro"]."'";
+	if ($adopcion["id_grado"] == 17) {
+		# code...
+	}
+	$sql_go = "SELECT a.id_grado_otro FROM areas_objetivas a WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."' AND codigo='".$adopcion["cod_area"]."'";
 	$req_go = $bdd->prepare($sql_go);
 	$req_go->execute();
 	$go = $req_go->fetch();
@@ -243,6 +246,7 @@ foreach($adopciones as $adopcion) {
 	if ($go["id_grado_otro"] == 0) {
 
 		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$adopcion["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+
 	}else {
 
 		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$_POST["periodo"]."'";
@@ -284,6 +288,7 @@ foreach($adopciones as $adopcion) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$adopcion[libro]");
 
 	if ($go["id_grado_otro"] == 0) {
+
 		$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$adopcion[grado]");
 		if ($adopcion["id_grado"] < 4) {
 			$p_pre[]=$tasa_compra;

@@ -2285,7 +2285,7 @@
 
 														<?php
 														
-														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado, a.id_grado_otro, a.id_libro_eureka as lib_eureka, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND a.definicion='0' AND id_periodo='".$gp_periodo["id"]."'";
+														$sql = "SELECT a.id as aid, a.id_materia, a.id_grado, a.id_grado_otro, a.id_libro_eureka as lib_eureka, a.codigo, b.materia, c.grado,l.id, l.libro, l.pri_sec, l.precio FROM areas_objetivas a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id JOIN libros l ON l.id=a.id_libro_eureka WHERE id_colegio='".$colegio['id']."' AND a.definicion='0' AND id_periodo='".$gp_periodo["id"]."'";
 
 
 														
@@ -2558,8 +2558,17 @@
 																}
 
 																else {
+																	
+																	
+
+																	if ($libro_p["id_grado"] != 17) {
 
 																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	}else {
+
+																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE cod_area='".$libro_p["codigo"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+
+																	}
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -2572,7 +2581,19 @@
 
 																	}else {
 
-																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																		$libro_p["id"]=$libro_p["codigo"];
+
+
+																		$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro_p["codigo"]."'";
+
+
+																		$req_go = $bdd->prepare($sql_go);
+																		$req_go->execute();
+																		$go = $req_go->fetch();
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+
+														
 																	}
 																
 														
@@ -2588,7 +2609,9 @@
 																			
 																		}else {
 
-																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.id_libro_eureka='".$libro_p["lib_eureka"]."' AND a.id_periodo='".$gp_periodo["id"]."' AND a.id_colegio='".$colegio["id"]."'";
+
+																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.codigo='".$libro_p["codigo"]."'";
+
 
 																			$req_otrg = $bdd->prepare($sql_otrg);
 																			$req_otrg->execute();
@@ -2860,7 +2883,7 @@
 
 														<?php
 														
-														$sql = "SELECT p.id, b.materia, c.grado,l.id, l.libro,l.id_materia, l.id_grado, l.pri_sec, l.precio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' and p.pre_aprob=1 ";
+														$sql = "SELECT p.id, p.cod_area, b.materia, c.grado,l.id, l.libro,l.id_materia, l.id_grado, l.pri_sec, l.precio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' and p.pre_aprob=1 ";
 
 
 														
@@ -2896,12 +2919,20 @@
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
 
-																
+																if ($libro_p["id_grado"] != 17) {
 																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
 																	$presup = $req_presup->fetch();
+																}else {
+																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE cod_area='".$libro_p["cod_area"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+														
+																	$req_presup = $bdd->prepare($sql_presup);
+																	$req_presup->execute();
+																	$presup = $req_presup->fetch();
+
+																}
 
 																
 																	if ($libro_p["id_grado"] != 17) {
@@ -2909,13 +2940,17 @@
 																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$libro_p["id_grado"]."' AND id_periodo='".$gp_periodo["id"]."'";
 																	}
 																	else {
-																			$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE id_colegio='".$colegio['id']."' AND id_libro_eureka='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."'";
 
-																			$req_go = $bdd->prepare($sql_go);
-																			$req_go->execute();
-																			$grado_o = $req_go->fetch();
 
-																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$grado_o["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																		$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro_p["cod_area"]."'";
+
+
+																		$req_go = $bdd->prepare($sql_go);
+																		$req_go->execute();
+																		$go = $req_go->fetch();
+
+																		$sq_gp = "SELECT paralelos, alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$gp_periodo["id"]."'";
+																			
 																		
 																		
 																	}
@@ -2934,7 +2969,9 @@
 																			
 																		}else {
 
-																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.id_libro_eureka='".$libro_p["id"]."' AND a.id_periodo='".$gp_periodo["id"]."' AND a.id_colegio='".$colegio["id"]."'";
+																			$libro_p["id"]=$libro_p["cod_area"];
+
+																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.codigo='".$libro_p["cod_area"]."'";
 
 																			$req_otrg = $bdd->prepare($sql_otrg);
 																			$req_otrg->execute();
@@ -3009,7 +3046,7 @@
 																			<script>
 																				$('#descuento_p".$libro_p["id"]."').keyup(function(){
 																						var pvp=parseInt($('#pvp_s_p".$libro_p["id"]."').val());
-alert('hola');
+
 																						var descuento=parseFloat($('#descuento_p".$libro_p["id"]."').val());
 																						descuento= descuento/100;
 
@@ -3334,7 +3371,7 @@ alert('hola');
 
 														<?php
 														
-														$sql = "SELECT p.id, b.materia, c.grado,l.id, l.libro,l.id_materia, l.id_grado, l.pri_sec, l.precio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND p.aprobado < 2 AND p.pre_definido='1'";
+														$sql = "SELECT p.id,p.cod_area, b.materia, c.grado,l.id, l.libro,l.id_materia, l.id_grado, l.pri_sec, l.precio FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND p.aprobado < 2 AND p.pre_definido='1'";
 
 
 														
@@ -3653,12 +3690,21 @@ alert('hola');
 
 																else {
 
+																	if ($libro_p["id_grado"] != 17) {
+
 																	$sql_presup = "SELECT id,precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido,precio_venta_final FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+
+																	}else{
+
+																		$sql_presup = "SELECT id,precio, tasa_compra, descuento, tasa_compra_d, descuento_d, definido,precio_venta_final FROM presupuestos WHERE cod_area='".$libro_p["cod_area"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+
+																	}
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
 																	$presup = $req_presup->fetch();
 
+																	$lib_id=$libro_p["id"];
 
 																	if ($libro_p["id_grado"] != 17) {
 
@@ -3666,7 +3712,10 @@ alert('hola');
 
 																	}else {
 
-																		$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."' AND id_libro_eureka='".$libro_p["id"]."'";
+																		$libro_p["id"]=$libro_p["cod_area"];
+
+																		$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro_p["cod_area"]."'";
+
 
 																		$req_go = $bdd->prepare($sql_go);
 																		$req_go->execute();
@@ -3689,7 +3738,7 @@ alert('hola');
 																			
 																		}else {
 
-																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.id_libro_eureka='".$libro_p["id"]."' AND a.id_periodo='".$gp_periodo["id"]."' AND a.id_colegio='".$colegio["id"]."'";
+																			$sql_otrg = "SELECT g.grado FROM grados g JOIN areas_objetivas a ON g.id=a.id_grado_otro WHERE a.codigo='".$libro_p["cod_area"]."'";
 
 																			$req_otrg = $bdd->prepare($sql_otrg);
 																			$req_otrg->execute();

@@ -45,11 +45,39 @@
 		$con_colum = $req->fetch();	
 		if ($tasa_c=="") {
 
-			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+			$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$presup."'";
+			$req_cod = $bdd->prepare($sql_cod);
+			$req_cod->execute();
+
+			$row_cod = $req_cod->fetch();
+
+			if ($row_cod["id_grado"] != 17) {
+
+				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+			}else{
+
+				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
+
+			}
 
 		}else {
 
-			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
+
+			$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$libro."'";
+			$req_cod = $bdd->prepare($sql_cod);
+			$req_cod->execute();
+			
+			$row_cod = $req_cod->fetch();
+			echo $libro;
+
+			if ($row_cod["id_grado"] != 17) {
+
+			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
+
+			}else{
+
+				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
+			}
 		}
 		
 
