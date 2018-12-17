@@ -455,6 +455,42 @@
 
 						<b class="arrow"></b>
 					</li>
+					<li class="abrir_pedidos">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-exchange"></i>
+							<span class="menu-text"> Pedidos </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<?php if ($_SESSION["tipo"]==1) {?>
+							<li class="solicitar_pedido">
+
+								<a href="colegios_pedidos.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Solicitar pedido
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="ver_pedidos">
+								
+								<a href="vere_pedidos.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Ver pedidos
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<?php  }?>
+							
+
+						</ul>
+					</li>
 					<li class="abrir_reportes">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-folder"></i>
