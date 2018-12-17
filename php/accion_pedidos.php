@@ -20,7 +20,7 @@
 		$sql = "UPDATE pedidos SET estado='4', factura='".$_GET["factura"]."' WHERE id='".$_GET["entregado"]."'";
 		$req = $bdd->prepare($sql);
 		$req->execute();
-		echo "<script>alert('Pedido Entregado');window.location='../pedidos_entregados.php';</script>";
+		echo "<script>alert('Pedido Entregado');window.location='../pedidos_aprobados.php';</script>";
 	}
 
 	
