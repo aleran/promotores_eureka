@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Solicitar pedido</title>
+		<title>Pedido pendiente</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -69,7 +69,7 @@
 							<li>
 								<a href="#">Pedidos</a>
 							</li>
-							<li class="active">Solicitar pedido</li>
+							<li class="active">Pendiente</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -155,7 +155,7 @@
 								Pedidos
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Solicitar pedido
+									Pendiente
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -227,7 +227,27 @@
                                                 echo'<tr class="odd gradeX">';
                                                 echo'<td class="center">'.$libro["libro"].'</td>';
                                                 echo'<td class="center">'.$libro["materia"].'</td>';
-                                               echo'<td class="center">'.$libro["materia"].'</td>';
+                                                if ($libro["cod_area"] == "") {
+
+													$sql_g = "SELECT grado FROM grados WHERE id='".$libro["id_grado"]."'";
+													$req_g = $bdd->prepare($sql_g);
+													$req_g->execute();
+													$grado= $req_g->fetch();
+                                                	
+                                                }else{
+                                                	
+                                                	$sql = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro["cod_area"]."'";
+													$req = $bdd->prepare($sql);
+													$req->execute();
+
+													$go = $req->fetch();
+
+                                                	$sql_g = "SELECT grado FROM grados WHERE id='".$go["id_grado_otro"]."'";
+													$req_g = $bdd->prepare($sql_g);
+													$req_g->execute();
+													$grado= $req_g->fetch();
+                                                }
+                                               echo'<td class="center">'.$grado["grado"].'</td>';
                                                   echo'<td class="center">'.$libro["precio"].'</td>';
                                                 echo'<td class="center">'.$descuento.'</td>';
                                                 echo'<td class="center">'.$precio_fact.'</td>';
@@ -251,9 +271,7 @@
 							<center>
 								 <label for="observaciones">Observaciones:</label><br>
 								 <textarea name="observaciones" id="observaciones" cols="70" rows="3" disabled><?php echo $pedido["observaciones"] ?></textarea><br><br>
-								 <label for="factura">N° Factura</label>
-							<input type="number" name="factura" id="factura"><br><br>
-                           <button class="btn btn-success" id="solicitar">Aprobar</button> <button class="btn btn-danger" id="solicitar">Rechazar</button></center>
+                           <button class="btn btn-success" id="aprobar">Aprobar</button> <button class="btn btn-danger" id="rechazar">Rechazar</button></center>
                         </form>
 
 								<!-- PAGE CONTENT ENDS -->
@@ -340,19 +358,19 @@
                 });
             });
 
-            $(".eliminar").click(function(e){
-
-	            e.preventDefault();
-	            var cod= $(this).attr('data-codigo');
-	            if (confirm("¿Seguro que desea eliminar este colegio")) {
-	                window.location="php/eliminar_colegio.php?codigo="+cod
-	            }
-
-        	})
+            
     </script>
     <script>
 			$(".abrir_pedidos").addClass("open");
-			$(".solicitar_pedido").addClass("active");
+			$(".lista_pedidos").addClass("active");
+
+			$("#aprobar").click(function(){
+				window.location="php/accion_pedidos.php?aprobar=<?php echo $_GET["id_pedido"] ?>";
+			});
+
+			$("#rechazar").click(function(){
+				window.location="php/accion_pedidos.php?rechazar=<?php echo $_GET["id_pedido"] ?>";
+			});
 
 	</script>
 	</body>

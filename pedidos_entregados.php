@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Pedidos pendientes</title>
+		<title>Pedidos entregados</title>
 
 		<meta name="description" content="Sistema Aula máxima" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -69,7 +69,7 @@
 							<li>
 								<a href="#">Pedidos</a>
 							</li>
-							<li class="active">Pendientes</li>
+							<li class="active">Entregados</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!--<div class="nav-search" id="nav-search">
@@ -155,7 +155,7 @@
 								Pedidos
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Pendientes
+									Entregados
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -177,7 +177,7 @@
                                 	include("conexion/bdd.php");
 
                                 	
-                                	$sql = "SELECT p.id, z.zona, u.nombres, u.apellidos, p.fecha, c.colegio FROM pedidos p JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.estado='1'";
+                                	$sql = "SELECT p.id, z.zona, u.nombres, u.apellidos, p.fecha,p.factura, c.colegio FROM pedidos p JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.estado='4'";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -195,7 +195,8 @@
                                             <th>Fecha</th>
                                             <th>Zona</th>
                                             <th>Promotor</th>
-                                            <th>Colegio</th>   
+                                            <th>Colegio</th>
+                                            <th>N° Factura</th>   
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -209,7 +210,8 @@
                                                 echo'<td class="center">'.$pedido["fecha"].'</td>';
                                                echo'<td class="center">'.$pedido["zona"].'</td>';
                                                 echo'<td class="center">'.$promotor.'</td>';
-                                                echo'<td class="center"><a href="pedido_colegio.php?id_pedido='.$pedido["id"].'">'.$pedido["colegio"].'</a></td>';
+                                                echo'<td class="center"><a href="pedido_colegio_entregado.php?id_pedido='.$pedido["id"].'">'.$pedido["colegio"].'</a></td>';
+                                                echo'<td class="center">'.$pedido["factura"].'</td>';
                                                  
                                                
                                             }
@@ -317,7 +319,7 @@
     </script>
     <script>
 			$(".abrir_pedidos").addClass("open");
-			$(".lista_pedidos").addClass("active");
+			$(".pedidos_entregados").addClass("active");
 	</script>
 	</body>
 </html>

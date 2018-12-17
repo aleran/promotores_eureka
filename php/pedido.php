@@ -1,4 +1,5 @@
 <?php 
+	require_once("../php/aut.php");
 	require_once('../conexion/bdd.php');
 	
 	
@@ -46,7 +47,7 @@
 
 	}
 
-	$sql_p2 = "INSERT INTO pedidos(codigo,id_periodo,id_colegio,observaciones,estado) VALUES('".$cod_pedido."','".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$_POST["observaciones"]."','1')";
+	$sql_p2 = "INSERT INTO pedidos(codigo,id_periodo,id_colegio,id_usuario,observaciones,estado) VALUES('".$cod_pedido."','".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$_SESSION["id"]."','".$_POST["observaciones"]."','1')";
 				
 				
 		$query_p2 = $bdd->prepare( $sql_p2 );
@@ -62,10 +63,6 @@
 
 		
 		
-
-
-		
-
-	//header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'&periodo='.$_POST["periodo"].'');
+	echo "<script>alert('Pedido Solicitado');window.location='../colegios_pedidos.php';</script>";
 	
 ?>

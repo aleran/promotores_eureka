@@ -466,7 +466,7 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<?php if ($_SESSION["tipo"]==1) {?>
+							<?php if ($_SESSION["tipo"]==3) {?>
 							<li class="solicitar_pedido">
 
 								<a href="colegios_pedidos.php">
@@ -479,14 +479,54 @@
 
 							<li class="ver_pedidos">
 								
-								<a href="vere_pedidos.php">
+								<a href="ver_pedidos.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Ver pedidos
+								</a>
+							
+							
+								<b class="arrow"></b>
+							
+							</li>
+						<?php  }else{?>
+							<li class="lista_pedidos">
+								
+								<a href="lista_pedidos.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Pendientes
 								</a>
 
 								<b class="arrow"></b>
 							</li>
-							<?php  }?>
+							<li class="pedidos_aprobados">
+								
+								<a href="pedidos_aprobados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Aprobados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="pedidos_entregados">
+								
+								<a href="pedidos_entregados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Entregados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="pedidos_anulados">
+								
+								<a href="pedidos_anulados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Anulados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						<?php } ?>
+							
 							
 
 						</ul>
