@@ -31,23 +31,28 @@
 
 		list($id_libro,$cantidad) = explode("/", $libro);
 			
-		$sql_p = "INSERT INTO libros_pedidos(cod_pedido,id_libro,cantidad) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."')";
+		if ($libro !=0) {
+			
+			$sql_p = "INSERT INTO libros_pedidos(cod_pedido,id_libro,cantidad) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."')";
 				
 				
-		$query_p = $bdd->prepare( $sql_p );
-		if ($query_p == false) {
-			print_r($bdd->errorInfo());
-			die ('Erreur prepare');
+			$query_p = $bdd->prepare( $sql_p );
+			if ($query_p == false) {
+				print_r($bdd->errorInfo());
+				die ('Erreur prepare');
+			}
+			$sth_p = $query_p->execute();
+			if ($sth_p == false) {
+				print_r($query_p->errorInfo());
+				die ('Erreur execute');
+			}
+
 		}
-		$sth_p = $query_p->execute();
-		if ($sth_p == false) {
-			print_r($query_p->errorInfo());
-			die ('Erreur execute');
-		}
+		
 
 	}
 
-	$sql_p2 = "INSERT INTO pedidos(codigo,id_periodo,id_colegio,id_usuario,observaciones,estado) VALUES('".$cod_pedido."','".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$_SESSION["id"]."','".$_POST["observaciones"]."','1')";
+	$sql_p2 = "INSERT INTO pedidos(codigo,id_periodo,id_colegio,id_usuario,fecha_r,observaciones,estado) VALUES('".$cod_pedido."','".$_POST["periodo"]."','".$_POST["id_colegio"]."','".$_SESSION["id"]."','".$_POST["fecha_r"]."','".$_POST["observaciones"]."','1')";
 				
 				
 		$query_p2 = $bdd->prepare( $sql_p2 );

@@ -7,7 +7,7 @@ $req_periodo = $bdd->prepare($sql_periodo);
 $req_periodo->execute();
 $gp_periodo = $req_periodo->fetch();
 
-$sql = "SELECT id, id_colegio, color, start, end, id_objetivo FROM plan_trabajo WHERE id_promotor='".$_SESSION['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+$sql = "SELECT id, id_colegio, color, start, end, id_objetivo FROM plan_trabajo WHERE id_promotor='".$_SESSION['id']."'";
 
 $req = $bdd->prepare($sql);
 $req->execute();

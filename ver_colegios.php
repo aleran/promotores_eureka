@@ -244,7 +244,7 @@
                                                 echo'<td class="center">'.$barrio.'</td>';
                                                 echo'<td class="center">'.$telefono.'</td>';
                                                  echo'<td class="center">';
-                                                 	echo'<select name="periodo">';
+                                                 	echo'<select name="periodo" style="width: 100px;">';
 														foreach($gp_periodo as $periodo){
 															echo'<option value="'.$periodo["id"].'">'.$periodo["periodo"].'</option>';
 														}

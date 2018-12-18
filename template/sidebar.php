@@ -469,7 +469,7 @@
 							<?php if ($_SESSION["tipo"]==3) {?>
 							<li class="solicitar_pedido">
 
-								<a href="colegios_pedidos.php">
+								<a href="periodo_pedidos.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Solicitar pedido
 								</a>

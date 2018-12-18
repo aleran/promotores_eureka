@@ -206,7 +206,7 @@
                                             <th>Materia</th>
                                             <th>Grado</th>
                                             <th>Comp. Act</th>
-                                            <th>Cantidad</th>
+                                            <th>Cantidad<small style="color:red;"> *</small></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -215,7 +215,7 @@
                                         <?php 
                                         	foreach($libros as $libro) {
                                             	
-                                            $sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE id_colegio='".$_GET["id_colegio"]."' AND id_periodo='".$_GET["periodo"]."' AND id_libro_eureka='".$libro["id"]."'";
+                                            $sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro["cod_area"]."'";
 
 											$req_go = $bdd->prepare($sql_go);
 											$req_go->execute();
@@ -261,11 +261,11 @@
                                                 echo'<td class="center">'.$comp_act.'</td>';
                                                
                                                 if ($libro["cod_area"] !="") {
-                                                	 echo'<td class="center"><input type="number" id="cantidad'.$libro["cod_area"].'" required></td>';
+                                                	 echo'<td class="center"><input type="number" id="cantidad'.$libro["cod_area"].'" value="0" required></td>';
 
                                                 	echo'<input type="hidden" name="libro[]" id="libro'.$libro["cod_area"].'">';
                                                 }else{
-                                                	 echo'<td class="center"><input type="number" id="cantidad'.$libro["id"].'" required></td>';
+                                                	 echo'<td class="center"><input type="number" id="cantidad'.$libro["id"].'" value="0" required></td>';
 
                                                 	echo'<input type="hidden" name="libro[]" id="libro'.$libro["id"].'">';
                                                 }
@@ -305,10 +305,21 @@
                             <input type="hidden" name="periodo" value="<?php echo $_GET["periodo"]; ?>">
 
 							<center>
+								<div class="col-sm-3 col-sm-offset-4">
+									<label for="fecha_r">Fecha de Recogida:<small style="color:red;"> *</small></label>
+								<div class="input-group">
+									<input type="text" class="form-control date-picker" name="fecha_r" id="fecha_r" type="text" data-date-format="yyyy-mm-dd" required="" />
+									<span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div><br>
 								 <label for="observaciones">Observaciones:</label><br>
-								 <textarea name="observaciones" id="observaciones" cols="70" rows="3"></textarea><br><br>
+								 <textarea name="observaciones" id="observaciones" cols="30" rows="3"></textarea><br><br>
+								  <button class="btn btn-success" id="solicitar">Solicitar</button></center>
+								</div>
+								
 
-                           <button class="btn btn-success" id="solicitar">Solicitar</button></center>
+                          
                         </form>
 
 								<!-- PAGE CONTENT ENDS -->
@@ -405,6 +416,26 @@
 
         	})
     </script>
+    <script>
+			$.fn.datepicker.dates['es'] = {
+			        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			        daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+			        daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+			        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+    			};
+
+				$('.date-picker').datepicker({
+					autoclose: true,
+					todayHighlight: true,
+					language: 'es'
+				})
+
+				//show datepicker when clicking on the icon
+				.next().on(ace.click_event, function(){
+					$(this).prev().focus();
+				});
+		</script>
     <script>
 			$(".abrir_pedidos").addClass("open");
 			$(".solicitar_pedido").addClass("active");

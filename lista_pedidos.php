@@ -177,7 +177,7 @@
                                 	include("conexion/bdd.php");
 
                                 	
-                                	$sql = "SELECT p.id, z.zona, u.nombres, u.apellidos, p.fecha, c.colegio FROM pedidos p JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.estado='1'";
+                                	$sql = "SELECT p.id, z.zona, u.nombres, u.apellidos, p.fecha, c.colegio FROM pedidos p JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE p.estado='1' GROUP BY p.id";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 

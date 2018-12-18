@@ -177,7 +177,7 @@
 								<?php 
                                 	include("conexion/bdd.php");
 
-                                	$sql_pedido="SELECT pe.fecha,pe.observaciones, z.zona, c.colegio, u.nombres, u.apellidos FROM pedidos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE pe.id='".$_GET["id_pedido"]."'";
+                                	$sql_pedido="SELECT pe.fecha,pe.observaciones,pe.fecha_r, z.zona, c.colegio, u.nombres, u.apellidos FROM pedidos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE pe.id='".$_GET["id_pedido"]."'";
 
 									$req_pedido = $bdd->prepare($sql_pedido);
 									$req_pedido->execute();
@@ -200,6 +200,7 @@
                             	<tr>
                             		<td>Zona: <?php echo $pedido["zona"] ?></td>
                             		<td>Promotor: <?php echo $pedido["nombres"]." ".$pedido["apellidos"] ?></td>
+                            		<td>Fecha de recogida: <?php echo $pedido["fecha_r"];?></td>
                             	</tr>
                             </table>
                           
