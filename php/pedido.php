@@ -68,6 +68,6 @@
 
 		
 		
-	echo "<script>alert('Pedido Solicitado');window.location='../colegios_pedidos.php';</script>";
+	echo "<script>alert('Pedido Solicitado');window.location='../periodo_pedidos.php';</script>";
 	
 ?>

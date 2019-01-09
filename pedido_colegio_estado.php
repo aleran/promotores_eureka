@@ -45,6 +45,22 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+			@page{
+	   			margin: 0;
+	   	
+			}
+		@media print {
+			a {display: none;}
+			
+			a[href]:after {
+	    		content: none !important;
+	 		}
+			body{
+				font-size: 8px;
+			}
+		}
+		</style>
 	</head>
 
 	<body class="no-skin">
@@ -59,7 +75,7 @@
 
 			<div class="main-content">
 				<div class="main-content-inner">
-					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+					<div class="breadcrumbs ace-save-state hidden-print" id="breadcrumbs">
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
@@ -150,7 +166,7 @@
 							</div><!-- /.ace-settings-box -->
 						</div><!-- /.ace-settings-container -->
 
-						<div class="page-header">
+						<div class="page-header hidden-print">
 							<h1>
 								Pedidos
 								<small>
@@ -177,13 +193,19 @@
 								<?php 
                                 	include("conexion/bdd.php");
 
-                                	$sql_pedido="SELECT pe.fecha,pe.observaciones,pe.fecha_r, z.zona, c.colegio, u.nombres, u.apellidos, e.estado FROM pedidos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo JOIN estados_pedidos e ON e.id=pe.estado WHERE pe.id='".$_GET["id_pedido"]."'";
+                                	$sql_pedido="SELECT id FROM pedidos WHERE id='".$_GET["id_pedido"]."'";
+
+									$req_pedido = $bdd->prepare($sql_pedido);
+									$req_pedido->execute();
+									$pedido = $req_pedido->fetch();
+                                	
+                                	$sql_pedido="SELECT pe.fecha,pe.observaciones,pe.fecha_r, z.zona, c.colegio, u.nombres, u.apellidos, e.estado FROM pedidos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo JOIN estados_pedidos e ON e.id=pe.estado WHERE pe.id='".$pedido["id"]."'";
 
 									$req_pedido = $bdd->prepare($sql_pedido);
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.id_grado, l.libro, l.precio, m.materia, lp.cantidad, p.cod_area, p.descuento_d, p.tasa_compra_d FROM pedidos pe JOIN libros_pedidos lp ON lp.cod_pedido=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN presupuestos p ON p.id_colegio=pe.id_colegio AND p.id_libro=lp.id_libro AND pe.id_periodo=p.id_periodo WHERE pe.id='".$_GET["id_pedido"]."'";
+                                	$sql = "SELECT pe.id, l.id, l.id_grado, l.libro, l.precio, m.materia, lp.cantidad, p.cod_area, p.descuento_d, p.tasa_compra_d FROM pedidos pe JOIN libros_pedidos lp ON lp.cod_pedido=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN presupuestos p ON p.id_colegio=pe.id_colegio AND p.id_libro=lp.id_libro AND pe.id_periodo=p.id_periodo WHERE pe.id='".$_GET["id_pedido"]."' AND p.definido=1";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -215,6 +237,7 @@
                                             <th>Descuento %</th>
                                             <th>Precio Facturación</th>
                                             <th>Cantidad</th>
+                                            <th>Valor Venta</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -225,8 +248,11 @@
                                         		$descuento=$libro["descuento_d"] * 100;
                                         		$precio_fact=$libro["precio"] -($libro["precio"] * $libro["descuento_d"]);
 
+                                        		$v_venta=$precio_fact * $libro["cantidad"];
+                                        		$total_venta[]=$v_venta;
+
                                                 echo'<tr class="odd gradeX">';
-                                                echo'<td class="center">'.$libro["libro"].'</td>';
+                                                echo'<td class="">'.$libro["libro"].'</td>';
                                                 echo'<td class="center">'.$libro["materia"].'</td>';
                                                 if ($libro["cod_area"] == "") {
 
@@ -249,20 +275,30 @@
 													$grado= $req_g->fetch();
                                                 }
                                                echo'<td class="center">'.$grado["grado"].'</td>';
-                                                  echo'<td class="center">'.$libro["precio"].'</td>';
+                                                echo'<td class="center">$ '.number_format($libro["precio"],0,",", ".").'</td>';
                                                 echo'<td class="center">'.$descuento.'</td>';
-                                                echo'<td class="center">'.$precio_fact.'</td>';
+                                                echo'<td class="center">$ '.number_format($precio_fact,0,",", ".").'</td>';
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
+                                                echo'<td class="center">$ '.number_format($v_venta,0,",", ".").'</td>';
                                                
                                                
                                                  
                                                  
                                                
                                             }
+
+                                            $total_v=array_sum($total_venta);
                                          ?>
                                         
                                         </tr>
-                                       
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"><b>Total:</b></td>
+                                        <td class="center"><b>$ <?php echo number_format($total_v,0,",", "."); ?></b></td>
                                     </tbody>
                                 </table>
                             </div>
@@ -272,7 +308,8 @@
 							<center>
 								 <label for="observaciones">Observaciones:</label><br>
 								 <textarea name="observaciones" id="observaciones" cols="40" rows="3" disabled><?php echo $pedido["observaciones"]; ?></textarea><br><br>
-								 <h3><?php echo $pedido["estado"]; ?></h3>
+								 <h3><?php echo $pedido["estado"]; ?></h3><br>
+								 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button>
                           </center>
                         </form>
 
@@ -366,7 +403,9 @@
 			$(".abrir_pedidos").addClass("open");
 			$(".ver_pedidos").addClass("active");
 
-
+			$("#imprimir").click(function(){
+				window.print();
+			})
 	</script>
 	</body>
 </html>

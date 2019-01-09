@@ -4178,10 +4178,10 @@
 																	 <input type="hidden" name="id_colegio" id="cole" value="'.$colegio["id"].'">
 																	  <input type="hidden" name="codigo" value="'.$colegio["codigo"].'">
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
-				  													if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+				  													
 
 				  															echo ' <button class="btn btn-success pull-right hidden" id="definir">Adopción</button>';
-				  														}
+				  														
 
 				  								$sql_rec = "SELECT * FROM recursos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
@@ -4363,10 +4363,10 @@
 				  														
 				  													}
 				  													else {
-				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+				  														
 
 					  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
-				  														}
+				  														
 				  														
 				  														
 				  													}

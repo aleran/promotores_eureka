@@ -177,13 +177,19 @@
 								<?php 
                                 	include("conexion/bdd.php");
 
-                                	$sql_pedido="SELECT pe.fecha,pe.observaciones,pe.fecha_r, z.zona, c.colegio, u.nombres, u.apellidos FROM pedidos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE pe.id='".$_GET["id_pedido"]."'";
+                                	$sql_pedido="SELECT id FROM pedidos WHERE id='".$_GET["id_pedido"]."'";
 
 									$req_pedido = $bdd->prepare($sql_pedido);
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.id_grado, l.libro, l.precio, m.materia, lp.cantidad, p.cod_area, p.descuento_d, p.tasa_compra_d FROM pedidos pe JOIN libros_pedidos lp ON lp.cod_pedido=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN presupuestos p ON p.id_colegio=pe.id_colegio AND p.id_libro=lp.id_libro AND pe.id_periodo=p.id_periodo WHERE pe.id='".$_GET["id_pedido"]."'";
+                                	$sql_pedido="SELECT pe.fecha,pe.observaciones,pe.fecha_r, z.zona, c.colegio, u.nombres, u.apellidos FROM pedidos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo WHERE pe.id='".$pedido["id"]."'";
+
+									$req_pedido = $bdd->prepare($sql_pedido);
+									$req_pedido->execute();
+									$pedido = $req_pedido->fetch();
+
+                                	$sql = "SELECT pe.id, l.id, l.id_grado, l.libro, l.precio, m.materia, lp.cantidad, p.cod_area, p.descuento_d, p.tasa_compra_d FROM pedidos pe JOIN libros_pedidos lp ON lp.cod_pedido=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN presupuestos p ON p.id_colegio=pe.id_colegio AND p.id_libro=lp.id_libro AND pe.id_periodo=p.id_periodo WHERE pe.id='".$_GET["id_pedido"]."' AND p.definido=1";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -215,6 +221,7 @@
                                             <th>Descuento %</th>
                                             <th>Precio Facturación</th>
                                             <th>Cantidad</th>
+                                            <th>Valor Venta</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -225,8 +232,11 @@
                                         		$descuento=$libro["descuento_d"] * 100;
                                         		$precio_fact=$libro["precio"] -($libro["precio"] * $libro["descuento_d"]);
 
+                                        		$v_venta=$precio_fact * $libro["cantidad"];
+                                        		$total_venta[]=$v_venta;
+
                                                 echo'<tr class="odd gradeX">';
-                                                echo'<td class="center">'.$libro["libro"].'</td>';
+                                                echo'<td class="">'.$libro["libro"].'</td>';
                                                 echo'<td class="center">'.$libro["materia"].'</td>';
                                                 if ($libro["cod_area"] == "") {
 
@@ -249,19 +259,26 @@
 													$grado= $req_g->fetch();
                                                 }
                                                echo'<td class="center">'.$grado["grado"].'</td>';
-                                                  echo'<td class="center">'.$libro["precio"].'</td>';
+                                                echo'<td class="center">$ '.number_format($libro["precio"],0,",", ".").'</td>';
                                                 echo'<td class="center">'.$descuento.'</td>';
-                                                echo'<td class="center">'.$precio_fact.'</td>';
+                                                echo'<td class="center">$ '.number_format($precio_fact,0,",", ".").'</td>';
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
+                                                echo'<td class="center">$ '.number_format($v_venta,0,",", ".").'</td>';
                                                
-                                               
-                                                 
-                                                 
                                                
                                             }
+                                            $total_v=array_sum($total_venta);
                                          ?>
                                         
                                         </tr>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"></td>
+                                       <td class="center"><b>Total:</b></td>
+                                       <td class="center"><b>$ <?php echo number_format($total_v,0,",", "."); ?></b></td>
                                        
                                     </tbody>
                                 </table>
