@@ -315,7 +315,7 @@
 							</li>
 					</li>
 					<?php } ?>
-					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
+					<?php if ( ($_SESSION["tipo"] ==1 || $_SESSION["tipo"] ==2) ) {?>
 					<li class="abrir_zonas">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-road"></i>
@@ -375,6 +375,7 @@
 						</ul>
 					</li>
 					<?php } ?>
+					<?php if ( ($_SESSION["tipo"] !=2) ) {?>
 					<li class="abrir_colegios">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon glyphicon glyphicon-home"></i>
@@ -433,6 +434,7 @@
 							</li>-->
 						</ul>
 					</li>
+					<?php } ?>
 
 					<!--<li class="">
 						<a href="widgets.html">
@@ -442,7 +444,7 @@
 
 						<b class="arrow"></b>
 					</li>-->
-					
+					<?php if ( ($_SESSION["tipo"] !=2) ) {?>
 					<li class="plan_trabajo">
 						<a href="calendar.php">
 							<i class="menu-icon fa fa-calendar"></i>
@@ -455,6 +457,7 @@
 
 						<b class="arrow"></b>
 					</li>
+					<?php } ?>
 					<li class="abrir_pedidos">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-exchange"></i>
@@ -629,7 +632,7 @@
 							</li>
 						</li>
 					</ul>
-					<?php if ( ($_SESSION["tipo"] ==1) ) {?>
+					<?php if ( ($_SESSION["tipo"] ==1 || $_SESSION["tipo"] ==2) ) {?>
 							<li class="usuarios">
 								<a href="usuarios.php">
 									<i class="menu-icon fa fa-users"></i>

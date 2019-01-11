@@ -2923,8 +2923,9 @@
 				  														
 				  													}
 				  													else {
-				  													
+				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 				  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
+				  														}
 				  												
 				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 

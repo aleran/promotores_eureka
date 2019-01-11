@@ -178,7 +178,7 @@
 
 									$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id='1' AND n.visible='1'";
 
-								}else {
+								}elseif($_SESSION["tipo"]==3) {
 
 									$sql = "SELECT t.id, t.tipo, c.codigo, c.colegio, n.id_periodo, n.id as id_notifi FROM notificaciones n JOIN tipos_notifi t ON t.id=n.id_tipo_notifi JOIN colegios c ON c.id=n.id_colegio WHERE t.id > 1 AND n.visible='1' AND c.cod_zona='".$_SESSION["zona"]."'";
 

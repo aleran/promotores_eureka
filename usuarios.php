@@ -1,5 +1,4 @@
 <?php require_once("php/aut.php"); ?>
-<?php require_once("php/aut_1.php"); ?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -175,13 +174,22 @@
 							<button class="btn btn-primary" data-toggle="modal" data-target="#ModalAdd">Crear Usuario</button><br><br>
 							<?php 
                                 include("conexion/bdd.php");
+                                if ( ($_SESSION["tipo"] ==1) ) {
+	                                $sql = "SELECT * FROM usuarios";
 
-                                $sql = "SELECT * FROM usuarios";
+									$req = $bdd->prepare($sql);
+									$req->execute();
 
-								$req = $bdd->prepare($sql);
-								$req->execute();
+									$usuarios = $req->fetchAll();
+								}else{
 
-								$usuarios = $req->fetchAll();
+									$sql = "SELECT * FROM usuarios WHERE tipo !=1";
+
+									$req = $bdd->prepare($sql);
+									$req->execute();
+
+									$usuarios = $req->fetchAll();
+								}
                                 
 
                             ?>
@@ -216,6 +224,9 @@
                                                 echo'<td class=""><input type="text" name="clave" size="15"></td>';
                                                 if ($usuario["tipo"] == 3) {
                                                 	echo'<td class="">Promotor</td>';
+                                                }
+                                                elseif ($usuario["tipo"] == 2) {
+                                                	echo'<td class="">Consultor</td>';
                                                 }
                                                 else {
                                                 	echo'<td class="">Administrador</td>';
@@ -313,7 +324,10 @@
 					 <select name="tipo" id="tipo" class="form-control" required>
 					 	<option value="">Seleccionar</option>
 					 	<option value="3">Promotor</option>
-					 	<option value="1">Administrador</option>
+					 	<option value="2">Consultor</option>
+					 	<?php if ( ($_SESSION["tipo"] ==1) ) {?>
+					 		<option value="1">Administrador</option>
+						<?php }?>
 					 </select>
 					</div>
 				  </div>

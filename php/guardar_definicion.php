@@ -8,23 +8,23 @@
 
 		list($libro,$tasa_c,$descuento, $precio, $precio_final) = explode("/", $presup);
 
-
+		
 
 		if ($tasa_c=="") {
 
-			$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$presup."'";
+			$sql_cod = "SELECT p.id_libro, g.id_grado_otro FROM presupuestos p JOIN areas_objetivas g ON g.id_libro_eureka=p.id_libro WHERE g.codigo='".$libro."'";
 			$req_cod = $bdd->prepare($sql_cod);
 			$req_cod->execute();
 
 			$row_cod = $req_cod->fetch();
 
-			if ($row_cod["id_grado"] != 17) {
+			if ($row_cod["id_grado_otro"] == 0) {
 
-				$sql2 = "SELECT id,tasa_compra,descuento,tasa_compra_d,descuento_d FROM presupuestos WHERE id='".$presup."' AND id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."'";
+				$sql2 = "SELECT id,tasa_compra,descuento,tasa_compra_d,descuento_d FROM presupuestos WHERE id='".$libro."' AND id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."'";
 
 			}else{
 
-				$sql2 = "SELECT id,tasa_compra,descuento,tasa_compra_d,descuento_d FROM presupuestos WHERE cod_area='".$presup."' AND id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."'";
+				$sql2 = "SELECT id,tasa_compra,descuento,tasa_compra_d,descuento_d FROM presupuestos WHERE cod_area='".$libro."' AND id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."'";
 
 			}
 			$req2 = $bdd->prepare($sql2);
@@ -33,7 +33,7 @@
 
 			if ($row2["tasa_compra_d"]==0.00) {
 		
-				if ($row_cod["id_grado"] != 17) {
+				if ($row_cod["id_grado_otro"] == 0) {
 
 					$sql_e = "UPDATE presupuestos SET tasa_compra_d='".$row2["tasa_compra"]."', descuento_d='".$row2["descuento"]."' WHERE id='".$row2["id"]."'";
 
@@ -60,18 +60,18 @@
 
 		}else {
 
-			$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$libro."'";
+			$sql_cod = "SELECT p.id_libro, g.id_grado_otro FROM presupuestos p JOIN areas_objetivas g ON g.id_libro_eureka=p.id_libro WHERE g.codigo='".$libro."'";
 			$req_cod = $bdd->prepare($sql_cod);
 			$req_cod->execute();
 
 			$row_cod = $req_cod->fetch();
 
-			if ($row_cod["id_grado"] != 17) {
-				
+			if ($row_cod["id_grado_otro"] == 0) {
+				echo $libro;
 				$sql_e = "UPDATE presupuestos SET  tasa_compra_d='".$tasa_c."',descuento_d='".$descuento."', precio='".$precio."', precio_venta_final='".$precio_final."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$libro."'";
 
 			}else{
-
+				
 				$sql_e = "UPDATE presupuestos SET  tasa_compra_d='".$tasa_c."',descuento_d='".$descuento."', precio='".$precio."', precio_venta_final='".$precio_final."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
 			}
 

@@ -1,5 +1,4 @@
 <?php require_once("php/aut.php"); ?>
-<?php require_once("php/aut_1.php"); ?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>

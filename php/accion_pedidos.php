@@ -10,7 +10,7 @@
 		echo "<script>alert('Pedido Rechazado');window.location='../lista_pedidos.php';</script>";
 	}elseif (isset($_GET["aprobar"])) {
 
-		$sql = "UPDATE pedidos SET estado='2' WHERE id='".$_GET["aprobar"]."'";
+		$sql = "UPDATE pedidos SET estado='2', observaciones='".$_GET["observaciones"]."' WHERE id='".$_GET["aprobar"]."'";
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		echo "<script>alert('Pedido Aprobado');window.location='../lista_pedidos.php';</script>";

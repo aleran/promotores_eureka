@@ -1,5 +1,4 @@
 <?php require_once("php/aut.php"); ?>
-<?php require_once("php/aut_1.php"); ?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -203,7 +202,7 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label no-padding-right" for="promotor"> Promotor: <small style="color: red">*</small></label>
-									<input required required type="tel" name="promotor" id="promotor" placeholder="A quien se le va a asignar la zona" class="form-control" autocomplete="off" onkeyup="bus_h()"/>
+									<input required required type="text" name="promotor" id="promotor" placeholder="A quien se le va a asignar la zona" class="form-control" autocomplete="off" onkeyup="bus_h()"/>
 									<input type="hidden" name="promo" id="promo"><div id="suggestions"></div>
 										
 								</div>
