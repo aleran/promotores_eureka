@@ -218,9 +218,9 @@
                                             <th>Materia</th>
                                             <th>Grado</th>
                                             <th>PVP</th>
-                                            <th>Descuento %</th>
-                                            <th>Precio Facturación</th>
-                                            <th>Cantidad</th>
+                                            <th>Desc.</th>
+                                            <th>Precio Fact.</th>
+                                            <th>Cant.</th>
                                             <th>Valor Venta</th>
                                         </tr>
                                     </thead>
@@ -234,6 +234,7 @@
 
                                         		$v_venta=$precio_fact * $libro["cantidad"];
                                         		$total_venta[]=$v_venta;
+                                        		$total_cantidad[]=$libro["cantidad"];
 
                                                 echo'<tr class="odd gradeX">';
                                                 echo'<td class="">'.$libro["libro"].'</td>';
@@ -260,7 +261,7 @@
                                                 }
                                                echo'<td class="center">'.$grado["grado"].'</td>';
                                                 echo'<td class="center">$ '.number_format($libro["precio"],0,",", ".").'</td>';
-                                                echo'<td class="center">'.$descuento.'</td>';
+                                                echo'<td class="center">'.$descuento.' %</td>';
                                                 echo'<td class="center">$ '.number_format($precio_fact,0,",", ".").'</td>';
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
                                                 echo'<td class="center">$ '.number_format($v_venta,0,",", ".").'</td>';
@@ -268,6 +269,7 @@
                                                
                                             }
                                             $total_v=array_sum($total_venta);
+                                            $total_c=array_sum($total_cantidad);
                                          ?>
                                         
                                         </tr>
@@ -276,8 +278,8 @@
                                        <td class="center"></td>
                                        <td class="center"></td>
                                        <td class="center"></td>
-                                       <td class="center"></td>
                                        <td class="center"><b>Total:</b></td>
+                                       <td class="center"><b><?php echo $total_c; ?></b></td>
                                        <td class="center"><b>$ <?php echo number_format($total_v,0,",", "."); ?></b></td>
                                        
                                     </tbody>

@@ -208,7 +208,7 @@
 										
 									</div>
 							
-									</form>
+									
 							</div>
 							<div class="col-sm-3">
 								<!-- PAGE CONTENT BEGINS -->

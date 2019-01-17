@@ -55,7 +55,7 @@ $estilo_negrita = array(
 
 $estilo_fuente = array(
     'font' => array(
-        'size' => 8
+        'size' => 8.5
     )
 );
 
@@ -314,6 +314,14 @@ foreach($adopciones as $adopcion) {
 			$p_sec[]=$tasa_compra;
 		}
 	}
+
+	$pvp=number_format($adopcion["precio"],0,",", ".");
+	$venta_bruta1=number_format($venta_bruta,0,",", ".");
+	$precio_fact1=number_format($precio_fact,0,",", ".");
+	$venta_estimada1=number_format($venta_estimada,0,",", ".");
+	$p_final=number_format($adopcion["precio_venta_final"],0,",", ".");
+	$venta_real1=number_format($venta_real,0,",", ".");
+	$diferencia1=number_format($diferencia,0,",", ".");
 	
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$gp[paralelos]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$gp[alumnos]");
@@ -321,12 +329,12 @@ foreach($adopciones as $adopcion) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$comp_activos");
 	$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$$adopcion[precio]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$descuento");
-	$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$$venta_bruta");
-	$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$$precio_fact");
-	$objPHPExcel->getActiveSheet()->SetCellValue("K$conta", "$$venta_estimada");
-	$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$$adopcion[precio_venta_final]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$$venta_real");
-	$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$$diferencia");
+	$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$$venta_bruta1");
+	$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$$precio_fact1");
+	$objPHPExcel->getActiveSheet()->SetCellValue("K$conta", "$$venta_estimada1");
+	$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$$p_final");
+	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$$venta_real1");
+	$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$$diferencia1");
 
 
 	$conta++;
@@ -378,7 +386,7 @@ $t_venta_estimada=array_sum($t_venta_estimada);
 $t_venta_real=array_sum($t_venta_real);
 $t_diferencia=array_sum($t_diferencia);
 
-$objPHPExcel->getActiveSheet()->getStyle('A'.$conta.':N'.$conta)->applyFromArray($estilo_negrita);
+
 $objPHPExcel->getActiveSheet()->getStyle('A'.$conta)->applyFromArray($estilo_borde);
 $objPHPExcel->getActiveSheet()->getStyle('B'.$conta)->applyFromArray($estilo_borde);
 $objPHPExcel->getActiveSheet()->getStyle('C'.$conta)->applyFromArray($estilo_borde);
@@ -393,6 +401,11 @@ $objPHPExcel->getActiveSheet()->getStyle('K'.$conta)->applyFromArray($estilo_bor
 $objPHPExcel->getActiveSheet()->getStyle('L'.$conta)->applyFromArray($estilo_borde);
 $objPHPExcel->getActiveSheet()->getStyle('M'.$conta)->applyFromArray($estilo_borde);
 $objPHPExcel->getActiveSheet()->getStyle('N'.$conta)->applyFromArray($estilo_borde);
+
+$t_venta_bruta=number_format($t_venta_bruta,0,",", ".");
+$t_venta_estimada=number_format($t_venta_estimada,0,",", ".");
+$t_venta_real=number_format($t_venta_real,0,",", ".");
+$t_diferencia=number_format($t_diferencia,0,",", ".");
 
 $objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "TOTAL VENTA");
 $objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$t_paralelos");
