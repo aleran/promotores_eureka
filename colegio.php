@@ -3333,17 +3333,8 @@
 
 												<div class="panel-collapse collapse" id="collapseadop">
 													<div class="panel-body">
-														<center><h4>
-								                        	Periodo: <?php
-								                        		echo $gp_periodo["periodo"];
-								                        		if ($gp_periodo["f_cierre"] <= date("Y-m-d")) {
-								                        			echo " <span style='color: red;'>Cerrado</span>";
-								                        		}
-								                        	?>
-								                        	
-								                        </h4></center>
-
-								                        <?php if ($gp_periodo["f_cierre"] > date("Y-m-d"))  { ?>
+														
+								                        
 														<div class="otra_aod">
 															<div class="row a_ob">
 																<center><h4>Añadir nuevo</h4></center><br>
@@ -3447,7 +3438,6 @@
 												  			
 
 															</form>
-														<?php } ?>
 
 												<br><br>
 						
@@ -3647,11 +3637,11 @@
 
 																				if ($presup["precio_venta_final"] > 0) {
 
-																					echo"<input type='text' size='2' name='precio_final[]' id='precio_final".$libro2["id"]."' value='".$presup["precio_venta_final"]."' > %</td>";
+																					echo"<input type='text' size='2' name='precio_final[]' id='precio_final".$libro2["id"]."' value='".$presup["precio_venta_final"]."' >";
 																				}else {
 
 
-																					echo"<input type='text' size='2' name='precio_final' id='precio_final".$libro2["id"]."'> %</td>";
+																					echo"<input type='text' size='2' name='precio_final' id='precio_final".$libro2["id"]."'>";
 
 																				}
 																					if ($presup["tasa_compra"] !=0.00 || $presup["tasa_compra_d"] !=0.00) {
@@ -3667,11 +3657,7 @@
 																						echo"<td></td>";
 																					}
 
-																					if ($gp_periodo["f_cierre"] > date("Y-m-d")){
-																						echo"<td><a class='btn btn-xs btn-danger eliminar_def' href='#' data-codigo=".$libro_e["id"].">
-																								<i class='ace-icon fa fa-trash-o bigger-120'></i>
-																						</a></td>";
-																					}
+																					
 
 																				echo "<input type='hidden' name='presupuesto_d[]' value='".$libro2["id"]."' id='presupuesto_d".$libro2["id"]."'>
 

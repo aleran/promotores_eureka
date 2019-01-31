@@ -14,7 +14,7 @@
 
 		if ($libros["id_grado"] ==15 || $libros["id_grado"] ==16) {
 			
-			$sql_p1="UPDATE libros SET presupuesto='".$_POST["presupuesto"]."' WHERE id='".$_POST["id_libro"]."'";
+			$sql_p1="UPDATE libros SET libro='".$_POST["libro"]."', presupuesto='".$_POST["presupuesto"]."' WHERE id='".$_POST["id_libro"]."'";
 
 			$query_p1 = $bdd->prepare( $sql_p1 );
 			if ($query_p1 == false) {
@@ -43,7 +43,7 @@
 
 		else {
 
-			$sql_p="UPDATE libros SET precio='".$_POST["precio"]."', presupuesto='".$_POST["presupuesto"]."' WHERE id='".$_POST["id_libro"]."'";
+			$sql_p="UPDATE libros SET libro='".$_POST["libro"]."', precio='".$_POST["precio"]."', presupuesto='".$_POST["presupuesto"]."' WHERE id='".$_POST["id_libro"]."'";
 
 			$query_p = $bdd->prepare( $sql_p );
 			if ($query_p == false) {

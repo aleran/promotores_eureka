@@ -312,6 +312,7 @@
 								 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button> <br><br>
 								 <label for="factura">N° Factura</label>
 							<input type="number" name="factura" id="factura"><br><br>
+							<button class="btn btn-danger hidden-print" id="rechazar">Anular</button> 
                            <button class="btn btn-success hidden-print" id="entregar">Entregar</button><center>
                         </form>
 
@@ -405,6 +406,9 @@
 			$(".abrir_pedidos").addClass("open");
 			$(".pedidos_aprobados").addClass("active");
 
+			$("#rechazar").click(function(){
+				window.location="php/accion_pedidos.php?rechazar=<?php echo $_GET["id_pedido"] ?>";
+			});
 
 			$("#entregar").click(function(){
 				var factura=$("#factura").val()

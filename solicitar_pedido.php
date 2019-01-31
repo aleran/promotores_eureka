@@ -45,6 +45,14 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<style>
+			input[type=number] { -moz-appearance:textfield; }
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+  				-webkit-appearance: none; 
+  				margin: 0; 
+			}
+		</style>
 	</head>
 
 	<body class="no-skin">

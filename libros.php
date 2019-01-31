@@ -1,5 +1,4 @@
 <?php require_once("php/aut.php"); ?>
-<?php require_once("php/aut_1.php"); ?>
 <!DOCTYPE html>
 <html lang="es">
 	<head>
@@ -169,7 +168,9 @@
 									<i class="ace-icon fa fa-hand-o-right"></i>
 									Please note that demo server is not configured to save the changes, therefore you may see an error message.
 								</div>-->
+							<?php if ( ($_SESSION["tipo"] ==1) ) {?>
 							<button class="btn btn-primary" data-toggle="modal" data-target="#ModalAdd">Crear libro</button><br><br>
+							<?php } ?>
 							<?php 
                                 include("conexion/bdd.php");
 
@@ -192,7 +193,7 @@
                                             <th>¿Es serie?</th>
                                             <th>Serie</th>
                                             <th>Precio $</th>
-                                            <th>¿Presupuesto?</th>
+                                            <th>¿Presup?</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -209,7 +210,8 @@
 
                                                 echo'<tr class="odd gradeX">';
                                                 echo '<form action="php/modificar_libro.php" method="POST">';
-                                                echo'<td class="">'.$libro["libro"].'</td>';
+                                                echo'<td class=""><input type="text" name="libro" value="'.$libro["libro"].'" required></td>';
+                                                
                                                 echo'<td class="">'.$libro["materia"].'</td>';
                                                 echo'<td class="">'.$libro["grado"].'</td>';
                                                 if ($libro["id_grado"] == 15 || $libro["id_grado"] == 16) {
@@ -226,7 +228,7 @@
 
                                                  }else {
 
-                                                 	echo'<td class=""><input type="number" name="precio" value="'.$libro["precio"].'" size="5" required></td>';
+                                                 	echo'<td class=""><input type="number" name="precio" value="'.$libro["precio"].'" size="3" required></td>';
                                                  }
 
                                                  if ($libro["presupuesto"]==1) {

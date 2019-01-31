@@ -301,20 +301,23 @@
 								<b class="arrow"></b>
 							</li>-->
 						</ul>
+						<?php } ?>
+						<?php if ( ($_SESSION["tipo"] !=3) ) {?>
 						<li class="libros">
-								<a href="libros.php">
-									<i class="menu-icon fa fa-book"></i>
+							<a href="libros.php">
+								<i class="menu-icon fa fa-book"></i>
 
-									<span class="menu-text">
-										Libros
+								<span class="menu-text">
+									Libros
 
-									</span>
-								</a>
+								</span>
+							</a>
 
-								<b class="arrow"></b>
-							</li>
+							<b class="arrow"></b>
+						</li>
+						<?php } ?>
 					</li>
-					<?php } ?>
+					
 					<?php if ( ($_SESSION["tipo"] ==1 || $_SESSION["tipo"] ==2) ) {?>
 					<li class="abrir_zonas">
 						<a href="#" class="dropdown-toggle">
