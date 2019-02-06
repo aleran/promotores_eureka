@@ -29,11 +29,11 @@
 
 	foreach ($_POST["libro"] as $libros => $libro) {
 
-		list($id_libro,$cantidad) = explode("/", $libro);
+		list($id_libro,$cantidad,$cod_area) = explode("/", $libro);
 			
 		if ($libro !=0) {
 			
-			$sql_p = "INSERT INTO libros_pedidos(cod_pedido,id_libro,cantidad) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."')";
+			$sql_p = "INSERT INTO libros_pedidos(cod_pedido,id_libro,cantidad,cod_area) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."','".$cod_area."')";
 				
 				
 			$query_p = $bdd->prepare( $sql_p );

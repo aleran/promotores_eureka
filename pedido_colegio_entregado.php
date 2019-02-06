@@ -205,7 +205,7 @@
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.id_grado, l.libro, l.precio, m.materia, lp.cantidad, p.cod_area, p.descuento_d, p.tasa_compra_d FROM pedidos pe JOIN libros_pedidos lp ON lp.cod_pedido=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN presupuestos p ON p.id_colegio=pe.id_colegio AND p.id_libro=lp.id_libro AND pe.id_periodo=p.id_periodo WHERE pe.id='".$_GET["id_pedido"]."' AND p.definido=1 GROUP BY l.id,p.cod_area";
+                                	$sql = "SELECT pe.id,pe.codigo, l.id, l.id_grado, l.libro, l.precio, lp.cantidad, m.materia, p.cod_area, p.descuento_d, p.tasa_compra_d FROM pedidos pe JOIN libros_pedidos lp ON lp.cod_pedido=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN presupuestos p ON p.id_colegio=pe.id_colegio AND p.id_libro=lp.id_libro AND pe.id_periodo=p.id_periodo WHERE pe.id='".$_GET["id_pedido"]."' AND p.definido=1 GROUP BY l.id,p.cod_area";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -244,6 +244,18 @@
                         				
                                         <?php 
                                         	foreach($libros as $libro) {
+
+                                        		if ($libro["cod_area"] !="") {
+
+                                           			$sql_c = "SELECT cantidad FROM libros_pedidos WHERE cod_area='".$libro["cod_area"]."'";
+
+                                           			$req_c = $bdd->prepare($sql_c);
+													$req_c->execute();
+
+                                
+													$cantidad_c = $req_c->fetch();
+                                           			
+                                           		}
                                            
                                         		$descuento=$libro["descuento_d"] * 100;
                                         		$precio_fact=$libro["precio"] -($libro["precio"] * $libro["descuento_d"]);
@@ -279,7 +291,11 @@
                                                 echo'<td class="center">$ '.number_format($libro["precio"],0,",", ".").'</td>';
                                                 echo'<td class="center">'.$descuento.' %</td>';
                                                 echo'<td class="center">$ '.number_format($precio_fact,0,",", ".").'</td>';
-                                                echo'<td class="center">'.$libro["cantidad"].'</td>';
+                                                if ($libro["cod_area"] =="") {
+                                                	echo'<td class="center">'.$libro["cantidad"].'</td>';
+                                            	}else{
+                                            		echo'<td class="center">'.$cantidad_c["cantidad"].'</td>';
+                                            	}
                                                 echo'<td class="center">$ '.number_format($v_venta,0,",", ".").'</td>';
                                                  
                                                

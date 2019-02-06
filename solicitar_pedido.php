@@ -282,7 +282,7 @@
 														$('#cantidad".$libro["cod_area"]."').keyup(function(){
 																var cant =$('#cantidad".$libro["cod_area"]."').val();
 
-																$('#libro".$libro["cod_area"]."').val(".$libro["id"]."+'/'+cant);
+																$('#libro".$libro["cod_area"]."').val(".$libro["id"]."+'/'+cant+'/'+".$libro["cod_area"].");
 
 															})
 	                                                </script>";
