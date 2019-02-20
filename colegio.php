@@ -5371,6 +5371,7 @@
 			var md = 1;
 			var gd = 1;
 			var ld = 1;
+			var gdo = 1;
 		$("#agregar_aod").click(function(){
 
 
@@ -5383,8 +5384,21 @@
 			$("#materiad").clone().appendTo(".otra_aod").attr("id","materiad"+(md++));
 			$("#l_gradod").clone().appendTo(".otra_aod");
 			$("#gradod").clone().appendTo(".otra_aod").attr("id","gradod"+(gd++));
+			$("#l_grado_otrod").clone().appendTo(".otra_aod").attr("id","l_grado_otrod"+gdo);
+			$("#grado_otrod").clone().appendTo(".otra_aod").attr("id","grado_otrod"+gdo);
+			$("#l_grado_otrod"+gdo).addClass("hidden");
+			$("#grado_otrod"+gdo).addClass("hidden");
+			$("#l_grado_otrod"+gdo).removeClass("g_otrod");
+			$("#grado_otrod"+gdo).removeClass("g_otrod");
+			$("#grado_otrod"+gdo).addClass("g_otrod"+gdo);
+			$("#l_grado_otrod"+gdo).addClass("g_otrod"+gdo);
 			$("#l_libro_ed").clone().appendTo(".otra_aod");
 			$("#libro_ed").clone().appendTo(".otra_aod").attr("id","libro_ed"+(ld++));
+
+			gdo++;
+
+
+
 
 			
 
@@ -5393,6 +5407,17 @@
 	            var materia = $("#materiad1").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	             if (valor==17) {
+		             	$(".g_otrod1").removeClass("hidden");
+		             	$(".g_otrod1").addClass("show");
+		            	$("#grado_otrod1").attr("required","required");
+		             
+		         }else {
+		             	$(".g_otrod1").addClass("hidden");
+		             	$(".g_otrod1").removeClass("show");
+		             	$("#grado_otrod1").removeAttr("required");
+		        }
 	            
 	            $.ajax({
 
@@ -5456,8 +5481,9 @@
         	});
 
 			$('#libro_ed1').on('change',function(){
-				$value=$("#materiad1").val()+"/"+$("#gradod1").val()+"/"+$(this).val();
-			 	$("#libs_aod1").val($value);
+				$value=$("#materiad1").val()+"/"+$("#gradod1").val()+"/"+$(this).val()+"/"+$("#grado_otrod1").val();
+				$("#libs_aod1").val($value);
+
 			           
 	                
 	       	});
@@ -5469,6 +5495,17 @@
 	            var materia = $("#materiad2").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	            if (valor==17) {
+		             	$(".g_otrod2").removeClass("hidden");
+		             	$(".g_otrod2").addClass("show");
+		            	$("#grado_otrod2").attr("required","required");
+		             
+		         }else {
+		             	$(".g_otrod2").addClass("hidden");
+		             	$(".g_otrod2").removeClass("show");
+		             	$("#grado_otrod2").removeAttr("required");
+		        }
 	            
 	            $.ajax({
 
@@ -5532,8 +5569,8 @@
         	});
 
 			$('#libro_ed2').on('change',function(){
-				$value=$("#materiad2").val()+"/"+$("#gradod2").val()+"/"+$(this).val();
-			 	$("#libs_aod2").val($value);
+				$value=$("#materiad2").val()+"/"+$("#gradod2").val()+"/"+$(this).val()+"/"+$("#grado_otrod2").val();
+				$("#libs_aod2").val($value);
 			           
 	                
 	       	});
@@ -5546,6 +5583,17 @@
 	            var materia = $("#materiad3").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	            if (valor==17) {
+		             	$(".g_otrod3").removeClass("hidden");
+		             	$(".g_otrod3").addClass("show");
+		            	$("#grado_otrod3").attr("required","required");
+		             
+		         }else {
+		             	$(".g_otrod3").addClass("hidden");
+		             	$(".g_otrod3").removeClass("show");
+		             	$("#grado_otrod3").removeAttr("required");
+		        }
 	            
 	            $.ajax({
 
@@ -5609,8 +5657,8 @@
         	});
 
 			$('#libro_ed3').on('change',function(){
-				$value=$("#materiad3").val()+"/"+$("#gradod3").val()+"/"+$(this).val();
-			 	$("#libs_aod3").val($value);
+				$value=$("#materiad3").val()+"/"+$("#gradod3").val()+"/"+$(this).val()+"/"+$("#grado_otrod3").val();
+				$("#libs_aod3").val($value);
 			           
 	                
 	       	});
@@ -5622,6 +5670,17 @@
 	            var materia = $("#materiad4").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	            if (valor==17) {
+		             	$(".g_otrod4").removeClass("hidden");
+		             	$(".g_otrod4").addClass("show");
+		            	$("#grado_otrod4").attr("required","required");
+		             
+		         }else {
+		             	$(".g_otrod4").addClass("hidden");
+		             	$(".g_otrod4").removeClass("show");
+		             	$("#grado_otrod4").removeAttr("required");
+		        }
 	            
 	            $.ajax({
 
@@ -5685,8 +5744,8 @@
         	});
 
 			$('#libro_ed4').on('change',function(){
-				$value=$("#materiad4").val()+"/"+$("#gradod4").val()+"/"+$(this).val();
-			 	$("#libs_aod4").val($value);
+				$value=$("#materiad4").val()+"/"+$("#gradod4").val()+"/"+$(this).val()+"/"+$("#grado_otrod4").val();
+				$("#libs_aod4").val($value);
 			           
 	                
 	       	});
@@ -5698,6 +5757,17 @@
 	            var materia = $("#materiad5").val();
 	             //alert(valor);
 	            var dataString = 'mat_gra='+materia+'/'+valor;
+
+	            if (valor==17) {
+		             	$(".g_otrod5").removeClass("hidden");
+		             	$(".g_otrod5").addClass("show");
+		            	$("#grado_otrod5").attr("required","required");
+		             
+		         }else {
+		             	$(".g_otrod5").addClass("hidden");
+		             	$(".g_otrod5").removeClass("show");
+		             	$("#grado_otrod5").removeAttr("required");
+		        }
 	            
 	            $.ajax({
 
@@ -5761,8 +5831,8 @@
         	});
 
 			$('#libro_ed5').on('change',function(){
-				$value=$("#materiad5").val()+"/"+$("#gradod5").val()+"/"+$(this).val();
-			 	$("#libs_aod5").val($value);
+				$value=$("#materiad5").val()+"/"+$("#gradod5").val()+"/"+$(this).val()+"/"+$("#grado_otrod5").val();
+				$("#libs_aod5").val($value);
 			           
 	                
 	       	});
