@@ -32,11 +32,28 @@
 		}
 	}
 	
+		if ($_SESSION["tipo"] ==1) {
+
+			//Busco los que ya estan definidos en ese colegio
+			$sqld = "SELECT id FROM presupuestos WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."' AND definido='1'";
+			$reqd = $bdd->prepare($sqld);
+			$reqd->execute();
+			$s_defs = $reqd->fetchAll();
+
+
+			foreach($s_defs as $s_def) {
+				$defs[]=$s_def["id"];
+
+			}
+		}
+
 
 	foreach ($_POST["definir"] as $definiciones => $definir) {
 
 		list($libro,$id_presupuesto) = explode("/", $definir);
-
+		
+		//almaceno en un array los que se marcaron como definidos
+		$defs2[]=$id_presupuesto;
 
 		$sql2 = "SELECT aprobado FROM presupuestos WHERE id='".$id_presupuesto."'";
 		$req2 = $bdd->prepare($sql2);
@@ -92,7 +109,31 @@
 				
 	}
 
+	if ($_SESSION["tipo"] ==1) {
+		
+		foreach ($defs as $d => $valor) {
+			//Buscos los que estan definidos en el colegio en el arreglo de los que se marcaron como definidos
+			if (!in_array($valor, $defs2)) {
 
+
+				$sql_e = "UPDATE presupuestos SET definido='0' WHERE id='".$valor."'";
+
+					$query_e = $bdd->prepare( $sql_e );
+					if ($query_e == false) {
+						print_r($bdd->errorInfo());
+						die ('Erreur prepare');
+					}
+					$sth_e = $query_e->execute();
+					if ($sth_e == false) {
+						print_r($query_e->errorInfo());
+						die ('Erreur execute');
+					}
+			}
+
+		}
+
+	}
+	
 	
 
 	header('Location: ../colegio.php?codigo='.$_POST["codigo"].'&periodo='.$_POST["periodo"].'');
