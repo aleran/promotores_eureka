@@ -4167,7 +4167,7 @@
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
 				  													
 
-				  															echo ' <button class="btn btn-success pull-right hidden" id="definir">Adopción</button>';
+				  															echo ' <button class="btn btn-success  hidden" id="definir">Adopción</button>';
 				  														
 
 				  								$sql_rec = "SELECT * FROM recursos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
