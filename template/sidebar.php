@@ -461,6 +461,101 @@
 						<b class="arrow"></b>
 					</li>
 					<?php } ?>
+					<li class="abrir_muestreo">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon glyphicon glyphicon-book"></i>
+							<span class="menu-text"> Muestreo </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="solicitar_muestras">
+								<a href="periodo_muestreo.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Solicitar muestras
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="ver_muestreo">
+								<a href="ver_muestreo.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Ver muestreo
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="lista_pedidos">
+								
+								<a href="lista_muestreo.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Pendientes
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="muestreo_aprobados">
+								
+								<a href="muestreo_aprobados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Aprobados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="muestreo_entregados">
+								
+								<a href="muestreo_entregados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Entregados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="muestreo_anulados">
+								
+								<a href="muestreo_anulados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Anulados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							
+
+							<!--<li class="">
+								<a href="form-wizard.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wizard &amp; Validation
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="wysiwyg.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Wysiwyg &amp; Markdown
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="dropzone.html">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Dropzone File Upload
+								</a>
+
+								<b class="arrow"></b>
+							</li>-->
+						</ul>
+					</li>
 					<li class="abrir_pedidos">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-exchange"></i>
