@@ -219,7 +219,7 @@
 										</select>
 									</div>
 
-								<button class="btn btn-primary">Pedidos</button></center>
+								<button class="btn btn-primary">Muestreo</button></center>
 							</form>
 						</div>
 
@@ -793,8 +793,8 @@
 			}
 		</script>
 		<script>
-			$(".abrir_pedidos").addClass("open");
-			$(".solicitar_pedido").addClass("active");
+			$(".abrir_muestreo").addClass("open");
+			$(".solicitar_muestras").addClass("active");
 		</script>
 	</body>
 </html>

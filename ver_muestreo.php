@@ -318,8 +318,8 @@
         	})
     </script>
     <script>
-			$(".abrir_pedidos").addClass("open");
-			$(".ver_pedidos").addClass("active");
+			$(".abrir_muestreo").addClass("open");
+			$(".ver_muestreo").addClass("active");
 	</script>
 	</body>
 </html>

@@ -199,13 +199,21 @@
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql_pedido="SELECT pe.fecha,pe.observaciones, z.zona, c.colegio, u.nombres, u.apellidos, e.estado FROM muestreos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo JOIN estados_pedidos e ON e.id=pe.estado WHERE pe.id='".$pedido["id"]."'";
+                                	$sql_pedido="SELECT pe.id, pe.id_periodo, pe.id_colegio, pe.fecha,pe.observaciones, z.zona, c.colegio, u.nombres, u.apellidos, e.estado FROM muestreos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo JOIN estados_pedidos e ON e.id=pe.estado WHERE pe.id='".$pedido["id"]."'";
 
 									$req_pedido = $bdd->prepare($sql_pedido);
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
+
+
+                                	$sql_repetido="SELECT id FROM muestreos WHERE id_periodo='".$pedido["id_periodo"]."' AND id_colegio='".$pedido["id_colegio"]."'";
+
+									$req_repetido = $bdd->prepare($sql_repetido);
+									$req_repetido->execute();
+									$num_repetido = $req_repetido->rowCount();
 									
-									$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
+									
+									$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.id as id_lm FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -223,6 +231,7 @@
                             		<td>Zona: <?php echo $pedido["zona"] ?></td>
                             		<td>Promotor: <?php echo $pedido["nombres"]." ".$pedido["apellidos"] ?></td>
                             	</tr>
+                            	
                             </table>
                           
                             <div class="table-responsive">
@@ -230,11 +239,13 @@
                                     <thead>
                                         <tr>
                                         	<th>Título</th>
-                                        	<th>Cantidad</th>
+                                        	<th>Cantidad solicitada</th>
+                                        	<th>Cantidad aprobada</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                        				
+                        				<script src="assets/js/jquery-2.1.4.min.js"></script>
+                        				<form action="php/aprobar_muestreo.php" method="POST">
                                         <?php 
                                         	foreach($libros as $libro) {
                                            
@@ -244,12 +255,28 @@
                                                 echo'<td class="">'.$libro["libro"].'</td>';
                                               
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
+
+                                                echo'<td class="center"><input type="number" id="cantidad_aprob'.$libro["id_lm"].'" value="0" required></td>';
+
+                                                echo'<input type="hidden" name="libro_m[]" id="libro_m'.$libro["id_lm"].'">';
+                                               
+
+                                            	echo"<script>
+													$('#cantidad_aprob".$libro["id_lm"]."').keyup(function(){
+														var cant =$('#cantidad_aprob".$libro["id_lm"]."').val();
+
+															$('#libro_m".$libro["id_lm"]."').val(".$libro["id_lm"]."+'/'+cant);
+
+														})
+	                                            </script>";
                                                
                                                
                                                  
                                                  
                                                
                                             }
+
+                                            echo'<input type="hidden" name="id_muestreo" value="'.$pedido["id"].'">';
                                            	
                                             $total_c=array_sum($total_cantidad);
                                          ?>
@@ -266,9 +293,10 @@
 
 							<center>
 								 <label for="observaciones">Observaciones:</label><br>
-								 <textarea name="observaciones" id="observaciones" cols="70" rows="3"><?php echo $pedido["observaciones"] ?></textarea><br><br>
+								 <textarea disabled name="observaciones" id="observaciones" cols="30" rows="3"><?php echo $pedido["observaciones"] ?></textarea><br><br>
 								 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button> <br><br>
-                           <button class="btn btn-success hidden-print" id="aprobar">Aprobar</button> <button class="btn btn-danger hidden-print" id="rechazar">Rechazar</button></center>
+                           <button class="btn btn-success hidden-print">Aprobar</button> 
+                           <button type="button" class="btn btn-danger hidden-print" id="rechazar">Rechazar</button></center>
                         </form>
 
 								<!-- PAGE CONTENT ENDS -->
@@ -335,6 +363,7 @@
 		<!-- inline scripts related to this page -->
 		<script src="assets/js/dataTables/jquery.dataTables.js"></script>
     	<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable({
@@ -358,8 +387,16 @@
             
     </script>
     <script>
-			$(".abrir_pedidos").addClass("open");
-			$(".lista_pedidos").addClass("active");
+			$(".abrir_muestreo").addClass("open");
+			$(".lista_muestreo").addClass("active");
+
+			<?php 
+                 if ($num_repetido > 1) {
+					echo'swal("Anteriormente se solicito muestras en este colegio",{
+  							icon: "warning",
+						});';
+				}
+            ?>
 
 			$("#aprobar").click(function(){
 				var obs=$("#observaciones").val();

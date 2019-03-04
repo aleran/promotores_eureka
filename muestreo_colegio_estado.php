@@ -199,13 +199,13 @@
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
                                 	
-                                	$sql_pedido="SELECT pe.fecha,pe.observaciones, z.zona, c.colegio, u.nombres, u.apellidos, e.estado FROM muestreos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo JOIN estados_pedidos e ON e.id=pe.estado WHERE pe.id='".$pedido["id"]."'";
+                                	$sql_pedido="SELECT pe.fecha,pe.observaciones, pe.estado as id_estado, z.zona, c.colegio, u.nombres, u.apellidos, e.estado FROM muestreos pe JOIN colegios c ON pe.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona JOIN usuarios u ON u.cod_zona=z.codigo JOIN estados_pedidos e ON e.id=pe.estado WHERE pe.id='".$pedido["id"]."'";
 
 									$req_pedido = $bdd->prepare($sql_pedido);
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
+                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -232,6 +232,9 @@
                                         <tr>
                                             <th>Título</th>
                                             <th>Cantidad</th>
+                                            <?php if ($pedido["id_estado"]==2 || $pedido["id_estado"]==4) {
+                                            	echo " <th>Cantidad aprobada</th>";
+                                            } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -241,18 +244,26 @@
                                            
                                         		
                                         		$total_cantidad[]=$libro["cantidad"];
+                                        		$total_cantidad_aprob[]=$libro["cantidad_aprob"];
 
                                                 echo'<tr class="odd gradeX">';
                                                 echo'<td class="">'.$libro["libro"].'</td>';
                                               
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
+
+                                                if ($pedido["id_estado"]==2 || $pedido["id_estado"]==4){
+
+                                                	echo'<td class="center">'.$libro["cantidad_aprob"].'</td>';
+                                                }
                                                  
                                                
                                             }
 
                                            
                                             $total_c=array_sum($total_cantidad);
+                                            $total_c_aprob=array_sum($total_cantidad_aprob);
                                          ?>
+                                                }
                                         
                                         </tr>
                                    
@@ -260,6 +271,9 @@
                                
                                        <td class="center"><b>Total:</b></td>
                                        <td class="center"><b><?php echo $total_c; ?></b></td>
+                                       <?php   if ($pedido["id_estado"]==2 || $pedido["id_estado"]==4){ ?>
+                                       		<td class="center"><b><?php echo $total_c_aprob; ?></b></td>
+                                   		<?php } ?>
                                        
                                     </tbody>
                                 </table>
@@ -362,8 +376,8 @@
             
     </script>
     <script>
-			$(".abrir_pedidos").addClass("open");
-			$(".ver_pedidos").addClass("active");
+			$(".abrir_muestreo").addClass("open");
+			$(".ver_muestreo").addClass("active");
 
 			$("#imprimir").click(function(){
 				window.print();

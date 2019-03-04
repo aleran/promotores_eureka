@@ -489,7 +489,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="lista_pedidos">
+							<li class="lista_muestreo">
 								
 								<a href="lista_muestreo.php">
 									<i class="menu-icon fa fa-caret-right"></i>

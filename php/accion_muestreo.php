@@ -20,7 +20,8 @@
 		$sql = "UPDATE muestreos SET estado='4' WHERE id='".$_GET["entregado"]."'";
 		$req = $bdd->prepare($sql);
 		$req->execute();
-		echo "<script>alert('Muestreo Entregado');window.location='../muestreo_aprobados.php';</script>";
+		include("../recibo_muestras.php");
+		header("location: /..muestreo_aprobados.php");
 	}
 
 	

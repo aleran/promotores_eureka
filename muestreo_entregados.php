@@ -317,8 +317,8 @@
         	})
     </script>
     <script>
-			$(".abrir_pedidos").addClass("open");
-			$(".pedidos_entregados").addClass("active");
+			$(".abrir_muestreo").addClass("open");
+			$(".muestreo_entregados").addClass("active");
 	</script>
 	</body>
 </html>

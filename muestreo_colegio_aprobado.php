@@ -207,7 +207,7 @@
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
+                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
@@ -234,6 +234,7 @@
                                         <tr>
                                             <th>Título</th>
                                         	<th>Cantidad</th>
+                                        	<th>Cantidad aprobada</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -242,21 +243,25 @@
                                         	foreach($libros as $libro) {
                                            
                                         		$total_cantidad[]=$libro["cantidad"];
+                                        		$total_cantidad_aprob[]=$libro["cantidad_aprob"];
 
                                                 echo'<tr class="odd gradeX">';
                                                 echo'<td class="">'.$libro["libro"].'</td>';
                                               
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
+                                                echo'<td class="center">'.$libro["cantidad_aprob"].'</td>';
                                                    
                                                
                                             }
                                             
                                             $total_c=array_sum($total_cantidad);
+                                            $total_c_aprob=array_sum($total_cantidad_aprob);
                                          ?>
                                         
                                         </tr>
                                        	<td class="center"><b>Total:</b></td>
                                        	<td class="center"><b><?php echo $total_c; ?></b></td>
+                                       	<td class="center"><b><?php echo $total_c_aprob; ?></b></td>
                                        
                                     </tbody>
                                 </table>
@@ -359,8 +364,8 @@
             
     </script>
     <script>
-			$(".abrir_pedidos").addClass("open");
-			$(".pedidos_aprobados").addClass("active");
+			$(".abrir_muestreo").addClass("open");
+			$(".muestreo_aprobados").addClass("active");
 
 			$("#rechazar").click(function(){
 				window.location="php/accion_muestreo.php?rechazar=<?php echo $_GET["id_pedido"] ?>";
