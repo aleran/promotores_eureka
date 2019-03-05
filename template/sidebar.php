@@ -643,6 +643,15 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
+							<li class="registro_colegios">
+								
+								<a href="registro_colegios.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Registro de colegios
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 							<li class="cubrimiento">
 								<?php if ($_SESSION["tipo"]==3) {?>
 								<a href="reporte_cubrimiento2.php">
