@@ -1,18 +1,26 @@
+<title>Registro de planteles</title>
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+<style>
+	.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 2px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+</style>
 <?php
 	require_once("aut.php");
 	include("../conexion/bdd.php");
-	require_once '../lib/dompdf/lib/html5lib/Parser.php';
-	require_once '../lib/dompdf/lib/php-font-lib/src/FontLib/Autoloader.php';
-	require_once '../lib/dompdf/lib/php-svg-lib/src/autoload.php';
-	require_once '../lib/dompdf/src/Autoloader.php';
-
-	Dompdf\Autoloader::register();
-
-	use Dompdf\Dompdf;
+	
 
 
-// instantiate and use the dompdf class
-	$dompdf = new Dompdf();
+
+
 
 	$sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, web, telefono, cumpleaños, cod_zona FROM colegios WHERE id='".$_POST["cole"]."'";
 
@@ -27,24 +35,24 @@
 	$req_usuario->execute();
 	$usuario = $req_usuario->fetch();
 
-	$html='<style>
+	echo'<style>
 
 				*{
-					font-size: 11px;
+					font-size: 12px;
 				}
 
 				.prescolar {
-				background-color: #E4F61F;
+				
 				color: #000;
 				text-align: center;
 			}
 			.primaria {
-				background-color: #2AB510;
+				
 				color: #000;
 				text-align: center;
 			}
 			.bachillerato {
-				background-color: #438EB9;
+				
 				color: #000;
 				text-align: center;
 			}
@@ -52,13 +60,14 @@
 				text-align: center;
 			}
 			</style>
-	<link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+	
+	<script src="../assets/js/jquery-2.1.4.min.js"></script>
 						<div class="container">
 							<img src="../assets/images/logo_eureka.png" width=100>
 							<br><center><h4>REGISTRO GENERAL DE PLANTELES</h4></center><br>
 								<table class="table table-bordered">
 			 						<tbody>
-										<tr class="info"><td class="text-center" colspan="2">INFORMACIÓN BÁSICA</td></tr>
+										<tr ><td class="text-center" colspan="2">INFORMACIÓN BÁSICA</td></tr>
 										<tr><td class="" colspan="2"><b>Nombre de la institución:</b> '.$colegio["colegio"].'</td></tr>
 										<tr><td><b>Código interno:</b> '.$colegio["codigo"].'</td><td><b>Dirección:</b> '.$colegio["direccion"].'</td></tr>
 										<tr><td><b>Barrio:</b> '.$colegio["barrio"].'</td><td><b>Representante:</b> '.$usuario["promotor"].'</td></tr>
@@ -68,7 +77,7 @@
 			 						</tbody>
 								</table>';
 
-	$html.='<table class="table table-bordered table-striped">
+	echo'<table class="table table-bordered table-striped">
 				<tbody>';
 
 
@@ -83,7 +92,7 @@
 
 		if ($direc["id_cargo"] != 5) {
 
-			$html.='<tr>
+			echo'<tr>
 					<td><b>'.$direc["cargo"].'</b>: '.$direc["nombre"].'</td><td><b>Celular:</b> '.$direc["telefono"].'</td>
 				</tr>
 				<tr>
@@ -99,7 +108,7 @@
 			$req_m->execute();
 			$materia = $req_m->fetch();
 
-			$html.='<tr>
+			echo'<tr>
 					<td><b>'.$direc["cargo"].' '.$materia["materia"].'</b>: '.$direc["nombre"].'</td><td><b>Celular:</b> '.$direc["telefono"].'</td>
 				</tr>
 				<tr>
@@ -111,7 +120,7 @@
 
 		
 	}
-	$html.='</tbody></table>';
+	echo'</tbody></table>';
 
 	$sql = "SELECT id, id_periodo FROM grados_paralelos WHERE id_colegio='".$_POST['cole']."' ORDER BY id_periodo DESC";
 
@@ -323,9 +332,10 @@
 			$alumnos_global= $alumnos_pri + $alumnos_bach + $alumnos_prescolar;
 
 
-		$html.='<table class="table table-bordered  poblacion">
-		<tr class="info"><td colspan="19">INFORMACIÓN DE POBLACIÓN</td></tr>
+		echo'<table class="table table-bordered  poblacion">
+		
 					<thead>
+					<tr ><td colspan="19">INFORMACIÓN DE POBLACIÓN</td></tr>
 						<th>Grados:</th>
 						<th class="prescolar">PRE</th>
 						<th class="prescolar">JAR</th>
@@ -351,22 +361,104 @@
 							
 							<tr><td>Alumnos</td><td>'.$gp_pre["alumnos"].'</td><td>'.$gp_jar["alumnos"].'</td><td>'.$gp_tra["alumnos"].'</td><td>'.$gp_1["alumnos"].'</td><td>'.$gp_2["alumnos"].'</td><td>'.$gp_3["alumnos"].'</td><td>'.$gp_4["alumnos"].'</td><td>'.$gp_5["alumnos"].'</td><td>'.$gp_6["alumnos"].'</td><td>'.$gp_7["alumnos"].'</td><td>'.$gp_8["alumnos"].'</td><td>'.$gp_9["alumnos"].'</td><td>'.$gp_10["alumnos"].'</td><td>'.$gp_11["alumnos"].'</td></td></td><td>'.$alumnos_prescolar.'</td><td>'.$alumnos_pri.'</td></td><td>'.$alumnos_bach.'</td><td>'.$alumnos_global.'</td></tr>
 					</tbody>
-				</table>';
+				</table><br>';
 					
-						
+		echo'<table class="table table-bordered">
+					
+					<thead>
+					<tr ><td colspan="18"><center>INFORMACIÓN DE PRODUCTO</center></td></tr>
+					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><center>Serie</center></td><td><center>Ciclo de vida<br>primaria</center></td><td><center>Ciclo de vida<br>bachillerato</center></td></tr>
+						<th>Grados:</th>
+						<th>PRE</th>
+						<th>JAR</th>
+						<th>TRA</th>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+						<th>7</th>
+						<th>8</th>
+						<th>9</th>
+						<th>10</th>
+						<th>11</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</thead>
+					<tbody>
+						<tr><td>Prescolar</td><td id="11"></td><td id="12"></td><td id="13"></td><td id="14"></td><td id="15"></td><td id="16"></td><td id="17"></td><td id="18"></td><td id="19"></td><td id="110"></td><td id="111"></td><td id="112"></td><td id="113"></td><td id="114"></td><td id="1s"></td><td id="1p"></td><td id="1b"></td></tr>
+						<tr><td>Español</td><td id="31"></td><td id="32"></td><td id="33"></td><td id="34"></td><td id="35"></td><td id="36"></td><td id="37"></td><td id="38"></td><td id="39"></td><td id="310"></td><td id="311"></td><td id="312"></td><td id="313"></td><td id="314"></td><td id="3s"></td><td id="3p"></td><td id="3b"></td></tr>
+						<tr><td>Comprension lectora</td><td id="41"></td><td id="42"></td><td id="43"></td><td id="44"></td><td id="45"></td><td id="46"></td><td id="47"></td><td id="48"></td><td id="49"></td><td id="410"></td><td id="411"></td><td id="412"></td><td id="413"></td><td id="414"></td><td id="4s"></td><td id="4p"></td><td id="4b"></td></tr>
+						<tr><td>Matemáticas</td><td id="21"></td><td id="22"></td><td id="23"></td><td id="24"></td><td id="25"></td><td id="26"></td><td id="27"></td><td id="28"></td><td id="29"></td><td id="210"></td><td id="211"></td><td id="212"></td><td id="213"></td><td id="214"></td><td id="2s"></td><td id="2p"></td><td id="2b"></td></tr>
+						<tr><td>Sociales</td><td id="61"></td><td id="62"></td><td id="63"></td><td id="64"></td><td id="65"></td><td id="66"></td><td id="67"></td><td id="68"></td><td id="69"></td><td id="610"></td><td id="611"></td><td id="612"></td><td id="613"></td><td id="614"></td><td id="6s"></td><td id="6p"></td><td id="6b"></td></tr>
+						<tr><td>Ingles</td><td id="71"></td><td id="72"></td><td id="73"></td><td id="74"></td><td id="75"></td><td id="76"></td><td id="77"></td><td id="78"></td><td id="79"></td><td id="710"></td><td id="711"></td><td id="712"></td><td id="713"></td><td id="714"></td><td id="7s"></td><td id="7p"></td><td id="7b"></td></tr>
+						<tr><td>Artistica</td><td id="81"></td><td id="82"></td><td id="83"></td><td id="84"></td><td id="85"></td><td id="86"></td><td id="87"></td><td id="88"></td><td id="89"></td><td id="810"></td><td id="811"></td><td id="812"></td><td id="813"></td><td id="814"></td><td id="8s"></td><td id="8p"></td><td id="8b"></td></tr>
+						<tr><td>Plan lector</td><td id="91"></td><td id="92"></td><td id="93"></td><td id="94"></td><td id="95"></td><td id="96"></td><td id="97"></td><td id="98"></td><td id="99"></td><td id="910"></td><td id="911"></td><td id="912"></td><td id="913"></td><td id="914"></td><td id="9s"></td><td id="9p"></td><td id="9b"></td></tr>
+						<tr><td>Informática</td><td id="101"></td><td id="102"></td><td id="103"></td><td id="104"></td><td id="105"></td><td id="106"></td><td id="107"></td><td id="108"></td><td id="109"></td><td id="1010"></td><td id="1011"></td><td id="1012"></td><td id="1013"></td><td id="1014"></td><td id="10s"></td><td id="10p"></td><td id="10b"></td></tr>
+					</tbody>';
 
 
-	$dompdf->set_option('isHtml5ParserEnabled', true);
+	$sql = "SELECT l.pri_sec, l.id_grado,l.id_materia, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='1' AND p.definido='".$_POST['periodo']."' AND p.id_colegio='".$_POST['cole']."'";
 
-	$dompdf->loadHtml($html);
+	$req = $bdd->prepare($sql);
+	$req->execute();
 
-	// (Optional) Setup the paper size and orientation
-	$dompdf->setPaper('letter');
+	$libros = $req->fetchAll();
 
-	// Render the HTML as PDF
-	$dompdf->render();
+	foreach($libros as $libro) {
 
-	// Output the generated PDF to Browser
-	$dompdf->stream('registro_colegio');
+		$sql_serie = "SELECT libro FROM libros WHERE id='".$libro["pri_sec"]."'";
+
+		$req_serie = $bdd->prepare($sql_serie);
+		$req_serie->execute();
+
+		$libro_serie = $req_serie->fetch();
+		
+		
+
+		if ($libro["cod_area"] !="") {
+
+			$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro["cod_area"]."'";
+
+			$req_go = $bdd->prepare($sql_go);
+			$req_go->execute();
+			$go = $req_go->fetch();
+
+			echo "<script>
+				
+				$('#".$libro["id_materia"]."".$go["id_grado_otro"]."').text('X');
+			
+				
+			</script>";
+
+		}else{
+
+
+
+		}
+		echo "<script>
+				
+				$('#".$libro["id_materia"]."".$libro["id_grado"]."').text('X');
+				$('#".$libro["id_materia"]."s').text('".$libro_serie["libro"]."');
+				
+			</script>";
+
+	}
+
+	echo "</tbody></table>";
+
+	echo "<center><button class='btn btn-info hidden-print' id='imprimir'>Imprimir</button></center>"
+
+
+
+
+	
 
 ?>
+<script>
+	$("#imprimir").click(function(){
+		window.print();
+	})
+</script>

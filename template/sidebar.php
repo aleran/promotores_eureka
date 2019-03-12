@@ -461,6 +461,7 @@
 						<b class="arrow"></b>
 					</li>
 					<?php } ?>
+					<?php if ($_SESSION["tipo"]==1) {?>
 					<li class="abrir_muestreo">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon glyphicon glyphicon-book"></i>
@@ -556,6 +557,7 @@
 							</li>-->
 						</ul>
 					</li>
+					<?php } ?>
 					<li class="abrir_pedidos">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-exchange"></i>
