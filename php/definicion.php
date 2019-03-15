@@ -116,7 +116,7 @@
 			if (!in_array($valor, $defs2)) {
 
 
-				$sql_e = "UPDATE presupuestos SET definido='0' WHERE id='".$valor."'";
+				$sql_e = "UPDATE presupuestos SET definido='0' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo";
 
 					$query_e = $bdd->prepare( $sql_e );
 					if ($query_e == false) {
@@ -135,6 +135,18 @@
 	}
 	
 	
+	$sql_e = "UPDATE colegios_status SET id_status='1' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."'";
+
+	$query_e = $bdd->prepare( $sql_e );
+	if ($query_e == false) {
+		print_r($bdd->errorInfo());
+		die ('Erreur prepare');
+	}
+	$sth_e = $query_e->execute();
+	if ($sth_e == false) {
+		print_r($query_e->errorInfo());
+		die ('Erreur execute');
+	}
 
 	header('Location: ../colegio.php?codigo='.$_POST["codigo"].'&periodo='.$_POST["periodo"].'');
 

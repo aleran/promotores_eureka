@@ -98,12 +98,13 @@ $objPHPExcel->getActiveSheet()->SetCellValue("J4", "Alumnos preescolar");
 $objPHPExcel->getActiveSheet()->SetCellValue("K4", "Alumnos primaria");
 $objPHPExcel->getActiveSheet()->SetCellValue("L4", "Alumnos bachillerato");
 $objPHPExcel->getActiveSheet()->SetCellValue("M4", "Alumnos global");
-$objPHPExcel->getActiveSheet()->getStyle("A1:M1")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->SetCellValue("N4", "Status");
+$objPHPExcel->getActiveSheet()->getStyle("A1:N1")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
 );
-$objPHPExcel->getActiveSheet()->getStyle("A4:M4")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->getStyle("A4:N4")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
@@ -118,7 +119,7 @@ $gp_periodo = $req_periodo->fetch();
 
 if (isset($_POST["zona"])) {
 
-	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo WHERE z.codigo='".$_POST["zona"]."'";
+	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona, s.status, SUM(gp.alumnos) as alm FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo JOIN colegios_status cs ON c.id=cs.id_colegio JOIN status_cubrimiento s ON s.id=cs.id_status JOIN grados_paralelos gp ON gp.id_colegio=c.id WHERE z.codigo='".$_POST["zona"]."' AND cs.id_periodo='".$gp_periodo["id"]."' AND gp.id_periodo='".$gp_periodo["id"]."' GROUP BY c.id ORDER BY s.id ASC, alm DESC";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
@@ -126,7 +127,7 @@ if (isset($_POST["zona"])) {
 
 else {
 
-	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo WHERE z.codigo='".$usuario["cod_zona"]."'";
+	$sql = "SELECT c.id, c.codigo, c.colegio, c.barrio, c.direccion,c.telefono, z.zona, s.status, SUM(gp.alumnos) as alm FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo JOIN colegios_status cs ON c.id=cs.id_colegio JOIN status_cubrimiento s ON s.id=cs.id_status JOIN grados_paralelos gp ON gp.id_colegio=c.id WHERE z.codigo='".$usuario["cod_zona"]."' AND cs.id_periodo='".$gp_periodo["id"]."' AND gp.id_periodo='".$gp_periodo["id"]."' GROUP BY c.id ORDER BY s.id ASC, alm DESC";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
@@ -261,6 +262,7 @@ foreach($coles as $cole) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("K$conta", "$alumnos_pri");
 	$objPHPExcel->getActiveSheet()->SetCellValue("L$conta", "$alumnos_bach");
 	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$alumnos_global");
+	$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$cole[status]");
 
 
 $conta++;

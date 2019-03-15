@@ -260,6 +260,19 @@
 
 	}
 
+	$sql_s="INSERT INTO colegios_status (id_colegio,id_periodo,id_status) VALUES('".$_POST["id_colegio"]."', '".$gp_periodo["id"]."','3')";
+
+		$query_s = $bdd->prepare( $sql_s );
+		if ($query_s == false) {
+		 print_r($bdd->errorInfo());
+		 die ('Erreur prepare');
+		}
+		$sth_s = $query_s->execute();
+		if ($sth_s == false) {
+		 print_r($query_s->errorInfo());
+		 die ('Erreur execute');
+		}
+
 	header('Location: ../colegio.php?codigo='.$_POST["cod_colegio"].'&periodo='.$_POST["periodo"].'');
 	
 ?>

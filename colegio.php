@@ -1645,14 +1645,10 @@
 														
 						
 						<?php 
-							$sql = "SELECT id, id_periodo FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' ORDER BY id_periodo DESC";
-
+							$sql = "SELECT id FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							$req = $bdd->prepare($sql);
 							$req->execute();
-
 							$num = $req->rowCount();
-
-							$ultimo_periodo=$req->fetch();
 									
 							if ($num < 1) {
 						 ?>
@@ -1697,222 +1693,92 @@
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
-						
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-success">Guardar</button></center>
-						
+						<?php } ?>
 						</form>
 						<?php }else{
-							if ($ultimo_periodo["id_periodo"] == $gp_periodo['id']){
-
-								$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=1 ORDER BY id_periodo DESC";
-								$req_pre = $bdd->prepare($sql_pre);
-								$req_pre->execute();
-								$gp_pre = $req_pre->fetch();
-
-								$sql_jar = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=2 ORDER BY id_periodo DESC";
-								$req_jar = $bdd->prepare($sql_jar);
-								$req_jar->execute();
-								$gp_jar = $req_jar->fetch();
-
-								$sql_tra = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=3  ORDER BY id_periodo DESC";
-								$req_tra = $bdd->prepare($sql_tra);
-								$req_tra->execute();
-								$gp_tra = $req_tra->fetch();
-
-								$sql_1 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=4 ORDER BY id_periodo DESC";
-								$req_1 = $bdd->prepare($sql_1);
-								$req_1->execute();
-								$gp_1 = $req_1->fetch();
-
-								$sql_2 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=5  ORDER BY id_periodo DESC";
-								$req_2 = $bdd->prepare($sql_2);
-								$req_2->execute();
-								$gp_2 = $req_2->fetch();
-
-								$sql_3 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=6 ORDER BY id_periodo DESC";
-								$req_3 = $bdd->prepare($sql_3);
-								$req_3->execute();
-								$gp_3 = $req_3->fetch();
-
-								$sql_4 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=7 ORDER BY id_periodo DESC";
-								$req_4 = $bdd->prepare($sql_4);
-								$req_4->execute();
-								$gp_4 = $req_4->fetch();
-
-								$sql_5 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=8 ORDER BY id_periodo DESC";
-								$req_5 = $bdd->prepare($sql_5);
-								$req_5->execute();
-								$gp_5 = $req_5->fetch();
-
-								$sql_6 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=9 ORDER BY id_periodo DESC";
-								$req_6 = $bdd->prepare($sql_6);
-								$req_6->execute();
-								$gp_6 = $req_6->fetch();
-
-								$sql_7 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=10 ORDER BY id_periodo DESC";
-								$req_7 = $bdd->prepare($sql_7);
-								$req_7->execute();
-								$gp_7 = $req_7->fetch();
-
-								$sql_8 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=11 ORDER BY id_periodo DESC";
-								$req_8 = $bdd->prepare($sql_8);
-								$req_8->execute();
-								$gp_8 = $req_8->fetch();
-
-								$sql_9 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=12 ORDER BY id_periodo DESC";
-								$req_9 = $bdd->prepare($sql_9);
-								$req_9->execute();
-								$gp_9 = $req_9->fetch();
-
-								$sql_10 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=13 ORDER BY id_periodo DESC";
-								$req_10 = $bdd->prepare($sql_10);
-								$req_10->execute();
-								$gp_10 = $req_10->fetch();
-
-								$sql_11 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=14 ORDER BY id_periodo DESC";
-								$req_11 = $bdd->prepare($sql_11);
-								$req_11->execute();
-								$gp_11 = $req_11->fetch();
-
-								$paralelos_prescolar=$gp_pre["paralelos"] + $gp_jar["paralelos"] + $gp_tra["paralelos"];
-
-								if ($_SESSION["pais"]==2) {
-
-									$paralelos_pri=$gp_1["paralelos"] + $gp_2["paralelos"] + $gp_3["paralelos"] + $gp_4["paralelos"] + $gp_5["paralelos"] + $gp_6["paralelos"];
-
-									$paralelos_bach=$gp_7["paralelos"] + $gp_8["paralelos"] + $gp_9["paralelos"] + $gp_10["paralelos"] + $gp_11["paralelos"];
-								}
-
-								else {
-
-									$paralelos_pri=$gp_1["paralelos"] + $gp_2["paralelos"] + $gp_3["paralelos"] + $gp_4["paralelos"] + $gp_5["paralelos"];
-
-									$paralelos_bach=$gp_6["paralelos"] + $gp_7["paralelos"] + $gp_8["paralelos"] + $gp_9["paralelos"] + $gp_10["paralelos"] + $gp_11["paralelos"];
-
-								}
-							
-							}else{
-								$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=1 AND id_periodo='".$gp_periodo["id"]."'";
+							$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=1 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_pre = $bdd->prepare($sql_pre);
 							$req_pre->execute();
 							$gp_pre = $req_pre->fetch();
-
 							$sql_jar = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=2 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_jar = $bdd->prepare($sql_jar);
 							$req_jar->execute();
 							$gp_jar = $req_jar->fetch();
-
 							$sql_tra = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=3  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_tra = $bdd->prepare($sql_tra);
 							$req_tra->execute();
 							$gp_tra = $req_tra->fetch();
-
 							$sql_1 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=4  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_1 = $bdd->prepare($sql_1);
 							$req_1->execute();
 							$gp_1 = $req_1->fetch();
-
 							$sql_2 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=5  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_2 = $bdd->prepare($sql_2);
 							$req_2->execute();
 							$gp_2 = $req_2->fetch();
-
 							$sql_3 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=6 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_3 = $bdd->prepare($sql_3);
 							$req_3->execute();
 							$gp_3 = $req_3->fetch();
-
 							$sql_4 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=7  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_4 = $bdd->prepare($sql_4);
 							$req_4->execute();
 							$gp_4 = $req_4->fetch();
-
 							$sql_5 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=8  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_5 = $bdd->prepare($sql_5);
 							$req_5->execute();
 							$gp_5 = $req_5->fetch();
-
 							$sql_6 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=9  AND id_periodo='".$gp_periodo["id"]."'";
 							$req_6 = $bdd->prepare($sql_6);
 							$req_6->execute();
 							$gp_6 = $req_6->fetch();
-
 							$sql_7 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=10 AND  id_periodo='".$gp_periodo["id"]."'";
 							$req_7 = $bdd->prepare($sql_7);
 							$req_7->execute();
 							$gp_7 = $req_7->fetch();
-
 							$sql_8 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=11 AND  id_periodo='".$gp_periodo["id"]."'";
 							$req_8 = $bdd->prepare($sql_8);
 							$req_8->execute();
 							$gp_8 = $req_8->fetch();
-
 							$sql_9 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=12 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_9 = $bdd->prepare($sql_9);
 							$req_9->execute();
 							$gp_9 = $req_9->fetch();
-
 							$sql_10 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=13 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_10 = $bdd->prepare($sql_10);
 							$req_10->execute();
 							$gp_10 = $req_10->fetch();
-
 							$sql_11 = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$colegio['id']."' AND id_grado=14 AND id_periodo='".$gp_periodo["id"]."'";
 							$req_11 = $bdd->prepare($sql_11);
 							$req_11->execute();
 							$gp_11 = $req_11->fetch();
-
 							$paralelos_prescolar=$gp_pre["paralelos"] + $gp_jar["paralelos"] + $gp_tra["paralelos"];
-
 							if ($_SESSION["pais"]==2) {
-
 								$paralelos_pri=$gp_1["paralelos"] + $gp_2["paralelos"] + $gp_3["paralelos"] + $gp_4["paralelos"] + $gp_5["paralelos"] + $gp_6["paralelos"];
-
 								$paralelos_bach=$gp_7["paralelos"] + $gp_8["paralelos"] + $gp_9["paralelos"] + $gp_10["paralelos"] + $gp_11["paralelos"];
 							}
-
 							else {
-
 								$paralelos_pri=$gp_1["paralelos"] + $gp_2["paralelos"] + $gp_3["paralelos"] + $gp_4["paralelos"] + $gp_5["paralelos"];
-
 								$paralelos_bach=$gp_6["paralelos"] + $gp_7["paralelos"] + $gp_8["paralelos"] + $gp_9["paralelos"] + $gp_10["paralelos"] + $gp_11["paralelos"];
-
 							}
-							}
-
+							
 							$paralelos_global= $paralelos_pri + $paralelos_bach + $paralelos_prescolar;
-
-
 							$alumnos_prescolar=$gp_pre["alumnos"] + $gp_jar["alumnos"] + $gp_tra["alumnos"];
-
 							if ($_SESSION["pais"]==2) {
-
 							$alumnos_pri=$gp_1["alumnos"] + $gp_2["alumnos"] + $gp_3["alumnos"] + $gp_4["alumnos"] + $gp_5["alumnos"]+ $gp_6["alumnos"];
-
 							$alumnos_bach=$gp_7["alumnos"] + $gp_8["alumnos"] + $gp_9["alumnos"] + $gp_10["alumnos"] + $gp_11["alumnos"];
 							}
-
 							else {
-
 								$alumnos_pri=$gp_1["alumnos"] + $gp_2["alumnos"] + $gp_3["alumnos"] + $gp_4["alumnos"] + $gp_5["alumnos"];
-
 								$alumnos_bach=$gp_6["alumnos"] + $gp_7["alumnos"] + $gp_8["alumnos"] + $gp_9["alumnos"] + $gp_10["alumnos"] + $gp_11["alumnos"];
 							}
-
 							$alumnos_global= $alumnos_pri + $alumnos_bach + $alumnos_prescolar;
-
-
 							
 							
 						?>
-						<?php if ($ultimo_periodo["id_periodo"] == $gp_periodo['id']){ ?>
-							<form action="php/actualizar_poblacion.php" method="POST" >
-						<?php }else{ ?>
-							<form action="php/poblacion.php" method="POST" >
-						<?php } ?>
-
-
-						
+						<form action="php/actualizar_poblacion.php" method="POST" >
 						<center>
 							<div class="row">
 								<div class="table-responsive">
@@ -1954,9 +1820,9 @@
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
-						
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
 						<center><button class="btn btn-primary">Actualizar</button></center>
-						
+						<?php }?>
 						</form>
 						<?php } ?>
 													</div>
@@ -4430,7 +4296,7 @@
 											</div>
 										<?php } ?>
                         
-						
+						<br><center><button class="btn btn-danger" id="descartar">Descartar</button><center>
 						
 
 						 
@@ -5927,6 +5793,14 @@
 	        		 $("#definir").removeClass("hidden");
 	        	}
     		});
+
+    		$("#descartar").click(function(){
+    			if (confirm("¿Seguro desea descartar el colegio en el periodo <?php  echo $gp_periodo["periodo"] ?>")) {
+
+    				window.location="php/descartar.php?colegio=<?php echo $colegio['id'] ?>&periodo=<?php echo $gp_periodo["id"] ?>"
+
+    			}
+    		})
 		</script>
 
 		

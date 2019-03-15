@@ -1,4 +1,7 @@
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
 <title>Registro de planteles</title>
+
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
 <style>
 	.table > thead > tr > th,

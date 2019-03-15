@@ -86,13 +86,15 @@ $objPHPExcel->getActiveSheet()->SetCellValue("C1", "Promotor");
 $objPHPExcel->getActiveSheet()->SetCellValue("C2", "$nombre_completo");
 
 $objPHPExcel->getActiveSheet()->SetCellValue("A4", "Fecha planificada");
-$objPHPExcel->getActiveSheet()->SetCellValue("B4", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("C4", "Profesor");
-$objPHPExcel->getActiveSheet()->SetCellValue("D4", "Objetivo");
-$objPHPExcel->getActiveSheet()->SetCellValue("E4", "Resultado");
-$objPHPExcel->getActiveSheet()->SetCellValue("F4", "Comentarios");
-$objPHPExcel->getActiveSheet()->SetCellValue("G4", "Fecha ejecutada");
-$objPHPExcel->getActiveSheet()->getStyle("A1:G1")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->SetCellValue("B4", "Hora planificada");
+$objPHPExcel->getActiveSheet()->SetCellValue("C4", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("D4", "Profesor");
+$objPHPExcel->getActiveSheet()->SetCellValue("E4", "Cargo");
+$objPHPExcel->getActiveSheet()->SetCellValue("F4", "Objetivo");
+$objPHPExcel->getActiveSheet()->SetCellValue("G4", "Resultado");
+$objPHPExcel->getActiveSheet()->SetCellValue("H4", "Comentarios");
+$objPHPExcel->getActiveSheet()->SetCellValue("I4", "Fecha ejecutada");
+$objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
@@ -139,25 +141,57 @@ foreach($planes as $plan) {
 		$visitas = $req->fetch();
 	}
 
-	$sql_profe = "SELECT nombre FROM trabajadores_colegios WHERE codigo='".$plan["cod_profesor"]."'";
+	$sql_profe = "SELECT t.nombre, t.codigo, t.cargo as id_cargo, t.area, c.cargo FROM trabajadores_colegios t JOIN cargos c ON c.id=t.cargo WHERE codigo='".$plan["cod_profesor"]."'";
 	$req_profe = $bdd->prepare($sql_profe);
 	$req_profe->execute();
 	$profe = $req_profe->fetch();
 
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$plan[start]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$plan[colegio]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$profe[nombre]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$plan[objetivo]");
+	if ($profe["id_cargo"]==5) {
+
+
+		$sql_area = "SELECT materia FROM materias WHERE id='".$profe["area"]."'";
+		$req_area = $bdd->prepare($sql_area);
+		$req_area->execute();
+
+		$area = $req_area->fetch();
+
+		$cargo= $profe["cargo"]." ".$area["materia"];
+
+	}elseif ($profe["id_cargo"]==6) {
+		
+		$sql_area = "SELECT m.materia FROM materias m JOIN grados_materias gm ON m.id=gm.id_materia WHERE gm.cod_profesor='".$profe["codigo"]."'";
+		$req_area = $bdd->prepare($sql_area);
+		$req_area->execute();
+
+		$area = $req_area->fetch();
+
+		$cargo= $profe["cargo"]." ".$area["materia"];
+
+
+	}else {
+
+		$cargo= $profe["cargo"];
+
+	}
+
+	list($fecha,$hora)=explode(" ", $plan["start"]);
+
+	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$fecha");
+	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$hora");
+	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$plan[colegio]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$profe[nombre]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$cargo");
+	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$plan[objetivo]");
 	 if ($plan["resultado"]==1) {
-		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "Efectiva");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "Efectiva");
 	}
 	else {
-		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "No ejecutada");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "No ejecutada");
 	}
 	
 	if ($plan["resultado"]==1) {
-		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$visitas[observaciones]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$visitas[fecha]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$visitas[observaciones]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$visitas[fecha]");
 	}
 
 
