@@ -532,7 +532,18 @@
 					<div class="col-sm-10">
 					<textarea class="form-control" rows="3" name="comentarios" id="comentarios"></textarea>
 					</div>
-				  </div>
+				</div>
+				<center>
+				<div class="checkbox">
+			    	<label><b>Efectiva:</b><br>
+			     		<input type="checkbox" name="efectiva" value="1" id="ef_si"> Si
+			    	</label>
+			    	<label>
+			     		<input type="checkbox" name="efectiva" value="0" id="ef_no"> No
+			    	</label>
+			  	</div>
+			  </center>
+			  
 				  <INPUT TYPE='hidden' readonly='readonly' ID='latitud' NAME='latitud'>
 			<INPUT TYPE='hidden' readonly='readonly' ID='longitud' NAME='longitud'>
 
@@ -1745,6 +1756,16 @@
 		$("#agregar_materia").click(function(){
 			$(".profesor").clone().appendTo(".otro_p");
 		});
+
+		$("#ef_si").click(function(){
+			$("#ef_no").prop("checked", false);
+
+		})
+		$("#ef_no").click(function(){
+			$("#ef_si").prop("checked", false);
+
+		})
+		
 	</script>
 
 		

@@ -320,7 +320,7 @@
 						<?php 
 							if ($visita["resultado"]==1) {
 
-								$sql = "SELECT observaciones,fecha,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
+								$sql = "SELECT observaciones,fecha,efectiva,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -390,8 +390,34 @@
 							
 							
 							}?>
+							
 							<?php 
 							if ($visita["resultado"]==1) { ?>
+								<br><center>
+									<form action="php/visita_efectiva.php" method="POST">
+									<div class="checkbox">
+										<?php if ($visita_e["efectiva"] == 1) { ?>
+								    	<label><b>Efectiva:</b><br>
+								     		<input type="checkbox" name="efectiva" value="1" id="ef_si" checked> Si
+								    	</label>
+				    					<label>
+				     						<input type="checkbox" name="efectiva" value="0" id="ef_no"> No
+				    					</label>
+				    					<?php }else{ ?>
+				    					<label><b>Efectiva:</b><br>
+								     		<input type="checkbox" name="efectiva" value="1" id="ef_si" > Si
+								    	</label>
+				    					<label>
+				     						<input type="checkbox" name="efectiva" value="0" id="ef_no" checked=""> No
+				    					</label>
+				  					</div>
+				  					
+				  					<?php }?>
+				  					
+				  					<input type="hidden" name="plan_id" value="<?php echo $_GET["planid"]; ?>">
+				  					<br><br><button class="btn btn-primary">Guardar</button>
+			  					</center>
+			  					</form>
 							<div class="row">
 								<div class="col-sm-6 col-sm-offset-5">
 									<h4>Geolocalización</h4>
@@ -948,6 +974,14 @@
     </script>
 
 	<script>
+		$("#ef_si").click(function(){
+			$("#ef_no").prop("checked", false);
+
+		})
+		$("#ef_no").click(function(){
+			$("#ef_si").prop("checked", false);
+
+		})
 			$(".abrir_reportes").addClass("open");
 			$(".visitas").addClass("active");
 	</script>	
