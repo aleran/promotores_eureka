@@ -711,6 +711,15 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="gestion">
+								<a href="reporte_gestion.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Gestión
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 
 							<li class="presupuesto">
 								<a href="reporte_presupuesto.php">
