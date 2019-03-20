@@ -257,13 +257,15 @@
 
 															<button class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
-															</button>
-
-															<a class="btn btn-xs btn-danger eliminar" href="#" data-codigo='.$codigo.'>
+															</button>';
+															if ($_SESSION["tipo"]==1) {
+																echo'<a class="btn btn-xs btn-danger eliminar" href="#" data-codigo='.$codigo.'>
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
-															</a>
+															</a>';
+															}
+															
 
-														</div>
+														echo'</div>
 
 														<div class="hidden-md hidden-lg">
 															<div class="inline pos-rel">
@@ -279,17 +281,18 @@
 																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																			</span>
 																		</button>
-																	</li>
-
-																	<li>
+																	</li>';
+																	if ($_SESSION["tipo"]==1) {
+																	echo'<li>
 																		<a href="#" class="tooltip-error eliminar" data-rel="tooltip 
 																		" title="Delete" data-codigo='.$codigo.'>
 																			<span class="red">
 																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																			</span>
 																		</a>
-																	</li>
-																</ul>
+																	</li>';
+																	}
+																echo'</ul>
 															</div>
 														</div>
 														</form>

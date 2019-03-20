@@ -4296,7 +4296,17 @@
 											</div>
 										<?php } ?>
                         
-						<br><center><button class="btn btn-danger" id="descartar">Descartar</button><center>
+                        <?php 
+                        	$sql = "SELECT id_status FROM colegios_status WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+							$req = $bdd->prepare($sql);
+							$req->execute();
+							$status = $req->fetch();
+
+							if ($status["id_status"] == 3) {
+								echo '<br><center><button class="btn btn-danger" id="descartar">Descartar</button><center>';
+							}
+                         ?>
+						
 						
 
 						 
