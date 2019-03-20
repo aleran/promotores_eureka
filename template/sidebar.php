@@ -461,7 +461,7 @@
 						<b class="arrow"></b>
 					</li>
 					<?php } ?>
-					<?php if ($_SESSION["tipo"]==1) {?>
+					
 					<li class="abrir_muestreo">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon glyphicon glyphicon-book"></i>
@@ -473,23 +473,8 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="solicitar_muestras">
-								<a href="periodo_muestreo.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Solicitar muestras
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							<li class="ver_muestreo">
-								<a href="ver_muestreo.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Ver muestreo
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
+							
+							<?php if ($_SESSION["tipo"]!=3 ) {?>
 							<li class="lista_muestreo">
 								
 								<a href="lista_muestreo.php">
@@ -517,47 +502,19 @@
 
 								<b class="arrow"></b>
 							</li>
-							<li class="muestreo_anulados">
-								
-								<a href="muestreo_anulados.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Anulados
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
 							
-
-							<!--<li class="">
-								<a href="form-wizard.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Wizard &amp; Validation
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="wysiwyg.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Wysiwyg &amp; Markdown
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="dropzone.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Dropzone File Upload
-								</a>
-
-								<b class="arrow"></b>
-							</li>-->
-						</ul>
 					</li>
-					<?php } ?>
+					<?php }else{?>
+					<li class="ver_muestreo">
+						<a href="ver_muestreo.php">
+							<i class="menu-icon fa fa-caret-right"></i>
+								Ver muestreo
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<?php }?>
+				</ul>
 					<li class="abrir_pedidos">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-exchange"></i>

@@ -296,7 +296,6 @@
 								 <textarea disabled name="observaciones" id="observaciones" cols="30" rows="3"><?php echo $pedido["observaciones"] ?></textarea><br><br>
 								 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button> <br><br>
                            <button class="btn btn-success hidden-print">Aprobar</button> 
-                           <button type="button" class="btn btn-danger hidden-print" id="rechazar">Rechazar</button></center>
                         </form>
 
 								<!-- PAGE CONTENT ENDS -->

@@ -415,7 +415,7 @@
 							 	</div>
 
 							</div><br>
-						<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
+						<?php if ($visita["id_objetivo"]==3 ) {
 
 								echo'<table class="table table-bordered">
 									<thead>
@@ -461,7 +461,66 @@
 								echo "</tbody></table>";
 							
 							
+							}elseif ($visita["id_objetivo"]==2) {
+								echo'<table class="table table-bordered">
+									<thead>
+										<th>Libro</th>
+										<th>Materia</th>
+										<th>Grado</th>
+									</thead>
+									<tbody>';
+								$sql_mp = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob, m.materia, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN grados g ON g.id=l.id_grado  WHERE pe.codigo='".$visita["cod_muestreo"]."'";
+
+								$req_mp = $bdd->prepare($sql_mp);
+								$req_mp->execute();
+								$mps = $req_mp->fetchAll();
+
+								foreach ($mps as $mp) {
+									
+								
+
+									echo "<tr>
+											<td>".$mp["libro"]."</td>
+											<td>".$mp["materia"]."</td>
+											<td>".$mp["grado"]."</td>
+										</tr>";
+
+								}
+
+								echo "</tbody></table>";
 							}
+						}else{
+							if ($visita["id_objetivo"]==2) {
+								echo'<table class="table table-bordered">
+									<thead>
+										<th>Libro</th>
+										<th>Materia</th>
+										<th>Grado</th>
+										<th>Cantidad</th>
+									</thead>
+									<tbody>';
+								$sql_mp = "SELECT pe.id, l.id, l.libro, lp.cantidad_aprob, lp.cantidad_aprob, m.materia, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN grados g ON g.id=l.id_grado  WHERE pe.codigo='".$visita["cod_muestreo"]."'";
+
+								$req_mp = $bdd->prepare($sql_mp);
+								$req_mp->execute();
+								$mps = $req_mp->fetchAll();
+
+								foreach ($mps as $mp) {
+									
+								
+
+									echo "<tr>
+											<td>".$mp["libro"]."</td>
+											<td>".$mp["materia"]."</td>
+											<td>".$mp["grado"]."</td>
+											<td>".$mp["cantidad_aprob"]."</td>
+										</tr>";
+
+								}
+
+								echo "</tbody></table>";
+							}
+
 						}?>
 						<?php if ($visita["resultado"] ==0 && $visita['start'] >= date("Y-m-d 00:00:00")) {
 						?>
@@ -479,7 +538,7 @@
 				<h4 class="modal-title" id="myModalLabel">Ejecutar Visita</h4>
 			  </div>
 			  <div class="modal-body">
-				<?php if ($visita["id_objetivo"]==2 || $visita["id_objetivo"]==3 ) {
+				<?php if ($visita["id_objetivo"]==3 ) {
 					?>
 				<div class="otro_l">
 					<label id="l_materia" for="materia" class="col-sm-2 control-label">Materia:<small style="color:red;"> *</small></label>
