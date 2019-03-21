@@ -44,6 +44,13 @@
 	$req_periodo->execute();
 	$periodo = $req_periodo->fetch();
 
+	$sql = "SELECT zona FROM zonas WHERE codigo='".$colegio["cod_zona"]."'";
+
+	$req = $bdd->prepare($sql);
+	$req->execute();
+
+	$zona = $req->fetch();
+
 	echo'<style>
 
 				*{
@@ -72,9 +79,9 @@
 	
 	<script src="../assets/js/jquery-2.1.4.min.js"></script>
 						<div class="container">
-							<img src="../assets/images/logo_eureka.png" width=100>
-							<br><center><h4>REGISTRO GENERAL DE PLANTELES -- '.$periodo["periodo"].'</h4></center><br>
-								<table class="table table-bordered">
+							<div><div class="row"></div><div class="col-sm-3"><img src="../assets/images/logo_eureka.png" width=100></div>
+							<div class="col-sm-9" ><h4><br><br>REGISTRO GENERAL DE PLANTELES - '.$periodo["periodo"].' &nbsp;&nbsp;&nbsp;'.$zona["zona"].'</h4></div></div>
+								<table class="table table-bordered" style="margin-top: 90px;">
 			 						<tbody>
 										<tr ><td class="text-center" colspan="2"><b>INFORMACIÓN BÁSICA</b></td></tr>
 										<tr><td class="" colspan="2"><b>Nombre de la institución:</b> '.$colegio["colegio"].'</td></tr>
@@ -246,8 +253,8 @@
 					
 					<thead>
 					<tr ><td colspan="19"><center><b>MERCADO EDITORIAL</b></center></td></tr>
-					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></td><td><td></td></td><td colspan="2"><center>Posibilidad cambio</center></td></tr>
-					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></td><td><center>Seire primaria</center></td><td><center>Serie bach.</center></td><td><center>Primaria</td><td><center>Bachillerato</td></tr>
+					<tr><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td colspan="2"><center>Serie</center></td><td colspan="2"><center>Posibilidad cambio</center></td></tr>
+					<tr><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><tdstyle="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td><center>Primaria</center></td><td><center>Bachillerato</center></td><td><center>Primaria</td><td><center>Bachillerato</td></tr>
 						<th>Grados:</th>
 						<th>PRE</th>
 						<th>JAR</th>
@@ -412,7 +419,7 @@
 					
 					<thead>
 					<tr ><td colspan="18"><center><b>ADOPCIONES</b></center></td></tr>
-					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><center>Serie</center></td></tr>
+					<tr><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td><center>Serie</center></td></tr>
 						<th>Grados:</th>
 						<th>PRE</th>
 						<th>JAR</th>

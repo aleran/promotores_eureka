@@ -2,7 +2,7 @@
 	require_once("../php/aut.php");
 	require_once('../conexion/bdd.php');  
 	$colegio=$_POST["colegio"];
-	if ($_SESSION["tipo"]==1) {
+	if ($_SESSION["tipo"]!=3) {
 		$sql = "SELECT id,colegio FROM colegios WHERE colegio like'%".$colegio."%'";
 	}
 	else {
