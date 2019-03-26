@@ -4,10 +4,11 @@
 <html lang="es">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="theme-color" content="#52004F">
 		<meta charset="utf-8" />
 		<title>Colegio</title>
 
-		<meta name="description" content="Sistema Aula máxima" />
+		<meta name="description" content="Sistema Bitácora" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -300,12 +301,19 @@
 	                                	$codigo_col= $_POST["codigo"];
 	                                }
 	                              
-	                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, web, telefono, cumpleaños FROM colegios WHERE codigo='".$codigo_col."'";
+	                                $sql = "SELECT id, codigo, colegio, direccion, barrio,telefono, web, telefono, cumpleaños, cod_zona FROM colegios WHERE codigo='".$codigo_col."'";
 
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
 									$colegio = $req->fetch();
+
+									$sql_promo = "SELECT CONCAT(nombres,' ',apellidos) as promotor FROM usuarios WHERE cod_zona='".$colegio["cod_zona"]."'";
+
+									$req_promo = $bdd->prepare($sql_promo);
+									$req_promo->execute();
+
+									$promotor = $req_promo->fetch();
 
 									if (isset($_POST["periodo"])) {
 										$periodo=$_POST["periodo"];
@@ -328,7 +336,8 @@
                         		<form action="php/actualizar_colegio.php" method="POST">
                         		<tr>
                         			<td>Nombre de la institución:<small style="color:red;"> *</small><input type="text" name="colegio" class="form-control" value="<?php echo $colegio['colegio']; ?>" required></td>
-                        			<td>Código interno: <?php echo $colegio['codigo']; ?></td>
+                        			<td>Código interno: <?php echo $colegio["codigo"]; ?><br><br>
+                        				Promotor: <?php echo $promotor["promotor"]; ?></td>
                         		</tr>
                         		<tr>
                         			
@@ -4218,11 +4227,12 @@
 				  													else {
 				  														
 
-					  														echo '<center><button class="btn btn-primary">Guardar</button></center></form>';
+					  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
 				  														
 				  														
 				  														
 				  													}
+				  													echo '</form>';
 																	
 													 ?>
 													
@@ -4297,13 +4307,23 @@
 										<?php } ?>
                         
                         <?php 
-                        	$sql = "SELECT id_status FROM colegios_status WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
+                        	$sql = "SELECT id_status, observaciones FROM colegios_status WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
 							$req = $bdd->prepare($sql);
 							$req->execute();
 							$status = $req->fetch();
 
-							if ($status["id_status"] == 3) {
-								echo '<br><center><button class="btn btn-danger" id="descartar">Descartar</button><center>';
+							if ($status["id_status"] == 3 || empty($status)) {
+								echo '<form action="php/descartar.php" method="POST"><br><center>Observaciones <br><textarea name="observaciones" id="" cols="30" rows="5"></textarea>';
+								echo'	<input required required type="hidden" name="id_colegio" value='.$colegio["id"].'>
+								<input type="hidden" name="periodo" value="'.$gp_periodo['id'].'">';
+								echo '<br><br><button class="btn btn-danger" id="descartar">Descartar</button><center>
+								</form>';
+
+								
+							}else if($status["id_status"] == 4){
+								
+								echo"<center><span style='color: red;'><h5>Descartado por:</h5></span>";
+								echo $status["observaciones"]."</center>";
 							}
                          ?>
 						
@@ -4322,7 +4342,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Aula Máxima</span>
+							<span class="blue bolder">Bitácora</span>
 							 &copy; Eureka Libros SAS
 						</span>
 
@@ -5804,13 +5824,7 @@
 	        	}
     		});
 
-    		$("#descartar").click(function(){
-    			if (confirm("¿Seguro desea descartar el colegio en el periodo <?php  echo $gp_periodo["periodo"] ?>")) {
-
-    				window.location="php/descartar.php?colegio=<?php echo $colegio['id'] ?>&periodo=<?php echo $gp_periodo["id"] ?>"
-
-    			}
-    		})
+    		
 		</script>
 
 		

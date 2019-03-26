@@ -3,10 +3,11 @@
 <html lang="es">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="theme-color" content="#52004F">
 		<meta charset="utf-8" />
 		<title>Reporte de visitas</title>
 
-		<meta name="description" content="Sistema Aula máxima" />
+		<meta name="description" content="Sistema Bitácora" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -335,7 +336,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Aula Máxima</span>
+							<span class="blue bolder">Bitácora</span>
 							 &copy; Eureka Libros SAS
 						</span>
 

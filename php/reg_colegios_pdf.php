@@ -1,4 +1,5 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="theme-color" content="#52004F">
 <meta charset="utf-8" />
 <title>Registro de planteles</title>
 
