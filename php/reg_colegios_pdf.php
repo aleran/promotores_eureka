@@ -98,7 +98,7 @@
 				<tbody>';
 
 
-	$sql = "SELECT t.nombre, t.telefono, t.email, t.cumpleaños, t.cargo as id_cargo,c.cargo, t.area FROM trabajadores_colegios t JOIN cargos c ON t.cargo=c.id  WHERE t.nombre !='' AND t.cargo !=6 AND t.id_colegio='".$_POST["cole"]."' GROUP BY t.nombre, t.cargo ORDER by t.cargo";
+	$sql = "SELECT t.nombre, t.telefono, t.email, t.cumpleaños, t.cargo as id_cargo,c.cargo, t.area FROM trabajadores_colegios t JOIN cargos c ON t.cargo=c.id  WHERE t.nombre !='' AND t.cargo !=6 AND t.id_colegio='".$_POST["cole"]."' AND (t.area='0' OR t.area > '3') GROUP BY t.nombre, t.cargo ORDER by t.cargo";
 
 	$req = $bdd->prepare($sql);
 	$req->execute();
@@ -137,6 +137,35 @@
 
 		
 	}
+		$sql = "SELECT t.nombre, t.telefono, t.email, t.cumpleaños, t.area FROM trabajadores_colegios t  WHERE t.nombre !='' AND t.cargo !=6 AND t.id_colegio='".$_POST["cole"]."' AND t.cargo='5' AND t.area='2' GROUP BY t.nombre, t.cargo ORDER by t.cargo";
+
+		$req = $bdd->prepare($sql);
+		$req->execute();
+		$direc = $req->fetch();
+
+		echo'<tr>
+					<td><b>Jefe de área Matemáticas</b>: '.$direc["nombre"].'</td><td><b>Celular:</b> '.$direc["telefono"].'</td>
+				</tr>
+				<tr>
+					<td><b>E-mail:</b> '.$direc["email"].'</td>
+					<td><b>Fecha de cumpleaños:</b> '.$direc["cumpleaños"].'</td>
+				</tr>';
+
+		$sql = "SELECT t.nombre, t.telefono, t.email, t.cumpleaños, t.area FROM trabajadores_colegios t  WHERE t.nombre !='' AND t.cargo !=6 AND t.id_colegio='".$_POST["cole"]."' AND t.cargo='5' AND t.area='3' GROUP BY t.nombre, t.cargo ORDER by t.cargo";
+
+		$req = $bdd->prepare($sql);
+		$req->execute();
+		$direc = $req->fetch();
+
+		echo'<tr>
+					<td><b>Jefe de área Lenguaje</b>: '.$direc["nombre"].'</td><td><b>Celular:</b> '.$direc["telefono"].'</td>
+				</tr>
+				<tr>
+					<td><b>E-mail:</b> '.$direc["email"].'</td>
+					<td><b>Fecha de cumpleaños:</b> '.$direc["cumpleaños"].'</td>
+				</tr>';
+
+
 	echo'</tbody></table>';
 
 	$sql_pre = "SELECT paralelos,alumnos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado=1 AND id_periodo='".$_POST['periodo']."'";
@@ -254,7 +283,7 @@
 					
 					<thead>
 					<tr ><td colspan="19"><center><b>MERCADO EDITORIAL</b></center></td></tr>
-					<tr><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td colspan="2"><center>Serie</center></td><td colspan="2"><center>Posibilidad cambio</center></td></tr>
+					<tr><td td style="border: none"></td><td td style="border: none"></td><td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td td style="border: none"></td><td colspan="2"><center>Serie</center></td><td colspan="2"><center>Posibilidad cambio</center></td></tr>
 					<tr><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><tdstyle="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td style="border: none"></td><td><center>Primaria</center></td><td><center>Bachillerato</center></td><td><center>Primaria</td><td><center>Bachillerato</td></tr>
 						<th>Grados:</th>
 						<th>PRE</th>

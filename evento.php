@@ -539,7 +539,35 @@
 						}?>
 						<?php if ($visita["resultado"] ==0 && $visita['start'] >= date("Y-m-d 00:00:00")) {
 						?>
-						<center><a href="ajax/deleteEvent.php?evento=<?php echo $visita["id"] ?>" class="btn btn-danger">Eliminar</a> <button class='btn btn-success' data-toggle="modal" data-target="#ModalEjecutar">Ejecutar</button></center>
+						<form action="php/llegada.php" method="POST">
+						<INPUT TYPE='hidden' readonly='readonly' ID='latitud1' NAME='latitud1'>
+						<INPUT TYPE='hidden' readonly='readonly' ID='longitud1' NAME='longitud1'>
+						<input type="hidden" name="id_visita" value="<?php echo $_GET["evento"] ?>">
+						<center><a href="ajax/deleteEvent.php?evento=<?php echo $visita["id"] ?>" class="btn btn-danger">Eliminar</a> 
+
+						<?php
+
+						$sql_v = "SELECT id FROM visitas WHERE id_plan_trabajo='".$_GET["evento"]."'";
+
+							$req_v = $bdd->prepare($sql_v);
+							$req_v->execute();
+							$v2 = $req_v->fetch();
+
+							if (empty($v2)) {
+								
+								echo "<button  class='btn btn-info'>Llegada</button>";
+
+							}else{
+
+								echo "<button type='button' class='btn btn-success' data-toggle='modal' data-target='#ModalEjecutar'>Ejecutar</button></center>";
+
+							}
+
+						?>
+
+							
+							
+						</form>
 						<?php }else if($visita["resultado"]==1){ ?>
 							<center><p class="text-success bg-success" style="font-size: 20px;">Efectiva</p></center>
 						<?php } ?>
@@ -1173,8 +1201,12 @@
 		function success(position) {
 			var lat = document.getElementById("latitud");
 			var lon = document.getElementById("longitud");
+			var lat1 = document.getElementById("latitud1");
+			var lon1 = document.getElementById("longitud1");
 			lat.value  = position.coords.latitude;
 			lon.value = position.coords.longitude;
+			lat1.value  = position.coords.latitude;
+			lon1.value = position.coords.longitude;
 		};
 		function error() {
 			alert ("verifique la configuración de Ubicación y vuelva a intentarlo ...");
