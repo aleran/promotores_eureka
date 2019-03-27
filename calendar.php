@@ -191,9 +191,9 @@ $events = $req->fetchAll();
 				  </div>
 					
 				  <div class="form-group ocultar_oficina">
-					<label for="profesor" class="col-sm-2 control-label">Profesor</label>
+					<label for="profesor" class="col-sm-2 control-label">Profesor<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
-					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_h()">
+					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_h()" required="required">
 					  <input type="hidden" name="profe" id="profe"><div id="suggestions"></div>
 					</div>
 				  </div>
@@ -272,6 +272,24 @@ $events = $req->fetchAll();
 								}
 						 	?>
 						 </select>
+						 <label for="grado_otro" id="l_grado_otro" class="col-sm-3 control-label hidden g_otro">Grado otro<small style="color:red;"> *</small></label>
+															
+						<select name="grado_otro" id="grado_otro" class="form-control g_otro hidden">
+							<option value="">Seleccionar</option>
+
+							<?php 
+								$sql = "SELECT id, grado FROM grados";
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$grados = $req->fetchAll();
+								foreach($grados as $grado) {
+									$id = $grado['id'];
+									$nom = $grado['grado'];
+								 	echo '<option value="'.$id.'">'.$nom.'</option>';
+							}
+																		 	?>
+						</select>
+
 						<label id="l_libro" for="libro" class="col-sm-2 control-label">Libro:<small style="color:red;"> *</small></label>
 						
 						  <select name="libro" id="libro" class="form-control">
@@ -719,6 +737,16 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia").val()
 	             //alert(valor);
+	            if (valor==17) {
+		            $(".g_otro").removeClass("hidden");
+		            $(".g_otro").addClass("show");
+		            $("#grado_otro").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro").addClass("hidden");
+		            $(".g_otro").removeClass("show");
+		            $("#grado_otro").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -749,7 +777,8 @@ $events = $req->fetchAll();
 		$('#cantidad').keyup(function(){
 			var cant =$('#cantidad').val();
 			var libro=$('#libro').val();
-			$('#libro_e').val(libro+'/'+cant);
+			var grado_o=$('#grado_otro').val();
+			$('#libro_e').val(libro+'/'+cant+'/'+grado_o);
 
 		})
 
@@ -758,6 +787,7 @@ $events = $req->fetchAll();
 		var l = 1;
 		var c = 1;
 		var le = 1;
+		var gdo = 1;
 		$("#agregar_libro").click(function(){
 			if (m>8) {
 				$("#agregar_libro").addClass("hidden");
@@ -766,12 +796,21 @@ $events = $req->fetchAll();
 			$("#materia").clone().appendTo(".otro_l").attr("id","materia"+(m++));
 			$("#l_grado").clone().appendTo(".otro_l");
 			$("#grado").clone().appendTo(".otro_l").attr("id","grado"+(g++));
+			$("#l_grado_otro").clone().appendTo(".otro_l").attr("id","l_grado_otro"+gdo);
+			$("#grado_otro").clone().appendTo(".otro_l").attr("id","grado_otro"+gdo);
+			$("#l_grado_otro"+gdo).addClass("hidden");
+			$("#grado_otro"+gdo).addClass("hidden");
+			$("#l_grado_otro"+gdo).removeClass("g_otro");
+			$("#grado_otro"+gdo).removeClass("g_otro");
+			$("#grado_otro"+gdo).addClass("g_otro"+gdo);
+			$("#l_grado_otro"+gdo).addClass("g_otro"+gdo);
 			$("#l_libro").clone().appendTo(".otro_l");
 			$("#libro").clone().appendTo(".otro_l").attr("id","libro"+(l++));
 			$("#l_cantidad").clone().appendTo(".otro_l");
 			$("#cantidad").clone().appendTo(".otro_l").attr("id","cantidad"+(c++)).val("");
 			$("#libro_e").clone().appendTo(".otro_l").attr("id","libro_e"+(le++));
 
+			gdo++;
 
 			$('#materia1').on('change',function(){
 	            var valor = $(this).val();
@@ -811,6 +850,17 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia1").val()
 	             //alert(valor);
+
+	            if (valor==17) {
+		            $(".g_otro1").removeClass("hidden");
+		            $(".g_otro1").addClass("show");
+		            $("#grado_otro1").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro1").addClass("hidden");
+		            $(".g_otro1").removeClass("show");
+		            $("#grado_otro1").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -841,7 +891,8 @@ $events = $req->fetchAll();
 		$('#cantidad1').keyup(function(){
 			var cant =$('#cantidad1').val();
 			var libro=$('#libro1').val();
-			$('#libro_e1').val(libro+'/'+cant);
+			var grado_o=$('#grado_otro1').val();
+			$('#libro_e1').val(libro+'/'+cant+'/'+grado_o);
 
 		})
 
@@ -880,6 +931,17 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia2").val()
 	             //alert(valor);
+
+	             if (valor==17) {
+		            $(".g_otro2").removeClass("hidden");
+		            $(".g_otro2").addClass("show");
+		            $("#grado_otro2").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro2").addClass("hidden");
+		            $(".g_otro2").removeClass("show");
+		            $("#grado_otro2").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -910,7 +972,8 @@ $events = $req->fetchAll();
 		$('#cantidad2').keyup(function(){
 			var cant =$('#cantidad2').val();
 			var libro=$('#libro2').val();
-			$('#libro_e2').val(libro+'/'+cant);
+			var grado_o=$('#grado_otro2').val();
+			$('#libro_e2').val(libro+'/'+cant+'/'+grado_o);
 
 		})
 
@@ -949,6 +1012,16 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia3").val()
 	             //alert(valor);
+	             if (valor==17) {
+		            $(".g_otro3").removeClass("hidden");
+		            $(".g_otro3").addClass("show");
+		            $("#grado_otro3").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro3").addClass("hidden");
+		            $(".g_otro3").removeClass("show");
+		            $("#grado_otro3").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -979,7 +1052,8 @@ $events = $req->fetchAll();
 			$('#cantidad3').keyup(function(){
 				var cant =$('#cantidad3').val();
 				var libro=$('#libro3').val();
-				$('#libro_e3').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro3').val();
+				$('#libro_e3').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 
@@ -1018,6 +1092,16 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia4").val()
 	             //alert(valor);
+	             if (valor==17) {
+		            $(".g_otro4").removeClass("hidden");
+		            $(".g_otro4").addClass("show");
+		            $("#grado_otro4").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro4").addClass("hidden");
+		            $(".g_otro4").removeClass("show");
+		            $("#grado_otro4").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1048,7 +1132,8 @@ $events = $req->fetchAll();
 			$('#cantidad4').keyup(function(){
 				var cant =$('#cantidad4').val();
 				var libro=$('#libro4').val();
-				$('#libro_e4').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro4').val();
+				$('#libro_e4').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 
@@ -1087,6 +1172,17 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia5").val()
 	             //alert(valor);
+
+	             if (valor==17) {
+		            $(".g_otro5").removeClass("hidden");
+		            $(".g_otro5").addClass("show");
+		            $("#grado_otro5").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro5").addClass("hidden");
+		            $(".g_otro5").removeClass("show");
+		            $("#grado_otro5").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1117,7 +1213,8 @@ $events = $req->fetchAll();
 			$('#cantidad5').keyup(function(){
 				var cant =$('#cantidad5').val();
 				var libro=$('#libro5').val();
-				$('#libro_e5').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro5').val();
+				$('#libro_e5').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 
@@ -1158,6 +1255,17 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia6").val()
 	             //alert(valor);
+
+	             if (valor==17) {
+		            $(".g_otro6").removeClass("hidden");
+		            $(".g_otro6").addClass("show");
+		            $("#grado_otro6").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro6").addClass("hidden");
+		            $(".g_otro6").removeClass("show");
+		            $("#grado_otro6").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1188,7 +1296,8 @@ $events = $req->fetchAll();
 			$('#cantidad6').keyup(function(){
 				var cant =$('#cantidad6').val();
 				var libro=$('#libro6').val();
-				$('#libro_e6').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro6').val();
+				$('#libro_e6').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 
@@ -1227,6 +1336,16 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia7").val()
 	             //alert(valor);
+	             if (valor==17) {
+		            $(".g_otro7").removeClass("hidden");
+		            $(".g_otro7").addClass("show");
+		            $("#grado_otro7").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro7").addClass("hidden");
+		            $(".g_otro7").removeClass("show");
+		            $("#grado_otro7").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1257,7 +1376,8 @@ $events = $req->fetchAll();
 			$('#cantidad7').keyup(function(){
 				var cant =$('#cantidad7').val();
 				var libro=$('#libro7').val();
-				$('#libro_e7').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro7').val();
+				$('#libro_e7').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 
@@ -1297,6 +1417,17 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia8").val()
 	             //alert(valor);
+	            if (valor==17) {
+		            $(".g_otro8").removeClass("hidden");
+		            $(".g_otro8").addClass("show");
+		            $("#grado_otro8").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro8").addClass("hidden");
+		            $(".g_otro8").removeClass("show");
+		            $("#grado_otro8").removeAttr("required");
+		        }
+
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1327,7 +1458,8 @@ $events = $req->fetchAll();
 			$('#cantidad8').keyup(function(){
 				var cant =$('#cantidad8').val();
 				var libro=$('#libro8').val();
-				$('#libro_e8').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro8').val();
+				$('#libro_e8').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 
@@ -1366,6 +1498,17 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia9").val()
 	             //alert(valor);
+
+	             if (valor==17) {
+		            $(".g_otro9").removeClass("hidden");
+		            $(".g_otro9").addClass("show");
+		            $("#grado_otro9").attr("required","required");
+		             
+		        }else {
+		            $(".g_otro9").addClass("hidden");
+		            $(".g_otro9").removeClass("show");
+		            $("#grado_otro9").removeAttr("required");
+		        }
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1396,7 +1539,8 @@ $events = $req->fetchAll();
 			$('#cantidad9').keyup(function(){
 				var cant =$('#cantidad9').val();
 				var libro=$('#libro9').val();
-				$('#libro_e9').val(libro+'/'+cant);
+				var grado_o=$('#grado_otro9').val();
+				$('#libro_e9').val(libro+'/'+cant+'/'+grado_o);
 
 			})
 	

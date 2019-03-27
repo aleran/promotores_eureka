@@ -16,10 +16,10 @@
 
 	if (isset($_GET["entregado"])) {
 
-		$sql1 = "SELECT  u.nombres, u.apellidos, c.colegio FROM muestreos pe  JOIN usuarios u ON pe.id_usuario=u.id JOIN colegios c ON pe.id_colegio=c.id  WHERE pe.id='".$_GET["entregado"]."'";
+		$sql1 = "SELECT  u.nombres, u.apellidos,u.telefono, u.correo, c.colegio FROM muestreos pe  JOIN usuarios u ON pe.id_usuario=u.id JOIN colegios c ON pe.id_colegio=c.id  WHERE pe.id='".$_GET["entregado"]."'";
 	}else{
 
-		$sql1 = "SELECT  u.nombres, u.apellidos, c.colegio FROM muestreos pe  JOIN usuarios u ON pe.id_usuario=u.id JOIN colegios c ON pe.id_colegio=c.id  WHERE pe.id='".$_GET["imprimir"]."'";
+		$sql1 = "SELECT  u.nombres, u.apellidos,u.telefono, u.correo, c.colegio FROM muestreos pe  JOIN usuarios u ON pe.id_usuario=u.id JOIN colegios c ON pe.id_colegio=c.id  WHERE pe.id='".$_GET["imprimir"]."'";
 	}
 	
 
@@ -31,10 +31,10 @@
 
 	if (isset($_GET["entregado"])) {
 
-	$sql = "SELECT  l.libro, lp.cantidad_aprob FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["entregado"]."'  GROUP BY l.id";
+	$sql = "SELECT UPPER(l.libro) as libro, l.id_grado, lp.cantidad_aprob,lp.id_grado_otro, g.grado, m.materia, pe.codigo FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["entregado"]."'  GROUP BY l.id";
 	}else {
 
-		$sql = "SELECT  l.libro, lp.cantidad_aprob FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["imprimir"]."'  GROUP BY l.id";
+		$sql = "SELECT UPPER(l.libro) as libro, l.id_grado, lp.cantidad_aprob,lp.id_grado_otro, g.grado, m.materia, pe.codigo FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["imprimir"]."'  GROUP BY l.id";
 
 	}
 	$req = $bdd->prepare($sql);
@@ -44,15 +44,41 @@
 
 		if (isset($_GET["entregado"])) {
 		
-			$html='<link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+			$html='<meta charset="utf-8" />
+					<link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+						<style>
+							*{
+								font-size: 12px;
+							}
+
+							@page {
+					            margin: 0.9em;
+					            
+      						  }
+
+							.table > thead > tr > th,
+							.table > tbody > tr > th,
+							.table > tfoot > tr > th,
+							.table > thead > tr > td,
+							.table > tbody > tr > td,
+							.table > tfoot > tr > td {
+							  padding: 1px;
+							  line-height: 1.42857143;
+							  vertical-align: top;
+							  border-top: 1px solid #dddxddd;
+							}
+
+							
+						</style>
 						<div class="container">
-							<img src="../assets/images/logo_eureka.png" width=150>
-							<br><center><h4>Muestreo No. '.$_GET["entregado"].'</h4></center><br>
+							<img src="../assets/images/logo_eureka.png" width=100>
+							<br><center style="margin-top: -60px"><h4>Muestras Profesional para Educación <span class="pull-right">No. '.$_GET["entregado"].'</span></h4></center>
 								<table class="table table-bordered">
 			 						<tbody>
-										<tr><td><b>Asesor</b></td><td>'.$nombre_completo.'</td><td><b>Colegio</b></td><td>'.$datos["colegio"].'</td></tr>
-
-										<tr><td><b>Teléfono</b></td><td>3115274827</td><td><b>Fecha</b></td><td>'.date("Y-m-d").'</td></tr>
+										<tr>
+											<td><b>Colegio:</b> '.$datos["colegio"].'</td>
+											<td><b>Fecha:</b> '.date("Y-m-d").'</td>
+										</tr>
 
 			 						</tbody>
 								</table>';
@@ -60,39 +86,120 @@
 		}else{
 
 			$html='<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+					<style>
+							*{
+								font-size: 12px;
+							}
+
+							@page {
+					            margin: 0.9em;
+					            
+      						  }
+
+							.table > thead > tr > th,
+							.table > tbody > tr > th,
+							.table > tfoot > tr > th,
+							.table > thead > tr > td,
+							.table > tbody > tr > td,
+							.table > tfoot > tr > td {
+							  padding: 1px;
+							  line-height: 1.42857143;
+							  vertical-align: top;
+							  border-top: 1px solid #dddxddd;
+							}
+
+							
+						</style>
 						<div class="container">
-							<img src="assets/images/logo_eureka.png" width=150>
-							<br><center><h4>Muestreo No. '.$_GET["imprimir"].'</h4></center><br>
+							<img src="assets/images/logo_eureka.png" width=100>
+							<br><center style="margin-top: -60px"><h4>Muestras Profesional para Educación <span class="pull-right">No. '.$_GET["imprimir"].'</span></h4></center>
 								<table class="table table-bordered">
 			 						<tbody>
-										<tr><td><b>Asesor</b></td><td>'.$nombre_completo.'</td><td><b>Colegio</b></td><td>'.$datos["colegio"].'</td></tr>
-
-										<tr><td><b>Teléfono</b></td><td>3115274827</td><td><b>Fecha</b></td><td>'.date("Y-m-d").'</td></tr>
+										<tr>
+											<td><b>Colegio:</b> '.$datos["colegio"].'</td>
+											<td><b>Fecha:</b> '.date("Y-m-d").'</td>
+										</tr>
 
 			 						</tbody>
 								</table>';
 		}
 
-		$html.='<center>Nos complace entregarle las siguientes muestas</center><br>
-					<table class="table table-bordered">
+		$html.='<center style="margin-top: -15px">Nos complace entregarle las siguientes muestas</center>
+					<table class="table table-bordered" style="margin-top: 5px">
 					<thead>
-						<th>Título</th>
-						<th>Cantidad</th>
+						<th><center>Título</center></th>
+						<th><center>Materia</center></th>
+						<th><center>Grado</center></th>
+						<th><center>Cantidad</center></th>
 					</thead>
 					<tbody>';
 		foreach($libros as $libro) {
+
+			if ($libro["id_grado_otro"] !=0) {
+							
+				$sql_go = "SELECT grado FROM grados WHERE id='".$libro["id_grado_otro"]."'";
+
+				$req_go = $bdd->prepare($sql_go);
+				$req_go->execute();
+				$go = $req_go->fetch();
+
+			}
+
 			$total_cantidad_aprob[]=$libro["cantidad_aprob"];
-			$html.='<tr><td>'.$libro["libro"].'</td><td>'.$libro["cantidad_aprob"].'</td></tr>';
+
+			$html.='<tr>
+						<td>'.$libro["libro"].'</td>
+						<td><center>'.$libro["materia"].'</center></td>';
+
+						if ($libro["id_grado_otro"] ==0) {
+
+							$html.='<td><center>'.$libro["grado"].'</center></td>';
+						}else{
+							$html.='<td><center>'.$go["grado"].'</center></td>';
+						}
+						$html.='<td><center>'.$libro["cantidad_aprob"].'</center></td>
+					</tr>';
 
 		}
 
 		$total_c_aprob=array_sum($total_cantidad_aprob);
 
-		$html.='<tr><td><b>Total cantidades</b><td><b>'.$total_c_aprob.'</b></td></tr></tbody></table>';
+		$html.='<tr><td></td><td></td><td><b><center>Total</center></b><td><center><b>'.$total_c_aprob.'</b></center></td></tr></tbody></table>';
 
-		$html.='Elaborado por:____________ &nbsp&nbsp&nbsp&nbsp Recibido por:___________';
+		if (isset($_GET["entregado"])) {
+			$sql_trab = "SELECT nombre, cargo, telefono, email, area FROM plan_trabajo p JOIN muestreos m ON m.codigo=p.cod_muestreo JOIN trabajadores_colegios t ON t.codigo=p.cod_profesor WHERE m.id='".$_GET["entregado"]."'";
+		}else{
+
+			$sql_trab = "SELECT nombre, cargo, telefono, email, area FROM plan_trabajo p JOIN muestreos m ON m.codigo=p.cod_muestreo JOIN trabajadores_colegios t ON t.codigo=p.cod_profesor WHERE m.id='".$_GET["imprimir"]."'";
+
+		}
+
+		$req_trab= $bdd->prepare($sql_trab);
+		$req_trab->execute();
+		$profesor = $req_trab->fetch();
+
+		$html.='<table class="table">
+				 	<tbody>
+						<tr>
+							<td><b>Docente:</b> '.$profesor["nombre"].'</td><td><b>Teléfono:</b> '.$profesor["telefono"].'</td> <td><b>Correo:</b> '.$profesor["telefono"].'</td>
+						</tr>
 					
-						
+					</tbody>
+				</table>';
+
+
+		$html.='<table class="table" style="margin-top: -15px">
+				 	<tbody>
+						<tr>
+							<td><b>Ascesor:</b> '.$nombre_completo.'</td><td><b>Teléfono:</b> '.$datos["telefono"].'</td> <td><b>Correo:</b> '.$datos["correo"].'</td>
+						</tr>
+					
+					</tbody>
+				</table>';
+
+		$html.='Recibido por: ____________________________________________________________________________________________________<br><br><br>';
+					
+		$html.='<center>Contactenos: info@eurekalibros.com.co CRA 21 # 37-2 PBX: 7031014 Cel: 3103225677</center>';		
 
 
 	$dompdf->set_option('isHtml5ParserEnabled', true);
@@ -100,7 +207,8 @@
 	$dompdf->loadHtml($html);
 
 	// (Optional) Setup the paper size and orientation
-	$dompdf->setPaper('letter');
+	$dompdf->setPaper('half-letter');
+	//$dompdf->setPaper('letter');
 
 	// Render the HTML as PDF
 	$dompdf->render();

@@ -90,11 +90,11 @@ else {
 
 		foreach ($_POST["libro_e"] as $libros => $libro) {
 
-			list($id_libro,$cantidad) = explode("/", $libro);
+			list($id_libro,$cantidad,$grado_otro) = explode("/", $libro);
 				
 			if ($libro !=0) {
 				
-				$sql_p = "INSERT INTO libros_muestreos(cod_muestreo,id_libro,cantidad) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."')";
+				$sql_p = "INSERT INTO libros_muestreos(cod_muestreo,id_libro,cantidad,id_grado_otro) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."','".$grado_otro."')";
 					
 					
 				$query_p = $bdd->prepare( $sql_p );

@@ -500,7 +500,7 @@
 										<th>Cantidad</th>
 									</thead>
 									<tbody>';
-								$sql_mp = "SELECT pe.id, l.id, l.libro, lp.cantidad_aprob, lp.cantidad_aprob, m.materia, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN grados g ON g.id=l.id_grado  WHERE pe.codigo='".$visita["cod_muestreo"]."'";
+								$sql_mp = "SELECT pe.id, l.id, l.libro, lp.cantidad_aprob, lp.cantidad_aprob, lp.id_grado_otro,m.materia, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON l.id_materia=m.id JOIN grados g ON g.id=l.id_grado  WHERE pe.codigo='".$visita["cod_muestreo"]."'";
 
 								$req_mp = $bdd->prepare($sql_mp);
 								$req_mp->execute();
@@ -508,13 +508,27 @@
 
 								foreach ($mps as $mp) {
 									
-								
+									if ($mp["id_grado_otro"] != 0) {
+										
+										$sql_go = "SELECT grado FROM grados WHERE id='".$mp["id_grado_otro"]."'";
+
+										$req_go = $bdd->prepare($sql_go);
+										$req_go->execute();
+										$go = $req_go->fetch();
+
+
+									}
 
 									echo "<tr>
 											<td>".$mp["libro"]."</td>
-											<td>".$mp["materia"]."</td>
-											<td>".$mp["grado"]."</td>
-											<td>".$mp["cantidad_aprob"]."</td>
+											<td>".$mp["materia"]."</td>";
+											if ($mp["id_grado_otro"] == 0) {
+												echo "<td>".$mp["grado"]."</td>";
+											}else{
+												echo "<td>".$go["grado"]."</td>";
+											}
+											
+											echo"<td>".$mp["cantidad_aprob"]."</td>
 										</tr>";
 
 								}

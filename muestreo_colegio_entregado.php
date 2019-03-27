@@ -271,7 +271,7 @@
 								 <label for="observaciones">Observaciones:</label><br>
 								 <textarea name="observaciones" id="observaciones" cols="70" rows="3" disabled><?php echo $pedido["observaciones"] ?></textarea><br><br>
 								
-							 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button> <br><br>
+							 <button type="button" id="imprimir" class="btn btn-info hidden-print">Generar Recibo</button> <br><br>
                           
                         </form>
 
