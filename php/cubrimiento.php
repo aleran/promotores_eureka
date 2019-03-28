@@ -187,10 +187,23 @@ foreach($coles as $cole) {
 	}
 	$alumnos_global= $alumnos_pri + $alumnos_bach + $alumnos_prescolar;
 
-	$sql_st = "SELECT status FROM colegios_status cs JOIN status_cubrimiento s ON cs.id_status=s.id WHERE cs.id_colegio='".$cole["id"]."' AND cs.id_periodo='".$gp_periodo["id"]."'";
-	$req_st = $bdd->prepare($sql_st);
-	$req_st->execute();
-	$status = $req_st->fetch();
+
+		$sql_st = "SELECT status FROM colegios_status cs JOIN status_cubrimiento s ON cs.id_status=s.id WHERE cs.id_colegio='".$cole["id"]."' AND cs.id_periodo='".$gp_periodo["id"]."'";
+		$req_st = $bdd->prepare($sql_st);
+		$req_st->execute();
+		$status = $req_st->fetch();
+
+		if (empty($status)) {
+
+			$sql_st = "SELECT status FROM colegios_status cs JOIN status_cubrimiento s ON cs.id_status=s.id WHERE cs.id_colegio='".$cole["id"]."' AND s.id != 4 ORDER BY cs.id_periodo DESC";
+			$req_st = $bdd->prepare($sql_st);
+			$req_st->execute();
+			$status2 = $req_st->fetch();
+
+		}
+
+	
+	
 
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$cole[codigo]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$cole[colegio]");
@@ -209,7 +222,13 @@ foreach($coles as $cole) {
 	if (!empty($status)) {
 		
 		$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$status[status]");
+
+	}elseif(!empty($status2)){
+
+		$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$status2[status]");
+
 	}else{
+
 		$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "Por definir");
 	}
 

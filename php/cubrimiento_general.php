@@ -54,7 +54,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue("L1", "Alumnos preescolar");
 $objPHPExcel->getActiveSheet()->SetCellValue("M1", "Alumnos primaria");
 $objPHPExcel->getActiveSheet()->SetCellValue("N1", "Alumnos bachillerato");
 $objPHPExcel->getActiveSheet()->SetCellValue("O1", "Alumnos global");
-$objPHPExcel->getActiveSheet()->SetCellValue("P1", "Alumnos global");
+$objPHPExcel->getActiveSheet()->SetCellValue("P1", "Status");
 $objPHPExcel->getActiveSheet()->getStyle("A1:P1")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
@@ -143,6 +143,15 @@ foreach($coles as $cole) {
 	$req_st->execute();
 	$status = $req_st->fetch();
 
+	if (empty($status)) {
+
+		$sql_st = "SELECT status FROM colegios_status cs JOIN status_cubrimiento s ON cs.id_status=s.id WHERE cs.id_colegio='".$cole["id"]."' AND s.id != 4 ORDER BY cs.id_periodo DESC";
+		$req_st = $bdd->prepare($sql_st);
+		$req_st->execute();
+		$status2 = $req_st->fetch();
+
+	}
+
 
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$cole[zona]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$promotor");
@@ -159,10 +168,18 @@ foreach($coles as $cole) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$alumnos_pri");
 	$objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$alumnos_bach");
 	$objPHPExcel->getActiveSheet()->SetCellValue("O$conta", "$alumnos_global");
+
+
 	if (!empty($status)) {
 		
 		$objPHPExcel->getActiveSheet()->SetCellValue("P$conta", "$status[status]");
+
+	}elseif(!empty($status2)){
+
+		$objPHPExcel->getActiveSheet()->SetCellValue("P$conta", "$status2[status]");
+
 	}else{
+
 		$objPHPExcel->getActiveSheet()->SetCellValue("P$conta", "Por definir");
 	}
 	
