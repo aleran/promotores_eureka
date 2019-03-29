@@ -690,12 +690,14 @@ $events = $req->fetchAll();
 	   		$(".ocultar_oficina").addClass("hidden")
 	   		$(".ocultar_oficina").removeClass("show")
 	   		$("#colegio").removeAttr("required");
+	   		$("#profesor").removeAttr("required");
 	   		$("#objetivo").removeAttr("required");
 
 		}else {
 			$(".ocultar_oficina").addClass("show")
 			$(".ocultar_oficina").removeClass("hidden")
 			$("#colegio").attr("required","required");
+			$("#profesor").attr("required","required");
 	   		$("#objetivo").attr("required","required");
 
 		}

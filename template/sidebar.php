@@ -677,6 +677,15 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="muestreo">
+								<a href="reporte_muestreo.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Muestreo
+									
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 
 							<li class="presupuesto">
 								<a href="reporte_presupuesto.php">
