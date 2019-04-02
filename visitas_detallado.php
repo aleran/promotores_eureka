@@ -313,7 +313,7 @@
 						<?php 
 							if ($visita["resultado"]==1) {
 
-								$sql = "SELECT observaciones,fecha,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
+								$sql = "SELECT observaciones,fecha_llegada,fecha,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -323,7 +323,11 @@
 						 ?>
 							
 							<div class="row">
-								<div class="col-sm-6 col-sm-offset-4">
+								<div class="col-sm-6">
+									<h5>Fecha de llegada: <?php echo $visita_e["fecha_llegada"] ?></h5>
+								</div>
+
+								<div class="col-sm-6">
 									<h5>Fecha de ejecución: <?php echo $visita_e["fecha"] ?></h5>
 								</div>
 

@@ -5,10 +5,13 @@ if (isset($_POST["desde"])) {
 
 	$mod_date = strtotime($_POST["desde"]."+ 7 day");
 	$mod_date = strtotime($_POST["desde"]."+ 7 day");
-	$hasta= date("Y-m-d",$mod_date);
+	
+}else{
+	$mod_date = strtotime($_GET["desde"]."+ 7 day");
+	$mod_date = strtotime($_GET["desde"]."+ 7 day");
 }
 
-
+	$hasta= date("Y-m-d",$mod_date);
 
 if (isset($_POST["zona"])) {
 
@@ -232,7 +235,11 @@ $events = $req->fetchAll();
                
                 <div id="calendar" class="col-centered">
                 </div>
-				<h5><a href="php/visitas_semanal_excel.php?desde=<?php echo $_POST["desde"] ?>&hasta=<?php echo $hasta ?>&promotor=<?php echo $id_user ?>">Exportar excel</a></h5>
+                <?php if (isset($_POST["desde"])) { ?>
+                	<h5><a href="php/visitas_semanal_excel.php?desde=<?php echo $_POST["desde"] ?>&hasta=<?php echo $hasta ?>&promotor=<?php echo $id_user ?>">Exportar excel</a></h5>
+               <?php }else{ ?>
+					<h5><a href="php/visitas_semanal_excel.php?desde=<?php echo $_GET["desde"] ?>&hasta=<?php echo $hasta ?>&promotor=<?php echo $id_user ?>">Exportar excel</a></h5>
+				 <?php }?>
 				<center><button class="btn btn-success hidden-print" id="imprimir">Imprimir</button></center>
             </div>
         </div>

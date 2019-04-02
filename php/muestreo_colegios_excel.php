@@ -77,7 +77,7 @@ $objDrawing->setName('test_img');
 $objDrawing->setDescription('test_img');
 $objDrawing->setPath('../assets/images/logo_eureka.png');
 
-$objPHPExcel->getActiveSheet()->mergeCells('A1:A4');
+$objPHPExcel->getActiveSheet()->mergeCells('A1:B4');
 
 $objDrawing->setCoordinates('A1');                      
 //setOffsetX works properly
@@ -108,26 +108,28 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
 //~ Ingreo de datos en la hojda de excel
 
-$objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($estilo_negrita);
-$objPHPExcel->getActiveSheet()->getStyle('A5')->applyFromArray($estilo_centrar);
-$objPHPExcel->getActiveSheet()->SetCellValue("A5", "Reporte de muestras ($nombre_completo) Periodo: $gp_periodo[periodo]");
+$objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_centrar);
+$objPHPExcel->getActiveSheet()->SetCellValue("B5", "Reporte de muestras ($nombre_completo) Periodo: $gp_periodo[periodo]");
 
-$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Título");
-$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Cantidad");
+$objPHPExcel->getActiveSheet()->SetCellValue("A7", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("B7", "Título");
+$objPHPExcel->getActiveSheet()->SetCellValue("C7", "Cantidad");
+$objPHPExcel->getActiveSheet()->SetCellValue("D7", "Fecha");
 
-$objPHPExcel->getActiveSheet()->getStyle("A7:B7")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->getStyle("A7:D7")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
 );
-$objPHPExcel->getActiveSheet()->getStyle("A7:B7")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->getStyle("A7:D7")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
 );
 
 
-$sql = "SELECT UPPER(l.libro) as libro, l.id FROM muestreos m JOIN libros_muestreos lm ON lm.cod_muestreo=m.codigo JOIN libros l ON l.id=lm.id_libro WHERE m.id_usuario='".$_POST["promo"]."' AND m.id_periodo='".$_POST["periodo"]."' AND m.estado='2' GROUP BY l.id";
+$sql = "SELECT UPPER(l.libro) as libro, l.id, UPPER (c.colegio) as colegio, c.id as coleid, m.fecha FROM muestreos m JOIN libros_muestreos lm ON lm.cod_muestreo=m.codigo JOIN libros l ON l.id=lm.id_libro  JOIN colegios c ON c.id=m.id_colegio WHERE m.id_usuario='".$_POST["promo"]."' AND m.id_periodo='".$_POST["periodo"]."' AND m.estado='2' ORDER BY c.id";
 
 $req = $bdd->prepare($sql);
 $req->execute();
@@ -136,14 +138,16 @@ $muestras = $req->fetchAll();
 $conta=8;
 foreach($muestras as $muestra) {
 
-	$sql = "SELECT SUM(cantidad_aprob)  as cantidad FROM `libros_muestreos` lm JOIN muestreos m ON m.codigo=lm.cod_muestreo WHERE id_libro='".$muestra["id"]."' AND id_usuario='".$_POST["promo"]."' AND m.id_periodo='".$_POST["periodo"]."'";
+	$sql = "SELECT SUM(cantidad_aprob)  as cantidad FROM `libros_muestreos` lm JOIN muestreos m ON m.codigo=lm.cod_muestreo WHERE id_libro='".$muestra["id"]."' AND id_usuario='".$_POST["promo"]."' AND m.id_colegio='".$muestra["coleid"]."' AND m.id_periodo='".$_POST["periodo"]."'";
 
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$cantidad = $req->fetch();
 
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$muestra[libro]");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$cantidad[cantidad]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$muestra[colegio]");
+  $objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$muestra[libro]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$cantidad[cantidad]");
+  $objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$muestra[fecha]");
 
 	$conta++;
 	$cant[]=$cantidad["cantidad"];
@@ -151,10 +155,10 @@ foreach($muestras as $muestra) {
 }
 	$conta++;
 	$total_cantidad=array_sum($cant);
-	$objPHPExcel->getActiveSheet()->getStyle('A'.$conta)->applyFromArray($estilo_negrita);
 	$objPHPExcel->getActiveSheet()->getStyle('B'.$conta)->applyFromArray($estilo_negrita);
-	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "TOTAL");
-	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$total_cantidad");
+	$objPHPExcel->getActiveSheet()->getStyle('C'.$conta)->applyFromArray($estilo_negrita);
+	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "TOTAL");
+	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$total_cantidad");
 foreach (range('A', 'Z') as $columnID) {
 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);  
 }
@@ -163,7 +167,7 @@ $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true)
 }
 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Muestreo_cantidades.xlsx"');
+header('Content-Disposition: attachment; filename="Muestreo_colegios.xlsx"');
 $objWriter->save('php://output');
 
 ?>

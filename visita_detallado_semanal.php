@@ -321,7 +321,7 @@
 						<?php 
 							if ($visita["resultado"]==1) {
 
-								$sql = "SELECT observaciones,fecha,efectiva,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
+								$sql = "SELECT observaciones,fecha_llegada, fecha,efectiva,longitud,latitud FROM visitas WHERE id_plan_trabajo='".$_GET["planid"]."'";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -331,7 +331,10 @@
 						 ?>
 							
 							<div class="row">
-								<div class="col-sm-6 col-sm-offset-4">
+								<div class="col-sm-6">
+									<h5>Fecha de llegada: <?php echo $visita_e["fecha_llegada"] ?></h5>
+								</div>
+								<div class="col-sm-6">
 									<h5>Fecha de ejecución: <?php echo $visita_e["fecha"] ?></h5>
 								</div>
 
@@ -341,6 +344,7 @@
 								<div class="col-sm-6 col-sm-offset-4">
 									<h5>Comentarios: <?php echo $visita_e["observaciones"] ?></h5>
 								</div>
+
 
 							</div>
 						<?php } ?>
@@ -463,6 +467,8 @@
 				  					<?php }?>
 				  					
 				  					<input type="hidden" name="plan_id" value="<?php echo $_GET["planid"]; ?>">
+				  					<input type="hidden" name="desde" value="<?php echo $_GET["desde"]; ?>">
+				  					<input type="hidden" name="hasta" value="<?php echo $_GET["hasta"]; ?>">
 				  					<br><br><button class="btn btn-primary">Guardar</button>
 			  					</center>
 			  					</form>
@@ -1031,7 +1037,7 @@
 
 		})
 			$(".abrir_reportes").addClass("open");
-			$(".visitas").addClass("active");
+			$(".visitas_semanal").addClass("active");
 	</script>	
 	</body>
 </html>

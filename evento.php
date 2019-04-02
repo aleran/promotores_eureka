@@ -569,7 +569,7 @@
 							
 						</form>
 						<?php }else if($visita["resultado"]==1){ ?>
-							<center><p class="text-success bg-success" style="font-size: 20px;">Efectiva</p></center>
+							<center><p class="text-success bg-success" style="font-size: 20px;">Ejecutada</p></center>
 						<?php } ?>
 						<div class="modal fade" id="ModalEjecutar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">

@@ -198,9 +198,9 @@
 						?>
 						
 						<div class="row">
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<!-- PAGE CONTENT BEGINS -->
-									<form action="php/muestreo_excel.php" method="POST">
+									<form action="php/muestreo_excel.php" method="POST" id="formulario">
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="direccion"> Por promotor:<small style="color:red;"> *</small> </label>
 										<input required required type="tel" name="promotor" id="promotor" placeholder="" class="form-control" autocomplete="off" onkeyup="busc_ms();bus_h()"/>
@@ -211,7 +211,7 @@
 							
 									
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<!-- PAGE CONTENT BEGINS -->
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
@@ -234,11 +234,16 @@
 										</select>
 									</div><br>
 										
-										<button class="btn btn-primary">Exportar excel</button>
-									</form>
+									
+									
 									
 									
 							</div>
+
+								<button class="btn btn-primary" id="lib_can">Libros/Cantidades</button>
+								
+								<button class="btn btn-success" id="lib_cole">Libros/Colegios</button>
+								</form>
 
 							
 							
@@ -837,6 +842,13 @@
 					$("#comp").val("");
 				}
 			}
+
+			$("#lib_can").click(function(){
+				$("#formulario").attr("action","php/muestreo_excel.php")
+			});
+			$("#lib_cole").click(function(){
+				$("#formulario").attr("action","php/muestreo_colegios_excel.php")
+			});
 		</script>
 		<script>
 			$(".abrir_reportes").addClass("open");

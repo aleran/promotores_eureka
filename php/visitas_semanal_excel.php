@@ -53,7 +53,8 @@ $estilo_negrita = array(
     )
 );
 
-$objPHPExcel->getActiveSheet()->getStyle('A8:G8')->applyFromArray(
+//cabecaras
+$objPHPExcel->getActiveSheet()->getStyle('A8:H8')->applyFromArray(
     array(
         'fill' => array(
             'type' => PHPExcel_Style_Fill::FILL_SOLID,
@@ -142,7 +143,7 @@ $objPHPExcel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo_centrar);
 $objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('E6')->applyFromArray($estilo_centrar);
-$objPHPExcel->getActiveSheet()->getStyle('A8:G8')->applyFromArray($estilo_negrita);
+$objPHPExcel->getActiveSheet()->getStyle('A8:H8')->applyFromArray($estilo_negrita);
 
 $objPHPExcel->getActiveSheet()->SetCellValue("B5", "Zona");
 $objPHPExcel->getActiveSheet()->SetCellValue("B6", "$zona[zona]");
@@ -161,7 +162,8 @@ $objPHPExcel->getActiveSheet()->SetCellValue("C8", "Profesor");
 $objPHPExcel->getActiveSheet()->SetCellValue("D8", "Objetivo");
 $objPHPExcel->getActiveSheet()->SetCellValue("E8", "Resultado");
 $objPHPExcel->getActiveSheet()->SetCellValue("F8", "Comentarios");
-$objPHPExcel->getActiveSheet()->SetCellValue("G8", "Fecha ejecutada");
+$objPHPExcel->getActiveSheet()->SetCellValue("G8", "Fecha llegada");
+$objPHPExcel->getActiveSheet()->SetCellValue("H8", "Fecha ejecutada");
 
 
 $sql_periodo="SELECT id FROM periodos ORDER BY id DESC";
@@ -183,7 +185,7 @@ foreach($planes as $plan) {
 
 	if ($plan["resultado"]==1) {
 
-		$sql = "SELECT observaciones, fecha FROM visitas WHERE id_plan_trabajo='".$plan["planid"]."'";
+		$sql = "SELECT observaciones, fecha_llegada, fecha FROM visitas WHERE id_plan_trabajo='".$plan["planid"]."'";
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		$visitas = $req->fetch();
@@ -204,7 +206,7 @@ foreach($planes as $plan) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$profe[nombre]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$objetivo[objetivo]");
 	 if ($plan["resultado"]==1) {
-		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "Efectiva");
+		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "Ejecutada");
 	}
 	else {
 		$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "No ejecutada");
@@ -212,7 +214,8 @@ foreach($planes as $plan) {
 	
 	if ($plan["resultado"]==1) {
 		$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$visitas[observaciones]");
-		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$visitas[fecha]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "$visitas[fecha_llegada]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$visitas[fecha]");
 	}
 
 

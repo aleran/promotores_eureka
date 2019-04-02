@@ -18,6 +18,6 @@
 
 	
 
-	header('Location: ../visita_detallado_semanal.php?planid='.$_POST["plan_id"].'');
+	header('Location: ../visita_detallado_semanal.php?planid='.$_POST["plan_id"].'&desde='.$_POST["desde"].'&hasta='.$_POST["hasta"].'');
 
 ?>

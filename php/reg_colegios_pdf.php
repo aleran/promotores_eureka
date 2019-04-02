@@ -33,7 +33,7 @@
 
 	$colegio = $req->fetch();
 
-	$sql_usuario = "SELECT CONCAT(nombres, ' ', apellidos) as promotor FROM usuarios WHERE cod_zona='".$colegio["cod_zona"]."'";
+	$sql_usuario = "SELECT CONCAT(nombres, ' ', apellidos) as promotor, id FROM usuarios WHERE cod_zona='".$colegio["cod_zona"]."'";
 
 	$req_usuario = $bdd->prepare($sql_usuario);
 	$req_usuario->execute();
@@ -560,6 +560,42 @@
 		echo "</tr>";
 
 	}
+	echo "</tbody></table>";
+
+	echo'<table class="table table-bordered">
+			<thead>
+				<tr><td colspan="6"><center><b>Muestreos</b></center></td></tr>
+				<th>Fecha</th>
+				<th>Título</th>
+				<th>Cantidad</th>
+			</thead>
+			<tbody>';
+
+	$sql = "SELECT UPPER(l.libro) as libro, l.id, m.fecha, m.codigo FROM muestreos m JOIN libros_muestreos lm ON lm.cod_muestreo=m.codigo JOIN libros l ON l.id=lm.id_libro  JOIN colegios c ON c.id=m.id_colegio WHERE m.id_usuario='".$usuario["id"]."' AND m.id_periodo='".$_POST["periodo"]."' AND m.id_colegio='".$colegio["id"]."' AND m.estado='2'";
+
+	$req = $bdd->prepare($sql);
+	$req->execute();
+
+	$muestreos = $req->fetchAll();
+
+	foreach($muestreos as $muestreo) {
+
+	$sql = "SELECT SUM(cantidad_aprob)  as cantidad FROM `libros_muestreos` lm JOIN muestreos m ON m.codigo=lm.cod_muestreo WHERE id_libro='".$muestreo["id"]."' AND id_usuario='".$usuario["id"]."' AND m.id_colegio='".$colegio["id"]."' AND m.id_periodo='".$_POST["periodo"]."' AND m.codigo='".$muestreo["codigo"]."'";
+
+	$req = $bdd->prepare($sql);
+	$req->execute();
+	$cantidad = $req->fetch();
+
+		echo "<tr>";
+			echo "<td>".$muestreo["fecha"]."</td>";
+			echo "<td>".$muestreo["libro"]."</td>";
+			echo "<td>".$cantidad["cantidad"]."</td>";
+		echo "</tr>";
+		$cant[]=$cantidad["cantidad"];
+
+	}
+	$total_cantidad=array_sum($cant);
+	echo "<td></td><td><b>Total:</b></td><td>".$total_cantidad."</td>";
 	echo "</tbody></table>";
 
 

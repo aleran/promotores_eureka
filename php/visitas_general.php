@@ -92,14 +92,16 @@ $objPHPExcel->getActiveSheet()->SetCellValue("D4", "Profesor");
 $objPHPExcel->getActiveSheet()->SetCellValue("E4", "Cargo");
 $objPHPExcel->getActiveSheet()->SetCellValue("F4", "Objetivo");
 $objPHPExcel->getActiveSheet()->SetCellValue("G4", "Resultado");
-$objPHPExcel->getActiveSheet()->SetCellValue("H4", "Comentarios");
+$objPHPExcel->getActiveSheet()->SetCellValue("H4", "Fecha llegada");
 $objPHPExcel->getActiveSheet()->SetCellValue("I4", "Fecha ejecutada");
-$objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->SetCellValue("J4", "Comentarios");
+
+$objPHPExcel->getActiveSheet()->getStyle("A1:J1")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
 );
-$objPHPExcel->getActiveSheet()->getStyle("A4:G4")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->getStyle("A4:I4")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
@@ -135,7 +137,7 @@ foreach($planes as $plan) {
 
 	if ($plan["resultado"]==1) {
 
-		$sql = "SELECT observaciones, fecha FROM visitas WHERE id_plan_trabajo='".$plan["planid"]."'";
+		$sql = "SELECT observaciones, fecha_llegada, fecha FROM visitas WHERE id_plan_trabajo='".$plan["planid"]."'";
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		$visitas = $req->fetch();
@@ -183,16 +185,19 @@ foreach($planes as $plan) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$cargo");
 	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$plan[objetivo]");
 	 if ($plan["resultado"]==1) {
-		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "Efectiva");
+		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "Ejecutada");
 	}
 	else {
 		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "No ejecutada");
 	}
 	
 	if ($plan["resultado"]==1) {
-		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$visitas[observaciones]");
+		$objPHPExcel->getActiveSheet()->SetCellValue("H$conta", "$visitas[fecha_llegada]");
+
 		$objPHPExcel->getActiveSheet()->SetCellValue("I$conta", "$visitas[fecha]");
-	}
+
+		$objPHPExcel->getActiveSheet()->SetCellValue("J$conta", "$visitas[observaciones]");
+			}
 
 
 $conta++;
