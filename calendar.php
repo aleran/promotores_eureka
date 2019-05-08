@@ -259,7 +259,7 @@ $events = $req->fetchAll();
 						 <select name="grado[]" id="grado" class="form-control">
 						 	<option value="">Seleccionar</option>
 						 	<?php 
-						 		$sql = "SELECT id, grado FROM grados";
+						 		$sql = "SELECT id, grado FROM grados WHERE id < '15' OR id='17'";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
