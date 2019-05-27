@@ -259,7 +259,7 @@ $events = $req->fetchAll();
 						 <select name="grado[]" id="grado" class="form-control">
 						 	<option value="">Seleccionar</option>
 						 	<?php 
-						 		$sql = "SELECT id, grado FROM grados WHERE id < '15' OR id='17'";
+						 		$sql = "SELECT id, grado FROM grados";
 
 								$req = $bdd->prepare($sql);
 								$req->execute();
@@ -791,7 +791,7 @@ $events = $req->fetchAll();
 		var le = 1;
 		var gdo = 1;
 		$("#agregar_libro").click(function(){
-			if (m>8) {
+			if (m>6) {
 				$("#agregar_libro").addClass("hidden");
 			}
 			$("#l_materia").clone().appendTo(".otro_l");
@@ -1419,7 +1419,7 @@ $events = $req->fetchAll();
 	            var valor = $(this).val();
 	            var materia = $("#materia8").val()
 	             //alert(valor);
-	            if (valor==17) {
+	             if (valor==17) {
 		            $(".g_otro8").removeClass("hidden");
 		            $(".g_otro8").addClass("show");
 		            $("#grado_otro8").attr("required","required");
@@ -1429,7 +1429,6 @@ $events = $req->fetchAll();
 		            $(".g_otro8").removeClass("show");
 		            $("#grado_otro8").removeAttr("required");
 		        }
-
 	            var dataString = 'mat_gra='+materia+'/'+valor;
 	            
 	            $.ajax({
@@ -1496,12 +1495,15 @@ $events = $req->fetchAll();
                 
         	});
 
+        	
+
+
 		$('#grado9').on('change',function(){
 	            var valor = $(this).val();
 	            var materia = $("#materia9").val()
 	             //alert(valor);
 
-	             if (valor==17) {
+	            if (valor==17) {
 		            $(".g_otro9").removeClass("hidden");
 		            $(".g_otro9").addClass("show");
 		            $("#grado_otro9").attr("required","required");
@@ -1537,15 +1539,15 @@ $events = $req->fetchAll();
 	            })
                 
         	});
+		
+		$('#cantidad9').keyup(function(){
+			var cant =$('#cantidad9').val();
+			var libro=$('#libro9').val();
+			var grado_o=$('#grado_otro9').val();
+			$('#libro_e9').val(libro+'/'+cant+'/'+grado_o);
 
-			$('#cantidad9').keyup(function(){
-				var cant =$('#cantidad9').val();
-				var libro=$('#libro9').val();
-				var grado_o=$('#grado_otro9').val();
-				$('#libro_e9').val(libro+'/'+cant+'/'+grado_o);
+		})
 
-			})
-	
 		
 	                                           
 	</script>
