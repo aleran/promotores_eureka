@@ -16,7 +16,7 @@ require_once('../conexion/bdd.php');
 		
 
 
-		$sql_v = "INSERT INTO visitas(id_periodo,id_plan_trabajo,observaciones,efectiva,latitud,longitud) values ('".$gp_periodo["id"]."','".$_POST["id_visita"]."', '".$_POST["comentarios"]."','".$_POST["efectiva"]."','".$_POST["latitud"]."', '".$_POST["longitud"]."')";
+		$sql_v = "INSERT INTO visitas(id_periodo,id_plan_trabajo,observaciones,fecha,efectiva,latitud,longitud) values ('".$gp_periodo["id"]."','".$_POST["id_visita"]."', '".$_POST["comentarios"]."','".date("Y-m-d H:i:s")."','".$_POST["efectiva"]."','".$_POST["latitud"]."', '".$_POST["longitud"]."')";
 		
 			
 			$query_v = $bdd->prepare( $sql_v );
@@ -65,7 +65,7 @@ require_once('../conexion/bdd.php');
 	}
 	else{
 
-		$sql_v = "UPDATE visitas SET observaciones='".$_POST["comentarios"]."', efectiva='".$_POST["efectiva"]."', longitud='".$_POST["longitud"]."', latitud='".$_POST["latitud"]."' WHERE id_plan_trabajo='".$_POST["id_visita"]."'";
+		$sql_v = "UPDATE visitas SET observaciones='".$_POST["comentarios"]."',fecha='".date("Y-m-d H:i:s")."', efectiva='".$_POST["efectiva"]."', longitud='".$_POST["longitud"]."', latitud='".$_POST["latitud"]."' WHERE id_plan_trabajo='".$_POST["id_visita"]."'";
 
 		
 		
