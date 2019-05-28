@@ -129,7 +129,7 @@ $objPHPExcel->getActiveSheet()->getStyle("A7:D7")->getFont()->getColor()->applyF
 );
 
 
-$sql = "SELECT UPPER(l.libro) as libro, l.id, UPPER (c.colegio) as colegio, c.id as coleid, m.fecha FROM muestreos m JOIN libros_muestreos lm ON lm.cod_muestreo=m.codigo JOIN libros l ON l.id=lm.id_libro  JOIN colegios c ON c.id=m.id_colegio WHERE m.id_usuario='".$_POST["promo"]."' AND m.id_periodo='".$_POST["periodo"]."' AND m.estado='2' ORDER BY c.id";
+$sql = "SELECT UPPER(l.libro) as libro, l.id, UPPER (c.colegio) as colegio, c.id as coleid, m.fecha FROM muestreos m JOIN libros_muestreos lm ON lm.cod_muestreo=m.codigo JOIN libros l ON l.id=lm.id_libro  JOIN colegios c ON c.id=m.id_colegio WHERE m.id_usuario='".$_POST["promo"]."' AND m.id_periodo='".$_POST["periodo"]."' AND m.estado='4' ORDER BY c.id";
 
 $req = $bdd->prepare($sql);
 $req->execute();

@@ -94,19 +94,61 @@ else {
 				
 			if ($libro !=0) {
 				
-				$sql_p = "INSERT INTO libros_muestreos(cod_muestreo,id_libro,cantidad,id_grado_otro) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."','".$grado_otro."')";
+				$sql_g = "SELECT id_grado FROM libros WHERE id='".$id_libro."'";
+				$req_g = $bdd->prepare($sql_g);
+				$req_g->execute();
+
+				$grado = $req_g->fetch();
+
+				if ($grado["id_grado"]== 15 || $grado["id_grado"]==16) {
+
+
+					$sq_l2 = "SELECT id FROM libros WHERE pri_sec='".$id_libro."'";
+														
+					$req_l2 = $bdd->prepare($sq_l2);
+					$req_l2->execute();
+					$libros2 = $req_l2->fetchAll();
+
+					foreach ($libros2 as $libro2) {
+
+						$sql_p = "INSERT INTO libros_muestreos(cod_muestreo,id_libro,cantidad,id_grado_otro) VALUES('".$cod_pedido."','".$libro2["id"]."','".$cantidad."','".$grado_otro."')";
+
+						$query_p = $bdd->prepare( $sql_p );
+						if ($query_p == false) {
+							print_r($bdd->errorInfo());
+							die ('Erreur prepare');
+						}
+						$sth_p = $query_p->execute();
+						if ($sth_p == false) {
+							print_r($query_p->errorInfo());
+							die ('Erreur execute');
+						}
+
+					}
+
 					
+				}else {
+
+					$sql_p = "INSERT INTO libros_muestreos(cod_muestreo,id_libro,cantidad,id_grado_otro) VALUES('".$cod_pedido."','".$id_libro."','".$cantidad."','".$grado_otro."')";
+
+					$query_p = $bdd->prepare( $sql_p );
+					if ($query_p == false) {
+						print_r($bdd->errorInfo());
+						die ('Erreur prepare');
+					}
+					$sth_p = $query_p->execute();
+					if ($sth_p == false) {
+						print_r($query_p->errorInfo());
+						die ('Erreur execute');
+					}
 					
-				$query_p = $bdd->prepare( $sql_p );
-				if ($query_p == false) {
-					print_r($bdd->errorInfo());
-					die ('Erreur prepare');
+
 				}
-				$sth_p = $query_p->execute();
-				if ($sth_p == false) {
-					print_r($query_p->errorInfo());
-					die ('Erreur execute');
-				}
+
+
+				
+					
+				
 
 			}
 			

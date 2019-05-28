@@ -47,8 +47,8 @@
 			$html='<meta charset="utf-8" />
 					<link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
 						<style>
-							*{
-								font-size: 12px;
+							body{
+								font-size: 11px;
 							}
 
 							@page {
@@ -71,8 +71,8 @@
 							
 						</style>
 						<div class="container">
-							<img src="../assets/images/logo_eureka.png" width=100>
-							<br><center style="margin-top: -60px"><h4>Muestras Profesional para Educación <span class="pull-right">No. '.$_GET["entregado"].'</span></h4></center>
+							<img src="../assets/images/logo_eureka.png" width=80>
+							<br><center style="margin-top: -60px"><h4>Muestra Profesional para Evaluación<span class="pull-right">No. '.$_GET["entregado"].'</span></h4></center>
 								<table class="table table-bordered">
 			 						<tbody>
 										<tr>
@@ -111,8 +111,8 @@
 							
 						</style>
 						<div class="container">
-							<img src="assets/images/logo_eureka.png" width=100>
-							<br><center style="margin-top: -60px"><h4>Muestras Profesional para Educación <span class="pull-right">No. '.$_GET["imprimir"].'</span></h4></center>
+							<img src="assets/images/logo_eureka.png" width=80>
+							<br><center style="margin-top: -60px"><h4>Muestra Profesional para Evaluación <span class="pull-right">No. '.$_GET["imprimir"].'</span></h4></center>
 								<table class="table table-bordered">
 			 						<tbody>
 										<tr>
@@ -124,7 +124,7 @@
 								</table>';
 		}
 
-		$html.='<center style="margin-top: -15px">Nos complace entregarle las siguientes muestas</center>
+		$html.='<center style="margin-top: -15px">Estimado docente: Nos complace hacer entrega de nuestro material de muestras para su revisión y análisis</center>
 					<table class="table table-bordered" style="margin-top: 5px">
 					<thead>
 						<th><center>Título</center></th>

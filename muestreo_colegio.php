@@ -47,6 +47,14 @@
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
 		<style>
+
+
+		input[type=number] { -moz-appearance:textfield; }
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+  				-webkit-appearance: none; 
+  				margin: 0; 
+			}
 			@page{
 	   			margin: 0;
 	   	
@@ -214,7 +222,7 @@
 									$num_repetido = $req_repetido->rowCount();
 									
 									
-									$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.id as id_lm FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
+									$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.id as id_lm, m.materia, g.id as id_grado, g.grado  FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -240,6 +248,8 @@
                                     <thead>
                                         <tr>
                                         	<th>Título</th>
+                                        	<th>Materia</th>
+                                        	<th>Grado</th>
                                         	<th>Cantidad solicitada</th>
                                         	<th>Cantidad aprobada</th>
                                         </tr>
@@ -252,8 +262,11 @@
                                            
                                         		$total_cantidad[]=$libro["cantidad"];
 
+
                                                 echo'<tr class="odd gradeX">';
                                                 echo'<td class="">'.$libro["libro"].'</td>';
+                                                echo'<td class="">'.$libro["materia"].'</td>';
+                                                echo'<td class="">'.$libro["grado"].'</td>';
                                               
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
 
@@ -283,7 +296,7 @@
                                          ?>
                                         
                                         </tr>
-                                      	<td class="center"><b>Total:</b></td>
+                                      	<td><td></td></td><td class="center"><b>Total:</b></td>
                                        	<td class="center"><b><?php echo $total_c; ?></b></td>
                                        
                                     </tbody>
@@ -294,7 +307,7 @@
 
 							<center>
 								 <label for="observaciones">Observaciones:</label><br>
-								 <textarea disabled name="observaciones" id="observaciones" cols="30" rows="3"><?php echo $pedido["observaciones"] ?></textarea><br><br>
+								 <textarea name="observaciones" id="observaciones" cols="30" rows="3"><?php echo $pedido["observaciones"] ?></textarea><br><br>
 								 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button> <br><br>
                            <button class="btn btn-success hidden-print">Aprobar</button> 
                         </form>

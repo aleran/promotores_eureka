@@ -206,7 +206,7 @@
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
+                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob, m.materia, g.id as id_grado, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 
@@ -231,6 +231,8 @@
                                     <thead>
                                         <tr>
                                             <th>Título</th>
+                                            <th>Materia</th>
+                                        	<th>Grado</th>
                                         	<th>Cantidad</th>
                                         	<th>Cantidad aprobada</th>
                                         </tr>
@@ -245,7 +247,8 @@
 
                                                 echo'<tr class="odd gradeX">';
                                                 echo'<td class="">'.$libro["libro"].'</td>';
-                                              
+                                              	echo'<td class="">'.$libro["materia"].'</td>';
+                                                echo'<td class="">'.$libro["grado"].'</td>';
                                                 echo'<td class="center">'.$libro["cantidad"].'</td>';
                                                 echo'<td class="center">'.$libro["cantidad_aprob"].'</td>';
                                                  
@@ -257,7 +260,7 @@
                                          ?>
                                         
                                         </tr>
-                                       	<td class="center"><b>Total:</b></td>
+                                       	<td><td></td></td><td class="center"><b>Total:</b></td>
                                        	<td class="center"><b><?php echo $total_c; ?></b></td>
                                        	<td class="center"><b><?php echo $total_c_aprob; ?></b></td>
                                        

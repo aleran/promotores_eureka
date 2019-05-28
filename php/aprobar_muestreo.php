@@ -29,7 +29,7 @@
 	}
 
 	
-	$sql = "UPDATE muestreos SET estado='2' WHERE id='".$_POST["id_muestreo"]."'";
+	$sql = "UPDATE muestreos SET estado='2', observaciones='".$_POST["observaciones"]."' WHERE id='".$_POST["id_muestreo"]."'";
 		$req = $bdd->prepare($sql);
 		$req->execute();
 		
