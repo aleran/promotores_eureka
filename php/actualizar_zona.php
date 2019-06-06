@@ -71,7 +71,7 @@
 
 			
 
-			echo $valor;
+			
 			$sql = "UPDATE colegios SET cod_zona='".$_POST["cod_zona"]."' WHERE id='".$valor."'";
 
 

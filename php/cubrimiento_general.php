@@ -39,36 +39,47 @@ $estilo2->applyFromArray(
       'left' => array('style' => PHPExcel_Style_Border::BORDER_THIN)
     )
 ));
-$objPHPExcel->getActiveSheet()->SetCellValue("A1", "Zona");
-$objPHPExcel->getActiveSheet()->SetCellValue("B1", "Promotor");
-$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Código");
-$objPHPExcel->getActiveSheet()->SetCellValue("D1", "Colegio");
-$objPHPExcel->getActiveSheet()->SetCellValue("E1", "Barrio");
-$objPHPExcel->getActiveSheet()->SetCellValue("F1", "Dirección");
-$objPHPExcel->getActiveSheet()->SetCellValue("G1", "Telefono");
-$objPHPExcel->getActiveSheet()->SetCellValue("H1", "Paralelos prescolar");
-$objPHPExcel->getActiveSheet()->SetCellValue("I1", "Paralelos primaria");
-$objPHPExcel->getActiveSheet()->SetCellValue("J1", "Paralelos bachillerato");
-$objPHPExcel->getActiveSheet()->SetCellValue("K1", "Paralelos global");
-$objPHPExcel->getActiveSheet()->SetCellValue("L1", "Alumnos preescolar");
-$objPHPExcel->getActiveSheet()->SetCellValue("M1", "Alumnos primaria");
-$objPHPExcel->getActiveSheet()->SetCellValue("N1", "Alumnos bachillerato");
-$objPHPExcel->getActiveSheet()->SetCellValue("O1", "Alumnos global");
-$objPHPExcel->getActiveSheet()->SetCellValue("P1", "Status");
-$objPHPExcel->getActiveSheet()->getStyle("A1:P1")->getFont()->getColor()->applyFromArray(
+
+$sql_periodo="SELECT id, periodo FROM periodos WHERE id='".$_POST["periodo"]."'";
+$req_periodo = $bdd->prepare($sql_periodo);
+$req_periodo->execute();
+$gp_periodo = $req_periodo->fetch();
+$fecha=date("Y-m-d");
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A1", "Periodo");
+$objPHPExcel->getActiveSheet()->SetCellValue("A2", "$gp_periodo[periodo]");
+$objPHPExcel->getActiveSheet()->SetCellValue("B1", "Fecha");
+$objPHPExcel->getActiveSheet()->SetCellValue("B2", "$fecha");
+$objPHPExcel->getActiveSheet()->SetCellValue("D1", "Cubrimiento General");
+
+$objPHPExcel->getActiveSheet()->SetCellValue("A4", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("B4", "Promotor");
+$objPHPExcel->getActiveSheet()->SetCellValue("C4", "Código");
+$objPHPExcel->getActiveSheet()->SetCellValue("D4", "Colegio");
+$objPHPExcel->getActiveSheet()->SetCellValue("E4", "Barrio");
+$objPHPExcel->getActiveSheet()->SetCellValue("F4", "Dirección");
+$objPHPExcel->getActiveSheet()->SetCellValue("G4", "Telefono");
+$objPHPExcel->getActiveSheet()->SetCellValue("H4", "Paralelos prescolar");
+$objPHPExcel->getActiveSheet()->SetCellValue("I4", "Paralelos primaria");
+$objPHPExcel->getActiveSheet()->SetCellValue("J4", "Paralelos bachillerato");
+$objPHPExcel->getActiveSheet()->SetCellValue("K4", "Paralelos global");
+$objPHPExcel->getActiveSheet()->SetCellValue("L4", "Alumnos preescolar");
+$objPHPExcel->getActiveSheet()->SetCellValue("M4", "Alumnos primaria");
+$objPHPExcel->getActiveSheet()->SetCellValue("N4", "Alumnos bachillerato");
+$objPHPExcel->getActiveSheet()->SetCellValue("O4", "Alumnos global");
+$objPHPExcel->getActiveSheet()->SetCellValue("P4", "Status");
+$objPHPExcel->getActiveSheet()->getStyle("A4:P4")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
 );
-$sql_periodo="SELECT id FROM periodos WHERE id='".$_POST["periodo"]."'";
-$req_periodo = $bdd->prepare($sql_periodo);
-$req_periodo->execute();
-$gp_periodo = $req_periodo->fetch();
+
+
 	$sql = "SELECT c.id, c.codigo, UPPER(c.colegio) as colegio, c.barrio, c.direccion,c.telefono, z.zona,u.nombres,u.apellidos FROM colegios c JOIN zonas z ON c.cod_zona=z.codigo JOIN usuarios u ON z.codigo=u.cod_zona ORDER BY z.codigo";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$coles = $req->fetchAll();
-$conta=2;
+$conta=5;
 foreach($coles as $cole) {
 
 	$promotor=$cole["nombres"]." ".$cole["apellidos"];

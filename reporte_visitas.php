@@ -271,9 +271,9 @@
 										</div>
 										</form>
 										</div>
-										<div class="row">
+										<!--<div class="row">
 										<div class="col-sm-4">
-											<!-- PAGE CONTENT BEGINS -->
+											
 												<form action="lista_visitas_detallado.php" method="POST">
 												<div class="form-group">
 													<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
@@ -327,7 +327,7 @@
 											</div>
 										</div>
 										</form>
-										</div>
+										</div>-->
 									</div>
 								</div>
 							</div>
@@ -388,9 +388,9 @@
 									</form>
 											
 										</div>
-										<div class="row">
+										<!--<div class="row">
 											<div class="col-sm-4">
-											<!-- PAGE CONTENT BEGINS -->
+										
 												<form action="php/visitas_general.php" method="POST">
 												<div class="form-group">
 													<label class="control-label no-padding-right" for="barrio"> Por zona:<small style="color:red;"> *</small> </label>
@@ -444,7 +444,7 @@
 											</div>
 										</div>
 									</form>
-										</div>
+										</div>-->
 									</div>
 								</div>
 							</div>

@@ -117,7 +117,7 @@ $desde=$_POST["desde"]." "."00:00:00";
 $hasta=$_POST["hasta"]." "."23:59:59";
 if (isset($_POST["zona"])) {
 
-	$sql = "SELECT o.objetivo, p.id as planid, p.resultado, p.cod_profesor, UPPER(c.colegio) as colegio, p.start, z.zona FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona  WHERE c.cod_zona='".$_POST["zona"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC ";
+	$sql = "SELECT o.objetivo, p.id as planid, p.resultado, p.cod_profesor, p.id_objetivo, UPPER(c.colegio) as colegio, p.start, z.zona FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id JOIN objetivos o ON p.id_objetivo=o.id JOIN zonas z ON z.codigo=c.cod_zona  WHERE c.cod_zona='".$_POST["zona"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC ";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$planes = $req->fetchAll();
@@ -125,7 +125,7 @@ if (isset($_POST["zona"])) {
 
 else {
 
-	$sql = "SELECT o.objetivo, p.id as planid, p.resultado,p.cod_profesor, UPPER(c.colegio) as colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  JOIN objetivos o ON p.id_objetivo=o.id  WHERE p.id_promotor='".$_POST["promo"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
+	$sql = "SELECT p.id as planid, p.resultado,p.cod_profesor,p.id_objetivo, UPPER(c.colegio) as colegio, p.start FROM plan_trabajo p JOIN colegios c ON p.id_colegio=c.id  WHERE p.id_promotor='".$_POST["promo"]."' AND p.start BETWEEN '".$desde."' AND '".$hasta."' ORDER BY start ASC";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$planes = $req->fetchAll();
@@ -147,6 +147,11 @@ foreach($planes as $plan) {
 	$req_profe = $bdd->prepare($sql_profe);
 	$req_profe->execute();
 	$profe = $req_profe->fetch();
+
+	$sql_objetivo = "SELECT objetivo FROM objetivos WHERE id='".$plan["id_objetivo"]."'";
+	$req_objetivo = $bdd->prepare($sql_objetivo);
+	$req_objetivo->execute();
+	$objetivo = $req_objetivo->fetch();
 
 	if ($profe["id_cargo"]==5) {
 
@@ -183,7 +188,7 @@ foreach($planes as $plan) {
 	$objPHPExcel->getActiveSheet()->SetCellValue("C$conta", "$plan[colegio]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("D$conta", "$profe[nombre]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("E$conta", "$cargo");
-	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$plan[objetivo]");
+	$objPHPExcel->getActiveSheet()->SetCellValue("F$conta", "$objetivo[objetivo]");
 	 if ($plan["resultado"]==1) {
 		$objPHPExcel->getActiveSheet()->SetCellValue("G$conta", "Ejecutada");
 	}

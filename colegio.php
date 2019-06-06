@@ -4264,7 +4264,6 @@
 					                                    <thead>
 					                                        <tr>
 					                                            <th>Zona</th>
-					                                            <th>Promotor</th>
 					                                            <th>Fecha planificada</th>
 					                                            <th>Objetivo</th>
 					                                            <th>Resultado</th>
@@ -4274,7 +4273,6 @@
 					                                        <?php 
 					                                        	foreach($planes as $plan) {
 
-					                                        		$promotor=$plan["nombres"]." ".$plan["apellidos"];
 					                                           
 					                                                if ($plan["resultado"]==1) {
                                                 						echo'<tr class="odd gradeX success">';
@@ -4283,7 +4281,7 @@
 					                                            		echo'<tr class="odd gradeX">';
 					                                            	}
 					                                                echo'<td class="center">'.$plan["zona"].'</td>';
-					                                                echo'<td class="center">'.$promotor.'</td>';
+					                                               
 					                                                echo'<td class="center">'.$plan["start"].'</td>';
 					                                                echo'<td class="center"><a href="visitas_detallado.php?planid='.$plan["planid"].'" target="_blank">'.$plan["objetivo"].'<a/></td>';
 					                                                 if ($plan["resultado"]==1) {

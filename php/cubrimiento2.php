@@ -48,12 +48,23 @@ $estilo2->applyFromArray(
 	$req_zona = $bdd->prepare($sql_zona);
 	$req_zona->execute();
 	$zona = $req_zona->fetch();
+
+	$sql_periodo="SELECT periodo FROM periodos WHERE id='".$_POST["periodo"]."'";
+
+	$req_periodo = $bdd->prepare($sql_periodo);
+	$req_periodo->execute();
+	$gp_periodo = $req_periodo->fetch();
+	$fecha=date("Y-m-d");
 	
 //~ Ingreo de datos en la hojda de excel
-$objPHPExcel->getActiveSheet()->SetCellValue("B1", "Zona");
-$objPHPExcel->getActiveSheet()->SetCellValue("B2", "$zona[zona]");
-$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Promotor");
-$objPHPExcel->getActiveSheet()->SetCellValue("C2", "$nombre_completo");
+$objPHPExcel->getActiveSheet()->SetCellValue("A1", "Zona");
+$objPHPExcel->getActiveSheet()->SetCellValue("A2", "$zona[zona]");
+$objPHPExcel->getActiveSheet()->SetCellValue("B1", "Promotor");
+$objPHPExcel->getActiveSheet()->SetCellValue("B2", "$nombre_completo");
+$objPHPExcel->getActiveSheet()->SetCellValue("C1", "Periodo");
+$objPHPExcel->getActiveSheet()->SetCellValue("C2", "$gp_periodo[periodo]");
+$objPHPExcel->getActiveSheet()->SetCellValue("D1", "Fecha");
+$objPHPExcel->getActiveSheet()->SetCellValue("D2", "$fecha");
 $objPHPExcel->getActiveSheet()->SetCellValue("A4", "Código");
 $objPHPExcel->getActiveSheet()->SetCellValue("B4", "Colegio");
 $objPHPExcel->getActiveSheet()->SetCellValue("C4", "Barrio");
