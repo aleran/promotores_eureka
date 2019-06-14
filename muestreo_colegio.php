@@ -215,11 +215,13 @@
 									$pedido = $req_pedido->fetch();
 
 
-                                	$sql_repetido="SELECT id FROM muestreos WHERE id_periodo='".$pedido["id_periodo"]."' AND id_colegio='".$pedido["id_colegio"]."'";
+                                	$sql_repetido="SELECT id FROM muestreos WHERE id_periodo='".$pedido["id_periodo"]."' AND id_colegio='".$pedido["id_colegio"]."' AND estado='4' ORDER BY id DESC";
 
 									$req_repetido = $bdd->prepare($sql_repetido);
 									$req_repetido->execute();
 									$num_repetido = $req_repetido->rowCount();
+									$n_repetido = $req_repetido->fetch();
+									
 									
 									
 									$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.id as id_lm, m.materia, g.id as id_grado, g.grado  FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
@@ -376,7 +378,7 @@
 		<!-- inline scripts related to this page -->
 		<script src="assets/js/dataTables/jquery.dataTables.js"></script>
     	<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
-    	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable({
@@ -404,10 +406,15 @@
 			$(".lista_muestreo").addClass("active");
 
 			<?php 
-                 if ($num_repetido > 1) {
-					echo'swal("Anteriormente se solicito muestras en este colegio",{
-  							icon: "warning",
-						});';
+                 if ($num_repetido > 0) {
+
+                 	echo "swal.fire({
+				    title: 'Alerta',
+				    text: 'Mensaje de texto',
+				    html: '<span style=font-size:15px;>Se aprobaron muestras anteriormente: <a target=_blank href=muestreo_colegio_entregado.php?id_pedido=".$n_repetido["id"].">#".$n_repetido["id"]."</a></span>',
+				    type: 'warning'
+ 				 });";
+					
 				}
             ?>
 

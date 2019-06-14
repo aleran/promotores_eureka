@@ -206,7 +206,7 @@
 									$req_pedido->execute();
 									$pedido = $req_pedido->fetch();
 
-                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob, m.materia, g.id as id_grado, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["id_pedido"]."'  GROUP BY l.id";
+                                	$sql = "SELECT pe.id, l.id, l.libro, lp.cantidad, lp.cantidad_aprob, m.materia, g.id as id_grado, g.grado FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["id_pedido"]."' AND lp.cantidad_aprob > 0 GROUP BY l.id";
 									$req = $bdd->prepare($sql);
 									$req->execute();
 

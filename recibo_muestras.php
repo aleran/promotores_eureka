@@ -31,10 +31,10 @@
 
 	if (isset($_GET["entregado"])) {
 
-	$sql = "SELECT UPPER(l.libro) as libro, l.id_grado, lp.cantidad_aprob,lp.id_grado_otro, g.grado, m.materia, pe.codigo FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["entregado"]."'  GROUP BY l.id";
+	$sql = "SELECT UPPER(l.libro) as libro, l.id_grado, lp.cantidad_aprob,lp.id_grado_otro, g.grado, m.materia, pe.codigo FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["entregado"]."' AND lp.cantidad_aprob > 0 GROUP BY l.id";
 	}else {
 
-		$sql = "SELECT UPPER(l.libro) as libro, l.id_grado, lp.cantidad_aprob,lp.id_grado_otro, g.grado, m.materia, pe.codigo FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["imprimir"]."'  GROUP BY l.id";
+		$sql = "SELECT UPPER(l.libro) as libro, l.id_grado, lp.cantidad_aprob,lp.id_grado_otro, g.grado, m.materia, pe.codigo FROM muestreos pe JOIN libros_muestreos lp ON lp.cod_muestreo=pe.codigo JOIN libros l ON l.id=lp.id_libro JOIN materias m ON m.id=l.id_materia JOIN grados g ON g.id=l.id_grado  WHERE pe.id='".$_GET["imprimir"]."' AND lp.cantidad_aprob > 0  GROUP BY l.id";
 
 	}
 	$req = $bdd->prepare($sql);
@@ -207,7 +207,7 @@
 	$dompdf->loadHtml($html);
 
 	// (Optional) Setup the paper size and orientation
-	$dompdf->setPaper('half-letter');
+	$dompdf->setPaper('letter');
 	//$dompdf->setPaper('letter');
 
 	// Render the HTML as PDF
