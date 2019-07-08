@@ -191,11 +191,19 @@ $events = $req->fetchAll();
 				  </div>
 					
 				  <div class="form-group ocultar_oficina">
+				  	<?php if ($_SESSION["id"] != 16) { ?>
 					<label for="profesor" class="col-sm-2 control-label">Profesor<small style="color:red;"> *</small></label>
 					<div class="col-sm-10">
 					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_h()" required="required">
 					  <input type="hidden" name="profe" id="profe"><div id="suggestions"></div>
 					</div>
+					<?php }else { ?>
+					<label for="profesor" class="col-sm-2 control-label">Profesor</label>
+					<div class="col-sm-10">
+					  <input type="text" name="profesor" class="form-control" id="profesor" placeholder="Nombre del profesor" autocomplete="off" onkeyup="bus_h()">
+					  <input type="hidden" name="profe" id="profe"><div id="suggestions"></div>
+					</div>
+					<?php } ?>
 				  </div>
 					
 					
