@@ -1974,8 +1974,53 @@
 				  			<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
 				  			
 				  			<center><button class="btn btn-success">Guardar</button></center>
+				  			</form>
+				  			<br><center><h4>Libros Eureka</h4></center>
+				  			<?php 
+
+				  				$sql = "SELECT  b.materia, c.grado, l.libro, p.cod_area, l.id_grado FROM presupuestos p JOIN libros l ON p.id_libro=l.id JOIN materias b ON l.id_materia=b.id JOIN grados c ON l.id_grado=c.id WHERE id_colegio='".$colegio["id"]."' AND id_periodo < '".$gp_periodo["id"]."' AND p.definido='1'";
+														
+								$req = $bdd->prepare($sql);
+								$req->execute();
+								$libros_p = $req->fetchAll();
+				  			 ?>
 				  			
-							</form>
+				  			
+								<table class='table table-bordered'>
+								<thead>
+									<th>Libro</th>
+									<th>Materia</th>
+									<th>Grado</th>
+								</thead>
+								<tbody>
+								<?php
+
+									foreach ($libros_p as $libro) {
+
+										if ($libro["id_grado"]==17) {
+											
+											$sql_go = "SELECT g.grado FROM areas_objetivas a JOIN grados g ON g.id=a.id_grado_otro WHERE a.codigo='".$libro["cod_area"]."'";
+														
+											$req_go = $bdd->prepare($sql_go);
+											$req_go->execute();
+											$go = $req_go->fetch();
+
+										}
+										
+										echo "<tr>";
+											echo"<td>".$libro["libro"]."</td>";
+											echo"<td>".$libro["materia"]."</td>";
+											if ($libro["id_grado"]!=17) {
+												echo"<td>".$libro["grado"]."</td>";
+											}else{
+												echo"<td>".$go["grado"]."</td>";
+											}
+										echo "<tr>";
+
+
+									}
+								?>
+								</tbody></table>
 						</div><br><br>
 						<?php 
 						$sql = "SELECT a.id  as aid, a.id_materia, a.id_grado,a.editorial, a.id_libro_eureka as lib_eureka,a.libro,a.vigencia, a.id_tipo_libro as tipolibro, b.materia, c.grado FROM mercado_editorial a JOIN materias b ON a.id_materia=b.id JOIN grados c ON a.id_grado=c.id WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."'";
@@ -1983,7 +2028,7 @@
 								$req = $bdd->prepare($sql);
 								$req->execute();
 								$mercados = $req->fetchAll();
-								echo"<br><center><h4>Modificar</h4></center><br>";
+								echo"<br><center><h4>Otras editoriales</h4></center><br>";
 								foreach ($mercados as $mercado) {
 									if ($mercado["lib_eureka"] > 0) {
 										$sq_l = "SELECT libro FROM libros WHERE id='".$mercado["lib_eureka"]."'";

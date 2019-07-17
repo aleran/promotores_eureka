@@ -316,6 +316,62 @@
 						<tr><td>Informática</td><td id="m101"></td><td id="m102"></td><td id="m103"></td><td id="m104"></td><td id="m105"></td><td id="m106"></td><td id="m107"></td><td id="m108"></td><td id="m109"></td><td id="m1010"></td><td id="m1011"></td><td id="m1012"></td><td id="m1013"></td><td id="m1014"></td><td id="m10p"></td><td id="m10b"></td><td id="cp10"></td><td id="cb10"></td></tr>
 					</tbody>';
 
+
+		//adopciones anteriores
+		$sql = "SELECT l.pri_sec, l.id_grado,l.id_materia, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo < '".$_POST['periodo']."' AND p.definido='1' AND p.id_colegio='".$_POST['cole']."'";
+
+	$req = $bdd->prepare($sql);
+	$req->execute();
+
+	$libros = $req->fetchAll();
+
+	foreach($libros as $libro) {
+
+		$sql_serie = "SELECT libro FROM libros WHERE id='".$libro["pri_sec"]."'";
+
+		$req_serie = $bdd->prepare($sql_serie);
+		$req_serie->execute();
+
+		$libro_serie = $req_serie->fetch();
+		
+		
+
+		if ($libro["cod_area"] !="") {
+
+			$sql_go = "SELECT id_grado_otro FROM areas_objetivas WHERE codigo='".$libro["cod_area"]."'";
+
+			$req_go = $bdd->prepare($sql_go);
+			$req_go->execute();
+			$go = $req_go->fetch();
+
+			echo "<script>
+				
+				$('#m".$libro["id_materia"]."".$go["id_grado_otro"]."').text('X');
+			
+				
+			</script>";
+
+		}else{
+
+
+
+		}
+		echo "<script>
+				
+				$('#m".$libro["id_materia"]."".$libro["id_grado"]."').text('X');";
+				
+				if ($libro["id_grado"] > 3 && $libro["id_grado"] < 9) {
+					echo" $('#m".$libro["id_materia"]."p').text('".$libro_serie["libro"]."');";
+				}else{
+					echo" $('#m".$libro["id_materia"]."b').text('".$libro_serie["libro"]."');";
+				}
+				
+				
+		echo"</script>";
+
+	}//termina adopciones anteriores
+
+
 		$sql = "SELECT id_materia, id_grado, editorial, id_libro_eureka, libro, vigencia FROM mercado_editorial WHERE id_colegio='".$_POST["cole"]."' AND id_periodo='".$_POST["periodo"]."'";
 
 		$req = $bdd->prepare($sql);
@@ -480,7 +536,7 @@
 					</tbody>';
 
 
-	$sql = "SELECT l.pri_sec, l.id_grado,l.id_materia, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='1' AND p.definido='".$_POST['periodo']."' AND p.id_colegio='".$_POST['cole']."'";
+	$sql = "SELECT l.pri_sec, l.id_grado,l.id_materia, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST['periodo']."' AND p.definido='1' AND p.id_colegio='".$_POST['cole']."'";
 
 	$req = $bdd->prepare($sql);
 	$req->execute();
