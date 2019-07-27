@@ -294,7 +294,7 @@
 							</div>
 						
 						</div>
-						<div class="row">
+						<!--<div class="row">
 							<br><center><h4>General</h4>
 								<form action="php/presupuesto_global_excel.php" method="POST">
 								<div class="form-group">
@@ -319,7 +319,7 @@
 
 								<button class="btn btn-primary">Exportar excel</button></center>
 							</form>
-						</div>
+						</div>-->
 
 
 						

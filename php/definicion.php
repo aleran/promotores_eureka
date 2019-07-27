@@ -2,8 +2,35 @@
 	require_once("../php/aut.php");
 	include("../conexion/bdd.php");
 
+	$sql_fcole = "SELECT MAX(fila_zona) as fila_zona FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
 
+	$req_fcole = $bdd->prepare($sql_fcole);
+	$req_fcole->execute();
+	$fcole = $req_fcole->fetch();
+
+	if ($fcole["fila_zona"] > 0) {
+
+		$fila_zona= $fcole["fila_zona"];
+
+	}else {
+
+		$sql = "SELECT MAX(fila_zona) as fila_zona FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
+
+		$req = $bdd->prepare($sql);
+		$req->execute();
+		$con_fila_zona = $req->fetch();
+
+		if ($con_fila_zona["fila_zona"] > 0) {
+
+			$fila_zona=$con_fila_zona["fila_zona"] + 1;
+		}
+					
+		else {
+			$fila_zona=2;
+		}
+	}
 	
+
 	$sql_fcole = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
 
 	$req_fcole = $bdd->prepare($sql_fcole);
@@ -85,7 +112,7 @@
 				$req->execute();
 				$con_colum = $req->fetch();
 
-				$sql_e = "UPDATE presupuestos SET definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id='".$id_presupuesto."'";
+				$sql_e = "UPDATE presupuestos SET definido='1', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id='".$id_presupuesto."'";
 
 				$query_e = $bdd->prepare( $sql_e );
 				if ($query_e == false) {

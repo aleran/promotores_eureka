@@ -240,7 +240,7 @@
 									
 							</div>-->
 
-							<div class="col-sm-6 col-sm-offset-5">
+							<!--<div class="col-sm-6 col-sm-offset-5">
 								
 									<form action="php/presupuesto_promotor_excel.php" method="POST">
 									<div class="form-group">
@@ -251,7 +251,7 @@
 									
 							
 							
-								<!-- PAGE CONTENT BEGINS -->
+								
 									<div class="form-group">
 										<label class="control-label no-padding-right" for="periodo"> Periodo:<small style="color:red;"> *</small> </label><br>
 										<select name="periodo" id="periodo">
@@ -275,7 +275,7 @@
 										<button class="btn btn-primary">Exportar excel</button>
 									</form>
 									
-							</div>		
+							</div>-->		
 							
 							
 									

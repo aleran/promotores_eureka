@@ -3,6 +3,35 @@
 	include("../conexion/bdd.php");
 
 
+	$sql_fcole = "SELECT MAX(fila_zona) as fila_zona FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
+
+	$req_fcole = $bdd->prepare($sql_fcole);
+	$req_fcole->execute();
+	$fcole = $req_fcole->fetch();
+
+	if ($fcole["fila_zona"] > 0) {
+
+		$fila_zona= $fcole["fila_zona"];
+
+	}else {
+
+		$sql = "SELECT MAX(fila_zona) as fila_zona FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
+
+		$req = $bdd->prepare($sql);
+		$req->execute();
+		$con_fila_zona = $req->fetch();
+
+		if ($con_fila_zona["fila_zona"] > 0) {
+
+			$fila_zona=$con_fila_zona["fila_zona"] + 1;
+		}
+		else {
+
+			$fila_zona=2;
+		}
+
+	}
+
 	$sql_fcole = "SELECT MAX(fila) as fila FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."'";
 
 	$req_fcole = $bdd->prepare($sql_fcole);
@@ -53,10 +82,10 @@
 
 			if ($row_cod["id_grado"] != 17) {
 
-				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$presup."' OR cod_area='".$presup."')";
+				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$presup."' OR cod_area='".$presup."')";
 			}else{
 
-				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
+				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
 
 			}
 
@@ -72,11 +101,11 @@
 
 			if ($row_cod["id_grado"] != 17) {
 
-			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$libro."')";
+			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$libro."')";
 
 			}else{
 
-				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
+				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
 			}
 		}
 		
