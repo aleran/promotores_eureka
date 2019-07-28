@@ -14,7 +14,14 @@
 
 	}else {
 
-		$sql = "SELECT MAX(fila_zona) as fila_zona FROM presupuestos WHERE id_periodo='".$_POST["periodo"]."'";
+		$sql_zona = "SELECT cod_zona FROM colegios WHERE id='".$_POST["id_colegio"]."'";
+
+		$req_zona = $bdd->prepare($sql_zona);
+		$req_zona->execute();
+		$zona = $req_zona->fetch();
+
+
+		$sql = "SELECT MAX(fila_zona) as fila_zona FROM presupuestos p JOIN colegios c ON p.id_colegio=c.id JOIN zonas z ON z.codigo=c.cod_zona WHERE p.id_periodo='".$_POST["periodo"]."' AND z.codigo='".$zona["cod_zona"]."'";
 
 		$req = $bdd->prepare($sql);
 		$req->execute();
