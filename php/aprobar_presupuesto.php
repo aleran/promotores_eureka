@@ -90,10 +90,10 @@
 
 			if ($row_cod["id_grado"] != 17) {
 
-				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$presup."' OR cod_area='".$presup."')";
+				$sql_e = "UPDATE presupuestos SET fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$presup."' OR cod_area='".$presup."')";
 			}else{
 
-				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
+				$sql_e = "UPDATE presupuestos SET fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
 
 			}
 
@@ -109,11 +109,11 @@
 
 			if ($row_cod["id_grado"] != 17) {
 
-			$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$libro."')";
+			$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$libro."')";
 
 			}else{
 
-				$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1', tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
+				$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
 			}
 		}
 		
@@ -132,6 +132,24 @@
 	
 		
 				
+	}
+
+	foreach ($_POST["aprobar"] as $aprobados => $aprobado) {
+
+		$sql_e = "UPDATE presupuestos SET aprobado='1', pre_definido='1' WHERE id='".$aprobado."'";
+
+		$query_e = $bdd->prepare( $sql_e );
+		if ($query_e == false) {
+			print_r($bdd->errorInfo());
+			die ('Erreur prepare');
+		}
+		$sth_e = $query_e->execute();
+		if ($sth_e == false) {
+			print_r($query_e->errorInfo());
+			die ('Erreur execute');
+		}
+
+
 	}
 
 	$sql = "INSERT INTO notificaciones(id_periodo,id_colegio,id_tipo_notifi,visible) VALUES('".$_POST["periodo"]."','".$_POST["id_colegio"]."','2','1')";

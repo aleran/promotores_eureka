@@ -150,7 +150,7 @@
 			if (!in_array($valor, $defs2)) {
 
 
-				$sql_e = "UPDATE presupuestos SET definido='0' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo";
+				$sql_e = "UPDATE presupuestos SET definido='0' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."' AND id='".$valor."'";
 
 					$query_e = $bdd->prepare( $sql_e );
 					if ($query_e == false) {

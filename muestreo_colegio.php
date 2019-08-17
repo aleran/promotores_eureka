@@ -215,12 +215,12 @@
 									$pedido = $req_pedido->fetch();
 
 
-                                	$sql_repetido="SELECT id FROM muestreos WHERE id_periodo='".$pedido["id_periodo"]."' AND id_colegio='".$pedido["id_colegio"]."' AND estado='4' ORDER BY id DESC";
+                                	$sql_repetido="SELECT id FROM muestreos WHERE id_periodo='".$pedido["id_periodo"]."' AND id_colegio='".$pedido["id_colegio"]."' AND estado='4'";
 
 									$req_repetido = $bdd->prepare($sql_repetido);
 									$req_repetido->execute();
 									$num_repetido = $req_repetido->rowCount();
-									$n_repetido = $req_repetido->fetch();
+									$n_repetido = $req_repetido->fetchAll();
 									
 									
 									
@@ -311,7 +311,8 @@
 								 <label for="observaciones">Observaciones:</label><br>
 								 <textarea name="observaciones" id="observaciones" cols="30" rows="3"><?php echo $pedido["observaciones"] ?></textarea><br><br>
 								 <button type="button" id="imprimir" class="btn btn-info hidden-print">Imprimir</button> <br><br>
-                           <button class="btn btn-success hidden-print">Aprobar</button> 
+                           <button class="btn btn-success hidden-print">Aprobar</button>
+                           <a class="btn btn-danger hidden-print" id="rechazar">Rechazar</a>  
                         </form>
 
 								<!-- PAGE CONTENT ENDS -->
@@ -411,7 +412,14 @@
                  	echo "swal.fire({
 				    title: 'Alerta',
 				    text: 'Mensaje de texto',
-				    html: '<span style=font-size:15px;>Se aprobaron muestras anteriormente: <a target=_blank href=muestreo_colegio_entregado.php?id_pedido=".$n_repetido["id"].">#".$n_repetido["id"]."</a></span>',
+				    html: '";
+				    foreach ($n_repetido as $repetido) {
+				    	
+				    	echo"<span style=font-size:15px;>Se aprobaron muestras anteriormente: <a target=_blank href=muestreo_colegio_entregado.php?id_pedido=".$repetido["id"].">#".$repetido["id"]."</a></span><br>";
+
+				    }
+				    
+				    echo"',
 				    type: 'warning'
  				 });";
 					

@@ -2849,17 +2849,12 @@
 				  												
 				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
-
-				  														$sql = "SELECT id FROM presupuestos WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND pre_aprob=1";
-													
-																			$req = $bdd->prepare($sql);
-																			$req->execute();
-																			$num= $req->rowCount();
-																			if ($num < 1 ) {
-																				echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button>';
-																			}
+				  														
+																			echo ' <button class="btn btn-success pull-right hidden" id="pre_aprob">Pasar a presupuesto</button>';
+																			
 				  															
 				  														}
+				  														echo '<a class="btn btn-success" href="php/simulador_excel.php?cole='.$colegio['id'].'&periodo='.$periodo.'">Exportar Excel</a>';
 				  													}
 																	echo "</form>";
 													 ?>
@@ -2923,7 +2918,7 @@
 															$num_hp= $req_hp->rowCount();
 
 															
-															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='pp'>";
+															echo "<form action='php/aprobar_presupuesto.php' method='POST' id='pp' name='f1'>";
 															
 															echo "<script src='assets/js/jquery-2.1.4.min.js'></script><div class='table-responsive'>
 																	<table class='table table-bordered'>
@@ -2937,8 +2932,19 @@
 																			<th>PVP</th>
 																			<th>Descuento</th>
 																			<th>Precio neto</th>
-																			<th>Venta potencial</th>
-																		</thead>
+																			<th>Venta potencial</th>";
+																			
+																			if ($_SESSION
+																				["tipo"] != 1) {
+																				
+																				echo "<th>Aprobado</th>";
+
+																			}else{
+																				echo "<th>Aprobado <input type='checkbox' id='seleccionar_pre'></th>";
+																			}
+
+																			
+																		echo"</thead>
 																		<tbody>";
 															foreach ($libros_p as $libro_p) {
 
@@ -2947,13 +2953,13 @@
 																	}
 
 																if ($libro_p["id_grado"] != 17) {
-																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	$sql_presup = "SELECT id, precio, tasa_compra, descuento, pre_aprob, aprobado FROM presupuestos WHERE id_libro='".$libro_p["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
 																	$presup = $req_presup->fetch();
 																}else {
-																	$sql_presup = "SELECT precio, tasa_compra, descuento, pre_aprob FROM presupuestos WHERE cod_area='".$libro_p["cod_area"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
+																	$sql_presup = "SELECT id, precio, tasa_compra, descuento, pre_aprob, aprobado FROM presupuestos WHERE cod_area='".$libro_p["cod_area"]."' AND id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
 														
 																	$req_presup = $bdd->prepare($sql_presup);
 																	$req_presup->execute();
@@ -3067,6 +3073,16 @@
 
 																				}
 
+																				if ($presup["aprobado"]==1) {
+																				
+																					echo '<td><input type="checkbox" name="aprobar[]" value="'.$presup["id"].'" checked></td>';	
+
+																				}else{
+
+																					echo '<td><input type="checkbox" name="aprobar[]" value="'.$presup["id"].'"></td>';	
+
+																				}
+																				
 
 																			echo "<input type='hidden' name='presupuesto_p[]' value='".$libro_p["id"]."' id='presupuesto_p".$libro_p["id"]."'>
 
@@ -3206,28 +3222,12 @@
 				  													}
 				  													else {
 
+																		if ($_SESSION["tipo"]==1) {
+																			echo '<center><button class="btn btn-success">Aprobar</button> ';
 
-				  														$sql = "SELECT aprobado FROM presupuestos WHERE id_colegio='".$colegio["id"]."' AND id_periodo='".$gp_periodo["id"]."' AND pre_aprob=1";
-													
-																			$req = $bdd->prepare($sql);
-																			$req->execute();
-																			$aprob= $req->fetch();
-
-																			if ($aprob["aprobado"]==1) {
-
-																				echo "<center><h3 class='success'>Aprobado</h3></center>";
-																			}
-									
-																			else {
-
-																				echo "<center><h3 class='success'>Pendiente de Aprobación</h3></center><br>";
-
-																				if ($_SESSION["tipo"]==1) {
-																						echo '<center><button class="btn btn-success">Aprobar</button> ';
-
-																						echo '<button class="btn btn-danger" id="rechazar">Rechazar</button> ';
-																					}
-																				}
+																			echo '<button class="btn btn-danger" id="rechazar">Rechazar</button> ';
+																		}
+																				
 				  															
 				  														
 				  														
@@ -5867,7 +5867,20 @@
 	        	}
     		});
 
-    		
+    		//seleccionar todo para aprobar
+    		$('#seleccionar_pre').click(function(){
+	     	 	if( $('#seleccionar_pre').is(':checked') ) {
+	    			for (i=0;i<document.f1.elements.length;i++)
+				      if(document.f1.elements[i].type == "checkbox")
+				         document.f1.elements[i].checked=1 
+				}else{
+					
+					for (i=0;i<document.f1.elements.length;i++)
+				      if(document.f1.elements[i].type == "checkbox")
+				         document.f1.elements[i].checked=0 
+
+				}
+     		})
 		</script>
 
 		

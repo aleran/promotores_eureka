@@ -502,6 +502,15 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="muestreo_entregados">
+								
+								<a href="muestreo_anulados.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Rechazados
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 							
 					</li>
 					<?php }else{?>

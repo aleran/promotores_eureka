@@ -3,33 +3,53 @@
 	include("../conexion/bdd.php");
 
 
-	foreach ($_POST["presupuesto_p"] as $presups => $presup) {
-
-		list($libro,$tasa_c,$descuento, $precio) = explode("/", $presup);
-
-		$sql = "SELECT columna FROM libros WHERE id='".$presup."'";
-
-		$req = $bdd->prepare($sql);
-		$req->execute();
-		$con_colum = $req->fetch();	
+	if (isset($_POST["aprobar"])) {
 		
+	
+	//Busco los que ya estan definidos en ese colegio
+	$sqld = "SELECT id FROM presupuestos WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."' AND aprobado='1'";
+	$reqd = $bdd->prepare($sqld);
+	$reqd->execute();
+	$s_defs = $reqd->fetchAll();
 
-		$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$presup."'";
-			$req_cod = $bdd->prepare($sql_cod);
-			$req_cod->execute();
+	foreach($s_defs as $s_def) {
+		;
+		$defs[]=$s_def["id"];
 
-			$row_cod = $req_cod->fetch();
+	}
 
-		if ($row_cod["id_grado"] != 17) {
+	foreach ($_POST["aprobar"] as $aprobados => $aprobado) {
 
-			$sql_e = "UPDATE presupuestos SET pre_aprob='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND id_libro='".$presup."'";
-		}else{
+		$defs2[]=$aprobado;
 
-			$sql_e = "UPDATE presupuestos SET pre_aprob='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
+
+	}
+
+	foreach ($defs as $d => $valor) {
+			//Buscos los que estan definidos en el colegio en el arreglo de los que se marcaron como definidos
+			if (!in_array($valor, $defs2)) {
+
+
+				$sql_e = "UPDATE presupuestos SET aprobado='0', pre_definido='0' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."' AND id='".$valor."'";
+
+					$query_e = $bdd->prepare( $sql_e );
+					if ($query_e == false) {
+						print_r($bdd->errorInfo());
+						die ('Erreur prepare');
+					}
+					$sth_e = $query_e->execute();
+					if ($sth_e == false) {
+						print_r($query_e->errorInfo());
+						die ('Erreur execute');
+					}
+			}
 
 		}
 
-		
+	
+	}else{
+
+		$sql_e = "UPDATE presupuestos SET pre_aprob='0', aprobado='0' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND pre_aprob='1'";
 
 		$query_e = $bdd->prepare( $sql_e );
 		if ($query_e == false) {
@@ -41,11 +61,8 @@
 			print_r($query_e->errorInfo());
 			die ('Erreur execute');
 		}
-
-	
-		
+	}	
 				
-	}
 
 	$sql = "INSERT INTO notificaciones(id_periodo,id_colegio,id_tipo_notifi,visible) VALUES('".$_POST["periodo"]."','".$_POST["id_colegio"]."','3','1')";
 
