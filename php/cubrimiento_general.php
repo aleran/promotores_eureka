@@ -2,6 +2,7 @@
 require_once("../php/aut.php");
 include("../conexion/bdd.php");
 include("../lib/PHPExcel.php");
+ini_set('memory_limit', '20000M');
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()->setCreator("Ing. Alejandro Rangel");
 $objPHPExcel->getProperties()->setTitle("Reporte de cubrimiento");
@@ -68,7 +69,8 @@ $objPHPExcel->getActiveSheet()->SetCellValue("M4", "Alumnos primaria");
 $objPHPExcel->getActiveSheet()->SetCellValue("N4", "Alumnos bachillerato");
 $objPHPExcel->getActiveSheet()->SetCellValue("O4", "Alumnos global");
 $objPHPExcel->getActiveSheet()->SetCellValue("P4", "Status");
-$objPHPExcel->getActiveSheet()->getStyle("A4:P4")->getFont()->getColor()->applyFromArray(
+$objPHPExcel->getActiveSheet()->SetCellValue("Q4", "Presupuesto");
+$objPHPExcel->getActiveSheet()->getStyle("A4:Q4")->getFont()->getColor()->applyFromArray(
 	array(
 	'rgb' => '#251919'
 	)
@@ -163,6 +165,20 @@ foreach($coles as $cole) {
 
 	}
 
+	 $sql_ac="SELECT SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE p.id_colegio='".$cole["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+	  $req_ac = $bdd->prepare($sql_ac);
+      $req_ac->execute();
+      $ac = $req_ac->fetch();
+
+	 $sql_ac2="SELECT SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN areas_objetivas ao ON ao.codigo=p.cod_area JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND a.id_grado=ao.id_grado_otro WHERE p.id_colegio='".$cole["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND ao.id_periodo='".$_POST["periodo"]."' AND ao.codigo!='' AND (p.aprobado=1 OR p.definido=1)";
+
+	 $req_ac2 = $bdd->prepare($sql_ac2);
+     $req_ac2->execute();
+     $ac2 = $req_ac2->fetch();
+
+   
+    $total_venta= $ac["total_venta"] + $ac2["total_venta"];
 
 	$objPHPExcel->getActiveSheet()->SetCellValue("A$conta", "$cole[zona]");
 	$objPHPExcel->getActiveSheet()->SetCellValue("B$conta", "$promotor");
@@ -193,6 +209,15 @@ foreach($coles as $cole) {
 
 		$objPHPExcel->getActiveSheet()->SetCellValue("P$conta", "Por definir");
 	}
+
+	$objPHPExcel->getActiveSheet()->SetCellValue("Q$conta", "$total_venta");
+	$objPHPExcel->getActiveSheet()
+        
+        ->getStyle("Q$conta")
+          ->getNumberFormat()
+          ->setFormatCode(
+          '_("$"* #,##0_);_("$"* \(#,##0\);_("$"* "-"??_);_(@_)'
+        );
 	
 $conta++;
 }

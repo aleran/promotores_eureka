@@ -82,7 +82,7 @@
 		$con_colum = $req->fetch();	
 		if ($tasa_c=="") {
 
-			$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$presup."'";
+			$sql_cod = "SELECT g.id_grado, p.cod_area FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.id_libro='".$presup."'";
 			$req_cod = $bdd->prepare($sql_cod);
 			$req_cod->execute();
 
@@ -90,17 +90,17 @@
 
 			if ($row_cod["id_grado"] != 17) {
 
-				$sql_e = "UPDATE presupuestos SET fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$presup."' OR cod_area='".$presup."')";
+				$sql_e = "UPDATE presupuestos SET fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$presup."' OR cod_area='".$row_cod["cod_area"]."')";
 			}else{
 
-				$sql_e = "UPDATE presupuestos SET fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$presup."'";
+				$sql_e = "UPDATE presupuestos SET fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$row_cod["cod_area"]."'";
 
 			}
 
 		}else {
 
 
-			$sql_cod = "SELECT p.id_libro, g.id_grado FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.cod_area='".$libro."'";
+			$sql_cod = "SELECT g.id_grado, p.cod_area FROM presupuestos p JOIN libros g ON g.id=p.id_libro WHERE p.id_libro='".$libro."'";
 			$req_cod = $bdd->prepare($sql_cod);
 			$req_cod->execute();
 			
@@ -109,11 +109,11 @@
 
 			if ($row_cod["id_grado"] != 17) {
 
-			$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$libro."')";
+			$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND (id_libro='".$libro."' OR cod_area='".$row_cod["cod_area"]."')";
 
 			}else{
 
-				$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$libro."'";
+				$sql_e = "UPDATE presupuestos SET tasa_compra='".$tasa_c."',descuento='".$descuento."', fila='".$fila."', fila_zona='".$fila_zona."', columna='".$con_colum["columna"]."' WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["id_colegio"]."' AND cod_area='".$row_cod["cod_area"]."'";
 			}
 		}
 		

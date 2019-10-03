@@ -5,10 +5,10 @@ include("../lib/PHPExcel.php");
 
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()->setCreator("Ing. Alejandro Rangel");
-$objPHPExcel->getProperties()->setTitle("Reporte de adopcion");
+$objPHPExcel->getProperties()->setTitle("Reporte de simulador adopcion");
 $objPHPExcel->createSheet(0);
 $objPHPExcel->setActiveSheetIndex(0);
-$objPHPExcel->getActiveSheet()->setTitle("Reporte de adopcion");
+$objPHPExcel->getActiveSheet()->setTitle("Reporte de simulador adopcion");
 $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 $objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_LETTER);
 $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
@@ -88,7 +88,7 @@ $objDrawing->setWidth(200);
 $objDrawing->setHeight(75); 
 $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
-	$sql_cole="SELECT colegio, cod_zona FROM colegios WHERE id='".$_POST["cole"]."'";
+	$sql_cole="SELECT colegio, cod_zona FROM colegios WHERE id='".$_GET["cole"]."'";
 
 	$req_cole = $bdd->prepare($sql_cole);
 	$req_cole->execute();
@@ -117,7 +117,7 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 $objPHPExcel->getActiveSheet()->mergeCells('F2:H2');
 $objPHPExcel->getActiveSheet()->getStyle('F2')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('F2')->applyFromArray($estilo_centrar);
-$objPHPExcel->getActiveSheet()->SetCellValue("F2", "REPORTE DE ADOPCION");
+$objPHPExcel->getActiveSheet()->SetCellValue("F2", "REPORTE DE SIMULADOR ADOPCION");
 
 $objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_negrita);
 $objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo_centrar);
@@ -157,7 +157,7 @@ $objPHPExcel->getActiveSheet()->mergeCells('G8:I8');
 
 
 
-$sql_descuento =  "SELECT avg(descuento_d) as descuento_pactado FROM presupuestos p WHERE p.id_colegio='".$_POST["cole"]."' AND p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' ";
+$sql_descuento =  "SELECT avg(descuento) as descuento_pactado FROM presupuestos p WHERE p.id_colegio='".$_GET["cole"]."' AND p.id_periodo='".$_GET["periodo"]."' AND p.tasa_compra > 0";
 
 $req_descuento = $bdd->prepare($sql_descuento);
 $req_descuento->execute();
@@ -222,7 +222,7 @@ $gp_periodo = $req_periodo->fetch();
 
 
 
-	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio,p.tasa_compra,p.descuento, p.tasa_compra_d, p.descuento_d, p.precio_venta_final, p.id_libro, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_POST["periodo"]."' AND p.definido='1' AND p.id_colegio='".$_POST["cole"]."'";
+	$sql = "SELECT l.libro, l.id_grado, g.grado, m.materia, p.precio, p.tasa_compra, p.descuento,p.tasa_compra_d, p.descuento_d, p.precio_venta_final, p.id_libro, p.cod_area FROM libros l JOIN presupuestos p ON l.id=p.id_libro JOIN grados g ON l.id_grado=g.id JOIN materias m ON m.id=l.id_materia WHERE p.id_periodo='".$_GET["periodo"]."' AND p.id_colegio='".$_GET["cole"]."' AND (p.pre_definido=1 OR p.definido=1)";
 	$req = $bdd->prepare($sql);
 	$req->execute();
 	$adopciones = $req->fetchAll();
@@ -238,18 +238,18 @@ foreach($adopciones as $adopcion) {
 	if ($adopcion["id_grado"] == 17) {
 		# code...
 	}
-	$sql_go = "SELECT a.id_grado_otro FROM areas_objetivas a WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."' AND codigo='".$adopcion["cod_area"]."'";
+	$sql_go = "SELECT a.id_grado_otro FROM areas_objetivas a WHERE id_periodo='".$_GET["periodo"]."' AND id_colegio='".$_GET["cole"]."' AND codigo='".$adopcion["cod_area"]."'";
 	$req_go = $bdd->prepare($sql_go);
 	$req_go->execute();
 	$go = $req_go->fetch();
 
 	if ($go["id_grado_otro"] == 0) {
 
-		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$adopcion["id_grado"]."' AND id_periodo='".$_POST["periodo"]."'";
+		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_GET["cole"]."' AND id_grado='".$adopcion["id_grado"]."' AND id_periodo='".$_GET["periodo"]."'";
 
 	}else {
 
-		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_POST["cole"]."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$_POST["periodo"]."'";
+		$sq_gp = "SELECT  alumnos, paralelos FROM grados_paralelos WHERE id_colegio='".$_GET["cole"]."' AND id_grado='".$go["id_grado_otro"]."' AND id_periodo='".$_GET["periodo"]."'";
 	}
 
                            
@@ -430,17 +430,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue("M$conta", "$$t_venta_real");
 $objPHPExcel->getActiveSheet()->SetCellValue("N$conta", "$$t_diferencia");
 
 
-$sql_rec = "SELECT  * FROM recursos WHERE id_periodo='".$_POST["periodo"]."' AND id_colegio='".$_POST["cole"]."'";
-                           
-$req_rec = $bdd->prepare($sql_rec);
-$req_rec->execute();
-$recurso = $req_rec->fetch();
 
-$sql_canal = "SELECT  canal_venta FROM canales_venta WHERE id='".$recurso["id_canal"]."'";
-                           
-$req_canal = $bdd->prepare($sql_canal);
-$req_canal->execute();
-$canal = $req_canal->fetch();
 
 $conta1=$conta + 2;
 $conta2=$conta1 + 1;
@@ -455,44 +445,6 @@ $conta7=$conta6 + 1;
 
 $conta8=$conta7 + 4;
 
-$objPHPExcel->getActiveSheet()->getStyle('A'.$conta1.':H'.$conta1)->applyFromArray($estilo_negrita);
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta1", "RECURSO ENTREGADO");
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta2", "$recurso[recurso]");
-$objPHPExcel->getActiveSheet()->SetCellValue("D$conta1", "REINTEGRO");
-$objPHPExcel->getActiveSheet()->SetCellValue("D$conta2", "$recurso[reintegro]");
-$objPHPExcel->getActiveSheet()->SetCellValue("H$conta1", "CANAL DE VENTA");
-$objPHPExcel->getActiveSheet()->SetCellValue("H$conta2", "$canal[canal_venta]");
-
-$objPHPExcel->getActiveSheet()->getStyle('A'.$conta3.':H'.$conta3)->applyFromArray($estilo_negrita);
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta3", "VALOR RECURSO");
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta4", "$$recurso[valor_recurso]");
-$objPHPExcel->getActiveSheet()->SetCellValue("D$conta3", "VALOR REINTEGRO");
-$objPHPExcel->getActiveSheet()->SetCellValue("D$conta4", "$$recurso[valor_reintegro]");
-$objPHPExcel->getActiveSheet()->SetCellValue("H$conta3", "DESCRIPCION");
-$objPHPExcel->getActiveSheet()->SetCellValue("H$conta4", "$recurso[descripcion_canal]");
-
-$objPHPExcel->getActiveSheet()->getStyle('A'.$conta5)->applyFromArray($estilo_negrita);
-
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta5", "FECHA: $recurso[fecha]");
-
-$objPHPExcel->getActiveSheet()->mergeCells('A'.$conta6.':L'.$conta7);
-$objPHPExcel->getActiveSheet()->SetCellValue("A$conta6", "OBSERVACIONES: $recurso[observaciones]");
-
-$objPHPExcel->getActiveSheet()->mergeCells('B'.$conta8.':D'.$conta8);
-$objPHPExcel->getActiveSheet()->mergeCells('F'.$conta8.':H'.$conta8);
-$objPHPExcel->getActiveSheet()->mergeCells('J'.$conta8.':L'.$conta8);
-
-$objPHPExcel->getActiveSheet()->getStyle('B'.$conta8.':J'.$conta8)->applyFromArray($estilo_negrita);
-$objPHPExcel->getActiveSheet()->getStyle('B'.$conta8.':J'.$conta8)->applyFromArray($estilo_centrar);
-$conta81=$conta8 - 1;
-$objPHPExcel->getActiveSheet()->SetCellValue("B$conta81", "__________________________________________");
-$objPHPExcel->getActiveSheet()->SetCellValue("B$conta8", "FIRMA ASESOR");
-$objPHPExcel->getActiveSheet()->SetCellValue("F$conta81", "__________________________________________");
-$objPHPExcel->getActiveSheet()->SetCellValue("F$conta8", "FIRMA GERENTE P Y V");
-$objPHPExcel->getActiveSheet()->SetCellValue("J$conta81", "__________________________________________");
-$objPHPExcel->getActiveSheet()->SetCellValue("J$conta8", "FIRMA GERENTE EUREKA");
 
 $objPHPExcel->getActiveSheet()->getStyle('A1:N'.$conta8)->applyFromArray($estilo_fuente);
 $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn('A')->setWidth('30');
@@ -501,7 +453,7 @@ $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel); //Escribir archivo
 $objWriter->setPreCalculateFormulas(true);
 PHPExcel_Calculation::getInstance($objPHPExcel)->cyclicFormulaCount = 1;
 header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="Reporte_adopcion.xlsx"');
+header('Content-Disposition: attachment; filename="Reporte_simulador_adopcion.xlsx"');
 $objWriter->save('php://output');
 
 }

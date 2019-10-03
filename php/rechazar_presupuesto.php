@@ -30,7 +30,7 @@
 			if (!in_array($valor, $defs2)) {
 
 
-				$sql_e = "UPDATE presupuestos SET aprobado='0', pre_definido='0' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."' AND id='".$valor."'";
+				$sql_e = "UPDATE presupuestos SET pre_aprob='0', aprobado='0', pre_definido='0' WHERE id_colegio='".$_POST["id_colegio"]."' AND id_periodo='".$_POST["periodo"]."' AND id='".$valor."'";
 
 					$query_e = $bdd->prepare( $sql_e );
 					if ($query_e == false) {

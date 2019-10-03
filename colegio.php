@@ -2843,9 +2843,9 @@
 				  														
 				  													}
 				  													else {
-				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
+				  														
 				  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
-				  														}
+				  														
 				  												
 				  														if ($gp_periodo["f_cierre"] > date("Y-m-d")) {
 
@@ -4271,6 +4271,7 @@
 				  													}
 				  													else {
 				  														
+				  															echo '<a class="btn btn-success" href="php/simulador_a_excel.php?cole='.$colegio['id'].'&periodo='.$periodo.'">Exportar Excel</a>';
 
 					  														echo '<center><button class="btn btn-primary">Guardar</button></center>';
 				  														

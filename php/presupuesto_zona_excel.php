@@ -184,21 +184,38 @@ foreach($presupuestos as $presupuesto) {
      //sumatoria por colegios
     foreach ($colstotal as $coltotal) {
       $sql_ac="SELECT SUM(alumnos) as total_poblacion, SUM(floor(alumnos * tasa_compra)) as p_neta,SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE p.id_colegio='".$presupuesto["id_colegio"]."' AND l.id_materia='".$presupuesto["id_materia"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+       
+
         $req_ac = $bdd->prepare($sql_ac);
         $req_ac->execute();
         $ac = $req_ac->fetch();
-        $total_descuento=$ac["total_descuento"] * 100;
+
+        $sql_ac2="SELECT SUM(alumnos) as total_poblacion, SUM(floor(alumnos * tasa_compra)) as p_neta,SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN areas_objetivas ao ON ao.codigo=p.cod_area JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND a.id_grado=ao.id_grado_otro WHERE p.id_colegio='".$presupuesto["id_colegio"]."'  AND l.id_materia='".$presupuesto["id_materia"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND ao.id_periodo='".$_POST["periodo"]."'  AND ao.codigo!='' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+        $req_ac2 = $bdd->prepare($sql_ac2);
+        $req_ac2->execute();
+        $ac2 = $req_ac2->fetch();
+
+        $total_descuento= $ac["total_descuento"] + $ac2["total_descuento"];
+        $total_descuento=$total_descuento * 100;
         $total_descuento=number_format($total_descuento,2);
-        $total_descuento_d=$ac["total_descuento_d"] * 100;
+        $total_descuento_d=$ac["total_descuento_d"] + $ac2["total_descuento_d"];
+        $total_descuento_d=$total_descuento_d * 100;
         $total_descuento_d=number_format($total_descuento_d,2);
+        $total_poblacion= $ac["total_poblacion"] + $ac2["total_poblacion"];
+        $total_tasa=$ac["total_tasa"] + $ac2["total_tasa"];
+        $p_neta=$ac["p_neta"] + $ac2["p_neta"];
+        $total_venta=$ac["total_venta"] + $ac2["total_venta"];
+        $p_neta_d=$ac["p_neta_d"] + $ac2["p_neta_d"];
       $objPHPExcel->getActiveSheet()->getStyle($cols[$presupuesto["fila_zona"]].$coltotal["columna"])->applyFromArray($estilo_totales);
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols3].$coltotal["columna"].":".$cols2[$conta_cols7].$coltotal["columna"])->applyFromArray($estilo_totales);
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila_zona"]].$coltotal["columna"], "$ac[total_poblacion]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols3].$coltotal["columna"], "$ac[total_tasa]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4].$coltotal["columna"], "$ac[p_neta]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila_zona"]].$coltotal["columna"], "$total_poblacion");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols3].$coltotal["columna"], "$total_tasa");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4].$coltotal["columna"], "$p_neta");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols5].$coltotal["columna"], "$total_descuento");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols51].$coltotal["columna"], "$ac[total_venta]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols6].$coltotal["columna"], "$ac[p_neta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols51].$coltotal["columna"], "$total_venta");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols6].$coltotal["columna"], "$p_neta_d");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7].$coltotal["columna"], "$total_descuento_d");
 
         $objPHPExcel->getActiveSheet()
@@ -235,17 +252,32 @@ $conta_cols7 = array_search($cols[$max_fila_zona["fila_zona"]], $cols2);
 $conta_cols7= $conta_cols7 +6;
 foreach ($libros as $libro) {
   $n_col=$libro["columna"];
-  $sq_gp = "SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as prom_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio WHERE p.id_libro='".$libro["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND a.id_grado='".$libro["id_grado"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
-                            
+ $sq_gp = "SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as prom_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio WHERE p.id_libro='".$libro["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND a.id_grado='".$libro["id_grado"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+  
+
   $req_gp = $bdd->prepare($sq_gp);
   $req_gp->execute();
   $total_poblacion = $req_gp->fetch();
-  $prom_descuento=$total_poblacion["prom_descuento"] *100;
+
+  
+
+   $sq_gp2 = "SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as prom_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN areas_objetivas ao ON ao.codigo=p.cod_area JOIN colegios c ON c.id=p.id_colegio WHERE p.id_libro='".$libro["id"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND a.id_grado=ao.id_grado_otro AND ao.id_periodo='".$_POST["periodo"]."' AND ao.codigo!='' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+                            
+    $req_gp2 = $bdd->prepare($sq_gp2);
+    $req_gp2->execute();
+    $total_poblacion2 = $req_gp2->fetch();
+
+  $total_poblacion3=$total_poblacion["total_poblacion"] + $total_poblacion2["total_poblacion"];
+  $total_venta=$total_poblacion["total_venta"] + $total_poblacion2["total_venta"];
+  $total_venta_d=$total_poblacion["total_venta_d"] + $total_poblacion2["total_venta_d"];
+  $prom_descuento=$total_poblacion["prom_descuento"] + $total_poblacion2["prom_descuento"];
+  $prom_descuento=$prom_descuento *100;
   $prom_descuento=number_format($prom_descuento,2);
-  $prom_descuento_d=$total_poblacion["prom_descuento_d"] *100;
+  $prom_descuento_d=$total_poblacion["prom_descuento_d"] + $total_poblacion2["prom_descuento_d"];
+  $prom_descuento_d=$prom_descuento_d *100;
   $prom_descuento_d=number_format($prom_descuento_d,2);
-  $poblacion_neta=floor($total_poblacion["p_neta"]);
-  $poblacion_neta_d=floor($total_poblacion["p_neta_d"]);
+  $poblacion_neta=floor($total_poblacion["p_neta"] + $total_poblacion2["p_neta"]);
+  $poblacion_neta_d=floor($total_poblacion["p_neta_d"] + $total_poblacion2["p_neta_d"]);
     if ($libro["id_grado"] == 50 ) {
       $objPHPExcel->getActiveSheet()->getStyle('A'.$n_col)->applyFromArray($estilo_centrar);
       $objPHPExcel->getActiveSheet()->getStyle('A'.$n_col)->applyFromArray($estilo_negrita);
@@ -258,26 +290,44 @@ foreach ($libros as $libro) {
       $objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
       
       $sql_tc="SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta,SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE l.id_materia='".$libro["id_materia"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+     
       $req_tc = $bdd->prepare($sql_tc);
       $req_tc->execute();
       $tc = $req_tc->fetch();
-      $total_descuento=$tc["total_descuento"] *100;
+
+      $sql_tc2="SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta,SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN areas_objetivas ao ON ao.codigo=p.cod_area JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND ao.id_grado_otro=a.id_grado WHERE l.id_materia='".$libro["id_materia"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND ao.id_periodo='".$_POST["periodo"]."' AND ao.codigo!='' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+      $req_tc2 = $bdd->prepare($sql_tc2);
+      $req_tc2->execute();
+      $tc2 = $req_tc2->fetch();
+ 
+
+      $total_descuento= $tc["total_descuento"] + $tc2["total_descuento"];
+      $total_descuento=$total_descuento * 100;
       $total_descuento=number_format($total_descuento,2);
-      $total_descuento_d=$tc["total_descuento_d"] *100;
+      $total_descuento_d=$tc["total_descuento_d"] + $tc2["total_descuento_d"];
+      $total_descuento_d=$total_descuento_d * 100;
       $total_descuento_d=number_format($total_descuento_d,2);
+      $total_poblacion= $tc["total_poblacion"] + $tc2["total_poblacion"];
+      $total_tasa=$tc["total_tasa"] + $tc2["total_tasa"];
+      $p_neta=$tc["p_neta"] + $tc2["p_neta"];
+      $total_venta=$tc["total_venta"] + $tc2["total_venta"];
+      $total_venta_d=$tc["total_venta_D"] + $tc2["total_venta_d"];
+      $p_neta_d=$tc["p_neta_d"] + $tc2["p_neta_d"];
+
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols7+1].$n_col)->applyFromArray($estilo_totales);
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols7+2].$n_col)->applyFromArray($estilo_totales);
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols7+3].$n_col.":".$cols2[$conta_cols7+8].$n_col)->applyFromArray($estilo_totales);
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$n_col, "$tc[total_poblacion]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+2].$n_col, "$tc[p_neta]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+3].$n_col, "$tc[total_venta]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$n_col, "$total_poblacion");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+2].$n_col, "$p_neta");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+3].$n_col, "$total_venta");
       $d1=$cols2[$conta_cols7+3].$n_col;
       $d2=$cols2[$conta_cols7+2].$n_col;
   
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+4].$n_col, "=$d1/$d2");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+5].$n_col, "$tc[p_neta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+5].$n_col, "$p_neta_d");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+6].$n_col, "$total_descuento_d");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7].$n_col, "$tc[total_venta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7].$n_col, "$total_venta_d");
       $d3=$cols2[$conta_cols7+5].$n_col;
       $d4=$cols2[$conta_cols7+2].$n_col;
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+8].$n_col, "=$d3/$d4");
@@ -307,17 +357,19 @@ foreach ($libros as $libro) {
         );
     }
     else {
+
+
       $objPHPExcel->getActiveSheet()->SetCellValue("A$n_col", "$libro[libro]");
       $objPHPExcel->getActiveSheet()->SetCellValue("B$n_col", "$libro[precio]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$n_col, "$total_poblacion[total_poblacion]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$n_col, "$total_poblacion3");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+2].$n_col, "$poblacion_neta");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+3].$n_col, "$total_poblacion[total_venta]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+3].$n_col, "$total_venta");
       $d1=$cols2[$conta_cols7+3].$n_col;
       $d2=$cols2[$conta_cols7+2].$n_col;
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+4].$n_col, "=$d1/$d2");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+5].$n_col, "$poblacion_neta_d");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+6].$n_col, "$prom_descuento_d");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7].$n_col, "$total_poblacion[total_venta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7].$n_col, "$total_venta_d");
       $d3=$cols2[$conta_cols7+5].$n_col;
       $d4=$cols2[$conta_cols7+2].$n_col;
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+8].$n_col, "=$d3/$d4");
@@ -444,23 +496,40 @@ foreach($presupuestos as $presupuesto) {
         $conta_cols7 =$conta_cols6 +1;
      
 
-      $sql_ac="SELECT SUM(alumnos) as total_poblacion, SUM(floor(alumnos * tasa_compra)) as p_neta,SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE p.id_colegio='".$presupuesto["id_colegio"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+     $sql_ac="SELECT SUM(alumnos) as total_poblacion, SUM(floor(alumnos * tasa_compra)) as p_neta,SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE p.id_colegio='".$presupuesto["id_colegio"]."' AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+       
+
         $req_ac = $bdd->prepare($sql_ac);
         $req_ac->execute();
         $ac = $req_ac->fetch();
-        $total_descuento=$ac["total_descuento"] * 100;
+
+        $sql_ac2="SELECT SUM(alumnos) as total_poblacion, SUM(floor(alumnos * tasa_compra)) as p_neta,SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d, SUM(tasa_compra) * 100 as total_tasa FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN areas_objetivas ao ON ao.codigo=p.cod_area JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND a.id_grado=ao.id_grado_otro WHERE p.id_colegio='".$presupuesto["id_colegio"]."'  AND p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND ao.id_periodo='".$_POST["periodo"]."'  AND ao.codigo!='' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+        $req_ac2 = $bdd->prepare($sql_ac2);
+        $req_ac2->execute();
+        $ac2 = $req_ac2->fetch();
+
+        $total_descuento= $ac["total_descuento"] + $ac2["total_descuento"];
+        $total_descuento=$total_descuento * 100;
         $total_descuento=number_format($total_descuento,2);
-        $total_descuento_d=$ac["total_descuento_d"] * 100;
+        $total_descuento_d=$ac["total_descuento_d"] + $ac2["total_descuento_d"];
+        $total_descuento_d=$total_descuento_d * 100;
         $total_descuento_d=number_format($total_descuento_d,2);
+        $total_poblacion= $ac["total_poblacion"] + $ac2["total_poblacion"];
+        $total_tasa=$ac["total_tasa"] + $ac2["total_tasa"];
+        $p_neta=$ac["p_neta"] + $ac2["p_neta"];
+        $total_venta=$ac["total_venta"] + $ac2["total_venta"];
+        $p_neta_d=$ac["p_neta_d"] + $ac2["p_neta_d"];
 
       $objPHPExcel->getActiveSheet()->getStyle($cols[$presupuesto["fila_zona"]].$col_final)->applyFromArray($estilo_totales);
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols3].$col_final.":".$cols2[$conta_cols7].$col_final)->applyFromArray($estilo_totales);
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila_zona"]].$col_final, "$ac[total_poblacion]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila_zona"]+1].$col_final, "$ac[total_tasa]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4].$col_final, "$ac[p_neta]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila_zona"]].$col_final, "$total_poblacion");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols[$presupuesto["fila_zona"]+1].$col_final, "$total_tasa");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols4].$col_final, "$p_neta");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols5].$col_final, "$total_descuento");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols51].$col_final, "$ac[total_venta]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols6].$col_final, "$ac[p_neta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols51].$col_final, "$total_venta");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols6].$col_final, "$p_neta_d");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7].$col_final, "$total_descuento_d");
 
       $objPHPExcel->getActiveSheet()
@@ -487,31 +556,46 @@ $conta_cols7= $conta_cols7 +6;
 
  
     
-    
-      
-      $sql_tc="SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta,SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
 
+      $sql_tc="SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta,SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND l.id_grado=a.id_grado WHERE p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+     
       $req_tc = $bdd->prepare($sql_tc);
       $req_tc->execute();
       $tc = $req_tc->fetch();
-      $total_descuento=$tc["total_descuento"] *100;
+
+      $sql_tc2="SELECT SUM(alumnos) as total_poblacion, AVG(descuento) as prom_descuento, SUM(floor(alumnos * tasa_compra)) as p_neta, SUM((p.precio -(p.precio * descuento)) * floor(alumnos * tasa_compra)) as total_venta,SUM((p.precio -(p.precio * descuento_d)) * floor(alumnos * tasa_compra_d)) as total_venta_d, AVG(descuento) as total_descuento, SUM(floor(alumnos * tasa_compra_d)) as p_neta_d, AVG(descuento_d) as total_descuento_d FROM grados_paralelos a JOIN presupuestos p ON a.id_colegio=p.id_colegio JOIN areas_objetivas ao ON ao.codigo=p.cod_area JOIN colegios c ON c.id=p.id_colegio JOIN libros l ON l.id=p.id_libro AND ao.id_grado_otro=a.id_grado WHERE p.id_periodo='".$_POST["periodo"]."' AND a.id_periodo='".$_POST["periodo"]."' AND ao.id_periodo='".$_POST["periodo"]."' AND ao.codigo!='' AND c.cod_zona='".$_POST["zona"]."' AND (p.aprobado=1 OR p.definido=1)";
+
+      $req_tc2 = $bdd->prepare($sql_tc2);
+      $req_tc2->execute();
+      $tc2 = $req_tc2->fetch();
+ 
+
+      $total_descuento= $tc["total_descuento"] + $tc2["total_descuento"];
+      $total_descuento=$total_descuento * 100;
       $total_descuento=number_format($total_descuento,2);
-      $total_descuento_d=$tc["total_descuento_d"] *100;
+      $total_descuento_d=$tc["total_descuento_d"] + $tc2["total_descuento_d"];
+      $total_descuento_d=$total_descuento_d * 100;
       $total_descuento_d=number_format($total_descuento_d,2);
+      $total_poblacion= $tc["total_poblacion"] + $tc2["total_poblacion"];
+      $total_tasa=$tc["total_tasa"] + $tc2["total_tasa"];
+      $p_neta=$tc["p_neta"] + $tc2["p_neta"];
+      $total_venta=$tc["total_venta"] + $tc2["total_venta"];
+      $total_venta_d=$tc["total_venta_d"] + $tc2["total_venta_d"];
+      $p_neta_d=$tc["p_neta_d"] + $tc2["p_neta_d"];
 
        $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols7+1].$col_final)->applyFromArray($estilo_totales);
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols7+2].$col_final)->applyFromArray($estilo_totales);
       $objPHPExcel->getActiveSheet()->getStyle($cols2[$conta_cols7+3].$col_final.":".$cols2[$conta_cols7+8].$col_final)->applyFromArray($estilo_totales);
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$col_final, "$tc[total_poblacion]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+2].$col_final, "$tc[p_neta]");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+3].$col_final, "$tc[total_venta]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+1].$col_final, "$total_poblacion");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+2].$col_final, "$p_neta");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+3].$col_final, "$total_venta");
       $d1=$cols2[$conta_cols7+3].$col_final;
       $d2=$cols2[$conta_cols7+2].$col_final;
   
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+4].$col_final, "=$d1/$d2");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+5].$col_final, "$tc[p_neta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+5].$col_final, "$p_neta_d");
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+6].$col_final, "$total_descuento_d");
-      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7].$col_final, "$tc[total_venta_d]");
+      $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+7].$col_final, "$total_venta_d");
       $d3=$cols2[$conta_cols7+5].$col_final;
       $d4=$cols2[$conta_cols7+2].$col_final;
       $objPHPExcel->getActiveSheet()->SetCellValue($cols2[$conta_cols7+8].$col_final, "=$d3/$d4");
