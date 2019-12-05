@@ -1702,7 +1702,14 @@
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
-						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+						<?php 
+							$sql_pp = "SELECT id FROM presupuestos WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."' AND aprobado=1";
+							$req_pp = $bdd->prepare($sql_pp);
+							$req_pp->execute();
+							$num_pp =$req_pp->rowCount();
+
+						 ?>
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d") || $num_pp < 1){ ?>
 						<center><button class="btn btn-success">Guardar</button></center>
 						<?php } ?>
 						</form>
@@ -1829,7 +1836,13 @@
 						<input type="hidden" name="id_colegio" value="<?php echo $colegio['id'] ?>">
 						<input type="hidden" name="cod_colegio" value="<?php echo $colegio['codigo'] ?>">
 						<input type="hidden" name="periodo" value="<?php echo $gp_periodo['id'] ?>">
-						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d")){ ?>
+						<?php 
+							$sql_pp = "SELECT id FROM presupuestos WHERE id_colegio='".$colegio['id']."' AND id_periodo='".$gp_periodo["id"]."' AND aprobado=1";
+							$req_pp = $bdd->prepare($sql_pp);
+							$req_pp->execute();
+							$num_pp =$req_pp->rowCount();
+						 ?>
+						<?php if ($gp_periodo["f_cierre"] > date("Y-m-d") || $num_pp < 1){ ?>
 						<center><button class="btn btn-primary">Actualizar</button></center>
 						<?php }?>
 						</form>
@@ -4087,7 +4100,7 @@
 				  													<input type="hidden" name="periodo" value="'.$gp_periodo["id"].'">';
 				  													
 
-				  															echo ' <button class="btn btn-success  hidden" id="definir">Adopción</button>';
+				  															echo ' <button class="btn btn-success" id="definir">Adopción</button>';
 				  														
 
 				  								$sql_rec = "SELECT * FROM recursos WHERE id_periodo='".$gp_periodo["id"]."' AND id_colegio='".$colegio["id"]."'";
@@ -5847,17 +5860,23 @@
 	        	}
     		});
 
-    		$("#definir").on("click", function(e) {
+    		/*$("#definir").on("click", function(e) {
 		        var condiciones = $(".definir").is(":checked");
 		        if (!condiciones) {
-		            alert("Debe marcar el libro para pasarlo a presupuesto");
+		            alert("Debe marcar el libro para pasarlo a adopción");
 		            e.preventDefault();
 	        	}else {
 	        		$("#form_definicion").attr("action","php/definicion.php")
 	        	}
+    		});*/
+
+    		$("#definir").on("click", function(e) {
+		       
+	        		$("#form_definicion").attr("action","php/definicion.php")
+	        	
     		});
 
-    		$(".definir").on("click", function() {
+    		/*$(".definir").on("click", function() {
 		        var condiciones = $(".definir").is(":checked");
 		        if (!condiciones) {
 		            $("#definir").addClass("hidden");
@@ -5866,7 +5885,7 @@
 	        		 $("#definir").addClass("show");
 	        		 $("#definir").removeClass("hidden");
 	        	}
-    		});
+    		});*/
 
     		//seleccionar todo para aprobar
     		$('#seleccionar_pre').click(function(){
